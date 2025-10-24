@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간병용품 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🛒</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-i18n="page.supplies.title">간병용품</h1>
+                <p class="text-xl text-gray-600" data-i18n="page.supplies.subtitle">가격비교 및 중고거래</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-cyan-50 border-2 border-cyan-200 rounded-xl p-6">
+                    <div class="text-4xl mb-3 text-center">🛏️</div>
+                    <h3 class="text-xl font-bold text-center mb-2" data-i18n="supplies.welfare">복지용구</h3>
+                    <ul class="text-sm space-y-2">
+                        <li>• 전동침대</li>
+                        <li>• 휠체어</li>
+                        <li>• 욕창예방매트</li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+                    <div class="text-4xl mb-3 text-center">🩲</div>
+                    <h3 class="text-xl font-bold text-center mb-2" data-i18n="supplies.hygiene">위생용품</h3>
+                    <ul class="text-sm space-y-2">
+                        <li>• 성인기저귀</li>
+                        <li>• 방수매트</li>
+                        <li>• 일회용 패드</li>
+                    </ul>
+                </div>
+
+                <div class="bg-purple-50 border-2 border-purple-200 rounded-xl p-6">
+                    <div class="text-4xl mb-3 text-center">🍽️</div>
+                    <h3 class="text-xl font-bold text-center mb-2" data-i18n="supplies.dining">식사용품</h3>
+                    <ul class="text-sm space-y-2">
+                        <li>• 각도 조절 스푼</li>
+                        <li>• 빨대컵</li>
+                        <li>• 미끄럼 방지 식기</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4" data-i18n="supplies.price">💰 가격 비교</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-3 text-left">품목</th>
+                                <th class="px-4 py-3 text-left">가격 범위</th>
+                                <th class="px-4 py-3 text-left">렌탈 (월)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="px-4 py-3">성인기저귀</td>
+                                <td class="px-4 py-3">₩7,000~60,000</td>
+                                <td class="px-4 py-3">-</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-4 py-3">전동침대</td>
+                                <td class="px-4 py-3">₩500,000~2,000,000</td>
+                                <td class="px-4 py-3">₩70,000~150,000</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-4 py-3">욕창예방매트</td>
+                                <td class="px-4 py-3">₩200,000~800,000</td>
+                                <td class="px-4 py-3">₩20,000~45,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 거래 게시판 섹션 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900">🛍️ 중고거래 게시판</h2>
+                        <p class="text-gray-600 mt-2">간병용품을 사고팔고 나눠보세요</p>
+                    </div>
+                    <button onclick="showPostModal()" class="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 font-bold">
+                        <i class="fas fa-plus mr-2"></i>게시글 작성
+                    </button>
+                </div>
+
+                <!-- 필터 및 검색 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <select id="filter-category" onchange="loadPosts()" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        <option value="">전체 카테고리</option>
+                        <option value="복지용구">복지용구</option>
+                        <option value="위생용품">위생용품</option>
+                        <option value="식사용품">식사용품</option>
+                        <option value="기타">기타</option>
+                    </select>
+                    <select id="filter-type" onchange="loadPosts()" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        <option value="">전체 유형</option>
+                        <option value="판매">판매</option>
+                        <option value="구매">구매</option>
+                        <option value="렌탈">렌탈</option>
+                        <option value="나눔">나눔</option>
+                    </select>
+                    <select id="filter-status" onchange="loadPosts()" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        <option value="">전체 상태</option>
+                        <option value="거래중">거래중</option>
+                        <option value="예약중">예약중</option>
+                        <option value="거래완료">거래완료</option>
+                    </select>
+                    <input type="text" id="search-input" placeholder="제목 검색..." onkeyup="loadPosts()" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                </div>
+
+                <!-- 게시글 목록 -->
+                <div id="posts-list" class="space-y-4">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- 글쓰기 모달 -->
+            <div id="post-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" style="display: none;">
+                <div class="bg-white rounded-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="sticky top-0 bg-white border-b p-6 flex justify-between items-center">
+                        <h3 class="text-2xl font-bold">게시글 작성</h3>
+                        <button onclick="closePostModal()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    <form id="post-form" class="p-6 space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">카테고리 *</label>
+                            <select name="category" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                                <option value="">선택하세요</option>
+                                <option value="복지용구">복지용구</option>
+                                <option value="위생용품">위생용품</option>
+                                <option value="식사용품">식사용품</option>
+                                <option value="기타">기타</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">거래 유형 *</label>
+                            <select name="item_type" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                                <option value="">선택하세요</option>
+                                <option value="판매">판매</option>
+                                <option value="구매">구매</option>
+                                <option value="렌탈">렌탈</option>
+                                <option value="나눔">나눔</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">제목 *</label>
+                            <input type="text" name="title" required placeholder="예: 전동침대 판매합니다" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">가격 (원)</label>
+                            <input type="number" name="price" placeholder="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">지역</label>
+                            <input type="text" name="location" placeholder="예: 서울시 강남구" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">작성자 *</label>
+                            <input type="text" name="author" required placeholder="이름 또는 닉네임" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">연락처 선택 *</label>
+                            <div class="grid grid-cols-3 gap-2 mb-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="contact_type" value="phone" onchange="toggleContactInput(this)" class="w-4 h-4">
+                                    <span>📱 휴대폰</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="contact_type" value="kakao" onchange="toggleContactInput(this)" class="w-4 h-4">
+                                    <span>💬 카카오톡</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="contact_type" value="email" onchange="toggleContactInput(this)" class="w-4 h-4">
+                                    <span>📧 이메일</span>
+                                </label>
+                            </div>
+                            <input type="text" id="phone-input" name="contact_phone" placeholder="010-1234-5678" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 mb-2 hidden">
+                            <input type="text" id="kakao-input" name="contact_kakao" placeholder="카카오톡 ID" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 mb-2 hidden">
+                            <input type="email" id="email-input" name="contact_email" placeholder="example@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 mb-2 hidden">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">내용 *</label>
+                            <textarea name="content" required rows="6" placeholder="상품 설명을 자세히 작성해주세요" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
+                        </div>
+                        <div class="flex gap-4">
+                            <button type="submit" class="flex-1 px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 font-bold">
+                                <i class="fas fa-check mr-2"></i>작성하기
+                            </button>
+                            <button type="button" onclick="closePostModal()" class="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 font-bold">
+                                취소
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 상세보기 모달 -->
+            <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50" style="display: none;">
+                <div class="bg-white rounded-xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="sticky top-0 bg-white border-b p-6 flex justify-between items-center">
+                        <h3 id="detail-title" class="text-2xl font-bold"></h3>
+                        <button onclick="closeDetailModal()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    <div id="detail-content" class="p-6">
+                        <!-- Post details will be loaded here -->
+                    </div>
+                    <div class="border-t p-6">
+                        <h4 class="text-xl font-bold mb-4">💬 답변 (<span id="reply-count">0</span>)</h4>
+                        <div id="replies-list" class="space-y-4 mb-6">
+                            <!-- Replies will be loaded here -->
+                        </div>
+                        <form id="reply-form" class="space-y-4">
+                            <input type="hidden" name="post_id" id="reply-post-id">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">이름</label>
+                                <input type="text" name="author" required placeholder="이름 또는 닉네임" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">답변</label>
+                                <textarea name="content" required rows="3" placeholder="답변을 작성해주세요" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 font-bold">
+                                <i class="fas fa-reply mr-2"></i>답변 작성
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. 모든 권리 보유</p>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let currentPostId = null;
+
+        // 게시글 목록 로드
+        async function loadPosts() {
+            try {
+                const category = document.getElementById('filter-category').value;
+                const type = document.getElementById('filter-type').value;
+                const status = document.getElementById('filter-status').value;
+                const search = document.getElementById('search-input').value;
+
+                const response = await fetch('tables/supply_posts?limit=100&sort=-created_at');
+                const data = await response.json();
+                let posts = data.data || [];
+
+                // 필터링
+                if (category) posts = posts.filter(p => p.category === category);
+                if (type) posts = posts.filter(p => p.item_type === type);
+                if (status) posts = posts.filter(p => p.status === status);
+                if (search) posts = posts.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+
+                renderPosts(posts);
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                document.getElementById('posts-list').innerHTML = '<div class="text-center py-12 text-gray-600">게시글을 불러올 수 없습니다.</div>';
+            }
+        }
+
+        function renderPosts(posts) {
+            const container = document.getElementById('posts-list');
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-gray-600">게시글이 없습니다. 첫 번째 게시글을 작성해보세요!</div>';
+                return;
+            }
+
+            container.innerHTML = posts.map(post => {
+                const typeColors = {
+                    '판매': 'bg-blue-100 text-blue-700',
+                    '구매': 'bg-green-100 text-green-700',
+                    '렌탈': 'bg-purple-100 text-purple-700',
+                    '나눔': 'bg-pink-100 text-pink-700'
+                };
+                const statusColors = {
+                    '거래중': 'bg-green-500 text-white',
+                    '예약중': 'bg-yellow-500 text-white',
+                    '거래완료': 'bg-gray-500 text-white'
+                };
+                
+                return `
+                    <div onclick="showDetail('${post.id}')" class="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition cursor-pointer">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 ${typeColors[post.item_type] || 'bg-gray-100 text-gray-700'} rounded-full text-sm font-bold">${post.item_type}</span>
+                                <span class="px-3 py-1 ${statusColors[post.status] || 'bg-gray-100 text-gray-700'} rounded-full text-sm font-bold">${post.status}</span>
+                                <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">${post.category}</span>
+                            </div>
+                            <div class="text-right">
+                                ${post.price > 0 ? `<div class="text-xl font-bold text-cyan-600">${post.price.toLocaleString()}원</div>` : '<div class="text-lg font-bold text-green-600">무료 나눔</div>'}
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">${post.title}</h3>
+                        <p class="text-gray-600 mb-3 line-clamp-2">${post.content}</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-4">
+                                <span><i class="fas fa-user mr-1"></i>${post.author}</span>
+                                ${post.location ? `<span><i class="fas fa-map-marker-alt mr-1"></i>${post.location}</span>` : ''}
+                                <span><i class="fas fa-eye mr-1"></i>${post.views || 0}</span>
+                                <span><i class="fas fa-comment mr-1"></i>${post.reply_count || 0}</span>
+                            </div>
+                            <div class="flex items-center gap-3 mt-2">
+                                <button onclick="event.stopPropagation(); likePost('${post.id}')" class="flex items-center gap-1 text-blue-600 hover:text-blue-700">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span id="like-${post.id}">${post.likes || 0}</span>
+                                </button>
+                                <button onclick="event.stopPropagation(); dislikePost('${post.id}')" class="flex items-center gap-1 text-red-600 hover:text-red-700">
+                                    <i class="fas fa-thumbs-down"></i>
+                                    <span id="dislike-${post.id}">${post.dislikes || 0}</span>
+                                </button>
+                            </div>
+                            <span>${new Date(post.created_at).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 게시글 상세보기
+        async function showDetail(postId) {
+            try {
+                currentPostId = postId;
+                
+                // 게시글 정보 가져오기
+                const postResponse = await fetch(`tables/supply_posts/${postId}`);
+                const post = await postResponse.json();
+
+                // 조회수 증가
+                await fetch(`tables/supply_posts/${postId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ views: (post.views || 0) + 1 })
+                });
+
+                // 답변 가져오기
+                const repliesResponse = await fetch('tables/supply_replies?limit=100');
+                const repliesData = await repliesResponse.json();
+                const replies = (repliesData.data || []).filter(r => r.post_id === postId);
+
+                // UI 업데이트
+                document.getElementById('detail-title').textContent = post.title;
+                document.getElementById('reply-post-id').value = postId;
+                document.getElementById('reply-count').textContent = replies.length;
+
+                const typeColors = {
+                    '판매': 'bg-blue-100 text-blue-700',
+                    '구매': 'bg-green-100 text-green-700',
+                    '렌탈': 'bg-purple-100 text-purple-700',
+                    '나눔': 'bg-pink-100 text-pink-700'
+                };
+                const statusColors = {
+                    '거래중': 'bg-green-500 text-white',
+                    '예약중': 'bg-yellow-500 text-white',
+                    '거래완료': 'bg-gray-500 text-white'
+                };
+
+                document.getElementById('detail-content').innerHTML = `
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="px-3 py-1 ${typeColors[post.item_type] || 'bg-gray-100'} rounded-full text-sm font-bold">${post.item_type}</span>
+                            <span class="px-3 py-1 ${statusColors[post.status] || 'bg-gray-100'} rounded-full text-sm font-bold">${post.status}</span>
+                            <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">${post.category}</span>
+                        </div>
+                        ${post.price > 0 ? `<div class="text-3xl font-bold text-cyan-600 mb-4">${post.price.toLocaleString()}원</div>` : '<div class="text-2xl font-bold text-green-600 mb-4">무료 나눔</div>'}
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between text-sm text-gray-600">
+                                <div class="flex items-center gap-4">
+                                    <span><i class="fas fa-user mr-1"></i>${post.author}</span>
+                                    ${post.location ? `<span><i class="fas fa-map-marker-alt mr-1"></i>${post.location}</span>` : ''}
+                                </div>
+                                <div>
+                                    <span class="mr-3"><i class="fas fa-eye mr-1"></i>${post.views || 0}</span>
+                                    <span>${new Date(post.created_at).toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="prose max-w-none">
+                            <p class="text-gray-700 whitespace-pre-wrap">${post.content}</p>
+                        </div>
+                        ${post.contact_phone || post.contact_kakao || post.contact_email ? `
+                        <div class="bg-blue-50 rounded-lg p-4 mt-4">
+                            <h4 class="font-bold mb-2">📞 연락처</h4>
+                            <div class="space-y-1 text-sm">
+                                ${post.contact_phone ? `<p>📱 휴대폰: ${post.contact_phone}</p>` : ''}
+                                ${post.contact_kakao ? `<p>💬 카카오톡: ${post.contact_kakao}</p>` : ''}
+                                ${post.contact_email ? `<p>📧 이메일: ${post.contact_email}</p>` : ''}
+                            </div>
+                        </div>
+                        ` : ''}
+                        <div class="flex items-center gap-6 mt-4 pt-4 border-t">
+                            <button onclick="likePost('${postId}')" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold">
+                                <i class="fas fa-thumbs-up text-xl"></i>
+                                <span>좋아요 <span id="like-${postId}">${post.likes || 0}</span></span>
+                            </button>
+                            <button onclick="dislikePost('${postId}')" class="flex items-center gap-2 text-red-600 hover:text-red-700 font-bold">
+                                <i class="fas fa-thumbs-down text-xl"></i>
+                                <span>싫어요 <span id="dislike-${postId}">${post.dislikes || 0}</span></span>
+                            </button>
+                        </div>
+                        <div class="flex gap-2 pt-4">
+                            <button onclick="updatePostStatus('${postId}', '거래중')" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm">거래중으로 변경</button>
+                            <button onclick="updatePostStatus('${postId}', '예약중')" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 text-sm">예약중으로 변경</button>
+                            <button onclick="updatePostStatus('${postId}', '거래완료')" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 text-sm">거래완료로 변경</button>
+                        </div>
+                    </div>
+                `;
+
+                renderReplies(replies);
+                
+                document.getElementById('detail-modal').style.display = 'flex';
+            } catch (error) {
+                console.error('Error loading post detail:', error);
+                alert('게시글을 불러올 수 없습니다.');
+            }
+        }
+
+        function renderReplies(replies) {
+            const container = document.getElementById('replies-list');
+            
+            if (replies.length === 0) {
+                container.innerHTML = '<div class="text-center py-8 text-gray-500">아직 답변이 없습니다.</div>';
+                return;
+            }
+
+            container.innerHTML = replies.map(reply => `
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="font-bold text-gray-900">${reply.author}</span>
+                        <span class="text-sm text-gray-500">${new Date(reply.created_at).toLocaleString()}</span>
+                    </div>
+                    <p class="text-gray-700 whitespace-pre-wrap">${reply.content}</p>
+                </div>
+            `).join('');
+        }
+
+        // 연락처 입력 토글
+        function toggleContactInput(checkbox) {
+            const inputId = checkbox.value + '-input';
+            const input = document.getElementById(inputId);
+            if (checkbox.checked) {
+                input.classList.remove('hidden');
+            } else {
+                input.classList.add('hidden');
+                input.value = '';
+            }
+        }
+
+        // 좋아요
+        async function likePost(postId) {
+            try {
+                const response = await fetch(`tables/supply_posts/${postId}`);
+                const post = await response.json();
+                await fetch(`tables/supply_posts/${postId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ likes: (post.likes || 0) + 1 })
+                });
+                document.getElementById(`like-${postId}`).textContent = (post.likes || 0) + 1;
+            } catch (error) {
+                console.error('Error liking post:', error);
+            }
+        }
+
+        // 싫어요
+        async function dislikePost(postId) {
+            try {
+                const response = await fetch(`tables/supply_posts/${postId}`);
+                const post = await response.json();
+                await fetch(`tables/supply_posts/${postId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ dislikes: (post.dislikes || 0) + 1 })
+                });
+                document.getElementById(`dislike-${postId}`).textContent = (post.dislikes || 0) + 1;
+            } catch (error) {
+                console.error('Error disliking post:', error);
+            }
+        }
+
+        // 게시글 작성
+        document.getElementById('post-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const postData = {
+                title: formData.get('title'),
+                content: formData.get('content'),
+                author: formData.get('author'),
+                category: formData.get('category'),
+                item_type: formData.get('item_type'),
+                price: parseInt(formData.get('price')) || 0,
+                location: formData.get('location') || '',
+                contact_phone: formData.get('contact_phone') || '',
+                contact_kakao: formData.get('contact_kakao') || '',
+                contact_email: formData.get('contact_email') || '',
+                status: '거래중',
+                views: 0,
+                reply_count: 0,
+                likes: 0,
+                dislikes: 0
+            };
+
+            try {
+                await fetch('tables/supply_posts', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(postData)
+                });
+
+                alert('게시글이 작성되었습니다!');
+                closePostModal();
+                e.target.reset();
+                loadPosts();
+            } catch (error) {
+                console.error('Error creating post:', error);
+                alert('게시글 작성에 실패했습니다.');
+            }
+        });
+
+        // 답변 작성
+        document.getElementById('reply-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const replyData = {
+                post_id: formData.get('post_id'),
+                content: formData.get('content'),
+                author: formData.get('author')
+            };
+
+            try {
+                await fetch('tables/supply_replies', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(replyData)
+                });
+
+                // 게시글의 답변 수 업데이트
+                const postResponse = await fetch(`tables/supply_posts/${currentPostId}`);
+                const post = await postResponse.json();
+                await fetch(`tables/supply_posts/${currentPostId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ reply_count: (post.reply_count || 0) + 1 })
+                });
+
+                alert('답변이 작성되었습니다!');
+                e.target.reset();
+                showDetail(currentPostId); // 새로고침
+            } catch (error) {
+                console.error('Error creating reply:', error);
+                alert('답변 작성에 실패했습니다.');
+            }
+        });
+
+        // 게시글 상태 업데이트
+        async function updatePostStatus(postId, status) {
+            try {
+                await fetch(`tables/supply_posts/${postId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ status: status })
+                });
+                alert(`상태가 "${status}"로 변경되었습니다.`);
+                showDetail(postId);
+                loadPosts();
+            } catch (error) {
+                console.error('Error updating status:', error);
+                alert('상태 변경에 실패했습니다.');
+            }
+        }
+
+        // 모달 관련 함수
+        function showPostModal() {
+            document.getElementById('post-modal').style.display = 'flex';
+        }
+
+        function closePostModal() {
+            document.getElementById('post-modal').style.display = 'none';
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').style.display = 'none';
+            currentPostId = null;
+        }
+
+        // 모달 외부 클릭시 닫기
+        document.getElementById('post-modal').addEventListener('click', function(e) {
+            if (e.target === this) closePostModal();
+        });
+
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeDetailModal();
+        });
+
+        // ESC 키로 모달 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePostModal();
+                closeDetailModal();
+            }
+        });
+
+        // 페이지 로드 시 게시글 목록 로드
+        document.addEventListener('DOMContentLoaded', loadPosts);
+    </script>
+</body>
+</html>

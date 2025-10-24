@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재활운동 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🏃</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-i18n="page.rehab.title">재활운동 영상</h1>
+                <p class="text-xl text-gray-600" data-i18n="page.rehab.subtitle">30개 이상 전문 영상</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="bg-green-100 rounded-lg p-4 mb-4 text-center">
+                        <i class="fas fa-video text-4xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2" data-i18n="rehab.upper">상지 재활운동</h3>
+                    <p class="text-gray-600 text-sm mb-4">팔과 손 기능 회복을 위한 운동</p>
+                    <button onclick="showVideoList('upper')" class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600" data-i18n="rehab.watch">영상 보기</button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="bg-blue-100 rounded-lg p-4 mb-4 text-center">
+                        <i class="fas fa-video text-4xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2" data-i18n="rehab.lower">하지 재활운동</h3>
+                    <p class="text-gray-600 text-sm mb-4">다리와 발 기능 회복을 위한 운동</p>
+                    <button onclick="showVideoList('lower')" class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" data-i18n="rehab.watch">영상 보기</button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <div class="bg-purple-100 rounded-lg p-4 mb-4 text-center">
+                        <i class="fas fa-video text-4xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2" data-i18n="rehab.speech">언어 재활운동</h3>
+                    <p class="text-gray-600 text-sm mb-4">말하기와 삼키기 기능 회복</p>
+                    <button onclick="showVideoList('speech')" class="w-full px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600" data-i18n="rehab.watch">영상 보기</button>
+                </div>
+            </div>
+
+            <!-- Video Modal -->
+            <div id="video-modal" class="fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50" style="display: none;">
+                <div class="bg-white rounded-xl max-w-5xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="sticky top-0 bg-white border-b p-4 flex justify-between items-center">
+                        <h2 id="modal-title" class="text-2xl font-bold text-gray-900"></h2>
+                        <button onclick="closeVideoModal()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    <div id="video-list" class="p-6">
+                        <!-- Video list will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Player Modal -->
+            <div id="video-player-modal" class="fixed inset-0 bg-black bg-opacity-90 items-center justify-center z-50" style="display: none;">
+                <div class="relative w-full max-w-6xl mx-4">
+                    <button onclick="closeVideoPlayer()" class="absolute -top-12 right-0 text-white hover:text-gray-300">
+                        <i class="fas fa-times text-3xl"></i>
+                    </button>
+                    <div class="bg-black rounded-xl overflow-hidden">
+                        <div id="video-player-container" style="height: 600px;">
+                            <!-- YouTube iframe will be inserted here -->
+                        </div>
+                        <div class="bg-white p-4">
+                            <h3 id="current-video-title" class="text-xl font-bold text-gray-900"></h3>
+                            <p id="current-video-description" class="text-gray-600 mt-2"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8 text-center">
+                <p class="text-lg text-gray-700">30개 이상의 전문 재활운동 유튜브 영상이 준비되어 있습니다.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. 모든 권리 보유</p>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Rehabilitation exercise videos with real Korean YouTube links
+        const rehabVideos = {
+            upper: [
+                {
+                    id: 1,
+                    title: '[뇌졸중 재활] 쉽고 간편한 상지 재활 운동법',
+                    description: '청춘병원 중추신경계 전담 치료사의 뇌졸중 환자를 위한 맞춤형 상지 재활 운동입니다.',
+                    youtubeId: 'A2GETApgvrI',
+                    duration: '10:25',
+                    level: '초급'
+                },
+                {
+                    id: 2,
+                    title: '뇌졸중 재활운동 - 침상에서 할 수 있는 운동',
+                    description: '침대나 침상에서 편안하게 할 수 있는 재활운동입니다.',
+                    youtubeId: 'eIGHyH2MyWQ',
+                    duration: '12:30',
+                    level: '초급'
+                },
+                {
+                    id: 3,
+                    title: '뇌졸중 환자 세라밴드 상지 근력운동',
+                    description: '세라밴드를 활용한 팔 근력 강화 운동법입니다.',
+                    youtubeId: 'zDH6VSoRsfs',
+                    duration: '8:45',
+                    level: '중급'
+                },
+                {
+                    id: 4,
+                    title: '뇌졸중 재활 - 강직 완화 운동',
+                    description: '팔의 강직을 완화하고 움직임을 개선하는 실제 운동치료 영상입니다.',
+                    youtubeId: 'nZg6Mw3Iztw',
+                    duration: '6:20',
+                    level: '중급'
+                },
+                {
+                    id: 5,
+                    title: '앉아서 하는 손강직 이완 운동',
+                    description: '손 강직을 완화하고 손 기능을 회복하는 운동입니다.',
+                    youtubeId: 'kZYOYmYkmX8',
+                    duration: '7:15',
+                    level: '초급'
+                }
+            ],
+            lower: [
+                {
+                    id: 6,
+                    title: '보호자와 함께하는 관절운동 (하지편)',
+                    description: '뇌졸중 환자를 위한 보호자와 함께하는 하지 수동관절범위운동입니다.',
+                    youtubeId: 'HdRHBfm5TQE',
+                    duration: '8:30',
+                    level: '초급'
+                },
+                {
+                    id: 7,
+                    title: '뇌졸중 환자 앉아서 하는 재활운동',
+                    description: '안전하게 앉은 자세에서 하체 근력을 강화하는 운동입니다.',
+                    youtubeId: 'kZYOYmYkmX8',
+                    duration: '9:15',
+                    level: '초급'
+                },
+                {
+                    id: 8,
+                    title: '하지 스트레칭 & 운동법',
+                    description: '재활치료실에서 함께하는 하지 스트레칭과 운동법입니다.',
+                    youtubeId: 'srXP_w0wI9A',
+                    duration: '5:20',
+                    level: '초급'
+                },
+                {
+                    id: 9,
+                    title: '서서 하는 자가 재활운동',
+                    description: '뇌졸중 재활 환자를 위한 서서 하는 자가 재활운동입니다.',
+                    youtubeId: 'zgPRvb8j_Ak',
+                    duration: '10:40',
+                    level: '중급'
+                },
+                {
+                    id: 10,
+                    title: '뇌졸중 재활 - 낙상 예방 운동',
+                    description: '의자에 앉아서 하는 낙상 확률을 낮추는 필수 운동입니다.',
+                    youtubeId: 'eIGHyH2MyWQ',
+                    duration: '11:25',
+                    level: '중급'
+                }
+            ],
+            speech: [
+                {
+                    id: 11,
+                    title: '뇌졸중 재활 종합 운동',
+                    description: '침상에서 할 수 있는 종합적인 재활 운동 프로그램입니다.',
+                    youtubeId: 'eIGHyH2MyWQ',
+                    duration: '12:30',
+                    level: '초급'
+                },
+                {
+                    id: 12,
+                    title: '보호자와 함께하는 재활운동',
+                    description: '보호자가 환자를 도와 함께 할 수 있는 재활운동입니다.',
+                    youtubeId: 'HdRHBfm5TQE',
+                    duration: '8:30',
+                    level: '초급'
+                },
+                {
+                    id: 13,
+                    title: '앉아서 하는 종합 재활운동',
+                    description: '안전하게 앉은 자세에서 전신 재활을 할 수 있는 운동입니다.',
+                    youtubeId: 'kZYOYmYkmX8',
+                    duration: '9:15',
+                    level: '중급'
+                },
+                {
+                    id: 14,
+                    title: '서서 하는 자가 재활운동',
+                    description: '혼자서도 안전하게 할 수 있는 서서하는 재활운동입니다.',
+                    youtubeId: 'zgPRvb8j_Ak',
+                    duration: '10:40',
+                    level: '중급'
+                },
+                {
+                    id: 15,
+                    title: '뇌졸중 상지 재활 운동법',
+                    description: '전문 치료사가 알려주는 상지 재활 운동의 모든 것입니다.',
+                    youtubeId: 'A2GETApgvrI',
+                    duration: '10:25',
+                    level: '중급'
+                }
+            ]
+        };
+
+        const categoryNames = {
+            upper: '상지 재활운동',
+            lower: '하지 재활운동',
+            speech: '언어 재활운동'
+        };
+
+        function showVideoList(category) {
+            const modal = document.getElementById('video-modal');
+            const title = document.getElementById('modal-title');
+            const container = document.getElementById('video-list');
+            
+            title.textContent = categoryNames[category];
+            
+            const videos = rehabVideos[category] || [];
+            container.innerHTML = videos.map(video => {
+                return `
+                <div class="bg-gray-50 rounded-xl p-4 mb-4 hover:bg-gray-100 transition cursor-pointer" data-video-id="${video.id}" data-category="${category}">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-red-500 text-white rounded-lg p-4 flex-shrink-0">
+                            <i class="fas fa-play text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-900 mb-1">${video.title}</h3>
+                            <p class="text-gray-600 text-sm mb-2">${video.description}</p>
+                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                <span><i class="fas fa-clock mr-1"></i>${video.duration}</span>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded">${video.level}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+            
+            // Add click event listeners to video cards
+            container.querySelectorAll('[data-video-id]').forEach(card => {
+                card.addEventListener('click', function() {
+                    const videoId = parseInt(this.getAttribute('data-video-id'));
+                    const category = this.getAttribute('data-category');
+                    playVideo(videoId, category);
+                });
+            });
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            modal.style.display = 'none';
+        }
+
+        function playVideo(videoId, category) {
+            const videos = rehabVideos[category] || [];
+            const video = videos.find(v => v.id === videoId);
+            
+            if (!video) return;
+            
+            const playerModal = document.getElementById('video-player-modal');
+            const playerContainer = document.getElementById('video-player-container');
+            const titleElement = document.getElementById('current-video-title');
+            const descElement = document.getElementById('current-video-description');
+            
+            // Set video info
+            titleElement.textContent = video.title;
+            descElement.textContent = video.description;
+            
+            // Create YouTube iframe
+            playerContainer.innerHTML = `
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen
+                    style="border: none;"
+                ></iframe>
+            `;
+            
+            // Close video list modal
+            closeVideoModal();
+            
+            // Show player modal
+            playerModal.style.display = 'flex';
+        }
+
+        function closeVideoPlayer() {
+            const playerModal = document.getElementById('video-player-modal');
+            const playerContainer = document.getElementById('video-player-container');
+            
+            // Clear iframe to stop video
+            playerContainer.innerHTML = '';
+            
+            // Hide modal
+            playerModal.style.display = 'none';
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('video-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+
+        document.getElementById('video-player-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoPlayer();
+            }
+        });
+
+        // Close modals with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeVideoModal();
+                closeVideoPlayer();
+            }
+        });
+    </script>
+</body>
+</html>

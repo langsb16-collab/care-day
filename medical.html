@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>명의 찾기 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .doctor-card {
+            transition: all 0.3s ease;
+        }
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">👨‍⚕️</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-i18n="page.medical.title">명의 찾기</h1>
+                <p class="text-xl text-gray-600" data-i18n="page.medical.subtitle">전국 명의·교수 정보</p>
+            </div>
+            
+            <!-- 검색 섹션 -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h3 class="text-2xl font-bold mb-4 text-gray-800">🔍 명의 검색</h3>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="의사 이름, 병원명, 전문분야를 입력하세요 (예: 김병준, 서울대, 뇌졸중)" 
+                        class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        onkeypress="if(event.key === 'Enter') searchDoctors()"
+                    >
+                    <button 
+                        onclick="searchDoctors()" 
+                        class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-bold transition whitespace-nowrap"
+                    >
+                        <i class="fas fa-search mr-2"></i>검색
+                    </button>
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="text-sm text-gray-600">빠른 검색:</span>
+                    <button onclick="quickSearch('뇌졸중')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition">뇌졸중</button>
+                    <button onclick="quickSearch('뇌출혈')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition">뇌출혈</button>
+                    <button onclick="quickSearch('뇌경색')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition">뇌경색</button>
+                    <button onclick="quickSearch('재활')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition">재활</button>
+                    <button onclick="quickSearch('서울대')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-gray-200 transition">서울대병원</button>
+                </div>
+            </div>
+
+            <!-- 진료과 선택 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div onclick="showDoctors('neurology')" class="bg-red-50 border-2 border-red-200 rounded-xl p-6 text-center cursor-pointer hover:shadow-lg transition transform hover:scale-105">
+                    <div class="text-5xl mb-3">🧠</div>
+                    <h3 class="text-xl font-bold text-red-700 mb-2" data-i18n="medical.neurology">신경과</h3>
+                    <p class="text-sm text-gray-600">뇌경색, 뇌혈관 질환 전문</p>
+                    <div class="mt-3 text-xs text-gray-500">클릭하여 명의 보기 →</div>
+                </div>
+                <div onclick="showDoctors('neurosurgery')" class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 text-center cursor-pointer hover:shadow-lg transition transform hover:scale-105">
+                    <div class="text-5xl mb-3">🔪</div>
+                    <h3 class="text-xl font-bold text-blue-700 mb-2" data-i18n="medical.neurosurgery">신경외과</h3>
+                    <p class="text-sm text-gray-600">뇌출혈, 수술 전문</p>
+                    <div class="mt-3 text-xs text-gray-500">클릭하여 명의 보기 →</div>
+                </div>
+                <div onclick="showDoctors('rehabilitation')" class="bg-green-50 border-2 border-green-200 rounded-xl p-6 text-center cursor-pointer hover:shadow-lg transition transform hover:scale-105">
+                    <div class="text-5xl mb-3">♻️</div>
+                    <h3 class="text-xl font-bold text-green-700 mb-2" data-i18n="medical.rehabilitation">재활의학과</h3>
+                    <p class="text-sm text-gray-600">재활치료 전문</p>
+                    <div class="mt-3 text-xs text-gray-500">클릭하여 명의 보기 →</div>
+                </div>
+            </div>
+
+            <!-- 명의 리스트 (동적 표시) -->
+            <div id="doctorsList" class="mb-8"></div>
+
+            <!-- 병원별 명의 안내 -->
+            <div class="bg-gradient-to-r from-red-50 to-blue-50 rounded-xl p-8">
+                <h2 class="text-3xl font-bold mb-6 text-center">🏥 주요 병원별 뇌질환 명의</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg p-4 shadow">
+                        <h4 class="font-bold text-lg mb-2 text-blue-600">서울대병원</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>• 신경과 20명</li>
+                            <li>• 신경외과 15명</li>
+                            <li>• 재활의학과 12명</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow">
+                        <h4 class="font-bold text-lg mb-2 text-green-600">서울아산병원</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>• 신경과 18명</li>
+                            <li>• 신경외과 16명</li>
+                            <li>• 재활의학과 10명</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow">
+                        <h4 class="font-bold text-lg mb-2 text-purple-600">삼성서울병원</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>• 신경과 17명</li>
+                            <li>• 신경외과 14명</li>
+                            <li>• 재활의학과 11명</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow">
+                        <h4 class="font-bold text-lg mb-2 text-red-600">세브란스병원</h4>
+                        <ul class="text-sm space-y-1 text-gray-700">
+                            <li>• 신경과 19명</li>
+                            <li>• 신경외과 13명</li>
+                            <li>• 재활의학과 9명</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 text-sm">
+                    <p><span class="font-bold">💡 Tip:</span> 위 카테고리 카드를 클릭하시면 각 진료과별 상세 명의 정보를 확인하실 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. 모든 권리 보유</p>
+            <p class="text-sm text-gray-400 mt-2">명의 정보는 참고용이며, 진료 예약은 각 병원으로 직접 문의하시기 바랍니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 명의 데이터베이스
+        const doctorsData = {
+            neurology: [
+                {
+                    name: "김병준",
+                    hospital: "서울대병원",
+                    specialty: "뇌졸중, 뇌혈관질환",
+                    experience: "30년 이상",
+                    education: "서울대 의대 졸업, 미국 존스홉킨스 박사",
+                    achievements: "대한뇌졸중학회 회장 역임"
+                },
+                {
+                    name: "이경열",
+                    hospital: "서울아산병원",
+                    specialty: "뇌경색, 혈전용해술",
+                    experience: "25년 이상",
+                    education: "연세대 의대 졸업, 일본 동경대 연수",
+                    achievements: "뇌졸중 치료 논문 300편 이상"
+                },
+                {
+                    name: "박정호",
+                    hospital: "삼성서울병원",
+                    specialty: "뇌혈관 중재시술",
+                    experience: "20년 이상",
+                    education: "성균관대 의대 졸업, 독일 하이델베르크대 연수",
+                    achievements: "뇌동맥류 코일색전술 3,000례 이상"
+                },
+                {
+                    name: "최낙원",
+                    hospital: "세브란스병원",
+                    specialty: "급성기 뇌졸중",
+                    experience: "28년 이상",
+                    education: "연세대 의대 졸업, 미국 하버드대 연수",
+                    achievements: "뇌졸중 센터장, 국제학회 초청연자"
+                },
+                {
+                    name: "홍근식",
+                    hospital: "강남세브란스병원",
+                    specialty: "뇌졸중 재활",
+                    experience: "23년 이상",
+                    education: "연세대 의대 졸업, 프랑스 소르본대 연수",
+                    achievements: "뇌졸중 재활 가이드라인 집필"
+                },
+                {
+                    name: "김영배",
+                    hospital: "서울성모병원",
+                    specialty: "신경혈관학",
+                    experience: "27년 이상",
+                    education: "가톨릭대 의대 졸업, 미국 메이오클리닉 연수",
+                    achievements: "뇌졸중 조기 진단 기법 개발"
+                }
+            ],
+            neurosurgery: [
+                {
+                    name: "김정은",
+                    hospital: "서울대병원",
+                    specialty: "뇌동맥류, 뇌출혈 수술",
+                    experience: "32년 이상",
+                    education: "서울대 의대 졸업, 미국 UCSF 연수",
+                    achievements: "뇌동맥류 수술 5,000례 이상"
+                },
+                {
+                    name: "조병규",
+                    hospital: "서울아산병원",
+                    specialty: "뇌혈관 미세수술",
+                    experience: "29년 이상",
+                    education: "울산대 의대 졸업, 일본 동경대 연수",
+                    achievements: "대한신경외과학회 이사장"
+                },
+                {
+                    name: "김동주",
+                    hospital: "삼성서울병원",
+                    specialty: "뇌동정맥기형",
+                    experience: "24년 이상",
+                    education: "성균관대 의대 졸업, 스위스 베른대 연수",
+                    achievements: "뇌혈관 기형 치료 전문가"
+                },
+                {
+                    name: "오창완",
+                    hospital: "세브란스병원",
+                    specialty: "뇌출혈 응급수술",
+                    experience: "26년 이상",
+                    education: "연세대 의대 졸업, 미국 존스홉킨스 연수",
+                    achievements: "응급 뇌수술 3,500례 이상"
+                },
+                {
+                    name: "정승현",
+                    hospital: "분당서울대병원",
+                    specialty: "뇌동맥류 클리핑",
+                    experience: "22년 이상",
+                    education: "서울대 의대 졸업, 독일 뮌헨대 연수",
+                    achievements: "미세혈관감압술 전문"
+                },
+                {
+                    name: "박봉진",
+                    hospital: "서울성모병원",
+                    specialty: "뇌혈관 내시경 수술",
+                    experience: "25년 이상",
+                    education: "가톨릭대 의대 졸업, 미국 피츠버그대 연수",
+                    achievements: "최소침습 뇌수술 선구자"
+                }
+            ],
+            rehabilitation: [
+                {
+                    name: "김연희",
+                    hospital: "서울대병원",
+                    specialty: "뇌졸중 재활",
+                    experience: "20년 이상",
+                    education: "서울대 의대 졸업, 미국 스탠포드대 연수",
+                    achievements: "재활의학 교과서 집필"
+                },
+                {
+                    name: "이상윤",
+                    hospital: "서울아산병원",
+                    specialty: "편마비 재활치료",
+                    experience: "18년 이상",
+                    education: "울산대 의대 졸업, 일본 게이오대 연수",
+                    achievements: "로봇재활치료 도입"
+                },
+                {
+                    name: "윤승현",
+                    hospital: "삼성서울병원",
+                    specialty: "연하장애, 언어재활",
+                    experience: "16년 이상",
+                    education: "성균관대 의대 졸업, 호주 멜버른대 연수",
+                    achievements: "연하재활 프로그램 개발"
+                },
+                {
+                    name: "정한영",
+                    hospital: "세브란스병원",
+                    specialty: "보행재활, 물리치료",
+                    experience: "21년 이상",
+                    education: "연세대 의대 졸업, 미국 NIH 연수",
+                    achievements: "보행 로봇재활 전문"
+                },
+                {
+                    name: "강민수",
+                    hospital: "국립재활원",
+                    specialty: "중증장애 재활",
+                    experience: "19년 이상",
+                    education: "서울대 의대 졸업, 독일 베를린대 연수",
+                    achievements: "국가재활정책 자문위원"
+                },
+                {
+                    name: "박민철",
+                    hospital: "한양대병원",
+                    specialty: "신경재활, 인지재활",
+                    experience: "17년 이상",
+                    education: "한양대 의대 졸업, 미국 하버드대 연수",
+                    achievements: "인지재활 임상연구 선도"
+                }
+            ]
+        };
+
+        // 검색 기능
+        function searchDoctors() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                alert('검색어를 입력해주세요.');
+                return;
+            }
+
+            // 모든 의사 데이터 검색
+            const allDoctors = [
+                ...doctorsData.neurology.map(d => ({...d, category: '신경과', categoryCode: 'neurology'})),
+                ...doctorsData.neurosurgery.map(d => ({...d, category: '신경외과', categoryCode: 'neurosurgery'})),
+                ...doctorsData.rehabilitation.map(d => ({...d, category: '재활의학과', categoryCode: 'rehabilitation'}))
+            ];
+
+            const results = allDoctors.filter(doctor => {
+                return doctor.name.toLowerCase().includes(searchTerm) ||
+                       doctor.hospital.toLowerCase().includes(searchTerm) ||
+                       doctor.specialty.toLowerCase().includes(searchTerm) ||
+                       doctor.category.toLowerCase().includes(searchTerm) ||
+                       doctor.education.toLowerCase().includes(searchTerm) ||
+                       doctor.achievements.toLowerCase().includes(searchTerm);
+            });
+
+            displaySearchResults(results, searchTerm);
+        }
+
+        function quickSearch(keyword) {
+            document.getElementById('searchInput').value = keyword;
+            searchDoctors();
+        }
+
+        function displaySearchResults(results, searchTerm) {
+            const doctorsList = document.getElementById('doctorsList');
+            
+            if (results.length === 0) {
+                doctorsList.innerHTML = `
+                    <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+                        <div class="text-6xl mb-4">🔍</div>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-2">검색 결과가 없습니다</h3>
+                        <p class="text-gray-500">"${searchTerm}"에 대한 명의 정보를 찾을 수 없습니다.</p>
+                        <p class="text-sm text-gray-400 mt-4">다른 검색어를 입력해보세요.</p>
+                    </div>
+                `;
+                doctorsList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+
+            let html = `
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-3xl font-bold mb-2 text-center text-blue-700">검색 결과</h2>
+                    <p class="text-center text-gray-600 mb-6">"${searchTerm}"에 대한 ${results.length}명의 명의를 찾았습니다</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
+            
+            results.forEach(doctor => {
+                let categoryColor = 'blue';
+                if (doctor.categoryCode === 'neurology') categoryColor = 'red';
+                else if (doctor.categoryCode === 'rehabilitation') categoryColor = 'green';
+
+                html += `
+                    <div class="doctor-card bg-gradient-to-br from-${categoryColor}-50 to-white border-2 border-${categoryColor}-200 rounded-xl p-6 shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 bg-${categoryColor}-500 text-white rounded-full flex items-center justify-center text-2xl font-bold">
+                                ${doctor.name.charAt(0)}
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-gray-900">${doctor.name} 교수</h3>
+                                <p class="text-sm text-${categoryColor}-600">${doctor.hospital}</p>
+                                <p class="text-xs text-gray-500 mt-1">${doctor.category}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-stethoscope text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">전문 분야</p>
+                                    <p class="text-gray-600">${doctor.specialty}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-calendar-alt text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">경력</p>
+                                    <p class="text-gray-600">${doctor.experience}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-graduation-cap text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">학력</p>
+                                    <p class="text-gray-600">${doctor.education}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-award text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">주요 업적</p>
+                                    <p class="text-gray-600">${doctor.achievements}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            doctorsList.innerHTML = html;
+            doctorsList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showDoctors(category) {
+            const doctorsList = document.getElementById('doctorsList');
+            const doctors = doctorsData[category];
+            
+            let categoryTitle = '';
+            let categoryColor = '';
+            
+            if (category === 'neurology') {
+                categoryTitle = '신경과 명의';
+                categoryColor = 'red';
+            } else if (category === 'neurosurgery') {
+                categoryTitle = '신경외과 명의';
+                categoryColor = 'blue';
+            } else if (category === 'rehabilitation') {
+                categoryTitle = '재활의학과 명의';
+                categoryColor = 'green';
+            }
+            
+            let html = `
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-3xl font-bold mb-6 text-center text-${categoryColor}-700">${categoryTitle}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            `;
+            
+            doctors.forEach(doctor => {
+                html += `
+                    <div class="doctor-card bg-gradient-to-br from-${categoryColor}-50 to-white border-2 border-${categoryColor}-200 rounded-xl p-6 shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="w-16 h-16 bg-${categoryColor}-500 text-white rounded-full flex items-center justify-center text-2xl font-bold">
+                                ${doctor.name.charAt(0)}
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-gray-900">${doctor.name} 교수</h3>
+                                <p class="text-sm text-${categoryColor}-600">${doctor.hospital}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-stethoscope text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">전문 분야</p>
+                                    <p class="text-gray-600">${doctor.specialty}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-calendar-alt text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">경력</p>
+                                    <p class="text-gray-600">${doctor.experience}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-graduation-cap text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">학력</p>
+                                    <p class="text-gray-600">${doctor.education}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-2">
+                                <i class="fas fa-award text-${categoryColor}-500 mt-1"></i>
+                                <div>
+                                    <p class="font-bold text-gray-700">주요 업적</p>
+                                    <p class="text-gray-600">${doctor.achievements}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            doctorsList.innerHTML = html;
+            doctorsList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    </script>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

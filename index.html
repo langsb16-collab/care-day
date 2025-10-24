@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="site.title">뇌질환케어 - Brain Disease Care</title>
+    <meta name="description" data-i18n="site.description" content="뇌출혈·뇌경색 환자와 가족을 위한 종합 커뮤니티 플랫폼">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script>
+        // Tailwind Config
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#7c3aed',
+                        accent: '#06b6d4',
+                        danger: '#ef4444',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                    },
+                    fontFamily: {
+                        'sans': ['Noto Sans KR', 'Noto Sans SC', 'Noto Sans JP', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">🧠</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-primary" data-i18n="site.name">뇌질환케어</h1>
+                        <p class="text-xs text-gray-600" data-i18n="site.subtitle">Brain Disease Care</p>
+                    </div>
+                </div>
+                
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap bg-primary text-white" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 bg-primary text-white rounded-lg mb-1" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-i18n="hero.title">
+                    뇌출혈·뇌경색 환자와 가족을 위한<br>종합 케어 플랫폼
+                </h2>
+                <p class="text-xl text-gray-600 mb-8" data-i18n="hero.subtitle">
+                    병원 찾기부터 재활, 간병, 보험, 지원정책까지<br>모든 정보를 한 곳에서
+                </p>
+                
+                <!-- Quick Search -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 max-w-2xl mx-auto">
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <input type="text" id="quick-search" placeholder="병원명, 지역, 질환명 검색..." 
+                               class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                               data-i18n-placeholder="search.placeholder">
+                        <button onclick="performSearch()" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                            <i class="fas fa-search mr-2"></i>
+                            <span data-i18n="search.button">검색</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <div class="text-3xl font-bold text-primary">2,500+</div>
+                        <div class="text-sm text-gray-600" data-i18n="stats.hospitals">등록 병원</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <div class="text-3xl font-bold text-secondary">1,200+</div>
+                        <div class="text-sm text-gray-600" data-i18n="stats.caregivers">간병인</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <div class="text-3xl font-bold text-accent">30+</div>
+                        <div class="text-sm text-gray-600" data-i18n="stats.videos">재활 영상</div>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <div class="text-3xl font-bold text-success">24/7</div>
+                        <div class="text-sm text-gray-600" data-i18n="stats.support">지원 서비스</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Services Grid -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-center mb-12" data-i18n="sections.title">주요 서비스</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Disease Info -->
+                <a href="disease-info.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">🧠</div>
+                    <h4 class="text-xl font-bold mb-2">뇌질환 정보</h4>
+                    <p class="text-gray-600 text-sm mb-4">ICD-10 질병분류코드 기반 상세 정보</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Hospital Search -->
+                <a href="hospital.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">🏥</div>
+                    <h4 class="text-xl font-bold mb-2">병원 검색</h4>
+                    <p class="text-gray-600 text-sm mb-4">2,500+ 병원, 7개 분류</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Caregivers -->
+                <a href="caregivers.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">👩‍⚕️</div>
+                    <h4 class="text-xl font-bold mb-2">간병인 찾기</h4>
+                    <p class="text-gray-600 text-sm mb-4">마켓플레이스 형태 매칭</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Rehabilitation -->
+                <a href="rehab.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">🤸</div>
+                    <h4 class="text-xl font-bold mb-2">재활운동 영상</h4>
+                    <p class="text-gray-600 text-sm mb-4">30개 이상 전문 재활영상</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Insurance -->
+                <a href="insurance.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">💳</div>
+                    <h4 class="text-xl font-bold mb-2">보험 정보</h4>
+                    <p class="text-gray-600 text-sm mb-4">보험금 청구 및 비교</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Support Policies -->
+                <a href="support.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">📋</div>
+                    <h4 class="text-xl font-bold mb-2">지원정책</h4>
+                    <p class="text-gray-600 text-sm mb-4">정부·지자체 지원정책</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Care Supplies -->
+                <a href="supplies.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">🛒</div>
+                    <h4 class="text-xl font-bold mb-2">간병용품</h4>
+                    <p class="text-gray-600 text-sm mb-4">가격비교 및 마켓플레이스</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Find Doctors -->
+                <a href="medical.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-5xl mb-4">👨‍⚕️</div>
+                    <h4 class="text-xl font-bold mb-2">명의 찾기</h4>
+                    <p class="text-gray-600 text-sm mb-4">전국 명의·교수 정보</p>
+                    <span class="text-primary font-medium">자세히 보기 →</span>
+                </a>
+
+                <!-- Emergency Guide -->
+                <a href="emergency.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-red-500">
+                    <div class="text-5xl mb-4">🚨</div>
+                    <h4 class="text-xl font-bold mb-2 text-red-600">응급 가이드</h4>
+                    <p class="text-gray-600 text-sm mb-4">응급실 도착 가이드</p>
+                    <span class="text-red-600 font-medium">자세히 보기 →</span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Contact Banner -->
+    <section class="py-8 bg-red-50 border-y border-red-200">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
+                <div class="text-red-600">
+                    <i class="fas fa-ambulance text-4xl"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-red-900 mb-2" data-i18n="emergency.title">응급 상황이신가요?</h4>
+                    <p class="text-red-700" data-i18n="emergency.subtitle">즉시 119에 연락하거나 가까운 응급실로 가세요</p>
+                </div>
+                <div class="flex gap-4">
+                    <a href="tel:119" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-bold">
+                        <i class="fas fa-phone mr-2"></i>119
+                    </a>
+                    <a href="emergency.html" class="px-6 py-3 bg-white text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 transition font-bold" data-i18n="emergency.guide">
+                        응급 가이드
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h5 class="text-xl font-bold mb-4" data-i18n="footer.about">서비스 소개</h5>
+                    <p class="text-gray-400 text-sm" data-i18n="footer.description">
+                        뇌질환 환자와 가족을 위한 종합 정보 플랫폼
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-xl font-bold mb-4" data-i18n="footer.quick">빠른 링크</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="disease-info.html" class="text-gray-400 hover:text-white" data-i18n="menu.disease">뇌질환 정보</a></li>
+                        <li><a href="hospital.html" class="text-gray-400 hover:text-white" data-i18n="menu.hospital">병원 검색</a></li>
+                        <li><a href="caregivers.html" class="text-gray-400 hover:text-white" data-i18n="menu.caregivers">간병인</a></li>
+                        <li><a href="insurance.html" class="text-gray-400 hover:text-white" data-i18n="menu.insurance">보험</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xl font-bold mb-4" data-i18n="footer.contact">연락처</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><i class="fas fa-phone mr-2"></i>129 (보건복지상담센터)</li>
+                        <li><i class="fas fa-ambulance mr-2"></i>119 (응급)</li>
+                        <li><i class="fas fa-envelope mr-2"></i>info@braincare.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xl font-bold mb-4" data-i18n="footer.languages">Languages</h5>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="switchLanguage('ko')" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">🇰🇷 한국어</button>
+                        <button onclick="switchLanguage('en')" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">🇺🇸 English</button>
+                        <button onclick="switchLanguage('zh')" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">🇨🇳 中文</button>
+                        <button onclick="switchLanguage('ja')" class="px-3 py-1 bg-gray-800 rounded hover:bg-gray-700">🇯🇵 日本語</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 <span data-i18n="site.name">뇌질환케어</span>. <span data-i18n="footer.rights">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        function performSearch() {
+            const query = document.getElementById('quick-search').value;
+            alert('검색 기능: ' + query + '\n(데이터베이스 연동 시 작동)');
+        }
+
+        function switchLanguage(lang) {
+            console.log('언어 변경:', lang);
+            // i18n.js에서 처리
+        }
+    </script>
+</body>
+</html>

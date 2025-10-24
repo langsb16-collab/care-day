@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>병원 검색 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .search-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .search-stats {
+            font-size: 1rem;
+            opacity: 0.95;
+            font-weight: 600;
+        }
+
+        .demo-notice {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            color: #856404;
+        }
+
+        .demo-notice strong {
+            color: #d39e00;
+        }
+
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #357abd;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover {
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .category-btn.active {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .region-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .region-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .region-btn:hover {
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .region-btn.active {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-color: #1976d2;
+        }
+
+        .result-info {
+            text-align: center;
+            color: #666;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .result-info strong {
+            color: #4a90e2;
+            font-size: 1.2rem;
+        }
+
+        .hospital-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .hospital-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .hospital-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .hospital-name {
+            font-size: 1.1rem;
+            color: #2c5aa0;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .hospital-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-상급종합 {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-종합병원 {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .badge-전문병원 {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .badge-요양병원 {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .badge-재활병원 {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .badge-한방병원 {
+            background: #e0f2f1;
+            color: #00695c;
+        }
+
+        .badge-일반병원 {
+            background: #f5f5f5;
+            color: #616161;
+        }
+
+        .hospital-info {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .hospital-info div {
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+        }
+
+        .info-icon {
+            min-width: 20px;
+            color: #4a90e2;
+        }
+
+        .specialties {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .specialty-tag {
+            padding: 0.25rem 0.75rem;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #999;
+        }
+
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hospital-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+        <div class="search-header">
+            <h1>🏥 뇌질환 전문 병원 검색</h1>
+            <p class="search-stats">7개 분류 • 2,500+ 병원 데이터베이스</p>
+        </div>
+
+        <div class="demo-notice">
+            <strong>📢 데모 버전 안내:</strong> 현재 페이지는 42개의 샘플 병원 데이터를 표시합니다. 
+            실제 서비스에서는 전국 2,500개 이상의 뇌질환 전문 병원을 검색할 수 있습니다.
+        </div>
+
+        <div class="search-section">
+            <h3 style="color: #2c5aa0; margin-bottom: 1rem;">🔍 병원 이름 또는 지역으로 검색</h3>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="병원 이름, 지역명을 입력하세요 (예: 서울대병원, 강남구)">
+                <button class="search-btn" onclick="searchHospitals()">검색</button>
+            </div>
+
+            <h3 style="color: #2c5aa0; margin: 1.5rem 0 1rem;">🏥 병원 분류별 필터</h3>
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all">전체</button>
+                <button class="category-btn" data-category="상급종합">상급종합병원</button>
+                <button class="category-btn" data-category="종합병원">종합병원</button>
+                <button class="category-btn" data-category="전문병원">전문병원</button>
+                <button class="category-btn" data-category="요양병원">요양병원</button>
+                <button class="category-btn" data-category="재활병원">재활병원</button>
+                <button class="category-btn" data-category="한방병원">한방병원</button>
+                <button class="category-btn" data-category="일반병원">일반병원</button>
+            </div>
+
+            <h3 style="color: #2c5aa0; margin: 1.5rem 0 1rem;">📍 지역별 필터</h3>
+            <div class="region-filters">
+                <button class="region-btn active" data-region="all">전국</button>
+                <button class="region-btn" data-region="서울">서울</button>
+                <button class="region-btn" data-region="경기">경기</button>
+                <button class="region-btn" data-region="인천">인천</button>
+                <button class="region-btn" data-region="부산">부산</button>
+                <button class="region-btn" data-region="대구">대구</button>
+                <button class="region-btn" data-region="대전">대전</button>
+                <button class="region-btn" data-region="광주">광주</button>
+                <button class="region-btn" data-region="울산">울산</button>
+                <button class="region-btn" data-region="세종">세종</button>
+                <button class="region-btn" data-region="강원">강원</button>
+                <button class="region-btn" data-region="충북">충북</button>
+                <button class="region-btn" data-region="충남">충남</button>
+                <button class="region-btn" data-region="전북">전북</button>
+                <button class="region-btn" data-region="전남">전남</button>
+                <button class="region-btn" data-region="경북">경북</button>
+                <button class="region-btn" data-region="경남">경남</button>
+                <button class="region-btn" data-region="제주">제주</button>
+            </div>
+        </div>
+
+        <div class="result-info">
+            검색 결과: <strong id="resultCount">42</strong>개 병원 (샘플)
+        </div>
+
+        <div class="hospital-grid" id="hospitalGrid">
+            <!-- 상급종합병원 (9개) -->
+            <div class="hospital-card" data-category="상급종합" data-region="서울" data-name="서울대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">서울대학교병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 종로구 대학로 101</div>
+                    <div><span class="info-icon">☎️</span> 02-2072-2114</div>
+                    <div><span class="info-icon">🌐</span> www.snuh.org</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">신경외과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="서울" data-name="서울아산병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">서울아산병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 송파구 올림픽로 43길 88</div>
+                    <div><span class="info-icon">☎️</span> 1688-7575</div>
+                    <div><span class="info-icon">🌐</span> www.amc.seoul.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌혈관센터</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="서울" data-name="삼성서울병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">삼성서울병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 강남구 일원로 81</div>
+                    <div><span class="info-icon">☎️</span> 1599-3114</div>
+                    <div><span class="info-icon">🌐</span> www.samsunghospital.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌종양</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="서울" data-name="세브란스병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">세브란스병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 서대문구 연세로 50-1</div>
+                    <div><span class="info-icon">☎️</span> 1599-1004</div>
+                    <div><span class="info-icon">🌐</span> www.severance.healthcare</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">치매센터</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="부산" data-name="부산대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">부산대학교병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 부산 서구 구덕로 179</div>
+                    <div><span class="info-icon">☎️</span> 051-240-7000</div>
+                    <div><span class="info-icon">🌐</span> www.pnuh.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">신경과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="대구" data-name="경북대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">경북대학교병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 대구 중구 동덕로 130</div>
+                    <div><span class="info-icon">☎️</span> 053-200-5000</div>
+                    <div><span class="info-icon">🌐</span> www.knuh.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">신경과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="광주" data-name="전남대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">전남대학교병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 광주 동구 제봉로 42</div>
+                    <div><span class="info-icon">☎️</span> 062-220-5114</div>
+                    <div><span class="info-icon">🌐</span> www.cnuh.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">신경과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="대전" data-name="충남대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">충남대학교병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 대전 중구 문화로 282</div>
+                    <div><span class="info-icon">☎️</span> 042-280-7000</div>
+                    <div><span class="info-icon">🌐</span> www.cnuh.co.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">신경과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="상급종합" data-region="서울" data-name="가톨릭대학교 서울성모병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">가톨릭대학교 서울성모병원</h3>
+                    <span class="hospital-badge badge-상급종합">상급종합</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 서초구 반포대로 222</div>
+                    <div><span class="info-icon">☎️</span> 1588-1511</div>
+                    <div><span class="info-icon">🌐</span> www.cmcseoul.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌혈관</span>
+                </div>
+            </div>
+
+            <!-- 종합병원 (18개) -->
+            <div class="hospital-card" data-category="종합병원" data-region="서울" data-name="강남세브란스병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">강남세브란스병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 강남구 언주로 211</div>
+                    <div><span class="info-icon">☎️</span> 1599-3114</div>
+                    <div><span class="info-icon">🌐</span> gs.iseverance.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중</span>
+                    <span class="specialty-tag">재활의학과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="경기" data-name="분당서울대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">분당서울대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경기 성남시 분당구 구미로 173번길 82</div>
+                    <div><span class="info-icon">☎️</span> 031-787-7000</div>
+                    <div><span class="info-icon">🌐</span> www.snubh.org</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌혈관센터</span>
+                    <span class="specialty-tag">신경과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="경기" data-name="아주대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">아주대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경기 수원시 영통구 월드컵로 164</div>
+                    <div><span class="info-icon">☎️</span> 031-219-5114</div>
+                    <div><span class="info-icon">🌐</span> www.ajoumc.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">신경과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="경기" data-name="명지병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">명지병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경기 고양시 덕양구 화수로 14번길 55</div>
+                    <div><span class="info-icon">☎️</span> 031-810-5114</div>
+                    <div><span class="info-icon">🌐</span> www.mjh.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">재활의학과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="인천" data-name="가천대 길병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">가천대 길병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 인천 남동구 남동대로 774번길 21</div>
+                    <div><span class="info-icon">☎️</span> 1577-2299</div>
+                    <div><span class="info-icon">🌐</span> www.gilhospital.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">재활의학과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="부산" data-name="동아대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">동아대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 부산 서구 대신공원로 26</div>
+                    <div><span class="info-icon">☎️</span> 051-240-2000</div>
+                    <div><span class="info-icon">🌐</span> www.dauh.co.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌혈관</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="대구" data-name="계명대학교 동산병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">계명대학교 동산병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 대구 중구 달성로 56</div>
+                    <div><span class="info-icon">☎️</span> 053-250-7114</div>
+                    <div><span class="info-icon">🌐</span> www.dsmc.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="울산" data-name="울산대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">울산대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 울산 동구 방어진순환도로 877</div>
+                    <div><span class="info-icon">☎️</span> 052-250-7000</div>
+                    <div><span class="info-icon">🌐</span> www.uuh.ulsan.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="강원" data-name="강원대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">강원대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 강원 춘천시 백령로 156</div>
+                    <div><span class="info-icon">☎️</span> 033-258-2000</div>
+                    <div><span class="info-icon">🌐</span> www.knuh.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌혈관</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="충북" data-name="충북대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">충북대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 충북 청주시 서원구 1순환로 776</div>
+                    <div><span class="info-icon">☎️</span> 043-269-6000</div>
+                    <div><span class="info-icon">🌐</span> www.chungbuk.ac.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="충남" data-name="순천향대학교 천안병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">순천향대학교 천안병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 충남 천안시 동남구 순천향6길 31</div>
+                    <div><span class="info-icon">☎️</span> 041-570-3500</div>
+                    <div><span class="info-icon">🌐</span> www.schca.ac.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="전북" data-name="전북대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">전북대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 전북 전주시 덕진구 건지로 20</div>
+                    <div><span class="info-icon">☎️</span> 063-250-1114</div>
+                    <div><span class="info-icon">🌐</span> www.jbuh.co.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중센터</span>
+                    <span class="specialty-tag">신경과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="전남" data-name="순천향대학교 구미병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">순천향대학교 구미병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경북 구미시 1공단로 179</div>
+                    <div><span class="info-icon">☎️</span> 054-468-9114</div>
+                    <div><span class="info-icon">🌐</span> www.schgumi.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="경북" data-name="안동병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">안동병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경북 안동시 안기로 33</div>
+                    <div><span class="info-icon">☎️</span> 054-850-6000</div>
+                    <div><span class="info-icon">🌐</span> www.andong.go.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">재활의학과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="경남" data-name="경상대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">경상대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경남 진주시 강남로 79</div>
+                    <div><span class="info-icon">☎️</span> 055-750-8000</div>
+                    <div><span class="info-icon">🌐</span> www.gnuh.co.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="경남" data-name="창원경상대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">창원경상대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경남 창원시 성산구 삼정자로 11</div>
+                    <div><span class="info-icon">☎️</span> 055-214-3000</div>
+                    <div><span class="info-icon">🌐</span> www.cgnuh.co.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌혈관</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="제주" data-name="제주대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">제주대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 제주 제주시 아란13길 15</div>
+                    <div><span class="info-icon">☎️</span> 064-717-1111</div>
+                    <div><span class="info-icon">🌐</span> www.jejunu.ac.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="종합병원" data-region="세종" data-name="세종충남대학교병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">세종충남대학교병원</h3>
+                    <span class="hospital-badge badge-종합병원">종합병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 세종 조치원읍 충남대학교길 20</div>
+                    <div><span class="info-icon">☎️</span> 044-995-5000</div>
+                    <div><span class="info-icon">🌐</span> www.cnush.co.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">재활의학과</span>
+                </div>
+            </div>
+
+            <!-- 전문병원 (3개) -->
+            <div class="hospital-card" data-category="전문병원" data-region="서울" data-name="중앙보훈병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">중앙보훈병원</h3>
+                    <span class="hospital-badge badge-전문병원">전문병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 강동구 진황도로 61길 53</div>
+                    <div><span class="info-icon">☎️</span> 02-2225-1111</div>
+                    <div><span class="info-icon">🌐</span> www.bohun.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">재활의학과</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="전문병원" data-region="서울" data-name="서울브레인재활병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">서울브레인재활병원</h3>
+                    <span class="hospital-badge badge-전문병원">전문병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 강동구 천호대로 1017</div>
+                    <div><span class="info-icon">☎️</span> 02-440-5000</div>
+                    <div><span class="info-icon">🌐</span> www.seoulbrain.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌질환전문</span>
+                    <span class="specialty-tag">뇌졸중재활</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="전문병원" data-region="경기" data-name="뇌혈관전문병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">뇌혈관전문병원</h3>
+                    <span class="hospital-badge badge-전문병원">전문병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경기 수원시 팔달구 권광로 293</div>
+                    <div><span class="info-icon">☎️</span> 031-268-3000</div>
+                    <div><span class="info-icon">🌐</span> www.brainhospital.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌혈관질환</span>
+                    <span class="specialty-tag">뇌졸중</span>
+                </div>
+            </div>
+
+            <!-- 재활병원 (4개) -->
+            <div class="hospital-card" data-category="재활병원" data-region="서울" data-name="국립재활원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">국립재활원</h3>
+                    <span class="hospital-badge badge-재활병원">재활병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 강북구 삼각산로 58</div>
+                    <div><span class="info-icon">☎️</span> 02-901-1700</div>
+                    <div><span class="info-icon">🌐</span> www.nrc.go.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌손상재활</span>
+                    <span class="specialty-tag">뇌졸중재활</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="재활병원" data-region="서울" data-name="서울재활병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">서울재활병원</h3>
+                    <span class="hospital-badge badge-재활병원">재활병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 은평구 갈현로 10길 20</div>
+                    <div><span class="info-icon">☎️</span> 02-6020-3000</div>
+                    <div><span class="info-icon">🌐</span> www.seoulrh.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌질환재활</span>
+                    <span class="specialty-tag">인지재활</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="재활병원" data-region="경기" data-name="분당재활병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">분당재활병원</h3>
+                    <span class="hospital-badge badge-재활병원">재활병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경기 성남시 분당구 야탑로 69번길 10</div>
+                    <div><span class="info-icon">☎️</span> 031-785-9000</div>
+                    <div><span class="info-icon">🌐</span> www.bundang-rehab.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중재활</span>
+                    <span class="specialty-tag">운동치료</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="재활병원" data-region="부산" data-name="부산재활병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">부산재활병원</h3>
+                    <span class="hospital-badge badge-재활병원">재활병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 부산 부산진구 백양대로 366</div>
+                    <div><span class="info-icon">☎️</span> 051-507-3000</div>
+                    <div><span class="info-icon">🌐</span> www.busanrehab.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌재활</span>
+                    <span class="specialty-tag">물리치료</span>
+                </div>
+            </div>
+
+            <!-- 요양병원 (3개) -->
+            <div class="hospital-card" data-category="요양병원" data-region="서울" data-name="서울요양병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">서울요양병원</h3>
+                    <span class="hospital-badge badge-요양병원">요양병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 강서구 화곡로 338</div>
+                    <div><span class="info-icon">☎️</span> 02-2699-9000</div>
+                    <div><span class="info-icon">🌐</span> www.seoulcare.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌졸중요양</span>
+                    <span class="specialty-tag">치매케어</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="요양병원" data-region="경기" data-name="평촌요양병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">평촌요양병원</h3>
+                    <span class="hospital-badge badge-요양병원">요양병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경기 안양시 동안구 평촌대로 389</div>
+                    <div><span class="info-icon">☎️</span> 031-389-8000</div>
+                    <div><span class="info-icon">🌐</span> www.pyeongchon.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">뇌질환요양</span>
+                    <span class="specialty-tag">재활치료</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="요양병원" data-region="인천" data-name="인천실버요양병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">인천실버요양병원</h3>
+                    <span class="hospital-badge badge-요양병원">요양병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 인천 부평구 부평대로 295</div>
+                    <div><span class="info-icon">☎️</span> 032-505-5000</div>
+                    <div><span class="info-icon">🌐</span> www.incheonsilver.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">장기요양</span>
+                    <span class="specialty-tag">치매전문</span>
+                </div>
+            </div>
+
+            <!-- 한방병원 (2개) -->
+            <div class="hospital-card" data-category="한방병원" data-region="서울" data-name="경희대학교한방병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">경희대학교한방병원</h3>
+                    <span class="hospital-badge badge-한방병원">한방병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 동대문구 경희대로 23</div>
+                    <div><span class="info-icon">☎️</span> 02-958-9000</div>
+                    <div><span class="info-icon">🌐</span> www.khnmc.or.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">중풍재활</span>
+                    <span class="specialty-tag">침구치료</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="한방병원" data-region="서울" data-name="자생한방병원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">자생한방병원</h3>
+                    <span class="hospital-badge badge-한방병원">한방병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 강남구 강남대로 536</div>
+                    <div><span class="info-icon">☎️</span> 1577-0007</div>
+                    <div><span class="info-icon">🌐</span> www.jaseng.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">중풍치료</span>
+                    <span class="specialty-tag">뇌질환</span>
+                </div>
+            </div>
+
+            <!-- 일반병원 (3개) -->
+            <div class="hospital-card" data-category="일반병원" data-region="서울" data-name="베스트신경과의원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">베스트신경과의원</h3>
+                    <span class="hospital-badge badge-일반병원">일반병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 송파구 올림픽로 269</div>
+                    <div><span class="info-icon">☎️</span> 02-420-9900</div>
+                    <div><span class="info-icon">🌐</span> www.bestneuro.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">치매</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="일반병원" data-region="경기" data-name="분당뇌신경과의원">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">분당뇌신경과의원</h3>
+                    <span class="hospital-badge badge-일반병원">일반병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 경기 성남시 분당구 정자일로 95</div>
+                    <div><span class="info-icon">☎️</span> 031-782-8275</div>
+                    <div><span class="info-icon">🌐</span> www.bundangbrain.com</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">치매</span>
+                </div>
+            </div>
+
+            <div class="hospital-card" data-category="일반병원" data-region="서울" data-name="더브레인신경과">
+                <div class="hospital-header">
+                    <h3 class="hospital-name">더브레인신경과</h3>
+                    <span class="hospital-badge badge-일반병원">일반병원</span>
+                </div>
+                <div class="hospital-info">
+                    <div><span class="info-icon">📍</span> 서울 마포구 월드컵로 212</div>
+                    <div><span class="info-icon">☎️</span> 02-333-9975</div>
+                    <div><span class="info-icon">🌐</span> www.thebrain.co.kr</div>
+                </div>
+                <div class="specialties">
+                    <span class="specialty-tag">신경과</span>
+                    <span class="specialty-tag">치매검사</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="noResults" class="no-results" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>검색 결과가 없습니다</h3>
+            <p>다른 검색어나 필터 조건을 선택해보세요.</p>
+        </div>
+        </div>
+    </main>
+
+    <script>
+        let currentFilters = {
+            category: 'all',
+            region: 'all',
+            search: ''
+        };
+
+        // 분류 필터
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentFilters.category = this.dataset.category;
+                filterHospitals();
+            });
+        });
+
+        // 지역 필터
+        const regionButtons = document.querySelectorAll('.region-btn');
+        regionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                regionButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentFilters.region = this.dataset.region;
+                filterHospitals();
+            });
+        });
+
+        // 검색 함수
+        function searchHospitals() {
+            const searchInput = document.getElementById('searchInput');
+            currentFilters.search = searchInput.value.toLowerCase().trim();
+            filterHospitals();
+        }
+
+        // 엔터키로 검색
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchHospitals();
+            }
+        });
+
+        // 필터링 함수
+        function filterHospitals() {
+            const hospitalCards = document.querySelectorAll('.hospital-card');
+            const noResults = document.getElementById('noResults');
+            const hospitalGrid = document.getElementById('hospitalGrid');
+            let visibleCount = 0;
+
+            hospitalCards.forEach(card => {
+                const category = card.dataset.category;
+                const region = card.dataset.region;
+                const name = card.dataset.name.toLowerCase();
+                const content = card.textContent.toLowerCase();
+
+                let showCard = true;
+
+                // 분류 필터
+                if (currentFilters.category !== 'all' && category !== currentFilters.category) {
+                    showCard = false;
+                }
+
+                // 지역 필터
+                if (currentFilters.region !== 'all' && region !== currentFilters.region) {
+                    showCard = false;
+                }
+
+                // 검색어 필터
+                if (currentFilters.search && !name.includes(currentFilters.search) && !content.includes(currentFilters.search)) {
+                    showCard = false;
+                }
+
+                if (showCard) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // 결과 개수 업데이트
+            document.getElementById('resultCount').textContent = visibleCount;
+
+            // 결과 없음 메시지
+            if (visibleCount === 0) {
+                hospitalGrid.style.display = 'none';
+                noResults.style.display = 'block';
+            } else {
+                hospitalGrid.style.display = 'grid';
+                noResults.style.display = 'none';
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        window.addEventListener('load', function() {
+            filterHospitals();
+        });
+    </script>
+
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. 모든 권리 보유</p>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

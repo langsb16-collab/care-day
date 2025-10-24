@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간병인 찾기 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .caregiver-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .caregiver-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">👩‍⚕️</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">간병인 구인구직</h1>
+                <p class="text-xl text-gray-600">당근마켓 스타일 매칭 시스템</p>
+            </div>
+
+            <!-- 게시물 등록 버튼 -->
+            <div class="mb-6 flex justify-end">
+                <button onclick="openPostModal()" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center gap-2">
+                    <i class="fas fa-plus"></i>
+                    게시물 등록하기
+                </button>
+            </div>
+
+            <!-- 필터 -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2">간병 유형</label>
+                        <select id="filterType" onchange="filterPosts()" class="w-full border rounded-lg px-3 py-2">
+                            <option value="all">전체</option>
+                            <option value="병원">병원 간병</option>
+                            <option value="입주">입주 간병</option>
+                            <option value="시간제">시간제 간병</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">지역</label>
+                        <select id="filterRegion" onchange="filterPosts()" class="w-full border rounded-lg px-3 py-2">
+                            <option value="all">전체</option>
+                            <option value="서울">서울</option>
+                            <option value="경기">경기</option>
+                            <option value="인천">인천</option>
+                            <option value="부산">부산</option>
+                            <option value="대구">대구</option>
+                            <option value="광주">광주</option>
+                            <option value="대전">대전</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">자격증</label>
+                        <select id="filterCert" onchange="filterPosts()" class="w-full border rounded-lg px-3 py-2">
+                            <option value="all">전체</option>
+                            <option value="있음">자격증 보유</option>
+                            <option value="없음">자격증 없음</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-2">정렬</label>
+                        <select id="sortOrder" onchange="filterPosts()" class="w-full border rounded-lg px-3 py-2">
+                            <option value="latest">최신순</option>
+                            <option value="price-low">가격 낮은순</option>
+                            <option value="price-high">가격 높은순</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 게시물 리스트 -->
+            <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </main>
+
+    <!-- 게시물 등록 모달 -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <div class="bg-blue-600 text-white px-6 py-4 rounded-t-xl flex justify-between items-center">
+                <h2 class="text-2xl font-bold">간병인 구인구직 등록</h2>
+                <button onclick="closePostModal()" class="text-white text-3xl">&times;</button>
+            </div>
+            <div class="p-6">
+                <form id="postForm" onsubmit="submitPost(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block font-bold mb-2">이름 <span class="text-red-500">*</span></label>
+                            <input type="text" name="name" required class="w-full border rounded-lg px-3 py-2" placeholder="홍길동">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">연락처 선택 <span class="text-red-500">*</span></label>
+                            <div class="grid grid-cols-3 gap-2 mb-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="contact_type" value="phone" onchange="toggleContactInputCaregiver(this)" class="w-4 h-4">
+                                    <span>📱 휴대폰</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="contact_type" value="kakao" onchange="toggleContactInputCaregiver(this)" class="w-4 h-4">
+                                    <span>💬 카카오톡</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" name="contact_type" value="email" onchange="toggleContactInputCaregiver(this)" class="w-4 h-4">
+                                    <span>📧 이메일</span>
+                                </label>
+                            </div>
+                            <input type="tel" id="caregiver-phone-input" name="contact_phone" placeholder="010-1234-5678" class="w-full border rounded-lg px-3 py-2 mb-2 hidden">
+                            <input type="text" id="caregiver-kakao-input" name="contact_kakao" placeholder="카카오톡 ID" class="w-full border rounded-lg px-3 py-2 mb-2 hidden">
+                            <input type="email" id="caregiver-email-input" name="contact_email" placeholder="example@email.com" class="w-full border rounded-lg px-3 py-2 mb-2 hidden">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">간병 유형 <span class="text-red-500">*</span></label>
+                            <select name="type" required class="w-full border rounded-lg px-3 py-2">
+                                <option value="">선택하세요</option>
+                                <option value="병원">병원 간병</option>
+                                <option value="입주">입주 간병</option>
+                                <option value="시간제">시간제 간병</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">경력 (년) <span class="text-red-500">*</span></label>
+                            <input type="number" name="experience" required min="0" class="w-full border rounded-lg px-3 py-2" placeholder="5">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">24시간 상주 가능 여부 <span class="text-red-500">*</span></label>
+                            <select name="fullTime" required class="w-full border rounded-lg px-3 py-2">
+                                <option value="">선택하세요</option>
+                                <option value="가능">가능</option>
+                                <option value="불가능">불가능</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">1일 비용 (원) <span class="text-red-500">*</span></label>
+                            <input type="number" name="dailyCost" required min="0" step="10000" class="w-full border rounded-lg px-3 py-2" placeholder="150000">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">휴식일 <span class="text-red-500">*</span></label>
+                            <select name="dayOff" required class="w-full border rounded-lg px-3 py-2">
+                                <option value="">선택하세요</option>
+                                <option value="무급">무급</option>
+                                <option value="유급">유급</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">자격증 유무 <span class="text-red-500">*</span></label>
+                            <select name="certificate" required class="w-full border rounded-lg px-3 py-2">
+                                <option value="">선택하세요</option>
+                                <option value="있음">있음 (요양보호사, 간호조무사 등)</option>
+                                <option value="없음">없음</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">근무 가능 지역 <span class="text-red-500">*</span></label>
+                            <input type="text" name="region" required class="w-full border rounded-lg px-3 py-2" placeholder="서울 강남구, 서초구">
+                        </div>
+
+                        <div>
+                            <label class="block font-bold mb-2">장점 및 특이사항</label>
+                            <textarea name="description" rows="4" class="w-full border rounded-lg px-3 py-2" placeholder="- 뇌졸중 환자 전문 경력 5년&#10;- 야간 간병 가능&#10;- 의사소통 원활&#10;- 성실하고 책임감 강함"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex gap-4">
+                        <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700">등록하기</button>
+                        <button type="button" onclick="closePostModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-400">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 게시물 상세 모달 -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="bg-green-600 text-white px-6 py-4 rounded-t-xl flex justify-between items-center">
+                <h2 class="text-2xl font-bold">간병인 상세 정보</h2>
+                <button onclick="closeDetailModal()" class="text-white text-3xl">&times;</button>
+            </div>
+            <div id="detailContent" class="p-6"></div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. 모든 권리 보유</p>
+            <p class="text-sm text-gray-400 mt-2">간병인 매칭은 당사자 간 직접 거래이며, 사기 방지를 위해 신중히 확인하시기 바랍니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 샘플 데이터
+        let posts = [
+            {
+                id: 1,
+                name: "김미영",
+                phone: "010-1234-5678",
+                contact_phone: "010-1234-5678",
+                contact_kakao: "caregiver_kim",
+                contact_email: "",
+                type: "병원",
+                experience: 8,
+                fullTime: "가능",
+                dailyCost: 180000,
+                dayOff: "유급",
+                certificate: "있음",
+                region: "서울 강남구, 서초구",
+                description: "- 요양보호사 자격증 보유\n- 뇌졸중 환자 전문 경력 8년\n- 대형병원 간병 경험 풍부\n- 성실하고 책임감 강함\n- 환자와 보호자 만족도 높음",
+                date: "2025-10-22",
+                likes: 12,
+                dislikes: 1
+            },
+            {
+                id: 2,
+                name: "박선희",
+                phone: "010-2345-6789",
+                type: "입주",
+                experience: 5,
+                fullTime: "가능",
+                dailyCost: 200000,
+                dayOff: "유급",
+                certificate: "있음",
+                region: "서울 전지역",
+                description: "- 간호조무사 자격증 보유\n- 입주 간병 전문\n- 24시간 상주 가능\n- 의료 지식 풍부\n- 환자 가족과 소통 원활",
+                date: "2025-10-21"
+            },
+            {
+                id: 3,
+                name: "이정숙",
+                phone: "010-3456-7890",
+                type: "시간제",
+                experience: 3,
+                fullTime: "불가능",
+                dailyCost: 120000,
+                dayOff: "무급",
+                certificate: "없음",
+                region: "경기 성남시, 분당구",
+                description: "- 시간제 간병 전문\n- 낮 시간 근무 가능 (9시-18시)\n- 친절하고 성실함\n- 환자 식사 및 위생 관리 경험",
+                date: "2025-10-20"
+            },
+            {
+                id: 4,
+                name: "최영란",
+                phone: "010-4567-8901",
+                type: "병원",
+                experience: 10,
+                fullTime: "가능",
+                dailyCost: 190000,
+                dayOff: "유급",
+                certificate: "있음",
+                region: "부산 해운대구, 수영구",
+                description: "- 요양보호사 1급 자격증\n- 10년 경력의 베테랑\n- 뇌질환 환자 전문\n- 야간 간병 가능\n- 응급 상황 대처 능력 우수",
+                date: "2025-10-19"
+            },
+            {
+                id: 5,
+                name: "정민아",
+                phone: "010-5678-9012",
+                type: "입주",
+                experience: 7,
+                fullTime: "가능",
+                dailyCost: 210000,
+                dayOff: "유급",
+                certificate: "있음",
+                region: "인천 전지역",
+                description: "- 간호사 출신\n- 의료 지식 전문가\n- 투약 및 혈압 관리 가능\n- 재활 운동 보조 가능\n- 환자 맞춤 케어",
+                date: "2025-10-18"
+            },
+            {
+                id: 6,
+                name: "한수진",
+                phone: "010-6789-0123",
+                type: "병원",
+                experience: 4,
+                fullTime: "가능",
+                dailyCost: 160000,
+                dayOff: "무급",
+                certificate: "있음",
+                region: "대구 중구, 동구",
+                description: "- 요양보호사 자격증\n- 병원 간병 4년 경력\n- 환자 이동 보조 능숙\n- 위생 관리 철저\n- 성실하고 꼼꼼함",
+                date: "2025-10-17"
+            }
+        ];
+
+        function renderPosts(postsToRender = posts) {
+            const postsList = document.getElementById('postsList');
+            postsList.innerHTML = '';
+
+            if (postsToRender.length === 0) {
+                postsList.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">조건에 맞는 게시물이 없습니다.</div>';
+                return;
+            }
+
+            postsToRender.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'caregiver-card bg-white rounded-xl shadow-md p-6';
+                card.onclick = () => openDetailModal(post);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">${post.name}</h3>
+                            <p class="text-sm text-gray-600">${post.region}</p>
+                        </div>
+                        <span class="badge bg-blue-100 text-blue-700">${post.type}</span>
+                    </div>
+                    
+                    <div class="space-y-2 mb-4 text-sm">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-briefcase text-gray-500"></i>
+                            <span>경력 ${post.experience}년</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-clock text-gray-500"></i>
+                            <span>24시간 상주: ${post.fullTime}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-certificate text-gray-500"></i>
+                            <span>자격증: ${post.certificate}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-calendar text-gray-500"></i>
+                            <span>휴식일: ${post.dayOff}</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t pt-4 mt-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xs text-gray-500">1일 간병비</p>
+                                <p class="text-2xl font-bold text-green-600">${post.dailyCost.toLocaleString()}원</p>
+                            </div>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700">
+                                상세보기
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-4 mt-3 pt-3 border-t">
+                            <button onclick="event.stopPropagation(); likeCaregiver(${post.id})" class="flex items-center gap-1 text-blue-600 hover:text-blue-700">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span id="like-c-${post.id}">${post.likes || 0}</span>
+                            </button>
+                            <button onclick="event.stopPropagation(); dislikeCaregiver(${post.id})" class="flex items-center gap-1 text-red-600 hover:text-red-700">
+                                <i class="fas fa-thumbs-down"></i>
+                                <span id="dislike-c-${post.id}">${post.dislikes || 0}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                postsList.appendChild(card);
+            });
+        }
+
+        function filterPosts() {
+            const type = document.getElementById('filterType').value;
+            const region = document.getElementById('filterRegion').value;
+            const cert = document.getElementById('filterCert').value;
+            const sort = document.getElementById('sortOrder').value;
+
+            let filtered = posts.filter(post => {
+                if (type !== 'all' && post.type !== type) return false;
+                if (region !== 'all' && !post.region.includes(region)) return false;
+                if (cert !== 'all' && post.certificate !== cert) return false;
+                return true;
+            });
+
+            // 정렬
+            if (sort === 'latest') {
+                filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+            } else if (sort === 'price-low') {
+                filtered.sort((a, b) => a.dailyCost - b.dailyCost);
+            } else if (sort === 'price-high') {
+                filtered.sort((a, b) => b.dailyCost - a.dailyCost);
+            }
+
+            renderPosts(filtered);
+        }
+
+        function openPostModal() {
+            document.getElementById('postModal').style.display = 'block';
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').style.display = 'none';
+            document.getElementById('postForm').reset();
+        }
+
+        function openDetailModal(post) {
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('detailContent');
+
+            content.innerHTML = `
+                <div class="space-y-6">
+                    <div class="border-b pb-4">
+                        <h3 class="text-2xl font-bold mb-2">${post.name}</h3>
+                        <span class="badge bg-blue-100 text-blue-700">${post.type} 간병</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600 mb-1">연락처</p>
+                            <p class="font-bold text-lg">${post.phone}</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600 mb-1">경력</p>
+                            <p class="font-bold text-lg">${post.experience}년</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600 mb-1">24시간 상주</p>
+                            <p class="font-bold text-lg">${post.fullTime}</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600 mb-1">자격증</p>
+                            <p class="font-bold text-lg">${post.certificate}</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600 mb-1">휴식일</p>
+                            <p class="font-bold text-lg">${post.dayOff}</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600 mb-1">1일 간병비</p>
+                            <p class="font-bold text-2xl text-green-600">${post.dailyCost.toLocaleString()}원</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="font-bold mb-2">근무 가능 지역</p>
+                        <p class="text-gray-700 bg-gray-50 p-3 rounded-lg">${post.region}</p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold mb-2">장점 및 특이사항</p>
+                        <div class="text-gray-700 bg-gray-50 p-4 rounded-lg whitespace-pre-line">${post.description}</div>
+                    </div>
+
+                    ${post.contact_phone || post.contact_kakao || post.contact_email ? `
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <h4 class="font-bold mb-2">📞 연락처</h4>
+                        <div class="space-y-1 text-sm">
+                            ${post.contact_phone ? `<p>📱 휴대폰: ${post.contact_phone}</p>` : ''}
+                            ${post.contact_kakao ? `<p>💬 카카오톡: ${post.contact_kakao}</p>` : ''}
+                            ${post.contact_email ? `<p>📧 이메일: ${post.contact_email}</p>` : ''}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="flex items-center gap-6 pt-4 border-t">
+                        <button onclick="likeCaregiver(${post.id})" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold">
+                            <i class="fas fa-thumbs-up text-xl"></i>
+                            <span>좋아요 <span id="like-c-${post.id}">${post.likes || 0}</span></span>
+                        </button>
+                        <button onclick="dislikeCaregiver(${post.id})" class="flex items-center gap-2 text-red-600 hover:text-red-700 font-bold">
+                            <i class="fas fa-thumbs-down text-xl"></i>
+                            <span>싫어요 <span id="dislike-c-${post.id}">${post.dislikes || 0}</span></span>
+                        </button>
+                    </div>
+
+                    <div class="flex gap-4 mt-4">
+                        ${post.contact_phone ? `
+                        <a href="tel:${post.contact_phone}" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold text-center hover:bg-green-700">
+                            <i class="fas fa-phone mr-2"></i>전화하기
+                        </a>
+                        ` : ''}
+                        <button onclick="closeDetailModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-400">
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // 연락처 입력 토글
+        function toggleContactInputCaregiver(checkbox) {
+            const inputId = 'caregiver-' + checkbox.value + '-input';
+            const input = document.getElementById(inputId);
+            if (checkbox.checked) {
+                input.classList.remove('hidden');
+            } else {
+                input.classList.add('hidden');
+                input.value = '';
+            }
+        }
+
+        // 좋아요
+        function likeCaregiver(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.likes = (post.likes || 0) + 1;
+                document.getElementById(`like-c-${postId}`).textContent = post.likes;
+            }
+        }
+
+        // 싫어요
+        function dislikeCaregiver(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.dislikes = (post.dislikes || 0) + 1;
+                document.getElementById(`dislike-c-${postId}`).textContent = post.dislikes;
+            }
+        }
+
+        function submitPost(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const newPost = {
+                id: posts.length + 1,
+                name: formData.get('name'),
+                phone: formData.get('phone') || '',
+                contact_phone: formData.get('contact_phone') || '',
+                contact_kakao: formData.get('contact_kakao') || '',
+                contact_email: formData.get('contact_email') || '',
+                type: formData.get('type'),
+                experience: parseInt(formData.get('experience')),
+                fullTime: formData.get('fullTime'),
+                dailyCost: parseInt(formData.get('dailyCost')),
+                dayOff: formData.get('dayOff'),
+                certificate: formData.get('certificate'),
+                region: formData.get('region'),
+                description: formData.get('description') || '등록된 내용이 없습니다.',
+                date: new Date().toISOString().split('T')[0],
+                likes: 0,
+                dislikes: 0
+            };
+
+            posts.unshift(newPost);
+            renderPosts();
+            closePostModal();
+            alert('게시물이 등록되었습니다!');
+        }
+
+        // 모달 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            const postModal = document.getElementById('postModal');
+            const detailModal = document.getElementById('detailModal');
+            if (event.target === postModal) {
+                closePostModal();
+            }
+            if (event.target === detailModal) {
+                closeDetailModal();
+            }
+        }
+
+        // 초기 렌더링
+        renderPosts();
+    </script>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="service.disease.title">뇌질환 정보 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans bg-gray-50">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-primary" data-i18n="site.name">뇌질환케어</h1>
+                        <p class="text-xs text-gray-600" data-i18n="site.subtitle">Brain Disease Care</p>
+                    </div>
+                </a>
+                
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            
+            <!-- Page Header -->
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🧠</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-i18n="page.disease.title">뇌질환 정보</h1>
+                <p class="text-xl text-gray-600" data-i18n="page.disease.subtitle">질병분류코드별 상세 정보</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="max-w-3xl mx-auto mb-12">
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <div class="flex gap-2">
+                        <input type="text" id="disease-search" data-i18n-placeholder="page.disease.search" placeholder="ICD-10 코드 또는 질병명 검색..." 
+                               class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        <button onclick="searchDiseases()" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
+                            <i class="fas fa-search mr-2"></i>검색
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disease Categories -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-red-50 border-2 border-red-200 rounded-xl p-6 hover:shadow-lg transition cursor-pointer" onclick="filterByCategory('hemorrhage')">
+                    <h3 class="text-xl font-bold text-red-700 mb-2">🔴 <span data-i18n="disease.category.hemorrhage">뇌출혈</span></h3>
+                    <p class="text-sm text-gray-600 mb-2">I60-I62</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• 거미막하출혈 (I60)</li>
+                        <li>• 뇌내출혈 (I61)</li>
+                        <li>• 기타 두개내출혈 (I62)</li>
+                    </ul>
+                </div>
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 hover:shadow-lg transition cursor-pointer" onclick="filterByCategory('infarction')">
+                    <h3 class="text-xl font-bold text-blue-700 mb-2">🔵 <span data-i18n="disease.category.infarction">뇌경색</span></h3>
+                    <p class="text-sm text-gray-600 mb-2">I63, I65-I66</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• 뇌경색증 (I63)</li>
+                        <li>• 뇌전동맥 폐색 (I65)</li>
+                        <li>• 대뇌동맥 폐색 (I66)</li>
+                    </ul>
+                </div>
+                <div class="bg-purple-50 border-2 border-purple-200 rounded-xl p-6 hover:shadow-lg transition cursor-pointer" onclick="filterByCategory('other')">
+                    <h3 class="text-xl font-bold text-purple-700 mb-2">⚪ <span data-i18n="disease.category.other">기타</span></h3>
+                    <p class="text-sm text-gray-600 mb-2">I64, I67-I69</p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• 미상 뇌졸중 (I64)</li>
+                        <li>• 대뇌죽상경화 (I67.2)</li>
+                        <li>• 후유증 (I69)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Disease Details List -->
+            <div class="space-y-6" id="disease-list">
+                
+                <!-- I60 -->
+                <div class="disease-item bg-white rounded-xl shadow-md overflow-hidden" data-code="I60" data-category="hemorrhage" data-keywords="거미막하출혈 subarachnoid hemorrhage 蛛网膜下出血">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-bold">I60</span>
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">뇌출혈</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900">거미막하 출혈</h3>
+                                <p class="text-sm text-gray-500">Subarachnoid hemorrhage | 蛛网膜下出血 | くも膜下出血</p>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-4">뇌를 둘러싼 거미막 아래 공간에 출혈이 발생하는 질환. 주요 원인은 뇌동맥류 파열, 외상.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-bold text-gray-900 mb-2"><i class="fas fa-stethoscope mr-2 text-red-500"></i>주요 증상</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">갑작스러운 극심한 두통</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">의식 저하</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">구토</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">목 경직</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-2"><i class="fas fa-pills mr-2 text-blue-500"></i>치료법</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">응급수술</span>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">코일색전술</span>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">클립결찰술</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- I61 -->
+                <div class="disease-item bg-white rounded-xl shadow-md overflow-hidden" data-code="I61" data-category="hemorrhage" data-keywords="뇌내출혈 intracerebral hemorrhage 脑内出血">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-bold">I61</span>
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">뇌출혈</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900">뇌내출혈</h3>
+                                <p class="text-sm text-gray-500">Intracerebral hemorrhage | 脑内出血 | 脳内出血</p>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-4">뇌 조직 내부로 직접 출혈이 발생. 주요 원인은 고혈압, 뇌동맥류, 뇌혈관 기형.</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-bold text-gray-900 mb-2"><i class="fas fa-stethoscope mr-2 text-red-500"></i>주요 증상</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">반신마비</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">언어장애</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">의식 저하</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">두통</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-2"><i class="fas fa-pills mr-2 text-blue-500"></i>치료법</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">혈압 조절</span>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">수술적 제거</span>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">재활치료</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- I63 -->
+                <div class="disease-item bg-white rounded-xl shadow-md overflow-hidden" data-code="I63" data-category="infarction" data-keywords="뇌경색 cerebral infarction 脑梗塞">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold">I63</span>
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">뇌경색</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900">뇌경색증</h3>
+                                <p class="text-sm text-gray-500">Cerebral infarction | 脑梗塞 | 脳梗塞症</p>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-700 mb-4">뇌혈관이 막혀 뇌 조직이 괴사되는 질환. <strong class="text-red-600">골든타임 3~4.5시간 이내 치료 필수!</strong></p>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-bold text-gray-900 mb-2"><i class="fas fa-stethoscope mr-2 text-red-500"></i>주요 증상</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">반신마비</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">언어장애</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">안면마비</span>
+                                <span class="px-3 py-1 bg-red-50 text-red-700 rounded-lg text-sm">보행장애</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-900 mb-2"><i class="fas fa-pills mr-2 text-blue-500"></i>치료법</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">혈전용해제 투여</span>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">항혈소판제</span>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">재활치료</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More info -->
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 text-center">
+                    <p class="text-lg text-gray-700 mb-4">더 많은 질병 정보 (I62, I64, I65, I66, I67, I68, I69)는 데이터베이스에서 불러옵니다.</p>
+                    <p class="text-sm text-gray-600">총 <strong>14개</strong>의 뇌혈관질환 ICD-10 코드 정보 제공</p>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 <span data-i18n="site.name">뇌질환케어</span>. <span data-i18n="footer.rights">모든 권리 보유</span></p>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Disease search functionality
+        function searchDiseases() {
+            const searchTerm = document.getElementById('disease-search').value.toLowerCase().trim();
+            const diseaseItems = document.querySelectorAll('.disease-item');
+            let visibleCount = 0;
+
+            diseaseItems.forEach(item => {
+                const code = item.getAttribute('data-code').toLowerCase();
+                const keywords = item.getAttribute('data-keywords').toLowerCase();
+                const textContent = item.textContent.toLowerCase();
+
+                if (searchTerm === '' || 
+                    code.includes(searchTerm) || 
+                    keywords.includes(searchTerm) ||
+                    textContent.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Show no results message
+            const existingMsg = document.getElementById('no-results-msg');
+            if (existingMsg) existingMsg.remove();
+
+            if (visibleCount === 0) {
+                const noResultsMsg = document.createElement('div');
+                noResultsMsg.id = 'no-results-msg';
+                noResultsMsg.className = 'text-center py-12 text-gray-600';
+                noResultsMsg.innerHTML = `
+                    <i class="fas fa-search text-4xl mb-4 text-gray-400"></i>
+                    <p class="text-xl">검색 결과가 없습니다.</p>
+                    <p class="text-sm mt-2">다른 키워드로 검색해보세요.</p>
+                `;
+                document.getElementById('disease-list').appendChild(noResultsMsg);
+            }
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            const diseaseItems = document.querySelectorAll('.disease-item');
+            
+            diseaseItems.forEach(item => {
+                if (item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                    item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Clear search input
+            document.getElementById('disease-search').value = '';
+        }
+
+        // Search on Enter key
+        document.getElementById('disease-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchDiseases();
+            }
+        });
+
+        // Real-time search
+        document.getElementById('disease-search').addEventListener('input', function() {
+            searchDiseases();
+        });
+    </script>
+</body>
+</html>
