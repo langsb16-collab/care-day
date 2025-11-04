@@ -202,7 +202,7 @@
             white-space: nowrap;
         }
 
-        .badge-상급종합 {
+        .badge-상급종합, .badge-상급종합병원 {
             background: #e8f5e9;
             color: #2e7d32;
         }
@@ -287,16 +287,64 @@
         }
 
         @media (max-width: 768px) {
+            .search-header {
+                padding: 2rem 1rem;
+            }
+            
+            .search-header h1 {
+                font-size: 1.5rem;
+            }
+            
             .hospital-grid {
                 grid-template-columns: 1fr;
             }
             
             .search-box {
                 flex-direction: column;
+                gap: 0.5rem;
             }
             
             .search-input {
                 min-width: 100%;
+                font-size: 16px; /* 모바일에서 자동 줌 방지 */
+            }
+            
+            .search-btn {
+                width: 100%;
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .category-filters,
+            .region-filters {
+                gap: 0.4rem;
+            }
+            
+            .category-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .region-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .hospital-card {
+                padding: 1rem;
+            }
+            
+            .hospital-name {
+                font-size: 1rem;
+            }
+            
+            .hospital-info {
+                font-size: 0.9rem;
+            }
+            
+            .specialty-tag {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.6rem;
             }
         }
     </style>
@@ -346,7 +394,7 @@
             <div id="mobile-menu" class="hidden md:hidden pb-4">
                 <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
                 <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
-                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="hospital.html" class="block px-4 py-2 bg-primary text-white rounded-lg" data-i18n="menu.hospital">병원 검색</a>
                 <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
                 <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
                 <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
@@ -56378,43 +56426,72 @@
 
         // 필터 초기화 함수
         function initializeFilters() {
-            // 분류 필터 버튼
+            // 분류 필터 버튼 (click과 touchend 모두 지원)
             const categoryButtons = document.querySelectorAll('.category-btn');
             console.log('분류 버튼 개수:', categoryButtons.length);
             
             categoryButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                const handleCategoryClick = function(e) {
+                    e.preventDefault(); // 중복 이벤트 방지
                     console.log('분류 클릭:', this.dataset.category);
                     categoryButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
                     currentFilters.category = this.dataset.category;
                     filterHospitals();
-                });
+                };
+                
+                button.addEventListener('click', handleCategoryClick);
+                button.addEventListener('touchend', handleCategoryClick);
             });
 
-            // 지역 필터 버튼
+            // 지역 필터 버튼 (click과 touchend 모두 지원)
             const regionButtons = document.querySelectorAll('.region-btn');
             console.log('지역 버튼 개수:', regionButtons.length);
             
             regionButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                const handleRegionClick = function(e) {
+                    e.preventDefault(); // 중복 이벤트 방지
                     console.log('지역 클릭:', this.dataset.region);
                     regionButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
                     currentFilters.region = this.dataset.region;
                     filterHospitals();
-                });
+                };
+                
+                button.addEventListener('click', handleRegionClick);
+                button.addEventListener('touchend', handleRegionClick);
             });
 
-            // 검색 입력창 엔터키 이벤트
+            // 검색 입력창 이벤트 (엔터키와 input 이벤트)
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
                 searchInput.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') {
+                        e.preventDefault();
                         searchHospitals();
                     }
                 });
+                
+                // 실시간 검색 (입력할 때마다 검색)
+                searchInput.addEventListener('input', function(e) {
+                    const searchValue = this.value.toLowerCase().trim();
+                    if (searchValue.length === 0 || searchValue.length >= 2) {
+                        currentFilters.search = searchValue;
+                        filterHospitals();
+                    }
+                });
+                
                 console.log('✅ 검색 입력창 이벤트 등록');
+            }
+
+            // 검색 버튼 이벤트
+            const searchButton = document.querySelector('.search-btn');
+            if (searchButton) {
+                searchButton.addEventListener('click', searchHospitals);
+                searchButton.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    searchHospitals();
+                });
             }
 
             // 초기 필터링
@@ -56444,26 +56521,33 @@
             let visibleCount = 0;
 
             hospitalCards.forEach(card => {
-                const category = card.dataset.category;
-                const region = card.dataset.region;
+                const category = card.dataset.category || '';
+                const region = card.dataset.region || '';
                 const name = card.dataset.name ? card.dataset.name.toLowerCase() : '';
-                const content = card.textContent.toLowerCase();
+                const address = card.querySelector('.hospital-info') ? 
+                    card.querySelector('.hospital-info').textContent.toLowerCase() : '';
 
                 let showCard = true;
 
-                // 분류 필터
-                if (currentFilters.category !== 'all' && category !== currentFilters.category) {
-                    showCard = false;
+                // 분류 필터 (엄격한 매칭)
+                if (currentFilters.category !== 'all') {
+                    if (category !== currentFilters.category) {
+                        showCard = false;
+                    }
                 }
 
-                // 지역 필터
-                if (currentFilters.region !== 'all' && region !== currentFilters.region) {
-                    showCard = false;
+                // 지역 필터 (엄격한 매칭)
+                if (currentFilters.region !== 'all') {
+                    if (region !== currentFilters.region) {
+                        showCard = false;
+                    }
                 }
 
-                // 검색어 필터 (병원명과 전체 내용 검색)
-                if (currentFilters.search) {
-                    if (!name.includes(currentFilters.search) && !content.includes(currentFilters.search)) {
+                // 검색어 필터 (병원명과 주소 검색)
+                if (currentFilters.search && currentFilters.search.length > 0) {
+                    const searchMatches = name.includes(currentFilters.search) || 
+                                        address.includes(currentFilters.search);
+                    if (!searchMatches) {
                         showCard = false;
                     }
                 }
@@ -56471,11 +56555,9 @@
                 // 카드 표시/숨김
                 if (showCard) {
                     card.style.display = 'block';
-                    card.style.opacity = '1';
                     visibleCount++;
                 } else {
                     card.style.display = 'none';
-                    card.style.opacity = '0';
                 }
             });
 
@@ -56494,6 +56576,14 @@
             }
 
             console.log('표시된 병원 수:', visibleCount);
+            
+            // 페이지 상단으로 스크롤 (모바일 환경에서 유용)
+            if (currentFilters.search || currentFilters.category !== 'all' || currentFilters.region !== 'all') {
+                const resultSection = document.getElementById('hospitalGrid');
+                if (resultSection && window.innerWidth <= 768) {
+                    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
         }
     </script>
 
