@@ -110,23 +110,23 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="pt-32 pb-20 bg-gradient-to-br from-blue-50 to-purple-50">
+    <section id="home" class="pt-32 pb-20 bg-gradient-to-br from-blue-100 via-teal-50 to-green-50">
         <div class="container mx-auto px-4">
             <div class="text-center max-w-4xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-i18n="hero.title">
+                <h2 class="text-2xl md:text-5xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight" data-i18n="hero.title">
                     뇌출혈·뇌경색 환자와 가족을 위한<br>종합 케어 플랫폼
                 </h2>
-                <p class="text-xl text-gray-600 mb-8" data-i18n="hero.subtitle">
-                    병원 찾기부터 재활, 간병, 보험, 지원정책까지<br>모든 정보를 한 곳에서
+                <p class="text-base md:text-xl text-gray-700 mb-6 md:mb-8 leading-relaxed" data-i18n="hero.subtitle">
+                    병원 찾기부터 재활, 간병, 보험, 지원정책까지<br class="hidden md:block">모든 정보를 한 곳에서
                 </p>
                 
                 <!-- Quick Search -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 max-w-2xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl p-4 md:p-6 max-w-2xl mx-auto">
                     <div class="flex flex-col md:flex-row gap-3">
                         <input type="text" id="quick-search" placeholder="병원명, 지역, 질환명 검색..." 
-                               class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                               class="flex-1 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                                data-i18n-placeholder="search.placeholder">
-                        <button onclick="performSearch()" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                        <button onclick="performSearch()" class="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium">
                             <i class="fas fa-search mr-2"></i>
                             <span data-i18n="search.button">검색</span>
                         </button>
@@ -134,22 +134,22 @@
                 </div>
                 
                 <!-- Quick Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
-                    <div class="bg-white rounded-lg p-4 shadow-md">
-                        <div class="text-3xl font-bold text-primary">2,500+</div>
-                        <div class="text-sm text-gray-600" data-i18n="stats.hospitals">등록 병원</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-8 md:mt-12">
+                    <div class="bg-white rounded-lg p-3 md:p-4 shadow-md">
+                        <div class="text-2xl md:text-3xl font-bold text-primary">3,500+</div>
+                        <div class="text-xs md:text-sm text-gray-600" data-i18n="stats.hospitals">등록 병원</div>
                     </div>
-                    <div class="bg-white rounded-lg p-4 shadow-md">
-                        <div class="text-3xl font-bold text-secondary">1,200+</div>
-                        <div class="text-sm text-gray-600" data-i18n="stats.caregivers">간병인</div>
+                    <div class="bg-white rounded-lg p-3 md:p-4 shadow-md">
+                        <div class="text-2xl md:text-3xl font-bold text-secondary">1,200+</div>
+                        <div class="text-xs md:text-sm text-gray-600" data-i18n="stats.caregivers">간병인</div>
                     </div>
-                    <div class="bg-white rounded-lg p-4 shadow-md">
-                        <div class="text-3xl font-bold text-accent">30+</div>
-                        <div class="text-sm text-gray-600" data-i18n="stats.videos">재활 영상</div>
+                    <div class="bg-white rounded-lg p-3 md:p-4 shadow-md">
+                        <div class="text-2xl md:text-3xl font-bold text-accent">105+</div>
+                        <div class="text-xs md:text-sm text-gray-600" data-i18n="stats.videos">재활 영상</div>
                     </div>
-                    <div class="bg-white rounded-lg p-4 shadow-md">
-                        <div class="text-3xl font-bold text-success">24/7</div>
-                        <div class="text-sm text-gray-600" data-i18n="stats.support">지원 서비스</div>
+                    <div class="bg-white rounded-lg p-3 md:p-4 shadow-md">
+                        <div class="text-2xl md:text-3xl font-bold text-success">24/7</div>
+                        <div class="text-xs md:text-sm text-gray-600" data-i18n="stats.support">지원 서비스</div>
                     </div>
                 </div>
             </div>
