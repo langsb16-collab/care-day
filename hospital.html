@@ -56418,11 +56418,80 @@
             search: ''
         };
 
+        // 좋아요/싫어요 데이터 저장 (LocalStorage 사용)
+        let hospitalRatings = JSON.parse(localStorage.getItem('hospitalRatings')) || {};
+
         // DOM이 완전히 로드된 후 실행
         document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ DOM 로드 완료');
+            addLikeDislikeButtons();
             initializeFilters();
         });
+
+        // 모든 병원 카드에 좋아요/싫어요 버튼 추가
+        function addLikeDislikeButtons() {
+            const hospitalCards = document.querySelectorAll('.hospital-card');
+            
+            hospitalCards.forEach((card, index) => {
+                const hospitalName = card.dataset.name || `hospital-${index}`;
+                const hospitalId = `h-${index}`;
+                
+                // 기존 rating 데이터가 없으면 초기화
+                if (!hospitalRatings[hospitalId]) {
+                    hospitalRatings[hospitalId] = { likes: 0, dislikes: 0, name: hospitalName };
+                }
+                
+                // 좋아요/싫어요 버튼 컨테이너 생성
+                const ratingDiv = document.createElement('div');
+                ratingDiv.className = 'border-t pt-3 mt-3 flex items-center gap-4';
+                ratingDiv.innerHTML = `
+                    <button onclick="likeHospital('${hospitalId}')" class="flex items-center gap-1 text-blue-600 hover:text-blue-700 transition">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span id="like-${hospitalId}">${hospitalRatings[hospitalId].likes}</span>
+                    </button>
+                    <button onclick="dislikeHospital('${hospitalId}')" class="flex items-center gap-1 text-red-600 hover:text-red-700 transition">
+                        <i class="fas fa-thumbs-down"></i>
+                        <span id="dislike-${hospitalId}">${hospitalRatings[hospitalId].dislikes}</span>
+                    </button>
+                `;
+                
+                card.appendChild(ratingDiv);
+            });
+        }
+
+        // 좋아요 함수
+        function likeHospital(hospitalId) {
+            if (!hospitalRatings[hospitalId]) {
+                hospitalRatings[hospitalId] = { likes: 0, dislikes: 0 };
+            }
+            hospitalRatings[hospitalId].likes++;
+            
+            // UI 업데이트
+            const likeElement = document.getElementById(`like-${hospitalId}`);
+            if (likeElement) {
+                likeElement.textContent = hospitalRatings[hospitalId].likes;
+            }
+            
+            // LocalStorage에 저장
+            localStorage.setItem('hospitalRatings', JSON.stringify(hospitalRatings));
+        }
+
+        // 싫어요 함수
+        function dislikeHospital(hospitalId) {
+            if (!hospitalRatings[hospitalId]) {
+                hospitalRatings[hospitalId] = { likes: 0, dislikes: 0 };
+            }
+            hospitalRatings[hospitalId].dislikes++;
+            
+            // UI 업데이트
+            const dislikeElement = document.getElementById(`dislike-${hospitalId}`);
+            if (dislikeElement) {
+                dislikeElement.textContent = hospitalRatings[hospitalId].dislikes;
+            }
+            
+            // LocalStorage에 저장
+            localStorage.setItem('hospitalRatings', JSON.stringify(hospitalRatings));
+        }
 
         // 필터 초기화 함수
         function initializeFilters() {

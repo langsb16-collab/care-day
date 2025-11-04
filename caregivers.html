@@ -596,6 +596,9 @@
             if (post) {
                 post.likes = (post.likes || 0) + 1;
                 document.getElementById(`like-c-${postId}`).textContent = post.likes;
+                
+                // LocalStorage에 저장
+                saveRatingsToStorage();
             }
         }
 
@@ -605,6 +608,35 @@
             if (post) {
                 post.dislikes = (post.dislikes || 0) + 1;
                 document.getElementById(`dislike-c-${postId}`).textContent = post.dislikes;
+                
+                // LocalStorage에 저장
+                saveRatingsToStorage();
+            }
+        }
+
+        // LocalStorage에 평가 저장
+        function saveRatingsToStorage() {
+            const ratings = {};
+            posts.forEach(post => {
+                ratings[post.id] = {
+                    likes: post.likes || 0,
+                    dislikes: post.dislikes || 0
+                };
+            });
+            localStorage.setItem('caregiverRatings', JSON.stringify(ratings));
+        }
+
+        // LocalStorage에서 평가 불러오기
+        function loadRatingsFromStorage() {
+            const savedRatings = localStorage.getItem('caregiverRatings');
+            if (savedRatings) {
+                const ratings = JSON.parse(savedRatings);
+                posts.forEach(post => {
+                    if (ratings[post.id]) {
+                        post.likes = ratings[post.id].likes;
+                        post.dislikes = ratings[post.id].dislikes;
+                    }
+                });
             }
         }
 
@@ -651,6 +683,7 @@
         }
 
         // 초기 렌더링
+        loadRatingsFromStorage(); // LocalStorage에서 평가 불러오기
         renderPosts();
     </script>
 
