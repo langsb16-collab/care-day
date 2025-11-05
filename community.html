@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커뮤니티 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                
+                <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">간병용품</a>
+                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap">커뮤니티</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">명의찾기</a>
+                <a href="complaints.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">민원</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600">응급</a>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">간병용품</a>
+                <a href="community.html" class="block px-4 py-2 bg-primary text-white rounded-lg">커뮤니티</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">명의찾기</a>
+                <a href="complaints.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">민원</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">👥</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">커뮤니티</h1>
+                <p class="text-xl text-gray-600">환자와 가족을 위한 정보 공유</p>
+            </div>
+            
+            <!-- 커뮤니티 메뉴 카드 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 뇌사 장기기증 -->
+                <a href="organ-donation.html" class="bg-gradient-to-br from-green-50 to-teal-50 border-2 border-green-200 rounded-xl shadow-lg p-8 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-5xl mb-4">💚</div>
+                    <h2 class="text-2xl font-bold mb-3 text-green-800">뇌사 장기기증 절차</h2>
+                    <p class="text-gray-600 mb-4">생명을 나누는 장기기증에 대한 절차와 안내</p>
+                    <div class="text-green-600 font-semibold flex items-center">
+                        자세히 보기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+
+                <!-- 가족간병 영상자료 -->
+                <a href="caregiver-videos.html" class="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl shadow-lg p-8 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-5xl mb-4">🎬</div>
+                    <h2 class="text-2xl font-bold mb-3 text-purple-800">가족간병 영상자료</h2>
+                    <p class="text-gray-600 mb-4">가족 간병에 대한 유용한 동영상 모음</p>
+                    <div class="text-purple-600 font-semibold flex items-center">
+                        자세히 보기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+
+                <!-- 환자 보호자 권리 -->
+                <a href="patient-rights.html" class="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl shadow-lg p-8 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-5xl mb-4">⚖️</div>
+                    <h2 class="text-2xl font-bold mb-3 text-blue-800">환자 보호자 권리</h2>
+                    <p class="text-gray-600 mb-4">환자와 보호자의 권리 및 항의 절차 안내</p>
+                    <div class="text-blue-600 font-semibold flex items-center">
+                        자세히 보기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+
+                <!-- 주요 연락처 -->
+                <a href="contact-info.html" class="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-xl shadow-lg p-8 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-5xl mb-4">📞</div>
+                    <h2 class="text-2xl font-bold mb-3 text-yellow-800">주요 연락처</h2>
+                    <p class="text-gray-600 mb-4">긴급상황 및 필수 연락처 모음</p>
+                    <div class="text-yellow-600 font-semibold flex items-center">
+                        자세히 보기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+
+                <!-- 상조회사 & 납골당 -->
+                <a href="funeral-services.html" class="bg-gradient-to-br from-gray-50 to-slate-50 border-2 border-gray-300 rounded-xl shadow-lg p-8 hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div class="text-5xl mb-4">🕊️</div>
+                    <h2 class="text-2xl font-bold mb-3 text-gray-800">상조회사 & 납골당</h2>
+                    <p class="text-gray-600 mb-4">전국 상조회사 및 납골당 연락처 정보</p>
+                    <div class="text-gray-600 font-semibold flex items-center">
+                        자세히 보기 <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

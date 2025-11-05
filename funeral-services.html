@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상조회사 & 납골당 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                <button id="mobile-menu-toggle" class="md:hidden text-gray-600">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <div class="hidden md:flex space-x-1 pb-2">
+                <a href="community.html" class="px-3 py-1 text-sm rounded-lg bg-primary text-white">커뮤니티</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🕊️</div>
+                <h1 class="text-4xl font-bold mb-4">상조회사 & 납골당</h1>
+                <p class="text-xl text-gray-600">전국 상조회사 및 납골당 연락처 정보</p>
+            </div>
+
+            <!-- 상조회사 섹션 -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h2 class="text-3xl font-bold mb-6 text-blue-700">📋 전국 상조회사 연락처</h2>
+                
+                <!-- 수도권 -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-green-700">🏙️ 수도권 (서울·경기·인천)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">보람상조개발/라이프/실로암</h4>
+                            <p class="text-sm">📞 대표: 1588-7979</p>
+                            <p class="text-sm">🚨 장례 24시: 1577-1009</p>
+                        </div>
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">프리드라이프 (웅진)</h4>
+                            <p class="text-sm">📞 대표: 1588-3740</p>
+                        </div>
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">더리본</h4>
+                            <p class="text-sm">📞 대표: 1644-3651</p>
+                        </div>
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">교원라이프</h4>
+                            <p class="text-sm">📞 고객센터: 1588-0060</p>
+                            <p class="text-sm">🚨 24시: 080-555-1234</p>
+                        </div>
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">더피플라이프</h4>
+                            <p class="text-sm">📞 고객센터: 1577-3411</p>
+                            <p class="text-sm">🚨 장례 24시: 1588-4471</p>
+                        </div>
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">부모사랑라이프</h4>
+                            <p class="text-sm">📞 고객: 1566-0114</p>
+                            <p class="text-sm">🚨 장례 24시: 1600-0004</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 충청권 -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-purple-700">🏛️ 충청권 (대전·세종·충북·충남)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-2 border-purple-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">세종라이프</h4>
+                            <p class="text-sm">📞 1588-7969</p>
+                            <p class="text-sm text-gray-600">대전 서구 둔산동 본점</p>
+                        </div>
+                        <div class="border-2 border-purple-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">휴먼라이프</h4>
+                            <p class="text-sm">📞 1544-6477</p>
+                            <p class="text-sm text-gray-600">청주 본사</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 영남권 -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-orange-700">🌄 영남권 (부산·대구·울산·경남·경북)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-2 border-orange-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">더리본 부산 본사</h4>
+                            <p class="text-sm">📞 대표: 1644-3651</p>
+                        </div>
+                        <div class="border-2 border-orange-200 rounded-lg p-4">
+                            <h4 class="font-bold text-lg mb-2">다나상조 (대구)</h4>
+                            <p class="text-sm">📞 1588-3145</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 공제조합 정보 -->
+                <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-6 mt-8">
+                    <h3 class="text-xl font-bold mb-4 text-yellow-800">⚠️ 공제조합 정보 확인</h3>
+                    <p class="mb-2">✅ <strong>한국상조공제조합:</strong> 1688-0972</p>
+                    <p>✅ <strong>상조보증공제조합:</strong> 1566-2530</p>
+                </div>
+            </div>
+
+            <!-- 납골당 섹션 -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-3xl font-bold mb-6 text-indigo-700">🏛️ 전국 납골당·봉안시설</h2>
+                
+                <!-- 서울 -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-700">🏙️ 서울</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-2 border-blue-200 rounded-lg p-4">
+                            <h4 class="font-bold mb-2">달마사봉안당</h4>
+                            <p class="text-sm">📍 서울 동작구 서달로 50-26</p>
+                            <p class="text-sm">📞 02-822-8771</p>
+                            <p class="text-sm text-gray-600">🏷️ 사설·사찰 (불교)</p>
+                        </div>
+                        <div class="border-2 border-blue-200 rounded-lg p-4">
+                            <h4 class="font-bold mb-2">강남구 추모의집</h4>
+                            <p class="text-sm">📍 서울 강남구청 운영</p>
+                            <p class="text-sm">📞 02-3423-5923</p>
+                            <p class="text-sm text-gray-600">🏷️ 공설</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 경기 -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-green-700">🌳 경기</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold mb-2">모란납골당</h4>
+                            <p class="text-sm">📍 남양주시 화도읍 창현리 산21-1</p>
+                            <p class="text-sm">📞 031-594-6362</p>
+                            <p class="text-sm text-gray-600">🏷️ 사설</p>
+                        </div>
+                        <div class="border-2 border-green-200 rounded-lg p-4">
+                            <h4 class="font-bold mb-2">크리스찬메모리얼파크</h4>
+                            <p class="text-sm">📍 파주시</p>
+                            <p class="text-sm">📞 031-957-1260</p>
+                            <p class="text-sm text-gray-600">🏷️ 사설·종교 (기독교)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 부산·영남 -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold mb-4 text-orange-700">🌊 부산·영남</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border-2 border-orange-200 rounded-lg p-4">
+                            <h4 class="font-bold mb-2">부산영락공원 봉안당</h4>
+                            <p class="text-sm">📍 부산 기장군 정관면 두명리 산79-6</p>
+                            <p class="text-sm">📞 051-790-5100</p>
+                            <p class="text-sm text-gray-600">🏷️ 공설</p>
+                        </div>
+                        <div class="border-2 border-orange-200 rounded-lg p-4">
+                            <h4 class="font-bold mb-2">경주 하늘마루</h4>
+                            <p class="text-sm">📍 경주시 서면 하늘마루길 330</p>
+                            <p class="text-sm">📞 054-751-2444</p>
+                            <p class="text-sm text-gray-600">🏷️ 공설</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 참고 정보 -->
+                <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mt-8">
+                    <h3 class="text-xl font-bold mb-4 text-blue-800">📚 참고 정보원</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>• 보건복지부 e하늘 장사정보시스템</li>
+                        <li>• 서울시설공단 구청별 봉안시설 안내</li>
+                        <li>• 인천시설공단 전국 봉안시설</li>
+                        <li>• 각 도청·시청 장사정보 페이지</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
