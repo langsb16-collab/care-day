@@ -171,6 +171,75 @@
 
             <!-- 게시물 리스트 -->
             <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+            <!-- 간병협회 & 유료직업소개 섹션 -->
+            <div class="mt-16 pt-16 border-t-4 border-blue-600">
+                <div class="text-center mb-12">
+                    <div class="text-6xl mb-4">🏢</div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-4">간병협회 & 유료직업소개</h2>
+                    <p class="text-xl text-gray-600">전국 간병 협회 및 유료직업소개소 연락처</p>
+                </div>
+
+                <!-- 탭 메뉴 -->
+                <div class="flex justify-center mb-8 gap-4">
+                    <button onclick="switchTab('associations')" id="tab-associations" class="px-8 py-3 rounded-lg font-bold text-lg transition bg-blue-600 text-white">
+                        <i class="fas fa-handshake mr-2"></i>간병 협회
+                    </button>
+                    <button onclick="switchTab('offices')" id="tab-offices" class="px-8 py-3 rounded-lg font-bold text-lg transition bg-gray-200 text-gray-700 hover:bg-gray-300">
+                        <i class="fas fa-building mr-2"></i>유료직업소개소
+                    </button>
+                </div>
+
+                <!-- 간병 협회 리스트 -->
+                <div id="associations-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- JavaScript로 동적 생성 -->
+                </div>
+
+                <!-- 유료직업소개소 리스트 -->
+                <div id="offices-list" class="hidden">
+                    <!-- 검색 필터 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-2">지역 검색</label>
+                                <select id="filterOfficeRegion" onchange="filterOffices()" class="w-full border rounded-lg px-3 py-2">
+                                    <option value="">전체</option>
+                                    <option value="서울">서울</option>
+                                    <option value="경기">경기</option>
+                                    <option value="인천">인천</option>
+                                    <option value="부산">부산</option>
+                                    <option value="대구">대구</option>
+                                    <option value="광주">광주</option>
+                                    <option value="대전">대전</option>
+                                    <option value="울산">울산</option>
+                                    <option value="강원">강원</option>
+                                    <option value="충북">충북/충청북도</option>
+                                    <option value="충남">충남/충청남도</option>
+                                    <option value="전북">전북/전라북도</option>
+                                    <option value="전남">전남/전라남도</option>
+                                    <option value="경북">경북/경상북도</option>
+                                    <option value="경남">경남/경상남도</option>
+                                    <option value="제주">제주</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-2">업체명 검색</label>
+                                <input type="text" id="filterOfficeName" onkeyup="filterOffices()" placeholder="업체명 입력" class="w-full border rounded-lg px-3 py-2">
+                            </div>
+                            <div class="flex items-end">
+                                <button onclick="resetOfficeFilters()" class="w-full bg-gray-500 text-white py-2 rounded-lg font-bold hover:bg-gray-600">
+                                    <i class="fas fa-redo mr-2"></i>초기화
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 직업소개소 카드 리스트 -->
+                    <div id="offices-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- JavaScript로 동적 생성 -->
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -339,6 +408,181 @@
 
 
     <script>
+        // 간병 협회 데이터
+        const caregiversAssociations = [
+            {name: "대한요양보호사협회", phone: "02-851-0615", address: "서울 구로구 공원로 41 현대파크빌 522호", email: "koreacaregivers@gmail.com"},
+            {name: "한국요양보호협회(사무국)", phone: "02-2026-0010", address: "", email: "yoyangin@daum.net"},
+            {name: "대한요양병원협회", phone: "02-719-5678", address: "서울 마포구 마포대로 15 현대빌딩 1504호", email: ""},
+            {name: "한국재가장기요양기관협회(본회)", phone: "", address: "대전 동구 중앙로200번길", email: ""},
+            {name: "한국재가장기요양기관협회 서울시지부", phone: "02-334-5520", address: "서울 마포구 잔다리로7안길 31 엘림빌딩 2층", email: "sflcc2010@daum.net"},
+            {name: "한국간병협회(HKCARE)", phone: "041-425-2422 / 010-7979-9552", address: "충남 아산시 온천동 85-29 3층", email: ""},
+            {name: "대한간병인협회", phone: "02-875-4722", address: "서울 영등포구 도림로31길 22 대영빌딩", email: ""},
+            {name: "서울간병인협회", phone: "02-2666-1530 / 031-994-8500 / 032-710-3100", address: "서울 강서구 마곡중앙로59-9 613호", email: ""},
+            {name: "한국요양보호사교육원협회", phone: "1566-7683", address: "", email: ""},
+            {name: "한국간병사협회", phone: "1566-7683", address: "", email: ""},
+            {name: "한국간병인협회(인천)", phone: "032-423-8219", address: "", email: "guingujik@gmail.com"},
+            {name: "전국간병인협회 (주)뉴한진간병협회", phone: "1670-3113", address: "인천 부평구", email: ""}
+        ];
+
+        // 유료직업소개소 데이터 (간병 관련)
+        const jobPlacementOffices = [
+            {name: "강원미소간병", region: "강원도 강릉시", phone: ""},
+            {name: "해피케어", region: "강원도 강릉시", phone: "0336553579"},
+            {name: "위드맘케어", region: "강원도 강릉시", phone: "0336429793"},
+            {name: "다온간병센터", region: "강원도 속초시", phone: "0336378899"},
+            {name: "강원간병", region: "강원도 원주시", phone: ""},
+            {name: "NO.1 아이맘케어", region: "강원도 원주시", phone: ""},
+            {name: "사랑간병", region: "강원도 원주시", phone: ""},
+            {name: "천사손길간병단", region: "강원도 원주시", phone: "0337631009"},
+            {name: "(주)기원간병", region: "강원도 원주시", phone: ""},
+            {name: "강원해피케어원주지사", region: "강원도 원주시", phone: ""},
+            {name: "웰케어", region: "강원도 원주시", phone: "0337472288"},
+            {name: "예손천사간병", region: "강원도 원주시", phone: ""},
+            {name: "강원케어센터", region: "강원도 원주시", phone: "0337425525"},
+            {name: "연세천사간병", region: "강원도 원주시", phone: "0337472633"},
+            {name: "하나로케어", region: "강원도 춘천시", phone: ""},
+            {name: "(주)여명케어", region: "강원도 춘천시", phone: "0332623555"},
+            {name: "하늘간병센터", region: "강원도 춘천시", phone: "0332513979"},
+            {name: "마음간병센터", region: "강원도 춘천시", phone: "0332416888"},
+            {name: "한국간병", region: "강원도 춘천시", phone: "0332418855"},
+            {name: "사랑간병", region: "강원도 춘천시", phone: "0332538290"},
+            {name: "미소간병", region: "강원도 홍천군", phone: "0334343533"},
+            {name: "천사간병", region: "경기도 가평군", phone: "0315827702"},
+            {name: "가평간병센터", region: "경기도 가평군", phone: "0315825566"},
+            {name: "예손간병서비스센터", region: "경기도 고양시", phone: "0319788887"},
+            {name: "온누리케어", region: "경기도 고양시", phone: "0319211777"},
+            {name: "천사간병", region: "경기도 고양시", phone: "0319051112"},
+            {name: "(주)드림케어센터", region: "경기도 고양시", phone: "0319782582"},
+            {name: "예손간병일산센터", region: "경기도 고양시", phone: "0319788887"},
+            {name: "천국케어센터", region: "경기도 고양시", phone: "0319331482"},
+            {name: "예손간병센터덕양지점", region: "경기도 고양시", phone: "0319788887"},
+            {name: "케어웨이간병센터", region: "경기도 고양시", phone: "0319001190"},
+            {name: "평강간병센터", region: "경기도 고양시", phone: "0319224485"},
+            {name: "드림간병", region: "경기도 고양시", phone: "0319222887"},
+            {name: "사랑간병센터", region: "경기도 고양시", phone: "0319215377"},
+            {name: "아가페간병", region: "경기도 고양시", phone: "0319281003"},
+            {name: "이레간병센터", region: "경기도 고양시", phone: "0319219599"},
+            {name: "주간병원예손센터", region: "경기도 고양시", phone: "0319788887"},
+            {name: "좋은케어서비스", region: "경기도 고양시", phone: "0319228225"},
+            {name: "참사랑간병센터", region: "경기도 고양시", phone: "0319025377"},
+            {name: "큰나무간병센터", region: "경기도 고양시", phone: "0319774485"},
+            {name: "해가든간병센터", region: "경기도 고양시", phone: "0319223002"},
+            {name: "현대간병", region: "경기도 고양시", phone: "0319211234"},
+            {name: "희망간병센터", region: "경기도 고양시", phone: "0319787070"},
+            {name: "경기간병", region: "경기도 과천시", phone: ""},
+            {name: "예손간병센터 광명지점", region: "경기도 광명시", phone: "0228981580"},
+            {name: "다솜간병센터", region: "경기도 광주시", phone: "0317626525"},
+            {name: "예손간병서비스센터", region: "경기도 광주시", phone: "0317622030"},
+            {name: "쉼간병", region: "경기도 구리시", phone: ""},
+            {name: "간병인연대", region: "경기도 구리시", phone: "0315568280"},
+            {name: "예손간병센터 구리지점", region: "경기도 구리시", phone: "0315638885"},
+            {name: "천사간병센터", region: "경기도 군포시", phone: "0313902182"},
+            {name: "드림케어군포지점", region: "경기도 군포시", phone: "0313975585"},
+            {name: "좋은케어", region: "경기도 군포시", phone: "0313911770"},
+            {name: "참사랑간병센터", region: "경기도 군포시", phone: "0314571112"},
+            {name: "효사랑간병", region: "경기도 군포시", phone: "0313975566"},
+            {name: "바른간병서비스센터", region: "경기도 김포시", phone: "0319841670"},
+            {name: "산타간병센터", region: "경기도 김포시", phone: "0319902800"},
+            {name: "생명간병", region: "경기도 김포시", phone: "0319983070"},
+            {name: "선한간병", region: "경기도 김포시", phone: "0319864422"},
+            {name: "선한사람들간병", region: "경기도 김포시", phone: "0319884468"},
+            {name: "예손간병센터", region: "경기도 김포시", phone: "0319852800"},
+            {name: "착한케어", region: "경기도 김포시", phone: "0319871883"},
+            {name: "마더케어", region: "경기도 남양주시", phone: "0315914500"},
+            {name: "남양주24시간가족요양센터", region: "경기도 남양주시", phone: "0315914500"},
+            {name: "남양주간병센터", region: "경기도 남양주시", phone: "0315520900"},
+            {name: "온유간병센터", region: "경기도 남양주시", phone: "0315715855"},
+            {name: "유미케어센터", region: "경기도 남양주시", phone: "0315739989"},
+            {name: "천사간병", region: "경기도 남양주시", phone: "0315913300"},
+            {name: "행복간병센터", region: "경기도 남양주시", phone: "0315595300"},
+            {name: "예손간병센터 동두천지점", region: "경기도 동두천시", phone: "0318652288"},
+            {name: "천사간병", region: "경기도 동두천시", phone: "0318634486"},
+            {name: "동인케어", region: "경기도 부천시", phone: "0326541477"},
+            {name: "맘편한케어", region: "경기도 부천시", phone: "0326538866"},
+            {name: "브라보간병", region: "경기도 부천시", phone: "0326671601"},
+            {name: "서울간병서비스", region: "경기도 부천시", phone: "0326548899"},
+            {name: "생명간병인협회", region: "경기도 부천시", phone: "0326630430"},
+            {name: "소망간병센터", region: "경기도 부천시", phone: "0326627888"},
+            {name: "신애케어", region: "경기도 부천시", phone: "0326581141"},
+            {name: "쌍용케어", region: "경기도 부천시", phone: "0326543311"},
+            {name: "예손간병센터부천소사지점", region: "경기도 부천시", phone: "0323469277"},
+            {name: "착한돌봄센터", region: "경기도 부천시", phone: "0326628844"},
+            {name: "착한케어", region: "경기도 부천시", phone: "0326617717"},
+            {name: "친환경간병", region: "경기도 부천시", phone: "0326627078"},
+            {name: "큰나무간병센터", region: "경기도 부천시", phone: "0326622299"},
+            {name: "해피간병", region: "경기도 부천시", phone: "0326549200"},
+            {name: "현대간병부천", region: "경기도 부천시", phone: "0326548811"},
+            {name: "현대간병인력사무소", region: "경기도 부천시", phone: "0326549200"},
+            {name: "효돌봄간병", region: "경기도 부천시", phone: "0327143900"},
+            {name: "희망간병", region: "경기도 부천시", phone: "0326531501"},
+            {name: "예손간병센터 성남지점", region: "경기도 성남시", phone: "0317832833"},
+            {name: "우리케어센터", region: "경기도 성남시", phone: "0317376040"},
+            {name: "크로바간병서비스", region: "경기도 성남시", phone: "0317838895"},
+            {name: "한샘간병", region: "경기도 성남시", phone: "0317548875"},
+            {name: "행복한간병센터", region: "경기도 성남시", phone: "0317826599"},
+            {name: "산들요양보호센터", region: "경기도 수원시", phone: "0312464009"},
+            {name: "서호간병센터", region: "경기도 수원시", phone: "0312241611"},
+            {name: "수원간병", region: "경기도 수원시", phone: "0312997582"},
+            {name: "슈퍼간병", region: "경기도 수원시", phone: "0312225544"},
+            {name: "열린간병센터", region: "경기도 수원시", phone: "0312247878"},
+            {name: "예손간병서비스센터수원지점", region: "경기도 수원시", phone: "0312472700"},
+            {name: "우리케어", region: "경기도 수원시", phone: "0312927900"},
+            {name: "참사랑간병", region: "경기도 수원시", phone: "0312919040"},
+            {name: "한마음간병센터", region: "경기도 수원시", phone: "0312977220"},
+            {name: "한빛간병", region: "경기도 수원시", phone: "0312914488"},
+            {name: "예손간병센터시흥지점", region: "경기도 시흥시", phone: "0314349933"},
+            {name: "온누리간병", region: "경기도 시흥시", phone: "0314343338"},
+            {name: "천사간병센터", region: "경기도 시흥시", phone: "0314315101"},
+            {name: "착한간병센터", region: "경기도 시흥시", phone: "0314344499"},
+            {name: "탑간병서비스", region: "경기도 시흥시", phone: "0314317701"},
+            {name: "한마음간병", region: "경기도 시흥시", phone: "0314318885"},
+            {name: "행복간병", region: "경기도 시흥시", phone: "0314312701"},
+            {name: "더나은케어", region: "경기도 안산시", phone: "0314834488"},
+            {name: "생명나무간병", region: "경기도 안산시", phone: "0314024400"},
+            {name: "아임케어", region: "경기도 안산시", phone: "0314029977"},
+            {name: "온누리간병", region: "경기도 안산시", phone: "0314916882"},
+            {name: "예손간병센터", region: "경기도 안산시", phone: "0314078882"},
+            {name: "참사랑간병센터", region: "경기도 안산시", phone: "0314831701"},
+            {name: "행복한간병", region: "경기도 안산시", phone: "0314841500"},
+            {name: "큰나무간병센터", region: "경기도 안성시", phone: "0316731700"},
+            {name: "예손간병양평지점", region: "경기도 양평군", phone: "0317754477"},
+            {name: "천사간병센터", region: "경기도 양평군", phone: "0317736090"},
+            {name: "연천간병센터", region: "경기도 연천군", phone: "0318321155"},
+            {name: "여명간병서비스센터", region: "경기도 오산시", phone: "0313742886"},
+            {name: "행복간병", region: "경기도 오산시", phone: "0313745544"},
+            {name: "천사간병", region: "경기도 용인시", phone: "0313359700"},
+            {name: "용인간병센터", region: "경기도 용인시", phone: "0313226611"},
+            {name: "예손간병센터", region: "경기도 용인시", phone: "0313359600"},
+            {name: "용인드림간병센터", region: "경기도 용인시", phone: "0313224485"},
+            {name: "평택간병", region: "경기도 평택시", phone: "0316636880"},
+            {name: "새턴간병센터", region: "경기도 평택시", phone: "0316670900"},
+            {name: "용인드림간병센터", region: "경기도 평택시", phone: "0316685500"},
+            {name: "한마음간병센터", region: "경기도 평택시", phone: "0316650780"},
+            {name: "예손간병포천지점", region: "경기도 포천시", phone: "0315327082"},
+            {name: "천사간병", region: "경기도 포천시", phone: "0315323666"},
+            {name: "예손간병하남지점", region: "경기도 하남시", phone: "0317952883"},
+            {name: "하남간병", region: "경기도 하남시", phone: "0317916022"},
+            {name: "화성간병센터", region: "경기도 화성시", phone: "0313544485"},
+            {name: "강서간병", region: "서울특별시 강서구", phone: "0226649933"},
+            {name: "친정엄마간병센터", region: "서울특별시 강서구", phone: "0226601701"},
+            {name: "서울간병센터강북지점", region: "서울특별시 강북구", phone: "0239548877"},
+            {name: "예손간병센터성북지점", region: "서울특별시 성북구", phone: "0229297072"},
+            {name: "대한요양보호사협회", region: "서울특별시 구로구", phone: "0238513331"},
+            {name: "케어파트너", region: "서울특별시 구로구", phone: "0228370606"},
+            {name: "간병의여왕", region: "서울특별시 노원구", phone: "0234725500"},
+            {name: "노원간병센터", region: "서울특별시 노원구", phone: "0239514422"},
+            {name: "모델간병센터", region: "서울특별시 노원구", phone: "0239518877"},
+            {name: "모범간병센터", region: "서울특별시 노원구", phone: "0329381234"},
+            {name: "서울간병센터노원지점", region: "서울특별시 노원구", phone: "0239509900"},
+            {name: "서울간병인협회", region: "서울특별시 노원구", phone: "0234718044"},
+            {name: "서울요양보호서비스", region: "서울특별시 노원구", phone: "0234728282"},
+            {name: "자모간병센터", region: "서울특별시 노원구", phone: "0239515400"},
+            {name: "한서간병센터", region: "서울특별시 노원구", phone: "0239794485"},
+            {name: "행복한간병", region: "서울특별시 노원구", phone: "0239528255"}
+        ];
+
+        let allJobOffices = [...jobPlacementOffices]; // 필터링용 복사본
+
         // 샘플 데이터
         let posts = [
             {
@@ -732,6 +976,167 @@
         // 초기 렌더링
         loadRatingsFromStorage(); // LocalStorage에서 평가 불러오기
         renderPosts();
+
+        // ===== 간병협회 & 유료직업소개 기능 =====
+        
+        // 탭 전환
+        function switchTab(tab) {
+            const associationsTab = document.getElementById('tab-associations');
+            const officesTab = document.getElementById('tab-offices');
+            const associationsList = document.getElementById('associations-list');
+            const officesList = document.getElementById('offices-list');
+
+            if (tab === 'associations') {
+                associationsTab.className = 'px-8 py-3 rounded-lg font-bold text-lg transition bg-blue-600 text-white';
+                officesTab.className = 'px-8 py-3 rounded-lg font-bold text-lg transition bg-gray-200 text-gray-700 hover:bg-gray-300';
+                associationsList.classList.remove('hidden');
+                officesList.classList.add('hidden');
+            } else {
+                associationsTab.className = 'px-8 py-3 rounded-lg font-bold text-lg transition bg-gray-200 text-gray-700 hover:bg-gray-300';
+                officesTab.className = 'px-8 py-3 rounded-lg font-bold text-lg transition bg-blue-600 text-white';
+                associationsList.classList.add('hidden');
+                officesList.classList.remove('hidden');
+            }
+        }
+
+        // 간병 협회 렌더링
+        function renderAssociations() {
+            const container = document.getElementById('associations-list');
+            container.innerHTML = '';
+
+            caregiversAssociations.forEach((assoc, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition';
+                
+                card.innerHTML = `
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="bg-blue-100 rounded-full p-3 flex-shrink-0">
+                            <i class="fas fa-handshake text-blue-600 text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">${assoc.name}</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 text-sm">
+                        ${assoc.phone ? `
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-phone text-green-600 w-4"></i>
+                            <a href="tel:${assoc.phone.split('/')[0].trim()}" class="text-gray-700 hover:text-blue-600">
+                                ${assoc.phone}
+                            </a>
+                        </div>
+                        ` : ''}
+                        
+                        ${assoc.address ? `
+                        <div class="flex items-start gap-2">
+                            <i class="fas fa-map-marker-alt text-red-600 w-4 mt-1"></i>
+                            <span class="text-gray-700">${assoc.address}</span>
+                        </div>
+                        ` : ''}
+                        
+                        ${assoc.email ? `
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-envelope text-blue-600 w-4"></i>
+                            <a href="mailto:${assoc.email}" class="text-gray-700 hover:text-blue-600">
+                                ${assoc.email}
+                            </a>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${assoc.phone ? `
+                    <div class="mt-4 pt-4 border-t">
+                        <a href="tel:${assoc.phone.split('/')[0].trim()}" class="block w-full bg-green-600 text-white text-center py-2 rounded-lg font-bold hover:bg-green-700 transition">
+                            <i class="fas fa-phone mr-2"></i>전화하기
+                        </a>
+                    </div>
+                    ` : ''}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 유료직업소개소 렌더링
+        function renderOffices(officesToRender = allJobOffices) {
+            const container = document.getElementById('offices-cards');
+            container.innerHTML = '';
+
+            if (officesToRender.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">검색 결과가 없습니다.</div>';
+                return;
+            }
+
+            officesToRender.forEach((office, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition';
+                
+                card.innerHTML = `
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="bg-purple-100 rounded-full p-3 flex-shrink-0">
+                            <i class="fas fa-building text-purple-600 text-2xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">${office.name}</h3>
+                            <p class="text-sm text-gray-600">
+                                <i class="fas fa-map-marker-alt text-red-500 mr-1"></i>
+                                ${office.region}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    ${office.phone ? `
+                    <div class="space-y-2 text-sm mb-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-phone text-green-600 w-4"></i>
+                            <a href="tel:${office.phone}" class="text-gray-700 hover:text-blue-600">
+                                ${office.phone}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t">
+                        <a href="tel:${office.phone}" class="block w-full bg-green-600 text-white text-center py-2 rounded-lg font-bold hover:bg-green-700 transition">
+                            <i class="fas fa-phone mr-2"></i>전화하기
+                        </a>
+                    </div>
+                    ` : `
+                    <div class="pt-4 border-t">
+                        <button class="w-full bg-gray-300 text-gray-600 py-2 rounded-lg font-bold cursor-not-allowed" disabled>
+                            <i class="fas fa-phone-slash mr-2"></i>연락처 없음
+                        </button>
+                    </div>
+                    `}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // 유료직업소개소 필터링
+        function filterOffices() {
+            const region = document.getElementById('filterOfficeRegion').value;
+            const name = document.getElementById('filterOfficeName').value.toLowerCase();
+
+            let filtered = jobPlacementOffices.filter(office => {
+                const matchRegion = !region || office.region.includes(region);
+                const matchName = !name || office.name.toLowerCase().includes(name);
+                return matchRegion && matchName;
+            });
+
+            renderOffices(filtered);
+        }
+
+        // 필터 초기화
+        function resetOfficeFilters() {
+            document.getElementById('filterOfficeRegion').value = '';
+            document.getElementById('filterOfficeName').value = '';
+            renderOffices(allJobOffices);
+        }
+
+        // 초기 렌더링
+        renderAssociations();
+        renderOffices();
     </script>
 
     <script src="js/i18n.js"></script>
