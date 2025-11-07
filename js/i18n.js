@@ -16,7 +16,9 @@ const translations = {
             insurance: '보험',
             support: '지원정책',
             supplies: '간병용품',
+            community: '커뮤니티',
             medical: '명의찾기',
+            complaints: '민원',
             emergency: '응급'
         },
         hero: {
@@ -71,7 +73,9 @@ const translations = {
             insurance: 'Insurance',
             support: 'Support',
             supplies: 'Supplies',
+            community: 'Community',
             medical: 'Find Doctors',
+            complaints: 'Complaints',
             emergency: 'Emergency'
         },
         hero: {
@@ -126,7 +130,9 @@ const translations = {
             insurance: '保险',
             support: '支持政策',
             supplies: '护理用品',
+            community: '社区',
             medical: '寻找名医',
+            complaints: '投诉',
             emergency: '急救'
         },
         hero: {
@@ -181,7 +187,9 @@ const translations = {
             insurance: '保険',
             support: '支援政策',
             supplies: '介護用品',
+            community: 'コミュニティ',
             medical: '名医を探す',
+            complaints: '苦情',
             emergency: '緊急'
         },
         hero: {
