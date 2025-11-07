@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자유게시판 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .post-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-1 pb-2">
+                <a href="community.html" class="px-3 py-1 text-sm rounded-lg bg-primary text-white">커뮤니티</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <!-- 헤더 -->
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">💬</div>
+                <h1 class="text-4xl font-bold mb-4">자유게시판</h1>
+                <p class="text-xl text-gray-600 mb-6">환자와 보호자의 경험을 공유하고 서로 위로하는 공간입니다</p>
+                <button onclick="openPostModal()" class="bg-rose-600 text-white px-8 py-3 rounded-lg hover:bg-rose-700 transition font-semibold shadow-lg">
+                    <i class="fas fa-pen mr-2"></i>글쓰기
+                </button>
+            </div>
+
+            <!-- 게시물 목록 -->
+            <div id="posts-container" class="space-y-4">
+                <!-- 게시물이 여기에 동적으로 추가됩니다 -->
+            </div>
+
+            <!-- 게시물 없을 때 -->
+            <div id="no-posts" class="text-center py-16 hidden">
+                <div class="text-6xl mb-4">📝</div>
+                <p class="text-xl text-gray-600 mb-4">아직 게시물이 없습니다</p>
+                <p class="text-gray-500">첫 번째 게시물을 작성해보세요!</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 글쓰기 모달 -->
+    <div id="post-modal" class="modal">
+        <div class="bg-white rounded-xl p-8 max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">게시물 작성</h2>
+                <button onclick="closePostModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            
+            <form id="post-form" class="space-y-4">
+                <div>
+                    <label class="block font-semibold mb-2">제목 *</label>
+                    <input type="text" id="post-title" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-rose-500 focus:border-transparent">
+                </div>
+                
+                <div>
+                    <label class="block font-semibold mb-2">내용 *</label>
+                    <textarea id="post-content" required rows="6" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-rose-500 focus:border-transparent"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block font-semibold mb-2">작성자 *</label>
+                    <input type="text" id="post-author" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-rose-500 focus:border-transparent" placeholder="익명 가능">
+                </div>
+                
+                <div>
+                    <label class="block font-semibold mb-2">파일 첨부 (이미지/동영상, 최대 10개)</label>
+                    <input type="file" id="post-files" multiple accept="image/*,video/*" class="w-full border border-gray-300 rounded-lg px-4 py-2">
+                    <div id="file-preview" class="mt-4 grid grid-cols-3 gap-2"></div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 bg-rose-600 text-white py-3 rounded-lg hover:bg-rose-700 font-semibold">게시</button>
+                    <button type="button" onclick="closePostModal()" class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 font-semibold">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 상세보기 모달 -->
+    <div id="detail-modal" class="modal">
+        <div class="bg-white rounded-xl p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="detail-title" class="text-2xl font-bold"></h2>
+                <button onclick="closeDetailModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            
+            <div class="mb-4 flex items-center justify-between text-sm text-gray-600">
+                <div>
+                    <span id="detail-author" class="font-semibold"></span>
+                    <span id="detail-date" class="ml-4"></span>
+                </div>
+                <div>
+                    <span id="detail-views" class="mr-4"><i class="fas fa-eye mr-1"></i>0</span>
+                    <button onclick="deletePost()" class="text-red-600 hover:text-red-800">
+                        <i class="fas fa-trash mr-1"></i>삭제
+                    </button>
+                </div>
+            </div>
+            
+            <div id="detail-content" class="prose max-w-none mb-6 whitespace-pre-wrap border-b pb-6"></div>
+            
+            <div id="detail-files" class="mb-8"></div>
+            
+            <!-- 댓글 섹션 -->
+            <div class="border-t pt-6">
+                <h3 class="text-xl font-bold mb-4">댓글 <span id="comment-count" class="text-rose-600">0</span></h3>
+                
+                <!-- 댓글 작성 -->
+                <form id="comment-form" class="mb-6">
+                    <div class="flex gap-2">
+                        <input type="text" id="comment-author" placeholder="작성자" required class="w-1/4 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-rose-500">
+                        <input type="text" id="comment-content" placeholder="댓글을 입력하세요..." required class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-rose-500">
+                        <button type="submit" class="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 whitespace-nowrap">등록</button>
+                    </div>
+                </form>
+                
+                <!-- 댓글 목록 -->
+                <div id="comments-list" class="space-y-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let posts = JSON.parse(localStorage.getItem('forumPosts')) || [];
+        let selectedFiles = [];
+        let currentPostId = null;
+
+        // 초기 로드
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPosts();
+            setupFileUpload();
+            setupForms();
+        });
+
+        function setupFileUpload() {
+            document.getElementById('post-files').addEventListener('change', function(e) {
+                const files = Array.from(e.target.files);
+                if (files.length + selectedFiles.length > 10) {
+                    alert('최대 10개까지만 첨부할 수 있습니다.');
+                    return;
+                }
+                
+                files.forEach(file => {
+                    if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            selectedFiles.push({
+                                type: file.type.startsWith('image/') ? 'image' : 'video',
+                                data: e.target.result,
+                                name: file.name
+                            });
+                            updateFilePreview();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        }
+
+        function updateFilePreview() {
+            const preview = document.getElementById('file-preview');
+            preview.innerHTML = selectedFiles.map((file, index) => `
+                <div class="relative">
+                    ${file.type === 'image' 
+                        ? `<img src="${file.data}" class="w-full h-24 object-cover rounded">`
+                        : `<video src="${file.data}" class="w-full h-24 object-cover rounded"></video>`
+                    }
+                    <button type="button" onclick="removeFile(${index})" class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 text-xs">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFilePreview();
+        }
+
+        function setupForms() {
+            document.getElementById('post-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createPost();
+            });
+
+            document.getElementById('comment-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addComment();
+            });
+        }
+
+        function openPostModal() {
+            document.getElementById('post-modal').classList.add('active');
+            selectedFiles = [];
+            document.getElementById('post-form').reset();
+            updateFilePreview();
+        }
+
+        function closePostModal() {
+            document.getElementById('post-modal').classList.remove('active');
+        }
+
+        function createPost() {
+            const post = {
+                id: Date.now(),
+                title: document.getElementById('post-title').value,
+                content: document.getElementById('post-content').value,
+                author: document.getElementById('post-author').value,
+                files: selectedFiles,
+                date: new Date().toISOString(),
+                views: 0,
+                comments: []
+            };
+            
+            posts.unshift(post);
+            localStorage.setItem('forumPosts', JSON.stringify(posts));
+            loadPosts();
+            closePostModal();
+        }
+
+        function loadPosts() {
+            const container = document.getElementById('posts-container');
+            const noPosts = document.getElementById('no-posts');
+            
+            if (posts.length === 0) {
+                container.innerHTML = '';
+                noPosts.classList.remove('hidden');
+                return;
+            }
+            
+            noPosts.classList.add('hidden');
+            container.innerHTML = posts.map(post => `
+                <div class="post-card bg-white rounded-lg shadow-md p-6 transition cursor-pointer" onclick="openDetailModal(${post.id})">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-xl font-bold text-gray-800 flex-1">${post.title}</h3>
+                        ${post.files.length > 0 ? '<span class="text-gray-400 ml-2"><i class="fas fa-paperclip"></i></span>' : ''}
+                    </div>
+                    <p class="text-gray-600 mb-4 line-clamp-2">${post.content}</p>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <div>
+                            <span class="font-semibold">${post.author}</span>
+                            <span class="mx-2">•</span>
+                            <span>${new Date(post.date).toLocaleDateString('ko-KR')}</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <span><i class="fas fa-eye mr-1"></i>${post.views}</span>
+                            <span><i class="fas fa-comment mr-1"></i>${post.comments.length}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openDetailModal(postId) {
+            currentPostId = postId;
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            post.views++;
+            localStorage.setItem('forumPosts', JSON.stringify(posts));
+            
+            document.getElementById('detail-title').textContent = post.title;
+            document.getElementById('detail-author').textContent = post.author;
+            document.getElementById('detail-date').textContent = new Date(post.date).toLocaleString('ko-KR');
+            document.getElementById('detail-views').innerHTML = `<i class="fas fa-eye mr-1"></i>${post.views}`;
+            document.getElementById('detail-content').textContent = post.content;
+            
+            const filesContainer = document.getElementById('detail-files');
+            if (post.files.length > 0) {
+                filesContainer.innerHTML = '<div class="grid grid-cols-2 md:grid-cols-3 gap-4">' +
+                    post.files.map(file => 
+                        file.type === 'image' 
+                            ? `<img src="${file.data}" class="w-full rounded-lg">`
+                            : `<video src="${file.data}" controls class="w-full rounded-lg"></video>`
+                    ).join('') + '</div>';
+            } else {
+                filesContainer.innerHTML = '';
+            }
+            
+            loadComments(post);
+            document.getElementById('detail-modal').classList.add('active');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.remove('active');
+            loadPosts();
+        }
+
+        function deletePost() {
+            if (!confirm('정말 삭제하시겠습니까?')) return;
+            posts = posts.filter(p => p.id !== currentPostId);
+            localStorage.setItem('forumPosts', JSON.stringify(posts));
+            closeDetailModal();
+            loadPosts();
+        }
+
+        function loadComments(post) {
+            const commentsList = document.getElementById('comments-list');
+            const commentCount = document.getElementById('comment-count');
+            
+            commentCount.textContent = post.comments.length;
+            
+            if (post.comments.length === 0) {
+                commentsList.innerHTML = '<p class="text-gray-500 text-center py-4">첫 댓글을 작성해보세요!</p>';
+                return;
+            }
+            
+            commentsList.innerHTML = post.comments.map((comment, index) => `
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-semibold text-sm">${comment.author}</span>
+                        <div class="flex gap-2 items-center">
+                            <span class="text-xs text-gray-500">${new Date(comment.date).toLocaleString('ko-KR')}</span>
+                            <button onclick="deleteComment(${index})" class="text-red-600 hover:text-red-800 text-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-700">${comment.content}</p>
+                </div>
+            `).join('');
+        }
+
+        function addComment() {
+            const post = posts.find(p => p.id === currentPostId);
+            if (!post) return;
+            
+            const comment = {
+                author: document.getElementById('comment-author').value,
+                content: document.getElementById('comment-content').value,
+                date: new Date().toISOString()
+            };
+            
+            post.comments.push(comment);
+            localStorage.setItem('forumPosts', JSON.stringify(posts));
+            
+            document.getElementById('comment-form').reset();
+            loadComments(post);
+        }
+
+        function deleteComment(index) {
+            if (!confirm('댓글을 삭제하시겠습니까?')) return;
+            
+            const post = posts.find(p => p.id === currentPostId);
+            if (!post) return;
+            
+            post.comments.splice(index, 1);
+            localStorage.setItem('forumPosts', JSON.stringify(posts));
+            loadComments(post);
+        }
+    </script>
+
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 뇌질환케어. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
