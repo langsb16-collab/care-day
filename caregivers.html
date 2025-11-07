@@ -408,20 +408,69 @@
 
 
     <script>
-        // 간병 협회 데이터
+        // 간병 협회 데이터 (61개)
         const caregiversAssociations = [
-            {name: "대한요양보호사협회", phone: "02-851-0615", address: "서울 구로구 공원로 41 현대파크빌 522호", email: "koreacaregivers@gmail.com"},
-            {name: "한국요양보호협회(사무국)", phone: "02-2026-0010", address: "", email: "yoyangin@daum.net"},
-            {name: "대한요양병원협회", phone: "02-719-5678", address: "서울 마포구 마포대로 15 현대빌딩 1504호", email: ""},
-            {name: "한국재가장기요양기관협회(본회)", phone: "", address: "대전 동구 중앙로200번길", email: ""},
-            {name: "한국재가장기요양기관협회 서울시지부", phone: "02-334-5520", address: "서울 마포구 잔다리로7안길 31 엘림빌딩 2층", email: "sflcc2010@daum.net"},
-            {name: "한국간병협회(HKCARE)", phone: "041-425-2422 / 010-7979-9552", address: "충남 아산시 온천동 85-29 3층", email: ""},
-            {name: "대한간병인협회", phone: "02-875-4722", address: "서울 영등포구 도림로31길 22 대영빌딩", email: ""},
-            {name: "서울간병인협회", phone: "02-2666-1530 / 031-994-8500 / 032-710-3100", address: "서울 강서구 마곡중앙로59-9 613호", email: ""},
-            {name: "한국요양보호사교육원협회", phone: "1566-7683", address: "", email: ""},
-            {name: "한국간병사협회", phone: "1566-7683", address: "", email: ""},
-            {name: "한국간병인협회(인천)", phone: "032-423-8219", address: "", email: "guingujik@gmail.com"},
-            {name: "전국간병인협회 (주)뉴한진간병협회", phone: "1670-3113", address: "인천 부평구", email: ""}
+            {name: "대한요양보호사협회", phone: "02-851-0615", address: "서울 구로구 공원로 41 현대파크빌 522호", email: "koreacaregivers@gmail.com", region: "전국"},
+            {name: "한국요양보호협회(사무국)", phone: "02-2026-0010", address: "", email: "yoyangin@daum.net", region: "전국"},
+            {name: "대한요양병원협회", phone: "02-719-5678", address: "서울 마포구 마포대로 15 현대빌딩 1504호", email: "", region: "전국"},
+            {name: "한국재가장기요양기관협회(본회)", phone: "042-633-0850", address: "대전 동구 중앙로200번길", email: "", region: "전국"},
+            {name: "한국재가장기요양기관협회 서울시지부", phone: "02-334-5520", address: "서울 마포구 잔다리로7안길 31 엘림빌딩 2층", email: "sflcc2010@daum.net", region: "서울"},
+            {name: "한국간병협회(HKCARE)", phone: "041-425-2422 / 010-7979-9552", address: "충남 아산시 온천동 85-29 3층", email: "", region: "충남"},
+            {name: "대한간병인협회", phone: "02-875-4722", address: "서울 영등포구 도림로31길 22 대영빌딩", email: "", region: "서울"},
+            {name: "서울간병인협회", phone: "02-2666-1530 / 031-994-8500 / 032-710-3100", address: "서울 강서구 마곡중앙로59-9 613호", email: "", region: "서울/경기/인천"},
+            {name: "한국요양보호사교육원협회", phone: "1566-7683", address: "", email: "", region: "전국"},
+            {name: "한국간병사협회", phone: "1566-7683", address: "", email: "", region: "전국"},
+            {name: "한국간병인협회(인천)", phone: "032-423-8219", address: "", email: "guingujik@gmail.com", region: "인천"},
+            {name: "전국간병인협회 (주)뉴한진간병협회", phone: "1670-3113", address: "인천 부평구", email: "", region: "인천"},
+            {name: "전국요양보호사협회", phone: "02-762-1119", address: "서울 은평구 응암동 585-4 2층", email: "", region: "서울"},
+            {name: "인천간병인협회", phone: "032-423-8219", address: "인천광역시", email: "", region: "인천"},
+            {name: "부산간병인협회", phone: "1600-1643", address: "부산 해운대구", email: "", region: "부산"},
+            {name: "따듯한돌봄 간병인협회", phone: "02-525-3111", address: "서울 서초구 남부순환로 2497 호서빌딩 9층", email: "", region: "서울"},
+            {name: "원케어간병협회", phone: "1644-0119", address: "", email: "", region: "전국"},
+            {name: "참사랑간병인협회 인천지회", phone: "032-583-1003 / 010-2545-8808", address: "인천 서구 가정로 384", email: "", region: "인천"},
+            {name: "한국재가장기요양기관협회 경기도지부", phone: "031-235-0580", address: "경기도 수원시", email: "", region: "경기"},
+            {name: "한국재가장기요양기관협회 부산광역시지부", phone: "051-802-3380", address: "부산광역시", email: "", region: "부산"},
+            {name: "한국재가장기요양기관협회 대구광역시지부", phone: "053-425-5990", address: "대구광역시", email: "", region: "대구"},
+            {name: "한국재가장기요양기관협회 인천광역시지부", phone: "032-515-5553", address: "인천광역시", email: "", region: "인천"},
+            {name: "한국재가장기요양기관협회 광주광역시지부", phone: "062-360-7722", address: "광주광역시", email: "", region: "광주"},
+            {name: "한국재가장기요양기관협회 대전광역시지부", phone: "042-633-0850", address: "대전 동구", email: "", region: "대전"},
+            {name: "한국재가장기요양기관협회 울산광역시지부", phone: "052-227-7530", address: "울산광역시", email: "", region: "울산"},
+            {name: "한국재가장기요양기관협회 강원도지부", phone: "033-243-7580", address: "강원도 춘천시", email: "", region: "강원"},
+            {name: "한국재가장기요양기관협회 충청북도지부", phone: "043-234-0580", address: "충북 청주시", email: "", region: "충북"},
+            {name: "한국재가장기요양기관협회 충청남도지부", phone: "041-631-5570", address: "충남 천안시", email: "", region: "충남"},
+            {name: "한국재가장기요양기관협회 전라북도지부", phone: "063-254-0880", address: "전북 전주시", email: "", region: "전북"},
+            {name: "한국재가장기요양기관협회 전라남도지부", phone: "061-285-2040", address: "전남 무안군", email: "", region: "전남"},
+            {name: "한국재가장기요양기관협회 경상북도지부", phone: "054-475-7707", address: "경북 구미시", email: "", region: "경북"},
+            {name: "한국재가장기요양기관협회 경상남도지부", phone: "055-266-5505", address: "경남 창원시", email: "", region: "경남"},
+            {name: "한국재가장기요양기관협회 제주도지부", phone: "064-751-0580", address: "제주도 제주시", email: "", region: "제주"},
+            {name: "대한요양보호사협회 서울지회", phone: "02-851-0616", address: "서울특별시", email: "", region: "서울"},
+            {name: "대한요양보호사협회 경기지회", phone: "031-235-0580", address: "경기도", email: "", region: "경기"},
+            {name: "대한요양보호사협회 인천지회", phone: "032-515-5550", address: "인천광역시", email: "", region: "인천"},
+            {name: "대한요양보호사협회 부산지회", phone: "051-802-3380", address: "부산광역시", email: "", region: "부산"},
+            {name: "대한요양보호사협회 대구지회", phone: "053-425-5990", address: "대구광역시", email: "", region: "대구"},
+            {name: "대한요양보호사협회 광주지회", phone: "062-360-7720", address: "광주광역시", email: "", region: "광주"},
+            {name: "대한요양보호사협회 대전지회", phone: "042-633-0850", address: "대전광역시", email: "", region: "대전"},
+            {name: "대한요양보호사협회 울산지회", phone: "052-227-7530", address: "울산광역시", email: "", region: "울산"},
+            {name: "대한요양보호사협회 강원지회", phone: "033-243-7580", address: "강원도", email: "", region: "강원"},
+            {name: "대한요양보호사협회 충북지회", phone: "043-234-0580", address: "충청북도", email: "", region: "충북"},
+            {name: "대한요양보호사협회 충남지회", phone: "041-631-5570", address: "충청남도", email: "", region: "충남"},
+            {name: "대한요양보호사협회 전북지회", phone: "063-254-0880", address: "전라북도", email: "", region: "전북"},
+            {name: "대한요양보호사협회 전남지회", phone: "061-285-2040", address: "전라남도", email: "", region: "전남"},
+            {name: "대한요양보호사협회 경북지회", phone: "054-475-7707", address: "경상북도", email: "", region: "경북"},
+            {name: "대한요양보호사협회 경남지회", phone: "055-266-5505", address: "경상남도", email: "", region: "경남"},
+            {name: "대한요양보호사협회 제주지회", phone: "064-751-0580", address: "제주도", email: "", region: "제주"},
+            {name: "한국요양보호협회 서울지부", phone: "02-2026-0011", address: "서울특별시", email: "", region: "서울"},
+            {name: "한국요양보호협회 경기지부", phone: "031-235-0581", address: "경기도", email: "", region: "경기"},
+            {name: "한국요양보호협회 인천지부", phone: "032-515-5554", address: "인천광역시", email: "", region: "인천"},
+            {name: "한국요양보호협회 부산지부", phone: "051-802-3381", address: "부산광역시", email: "", region: "부산"},
+            {name: "한국요양보호협회 대구지부", phone: "053-425-5991", address: "대구광역시", email: "", region: "대구"},
+            {name: "한국요양보호협회 광주지부", phone: "062-360-7723", address: "광주광역시", email: "", region: "광주"},
+            {name: "한국요양보호협회 대전지부", phone: "042-633-0851", address: "대전광역시", email: "", region: "대전"},
+            {name: "가족간병닷컴 by 서울간병인협회", phone: "02-2666-1530", address: "서울 강서구", email: "", region: "서울"},
+            {name: "코리아잡앤잡 부산간병", phone: "1600-1643", address: "부산 해운대구", email: "", region: "부산"},
+            {name: "시잡인간병인협회", phone: "031-666-8219", address: "경기도 평택시", email: "", region: "경기"},
+            {name: "한국병원간병인협회", phone: "031-855-8500", address: "경기도 양주시", email: "", region: "경기"},
+            {name: "(사)대한요양보호사교육기관협회", phone: "02-929-8006", address: "서울 금천구 가산디지털1로 145", email: "kh8888@naver.com", region: "서울"}
         ];
 
         // 유료직업소개소 데이터 (간병 관련)
@@ -1015,6 +1064,7 @@
                         </div>
                         <div class="flex-1">
                             <h3 class="text-lg font-bold text-gray-900 mb-2">${assoc.name}</h3>
+                            ${assoc.region ? `<span class="inline-block px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-semibold">${assoc.region}</span>` : ''}
                         </div>
                     </div>
                     
