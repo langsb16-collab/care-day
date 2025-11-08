@@ -224,32 +224,33 @@
             const videos = rehabVideos[category] || [];
             container.innerHTML = videos.map(video => {
                 return `
-                <div class="bg-gray-50 rounded-xl p-4 mb-4 hover:bg-gray-100 transition cursor-pointer" data-video-id="${video.id}" data-category="${category}">
+                <div class="bg-gray-50 rounded-xl p-4 mb-4 hover:bg-gray-100 transition">
                     <div class="flex items-start gap-4">
-                        <div class="bg-red-500 text-white rounded-lg p-4 flex-shrink-0">
+                        <div class="bg-red-500 text-white rounded-lg p-4 flex-shrink-0 cursor-pointer hover:bg-red-600" 
+                             onclick="playVideo(${video.id}, '${category}')">
                             <i class="fas fa-play text-2xl"></i>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-lg font-bold text-gray-900 mb-1">${video.title}</h3>
                             <p class="text-gray-600 text-sm mb-2">${video.description}</p>
-                            <div class="flex items-center gap-4 text-sm text-gray-500">
-                                <span><i class="fas fa-clock mr-1"></i>${video.duration}</span>
-                                <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded">${video.level}</span>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-sm text-gray-500">
+                                    <span><i class="fas fa-clock mr-1"></i>${video.duration}</span>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded">${video.level}</span>
+                                    <span class="text-gray-500">${video.channel}</span>
+                                </div>
+                                <a href="https://www.youtube.com/watch?v=${video.youtubeId}" 
+                                   target="_blank" 
+                                   class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition"
+                                   onclick="event.stopPropagation()">
+                                    <i class="fab fa-youtube mr-1"></i>YouTube
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 `;
             }).join('');
-            
-            // Add click event listeners to video cards
-            container.querySelectorAll('[data-video-id]').forEach(card => {
-                card.addEventListener('click', function() {
-                    const videoId = parseInt(this.getAttribute('data-video-id'));
-                    const category = this.getAttribute('data-category');
-                    playVideo(videoId, category);
-                });
-            });
             
             modal.style.display = 'flex';
         }
@@ -272,27 +273,64 @@
             
             // Set video info
             titleElement.textContent = video.title;
-            descElement.textContent = video.description;
+            descElement.textContent = video.description + ' | ' + video.channel;
             
-            // Create YouTube iframe with enhanced compatibility
+            // Create YouTube iframe with fallback button
             playerContainer.innerHTML = `
-                <iframe 
-                    width="100%" 
-                    height="100%" 
-                    src="https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1&origin=https://cashiq.org&enablejsapi=1&playsinline=1" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    style="border: none;"
-                ></iframe>
+                <div style="position: relative; width: 100%; height: 100%; background: #000;">
+                    <iframe 
+                        id="video-iframe"
+                        width="100%" 
+                        height="100%" 
+                        src="https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&rel=0&modestbranding=1&origin=https://cashiq.org&enablejsapi=1&playsinline=1" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        style="border: none;"
+                        onerror="handleIframeError('${video.youtubeId}')"
+                    ></iframe>
+                    <div id="fallback-message" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                        <i class="fas fa-exclamation-circle text-6xl mb-4"></i>
+                        <p class="text-xl mb-4">이 영상은 임베드가 제한되어 있습니다</p>
+                        <a href="https://www.youtube.com/watch?v=${video.youtubeId}" target="_blank" 
+                           class="inline-block px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                            <i class="fab fa-youtube mr-2"></i>YouTube에서 보기
+                        </a>
+                    </div>
+                </div>
             `;
+            
+            // Check if iframe loads successfully
+            const iframe = document.getElementById('video-iframe');
+            setTimeout(() => {
+                try {
+                    if (!iframe || !iframe.contentWindow) {
+                        showFallbackMessage();
+                    }
+                } catch (e) {
+                    // Cross-origin error is expected, iframe is loading
+                }
+            }, 3000);
             
             // Close video list modal
             closeVideoModal();
             
             // Show player modal
             playerModal.style.display = 'flex';
+        }
+
+        function showFallbackMessage() {
+            const fallback = document.getElementById('fallback-message');
+            const iframe = document.getElementById('video-iframe');
+            if (fallback && iframe) {
+                iframe.style.display = 'none';
+                fallback.style.display = 'block';
+            }
+        }
+
+        function handleIframeError(youtubeId) {
+            showFallbackMessage();
         }
 
         function closeVideoPlayer() {
