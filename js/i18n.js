@@ -55,6 +55,20 @@ const translations = {
             disease: {
                 title: '뇌질환 정보 - 뇌질환케어'
             }
+        },
+        page: {
+            disease: {
+                title: '뇌질환 정보',
+                subtitle: '질병분류코드별 상세 정보',
+                search: 'ICD-10 코드 또는 질병명 검색...'
+            }
+        },
+        disease: {
+            category: {
+                hemorrhage: '뇌출혈',
+                infarction: '뇌경색',
+                other: '기타'
+            }
         }
     },
     en: {
@@ -111,6 +125,20 @@ const translations = {
         service: {
             disease: {
                 title: 'Brain Disease Information - Brain Disease Care'
+            }
+        },
+        page: {
+            disease: {
+                title: 'Disease Information',
+                subtitle: 'Detailed information by disease classification code',
+                search: 'Search ICD-10 code or disease name...'
+            }
+        },
+        disease: {
+            category: {
+                hemorrhage: 'Brain Hemorrhage',
+                infarction: 'Brain Infarction',
+                other: 'Other'
             }
         }
     },
@@ -169,6 +197,20 @@ const translations = {
             disease: {
                 title: '脑疾病信息 - 脑疾病护理'
             }
+        },
+        page: {
+            disease: {
+                title: '脑疾病信息',
+                subtitle: '按疾病分类代码的详细信息',
+                search: '搜索ICD-10代码或疾病名称...'
+            }
+        },
+        disease: {
+            category: {
+                hemorrhage: '脑出血',
+                infarction: '脑梗塞',
+                other: '其他'
+            }
         }
     },
     ja: {
@@ -225,6 +267,20 @@ const translations = {
         service: {
             disease: {
                 title: '脳疾患情報 - 脳疾患ケア'
+            }
+        },
+        page: {
+            disease: {
+                title: '脳疾患情報',
+                subtitle: '疾病分類コード別詳細情報',
+                search: 'ICD-10コードまたは疾患名を検索...'
+            }
+        },
+        disease: {
+            category: {
+                hemorrhage: '脳出血',
+                infarction: '脳梗塞',
+                other: 'その他'
             }
         }
     }
