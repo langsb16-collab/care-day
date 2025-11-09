@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="careDiary.title">간병일기 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .diary-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+        .diary-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .recording-pulse {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .media-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .status-badge.medication { background: #e3f2fd; color: #1976d2; }
+        .status-badge.meal { background: #fff3e0; color: #f57c00; }
+        .status-badge.vital { background: #fce4ec; color: #c2185b; }
+        .status-badge.recovery { background: #e8f5e9; color: #388e3c; }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">🧠</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-primary" data-i18n="site.name">뇌질환케어</h1>
+                        <p class="text-xs text-gray-600" data-i18n="site.subtitle">Brain Disease Care</p>
+                    </div>
+                </div>
+                
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="care-diary.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap bg-primary text-white" data-i18n="menu.careDiary">간병일기</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="care-diary.html" class="block px-4 py-2 bg-primary text-white rounded-lg" data-i18n="menu.careDiary">간병일기</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="community.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            
+            <!-- Header Section -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3" data-i18n="careDiary.pageTitle">
+                    📝 간병일기
+                </h2>
+                <p class="text-gray-600 text-lg" data-i18n="careDiary.pageSubtitle">
+                    환자의 일상을 기록하고 보호자와 공유하세요
+                </p>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <button onclick="showRecordModal()" class="btn-primary text-center">
+                    <i class="fas fa-plus-circle mr-2"></i>
+                    <span data-i18n="careDiary.newRecord">새 기록 작성</span>
+                </button>
+                <button onclick="startVoiceRecording()" class="btn-secondary text-center">
+                    <i class="fas fa-microphone mr-2"></i>
+                    <span data-i18n="careDiary.voiceRecord">음성 녹음</span>
+                </button>
+                <button onclick="capturePhoto()" class="btn-secondary text-center">
+                    <i class="fas fa-camera mr-2"></i>
+                    <span data-i18n="careDiary.takePhoto">사진 촬영</span>
+                </button>
+                <button onclick="uploadMedia()" class="btn-secondary text-center">
+                    <i class="fas fa-upload mr-2"></i>
+                    <span data-i18n="careDiary.uploadFile">파일 업로드</span>
+                </button>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                <div class="flex flex-wrap gap-3 items-center">
+                    <label class="font-semibold text-gray-700" data-i18n="careDiary.filterBy">필터:</label>
+                    <button class="status-badge medication" onclick="filterDiaries('medication')">
+                        <i class="fas fa-pills"></i>
+                        <span data-i18n="careDiary.medication">복약</span>
+                    </button>
+                    <button class="status-badge meal" onclick="filterDiaries('meal')">
+                        <i class="fas fa-utensils"></i>
+                        <span data-i18n="careDiary.meal">식사</span>
+                    </button>
+                    <button class="status-badge vital" onclick="filterDiaries('vital')">
+                        <i class="fas fa-heartbeat"></i>
+                        <span data-i18n="careDiary.vital">생체신호</span>
+                    </button>
+                    <button class="status-badge recovery" onclick="filterDiaries('recovery')">
+                        <i class="fas fa-chart-line"></i>
+                        <span data-i18n="careDiary.recovery">회복상태</span>
+                    </button>
+                    <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition" onclick="clearFilter()">
+                        <span data-i18n="careDiary.showAll">전체보기</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Diary Entries -->
+            <div id="diary-list" class="space-y-4">
+                <!-- Sample Diary Entry -->
+                <div class="diary-card bg-white rounded-xl shadow-md p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">2025년 1월 9일 오전 기록</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="status-badge medication">
+                                    <i class="fas fa-pills"></i> 복약 완료
+                                </span>
+                                <span class="status-badge meal">
+                                    <i class="fas fa-utensils"></i> 아침식사 70%
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-500">09:30</span>
+                    </div>
+                    
+                    <div class="text-gray-700 mb-4">
+                        <p>오늘 아침 혈압 측정 결과 120/80으로 정상 범위입니다. 아침 약 복용 완료했으며, 식사는 죽 한 그릇 중 70% 정도 드셨습니다. 기분이 좋아 보이시고 말씀도 어제보다 명확하십니다.</p>
+                    </div>
+                    
+                    <div class="flex gap-3 mb-4">
+                        <img src="https://via.placeholder.com/150" alt="환자 상태" class="media-preview w-32 h-32 object-cover">
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-4 border-t">
+                        <div class="text-sm text-gray-600">
+                            <i class="fas fa-user-nurse mr-1"></i> 간병인: 김간병
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="text-primary hover:text-blue-700" onclick="editDiary(1)">
+                                <i class="fas fa-edit mr-1"></i> 수정
+                            </button>
+                            <button class="text-success hover:text-green-700" onclick="sendToGuardian(1)">
+                                <i class="fas fa-paper-plane mr-1"></i> 보호자 전송
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="text-center py-16 hidden">
+                <i class="fas fa-book-open text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-700 mb-2" data-i18n="careDiary.emptyTitle">아직 기록이 없습니다</h3>
+                <p class="text-gray-600 mb-6" data-i18n="careDiary.emptySubtitle">첫 간병일기를 작성해보세요!</p>
+                <button onclick="showRecordModal()" class="btn-primary">
+                    <i class="fas fa-plus-circle mr-2"></i>
+                    <span data-i18n="careDiary.createFirst">첫 기록 작성하기</span>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Recording Modal -->
+    <div id="recordModal" class="modal">
+        <div class="modal-content">
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-t-xl">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold" data-i18n="careDiary.modal.title">새 간병일기 작성</h3>
+                    <button onclick="closeRecordModal()" class="text-white hover:text-gray-200 text-3xl">&times;</button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <!-- Date and Time -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" data-i18n="careDiary.modal.dateTime">날짜 및 시간</label>
+                    <input type="datetime-local" id="diaryDateTime" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                </div>
+
+                <!-- Category Selection -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" data-i18n="careDiary.modal.category">카테고리</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" value="medication" class="form-checkbox text-primary">
+                            <span data-i18n="careDiary.medication">복약</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" value="meal" class="form-checkbox text-primary">
+                            <span data-i18n="careDiary.meal">식사</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" value="vital" class="form-checkbox text-primary">
+                            <span data-i18n="careDiary.vital">생체신호</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" value="recovery" class="form-checkbox text-primary">
+                            <span data-i18n="careDiary.recovery">회복상태</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Voice Recording -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" data-i18n="careDiary.modal.voiceRecording">음성 녹음</label>
+                    <div class="flex gap-3">
+                        <button id="startRecordBtn" onclick="toggleRecording()" class="btn-primary flex-1">
+                            <i class="fas fa-microphone mr-2"></i>
+                            <span data-i18n="careDiary.modal.startRecording">녹음 시작</span>
+                        </button>
+                        <button id="stopRecordBtn" onclick="stopRecording()" class="btn-secondary flex-1 hidden">
+                            <i class="fas fa-stop mr-2 recording-pulse"></i>
+                            <span data-i18n="careDiary.modal.stopRecording">녹음 중지</span>
+                        </button>
+                    </div>
+                    <div id="recordingStatus" class="mt-2 text-sm text-gray-600 hidden">
+                        <i class="fas fa-circle text-red-500 recording-pulse mr-2"></i>
+                        <span data-i18n="careDiary.modal.recording">녹음 중...</span>
+                    </div>
+                    <input type="file" id="audioUpload" accept="audio/*,.mp3,.wav,.3gp,.amr,.ogg,.opus" class="hidden" onchange="handleAudioUpload(event)">
+                    <button onclick="document.getElementById('audioUpload').click()" class="mt-3 text-primary hover:underline">
+                        <i class="fas fa-upload mr-2"></i>
+                        <span data-i18n="careDiary.modal.uploadAudio">음성 파일 업로드</span>
+                    </button>
+                </div>
+
+                <!-- Photo/Video Capture -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" data-i18n="careDiary.modal.media">사진/영상</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="capturePhotoModal()" class="btn-secondary">
+                            <i class="fas fa-camera mr-2"></i>
+                            <span data-i18n="careDiary.modal.takePhoto">사진 촬영</span>
+                        </button>
+                        <button onclick="captureVideoModal()" class="btn-secondary">
+                            <i class="fas fa-video mr-2"></i>
+                            <span data-i18n="careDiary.modal.recordVideo">영상 촬영</span>
+                        </button>
+                    </div>
+                    <input type="file" id="mediaUpload" accept="image/*,video/*" class="hidden" onchange="handleMediaUpload(event)">
+                    <button onclick="document.getElementById('mediaUpload').click()" class="mt-3 text-primary hover:underline">
+                        <i class="fas fa-upload mr-2"></i>
+                        <span data-i18n="careDiary.modal.uploadMedia">파일 업로드</span>
+                    </button>
+                    <div id="mediaPreview" class="mt-4"></div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" data-i18n="careDiary.modal.content">내용</label>
+                    <textarea id="diaryContent" rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="환자의 상태, 특이사항 등을 기록하세요..."></textarea>
+                    <p class="text-sm text-gray-500 mt-2" data-i18n="careDiary.modal.transcriptionNote">* 음성 녹음 시 자동으로 텍스트로 변환됩니다</p>
+                </div>
+
+                <!-- Guardian Notification -->
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2" data-i18n="careDiary.modal.notify">보호자 알림</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="notifySMS" class="form-checkbox text-primary">
+                            <span data-i18n="careDiary.modal.sms">문자 메시지</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="notifyKakao" class="form-checkbox text-primary">
+                            <span data-i18n="careDiary.modal.kakao">카카오톡</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="notifyTelegram" class="form-checkbox text-primary">
+                            <span data-i18n="careDiary.modal.telegram">텔레그램</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <button onclick="saveDiary()" class="btn-primary flex-1">
+                        <i class="fas fa-save mr-2"></i>
+                        <span data-i18n="careDiary.modal.save">저장</span>
+                    </button>
+                    <button onclick="saveDraft()" class="btn-secondary">
+                        <i class="fas fa-file-alt mr-2"></i>
+                        <span data-i18n="careDiary.modal.saveDraft">임시저장</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">&copy; 2025 CASHiQ.org - 뇌질환케어. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Modal Functions
+        function showRecordModal() {
+            document.getElementById('recordModal').style.display = 'block';
+            // Set current date and time
+            const now = new Date();
+            const dateTimeStr = now.toISOString().slice(0, 16);
+            document.getElementById('diaryDateTime').value = dateTimeStr;
+        }
+
+        function closeRecordModal() {
+            document.getElementById('recordModal').style.display = 'none';
+        }
+
+        // Voice Recording (기능1, 기능3)
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        async function toggleRecording() {
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+                    
+                    mediaRecorder.onstop = async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        audioChunks = [];
+                        
+                        // 음성을 텍스트로 변환 (Web Speech API 또는 서버 API 사용)
+                        await transcribeAudio(audioBlob);
+                        
+                        document.getElementById('recordingStatus').classList.add('hidden');
+                        document.getElementById('startRecordBtn').classList.remove('hidden');
+                        document.getElementById('stopRecordBtn').classList.add('hidden');
+                    };
+                    
+                    mediaRecorder.start();
+                    isRecording = true;
+                    
+                    document.getElementById('recordingStatus').classList.remove('hidden');
+                    document.getElementById('startRecordBtn').classList.add('hidden');
+                    document.getElementById('stopRecordBtn').classList.remove('hidden');
+                    
+                } catch (error) {
+                    console.error('마이크 접근 오류:', error);
+                    alert('마이크 접근 권한이 필요합니다.');
+                }
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                isRecording = false;
+            }
+        }
+
+        // 음성 파일 업로드 및 텍스트 변환
+        async function handleAudioUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('audio', file);
+                
+                // 서버로 전송하여 텍스트 변환 (실제 구현 시 API 엔드포인트 필요)
+                alert(`음성 파일 "${file.name}" 업로드됨. 텍스트 변환 기능은 서버 API가 필요합니다.`);
+                
+                // 임시: 파일 정보 표시
+                const content = document.getElementById('diaryContent');
+                content.value += `\n[음성 파일: ${file.name}]\n`;
+            }
+        }
+
+        // 음성을 텍스트로 변환 (Web Speech API 사용 예시)
+        async function transcribeAudio(audioBlob) {
+            // 실제 구현: 서버 API 또는 Web Speech API 사용
+            // 여기서는 간단한 시뮬레이션
+            const content = document.getElementById('diaryContent');
+            content.value += '\n[녹음된 내용이 텍스트로 변환됩니다]\n';
+            
+            alert('음성이 텍스트로 변환되었습니다. 실제 구현 시 음성인식 API가 필요합니다.');
+        }
+
+        // Photo/Video Capture (기능2)
+        async function capturePhotoModal() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.autoplay = true;
+                video.style.width = '100%';
+                video.style.borderRadius = '8px';
+                
+                const preview = document.getElementById('mediaPreview');
+                preview.innerHTML = '';
+                preview.appendChild(video);
+                
+                const captureBtn = document.createElement('button');
+                captureBtn.className = 'btn-primary mt-3 w-full';
+                captureBtn.innerHTML = '<i class="fas fa-camera mr-2"></i> 촬영';
+                captureBtn.onclick = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0);
+                    
+                    const img = document.createElement('img');
+                    img.src = canvas.toDataURL('image/jpeg');
+                    img.className = 'media-preview';
+                    
+                    preview.innerHTML = '';
+                    preview.appendChild(img);
+                    
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    alert('사진이 촬영되었습니다. 실제 구현 시 보호자에게 전송됩니다.');
+                };
+                
+                preview.appendChild(captureBtn);
+                
+            } catch (error) {
+                console.error('카메라 접근 오류:', error);
+                alert('카메라 접근 권한이 필요합니다.');
+            }
+        }
+
+        async function captureVideoModal() {
+            alert('영상 촬영 기능은 카메라 접근 후 녹화 기능으로 구현됩니다.');
+        }
+
+        function handleMediaUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const preview = document.getElementById('mediaPreview');
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    if (file.type.startsWith('image/')) {
+                        preview.innerHTML = `<img src="${e.target.result}" class="media-preview">`;
+                    } else if (file.type.startsWith('video/')) {
+                        preview.innerHTML = `<video src="${e.target.result}" class="media-preview" controls></video>`;
+                    }
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Save Diary (기능4)
+        function saveDiary() {
+            const dateTime = document.getElementById('diaryDateTime').value;
+            const content = document.getElementById('diaryContent').value;
+            
+            if (!dateTime || !content) {
+                alert('날짜와 내용을 입력해주세요.');
+                return;
+            }
+            
+            // localStorage에 저장 (회원 기능 시 서버 API 사용)
+            const diaries = JSON.parse(localStorage.getItem('care_diaries') || '[]');
+            const newDiary = {
+                id: Date.now(),
+                dateTime: dateTime,
+                content: content,
+                categories: getSelectedCategories(),
+                notifications: getSelectedNotifications(),
+                createdAt: new Date().toISOString()
+            };
+            
+            diaries.push(newDiary);
+            localStorage.setItem('care_diaries', JSON.stringify(diaries));
+            
+            // 보호자에게 알림 전송 (실제 구현 시 API 필요)
+            sendNotificationsToGuardian(newDiary);
+            
+            alert('간병일기가 저장되고 보호자에게 전송되었습니다!');
+            closeRecordModal();
+            loadDiaries();
+        }
+
+        function saveDraft() {
+            alert('임시저장 되었습니다.');
+        }
+
+        function getSelectedCategories() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][value]');
+            const selected = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked && cb.value !== 'on') {
+                    selected.push(cb.value);
+                }
+            });
+            return selected;
+        }
+
+        function getSelectedNotifications() {
+            return {
+                sms: document.getElementById('notifySMS').checked,
+                kakao: document.getElementById('notifyKakao').checked,
+                telegram: document.getElementById('notifyTelegram').checked
+            };
+        }
+
+        function sendNotificationsToGuardian(diary) {
+            const notifications = diary.notifications;
+            
+            // 실제 구현 시 서버 API를 통해 전송
+            console.log('보호자 알림 전송:', notifications);
+            
+            if (notifications.sms) {
+                console.log('SMS 전송:', diary.content);
+            }
+            if (notifications.kakao) {
+                console.log('카카오톡 전송:', diary.content);
+            }
+            if (notifications.telegram) {
+                console.log('텔레그램 전송:', diary.content);
+            }
+        }
+
+        // Filter Functions
+        function filterDiaries(category) {
+            alert(`${category} 카테고리로 필터링`);
+        }
+
+        function clearFilter() {
+            loadDiaries();
+        }
+
+        // Load Diaries
+        function loadDiaries() {
+            const diaries = JSON.parse(localStorage.getItem('care_diaries') || '[]');
+            // 리스트 렌더링 로직
+            console.log('Loaded diaries:', diaries);
+        }
+
+        // Quick Action Functions
+        function startVoiceRecording() {
+            showRecordModal();
+            setTimeout(() => toggleRecording(), 500);
+        }
+
+        function capturePhoto() {
+            showRecordModal();
+            setTimeout(() => capturePhotoModal(), 500);
+        }
+
+        function uploadMedia() {
+            showRecordModal();
+            setTimeout(() => document.getElementById('mediaUpload').click(), 500);
+        }
+
+        // Edit and Send Functions
+        function editDiary(id) {
+            alert(`일기 ${id} 수정`);
+        }
+
+        function sendToGuardian(id) {
+            alert(`일기 ${id}를 보호자에게 전송합니다.`);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('recordModal');
+            if (event.target == modal) {
+                closeRecordModal();
+            }
+        }
+
+        // Initialize
+        loadDiaries();
+    </script>
+</body>
+</html>
