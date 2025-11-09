@@ -347,6 +347,104 @@
                 padding: 0.2rem 0.6rem;
             }
         }
+
+        /* 좋아요/싫어요/추천 버튼 스타일 */
+        .rating-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .rating-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .rating-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .rating-btn .icon {
+            font-size: 1.2rem;
+        }
+
+        .rating-btn .count {
+            font-weight: 600;
+        }
+
+        .rating-btn.like-btn {
+            color: #666;
+        }
+
+        .rating-btn.like-btn:hover {
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .rating-btn.like-btn.active {
+            background: #e3f2fd;
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .rating-btn.dislike-btn {
+            color: #666;
+        }
+
+        .rating-btn.dislike-btn:hover {
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .rating-btn.dislike-btn.active {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .rating-btn.recommend-btn {
+            color: #666;
+        }
+
+        .rating-btn.recommend-btn:hover {
+            border-color: #ff9800;
+            color: #ff9800;
+        }
+
+        .rating-btn.recommend-btn.active {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #ff9800;
+        }
+
+        @media (max-width: 768px) {
+            .rating-actions {
+                gap: 0.4rem;
+            }
+
+            .rating-btn {
+                padding: 0.4rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .rating-btn .icon {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="font-sans bg-gray-50">
@@ -552,6 +650,23 @@
                 <div class="specialties">
                     <span class="specialty-tag">마취통증의학과</span>
                     <span class="specialty-tag">신경외과</span>
+                </div>
+                <div class="rating-actions">
+                    <button class="rating-btn like-btn" onclick="handleRating(this, 'like')" data-hospital-id="1">
+                        <span class="icon">👍</span>
+                        <span class="count" data-i18n="rating.like">좋아요</span>
+                        <span class="count">(<span class="like-count">0</span>)</span>
+                    </button>
+                    <button class="rating-btn dislike-btn" onclick="handleRating(this, 'dislike')" data-hospital-id="1">
+                        <span class="icon">👎</span>
+                        <span class="count" data-i18n="rating.dislike">싫어요</span>
+                        <span class="count">(<span class="dislike-count">0</span>)</span>
+                    </button>
+                    <button class="rating-btn recommend-btn" onclick="handleRating(this, 'recommend')" data-hospital-id="1">
+                        <span class="icon">⭐</span>
+                        <span class="count" data-i18n="rating.recommend">추천</span>
+                        <span class="count">(<span class="recommend-count">0</span>)</span>
+                    </button>
                 </div>
             </div>
             <div class="hospital-card" data-category="상급종합" data-region="울산" data-name="울산대학교병원2">
@@ -56728,6 +56843,133 @@
                     resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }
+        }
+
+        // 좋아요/싫어요/추천 기능
+        function handleRating(button, type) {
+            const hospitalId = button.dataset.hospitalId;
+            const card = button.closest('.hospital-card');
+            const buttons = card.querySelectorAll('.rating-btn');
+            
+            // localStorage에서 현재 병원의 평가 정보 가져오기
+            const ratingKey = `hospital_rating_${hospitalId}`;
+            let currentRating = localStorage.getItem(ratingKey);
+            
+            // 같은 버튼을 다시 클릭하면 취소
+            if (currentRating === type) {
+                localStorage.removeItem(ratingKey);
+                button.classList.remove('active');
+                updateRatingCount(hospitalId, type, -1);
+                return;
+            }
+            
+            // 이전 평가가 있으면 취소
+            if (currentRating) {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                updateRatingCount(hospitalId, currentRating, -1);
+            }
+            
+            // 새로운 평가 적용
+            localStorage.setItem(ratingKey, type);
+            button.classList.add('active');
+            updateRatingCount(hospitalId, type, 1);
+        }
+
+        // 평가 카운트 업데이트
+        function updateRatingCount(hospitalId, type, delta) {
+            const countKey = `hospital_${type}_count`;
+            let counts = JSON.parse(localStorage.getItem(countKey) || '{}');
+            counts[hospitalId] = (counts[hospitalId] || 0) + delta;
+            if (counts[hospitalId] < 0) counts[hospitalId] = 0;
+            localStorage.setItem(countKey, JSON.stringify(counts));
+            
+            // 화면에 표시
+            const cards = document.querySelectorAll(`[data-hospital-id="${hospitalId}"]`);
+            cards.forEach(card => {
+                const countSpan = card.querySelector(`.${type}-count`);
+                if (countSpan) {
+                    countSpan.textContent = counts[hospitalId] || 0;
+                }
+            });
+        }
+
+        // 페이지 로드 시 저장된 평가 복원
+        function restoreRatings() {
+            const hospitalCards = document.querySelectorAll('.hospital-card');
+            hospitalCards.forEach(card => {
+                const likeBtn = card.querySelector('.like-btn');
+                if (!likeBtn) return;
+                
+                const hospitalId = likeBtn.dataset.hospitalId;
+                const ratingKey = `hospital_rating_${hospitalId}`;
+                const currentRating = localStorage.getItem(ratingKey);
+                
+                // 버튼 active 상태 복원
+                if (currentRating) {
+                    const activeBtn = card.querySelector(`.${currentRating}-btn`);
+                    if (activeBtn) activeBtn.classList.add('active');
+                }
+                
+                // 카운트 복원
+                ['like', 'dislike', 'recommend'].forEach(type => {
+                    const countKey = `hospital_${type}_count`;
+                    const counts = JSON.parse(localStorage.getItem(countKey) || '{}');
+                    const count = counts[hospitalId] || 0;
+                    const countSpan = card.querySelector(`.${type}-count`);
+                    if (countSpan) countSpan.textContent = count;
+                });
+            });
+        }
+
+        // 모든 병원 카드에 rating 버튼 추가
+        function addRatingButtonsToAllCards() {
+            const hospitalCards = document.querySelectorAll('.hospital-card');
+            hospitalCards.forEach((card, index) => {
+                // 이미 버튼이 있는지 확인
+                if (card.querySelector('.rating-actions')) return;
+                
+                const hospitalId = index + 1;
+                const specialties = card.querySelector('.specialties');
+                if (!specialties) return;
+                
+                const ratingDiv = document.createElement('div');
+                ratingDiv.className = 'rating-actions';
+                ratingDiv.innerHTML = `
+                    <button class="rating-btn like-btn" onclick="handleRating(this, 'like')" data-hospital-id="${hospitalId}">
+                        <span class="icon">👍</span>
+                        <span data-i18n="rating.like">좋아요</span>
+                        <span class="count">(<span class="like-count">0</span>)</span>
+                    </button>
+                    <button class="rating-btn dislike-btn" onclick="handleRating(this, 'dislike')" data-hospital-id="${hospitalId}">
+                        <span class="icon">👎</span>
+                        <span data-i18n="rating.dislike">싫어요</span>
+                        <span class="count">(<span class="dislike-count">0</span>)</span>
+                    </button>
+                    <button class="rating-btn recommend-btn" onclick="handleRating(this, 'recommend')" data-hospital-id="${hospitalId}">
+                        <span class="icon">⭐</span>
+                        <span data-i18n="rating.recommend">추천</span>
+                        <span class="count">(<span class="recommend-count">0</span>)</span>
+                    </button>
+                `;
+                
+                card.appendChild(ratingDiv);
+            });
+            
+            // 번역 시스템이 있다면 새로 추가된 요소도 번역 적용
+            if (typeof updatePageLanguage === 'function') {
+                updatePageLanguage();
+            }
+        }
+
+        // 페이지 로드 후 평가 복원
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                addRatingButtonsToAllCards();
+                restoreRatings();
+            });
+        } else {
+            addRatingButtonsToAllCards();
+            restoreRatings();
         }
     </script>
 

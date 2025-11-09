@@ -238,6 +238,11 @@ const translations = {
                 gyeongnam: '경남',
                 jeju: '제주'
             }
+        },
+        rating: {
+            like: '좋아요',
+            dislike: '싫어요',
+            recommend: '추천'
         }
     },
     en: {
@@ -478,6 +483,11 @@ const translations = {
                 gyeongnam: 'Gyeongnam',
                 jeju: 'Jeju'
             }
+        },
+        rating: {
+            like: 'Like',
+            dislike: 'Dislike',
+            recommend: 'Recommend'
         }
     },
     zh: {
@@ -718,6 +728,11 @@ const translations = {
                 gyeongnam: '庆南',
                 jeju: '济州'
             }
+        },
+        rating: {
+            like: '喜欢',
+            dislike: '不喜欢',
+            recommend: '推荐'
         }
     },
     ja: {
@@ -958,6 +973,11 @@ const translations = {
                 gyeongnam: '慶南',
                 jeju: '済州'
             }
+        },
+        rating: {
+            like: 'いいね',
+            dislike: 'よくない',
+            recommend: 'おすすめ'
         }
     }
 };

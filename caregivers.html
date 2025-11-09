@@ -46,6 +46,89 @@
             max-height: 90vh;
             overflow-y: auto;
         }
+
+        /* 좋아요/싫어요/추천 버튼 스타일 */
+        .rating-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .rating-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .rating-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .rating-btn .icon {
+            font-size: 1.2rem;
+        }
+
+        .rating-btn .count {
+            font-weight: 600;
+        }
+
+        .rating-btn.like-btn {
+            color: #666;
+        }
+
+        .rating-btn.like-btn:hover {
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .rating-btn.like-btn.active {
+            background: #e3f2fd;
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .rating-btn.dislike-btn {
+            color: #666;
+        }
+
+        .rating-btn.dislike-btn:hover {
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .rating-btn.dislike-btn.active {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .rating-btn.recommend-btn {
+            color: #666;
+        }
+
+        .rating-btn.recommend-btn:hover {
+            border-color: #ff9800;
+            color: #ff9800;
+        }
+
+        .rating-btn.recommend-btn.active {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #ff9800;
+        }
     </style>
 </head>
 <body class="font-sans bg-gray-50">
@@ -773,14 +856,21 @@
                                 상세보기
                             </button>
                         </div>
-                        <div class="flex items-center gap-4 mt-3 pt-3 border-t">
-                            <button onclick="event.stopPropagation(); likeCaregiver(${post.id})" class="flex items-center gap-1 text-blue-600 hover:text-blue-700">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span id="like-c-${post.id}">${post.likes || 0}</span>
+                        <div class="rating-actions">
+                            <button class="rating-btn like-btn" onclick="event.stopPropagation(); handleCaregiverRating(this, 'like', ${post.id})" data-caregiver-id="${post.id}">
+                                <span class="icon">👍</span>
+                                <span data-i18n="rating.like">좋아요</span>
+                                <span class="count">(<span class="like-count">0</span>)</span>
                             </button>
-                            <button onclick="event.stopPropagation(); dislikeCaregiver(${post.id})" class="flex items-center gap-1 text-red-600 hover:text-red-700">
-                                <i class="fas fa-thumbs-down"></i>
-                                <span id="dislike-c-${post.id}">${post.dislikes || 0}</span>
+                            <button class="rating-btn dislike-btn" onclick="event.stopPropagation(); handleCaregiverRating(this, 'dislike', ${post.id})" data-caregiver-id="${post.id}">
+                                <span class="icon">👎</span>
+                                <span data-i18n="rating.dislike">싫어요</span>
+                                <span class="count">(<span class="dislike-count">0</span>)</span>
+                            </button>
+                            <button class="rating-btn recommend-btn" onclick="event.stopPropagation(); handleCaregiverRating(this, 'recommend', ${post.id})" data-caregiver-id="${post.id}">
+                                <span class="icon">⭐</span>
+                                <span data-i18n="rating.recommend">추천</span>
+                                <span class="count">(<span class="recommend-count">0</span>)</span>
                             </button>
                         </div>
                     </div>
@@ -1183,6 +1273,93 @@
         // 초기 렌더링
         renderAssociations();
         renderOffices();
+
+        // 간병인 좋아요/싫어요/추천 기능
+        function handleCaregiverRating(button, type, caregiverId) {
+            const card = button.closest('.caregiver-card');
+            const buttons = card.querySelectorAll('.rating-btn');
+            
+            // localStorage에서 현재 간병인의 평가 정보 가져오기
+            const ratingKey = `caregiver_rating_${caregiverId}`;
+            let currentRating = localStorage.getItem(ratingKey);
+            
+            // 같은 버튼을 다시 클릭하면 취소
+            if (currentRating === type) {
+                localStorage.removeItem(ratingKey);
+                button.classList.remove('active');
+                updateCaregiverRatingCount(caregiverId, type, -1);
+                return;
+            }
+            
+            // 이전 평가가 있으면 취소
+            if (currentRating) {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                updateCaregiverRatingCount(caregiverId, currentRating, -1);
+            }
+            
+            // 새로운 평가 적용
+            localStorage.setItem(ratingKey, type);
+            button.classList.add('active');
+            updateCaregiverRatingCount(caregiverId, type, 1);
+        }
+
+        // 평가 카운트 업데이트
+        function updateCaregiverRatingCount(caregiverId, type, delta) {
+            const countKey = `caregiver_${type}_count`;
+            let counts = JSON.parse(localStorage.getItem(countKey) || '{}');
+            counts[caregiverId] = (counts[caregiverId] || 0) + delta;
+            if (counts[caregiverId] < 0) counts[caregiverId] = 0;
+            localStorage.setItem(countKey, JSON.stringify(counts));
+            
+            // 화면에 표시
+            const cards = document.querySelectorAll(`[data-caregiver-id="${caregiverId}"]`);
+            cards.forEach(card => {
+                const countSpan = card.querySelector(`.${type}-count`);
+                if (countSpan) {
+                    countSpan.textContent = counts[caregiverId] || 0;
+                }
+            });
+        }
+
+        // 페이지 로드 시 저장된 평가 복원
+        function restoreCaregiverRatings() {
+            const caregiverCards = document.querySelectorAll('.caregiver-card');
+            caregiverCards.forEach(card => {
+                const likeBtn = card.querySelector('.like-btn');
+                if (!likeBtn) return;
+                
+                const caregiverId = likeBtn.dataset.caregiverId;
+                const ratingKey = `caregiver_rating_${caregiverId}`;
+                const currentRating = localStorage.getItem(ratingKey);
+                
+                // 버튼 active 상태 복원
+                if (currentRating) {
+                    const activeBtn = card.querySelector(`.${currentRating}-btn`);
+                    if (activeBtn) activeBtn.classList.add('active');
+                }
+                
+                // 카운트 복원
+                ['like', 'dislike', 'recommend'].forEach(type => {
+                    const countKey = `caregiver_${type}_count`;
+                    const counts = JSON.parse(localStorage.getItem(countKey) || '{}');
+                    const count = counts[caregiverId] || 0;
+                    const countSpan = card.querySelector(`.${type}-count`);
+                    if (countSpan) countSpan.textContent = count;
+                });
+            });
+        }
+
+        // 간병인 카드 렌더링 후 평가 복원 (필터링 후에도)
+        const originalRenderPosts = renderPosts;
+        renderPosts = function(posts) {
+            originalRenderPosts(posts);
+            setTimeout(() => {
+                restoreCaregiverRatings();
+                if (typeof updatePageLanguage === 'function') {
+                    updatePageLanguage();
+                }
+            }, 100);
+        };
     </script>
 
     <script src="js/i18n.js"></script>
