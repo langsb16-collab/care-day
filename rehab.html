@@ -20,16 +20,16 @@
                 </a>
                 
                 <div class="flex items-center space-x-2">
-                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko">
                         🇰🇷 <span class="hidden sm:inline">한국어</span>
                     </button>
-                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="en">
                         🇺🇸 <span class="hidden sm:inline">English</span>
                     </button>
-                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="zh">
                         🇨🇳 <span class="hidden sm:inline">中文</span>
                     </button>
-                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ja">
                         🇯🇵 <span class="hidden sm:inline">日本語</span>
                     </button>
                     
@@ -75,35 +75,35 @@
     <main class="pt-28 pb-16">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <div class="text-6xl mb-4">🏃</div>
-                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-i18n="page.rehab.title">재활운동 영상</h1>
-                <p class="text-xl text-gray-600" data-i18n="page.rehab.subtitle">210개 이상 전문 영상 (상지 70+, 하지 70+, 언어 70+)</p>
+                <div class="text-4xl md:text-6xl mb-2 md:mb-4">🏃</div>
+                <h1 class="text-2xl md:text-4xl font-bold text-gray-900 mb-4" data-i18n="page.rehab.title">재활운동 영상</h1>
+                <p class="text-sm md:text-xl text-gray-600" data-i18n="page.rehab.subtitle">210개 이상 전문 영상 (상지 70+, 하지 70+, 언어 70+)</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
                     <div class="bg-green-100 rounded-lg p-4 mb-4 text-center">
-                        <i class="fas fa-video text-4xl text-green-600"></i>
+                        <i class="fas fa-video text-2xl md:text-4xl text-green-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-i18n="rehab.upper">상지 재활운동</h3>
+                    <h3 class="text-base md:text-xl font-bold mb-2" data-i18n="rehab.upper">상지 재활운동</h3>
                     <p class="text-gray-600 text-sm mb-4">팔과 손 기능 회복을 위한 운동</p>
                     <button onclick="showVideoList('upper')" class="w-full px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600" data-i18n="rehab.watch">영상 보기</button>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
                     <div class="bg-blue-100 rounded-lg p-4 mb-4 text-center">
-                        <i class="fas fa-video text-4xl text-blue-600"></i>
+                        <i class="fas fa-video text-2xl md:text-4xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-i18n="rehab.lower">하지 재활운동</h3>
+                    <h3 class="text-base md:text-xl font-bold mb-2" data-i18n="rehab.lower">하지 재활운동</h3>
                     <p class="text-gray-600 text-sm mb-4">다리와 발 기능 회복을 위한 운동</p>
                     <button onclick="showVideoList('lower')" class="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" data-i18n="rehab.watch">영상 보기</button>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
                     <div class="bg-purple-100 rounded-lg p-4 mb-4 text-center">
-                        <i class="fas fa-video text-4xl text-purple-600"></i>
+                        <i class="fas fa-video text-2xl md:text-4xl text-purple-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-2" data-i18n="rehab.speech">언어 재활운동</h3>
+                    <h3 class="text-base md:text-xl font-bold mb-2" data-i18n="rehab.speech">언어 재활운동</h3>
                     <p class="text-gray-600 text-sm mb-4">말하기와 삼키기 기능 회복</p>
                     <button onclick="showVideoList('speech')" class="w-full px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600" data-i18n="rehab.watch">영상 보기</button>
                 </div>

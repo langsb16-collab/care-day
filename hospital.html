@@ -463,16 +463,16 @@
                 </a>
                 
                 <div class="flex items-center space-x-2">
-                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko">
                         🇰🇷 <span class="hidden sm:inline">한국어</span>
                     </button>
-                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="en">
                         🇺🇸 <span class="hidden sm:inline">English</span>
                     </button>
-                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="zh">
                         🇨🇳 <span class="hidden sm:inline">中文</span>
                     </button>
-                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ja">
                         🇯🇵 <span class="hidden sm:inline">日本語</span>
                     </button>
                     
@@ -520,6 +520,51 @@
         <div class="demo-notice">
             <strong>📢 데모 버전 안내:</strong> 현재 페이지는 42개의 샘플 병원 데이터를 표시합니다. 
             실제 서비스에서는 전국 2,500개 이상의 뇌질환 전문 병원을 검색할 수 있습니다.
+        </div>
+
+        <div class="search-section">
+            <h3 style="color: #2c5aa0; margin-bottom: 1rem;">🔍 병원 이름 또는 지역으로 검색</h3>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" data-i18n-placeholder="hospitalSearch.searchPlaceholder" placeholder="병원 이름, 지역명을 입력하세요 (예: 서울대병원, 강남구)">
+                <button class="search-btn" onclick="searchHospitals()" data-i18n="hospitalSearch.searchButton">검색</button>
+            </div>
+
+            <h3 style="color: #2c5aa0; margin: 1.5rem 0 1rem;" data-i18n="hospitalSearch.categoryTitle">🏥 병원 분류별 필터</h3>
+            <div class="category-filters">
+                <button class="category-btn active bg-blue-500 text-white hover:bg-blue-600" data-category="all" data-i18n="hospitalSearch.categories.all">전체</button>
+                <button class="category-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-category="상급종합" data-i18n="hospitalSearch.categories.tertiary">상급종합병원</button>
+                <button class="category-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-category="종합병원" data-i18n="hospitalSearch.categories.general">종합병원</button>
+                <button class="category-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-category="전문병원" data-i18n="hospitalSearch.categories.specialized">전문병원</button>
+                <button class="category-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-category="요양병원" data-i18n="hospitalSearch.categories.nursing">요양병원</button>
+                <button class="category-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-category="재활병원" data-i18n="hospitalSearch.categories.rehabilitation">재활병원</button>
+                <button class="category-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-category="한방병원" data-i18n="hospitalSearch.categories.oriental">한방병원</button>
+                <button class="category-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-category="일반병원" data-i18n="hospitalSearch.categories.regular">일반병원</button>
+            </div>
+
+            <h3 style="color: #2c5aa0; margin: 1.5rem 0 1rem;" data-i18n="hospitalSearch.regionTitle">📍 지역별 필터</h3>
+            <div class="region-filters">
+                <button class="region-btn active bg-blue-500 text-white hover:bg-blue-600" data-region="all" data-i18n="hospitalSearch.regions.all">전국</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="서울" data-i18n="hospitalSearch.regions.seoul">서울</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="경기" data-i18n="hospitalSearch.regions.gyeonggi">경기</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="인천" data-i18n="hospitalSearch.regions.incheon">인천</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="부산" data-i18n="hospitalSearch.regions.busan">부산</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="대구" data-i18n="hospitalSearch.regions.daegu">대구</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="대전" data-i18n="hospitalSearch.regions.daejeon">대전</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="광주" data-i18n="hospitalSearch.regions.gwangju">광주</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="울산" data-i18n="hospitalSearch.regions.ulsan">울산</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="세종" data-i18n="hospitalSearch.regions.sejong">세종</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="강원" data-i18n="hospitalSearch.regions.gangwon">강원</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="충북" data-i18n="hospitalSearch.regions.chungbuk">충북</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="충남" data-i18n="hospitalSearch.regions.chungnam">충남</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="전북" data-i18n="hospitalSearch.regions.jeonbuk">전북</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="전남" data-i18n="hospitalSearch.regions.jeonnam">전남</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="경북" data-i18n="hospitalSearch.regions.gyeongbuk">경북</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="경남" data-i18n="hospitalSearch.regions.gyeongnam">경남</button>
+                <button class="region-btn bg-gray-100 hover:bg-gray-200 active:bg-gray-300" data-region="제주" data-i18n="hospitalSearch.regions.jeju">제주</button>
+            </div>
+        </div>
+        <div class="results-count">
+            <p>검색 결과: <span id="resultCount">3500</span>개</p>
         </div>
 
         <!-- 간호간병통합서비스 안내 -->
@@ -595,51 +640,6 @@
                     자세한 지원정책 보기 →
                 </a>
             </div>
-        </div>
-
-        <div class="search-section">
-            <h3 style="color: #2c5aa0; margin-bottom: 1rem;">🔍 병원 이름 또는 지역으로 검색</h3>
-            <div class="search-box">
-                <input type="text" id="searchInput" class="search-input" data-i18n-placeholder="hospitalSearch.searchPlaceholder" placeholder="병원 이름, 지역명을 입력하세요 (예: 서울대병원, 강남구)">
-                <button class="search-btn" onclick="searchHospitals()" data-i18n="hospitalSearch.searchButton">검색</button>
-            </div>
-
-            <h3 style="color: #2c5aa0; margin: 1.5rem 0 1rem;" data-i18n="hospitalSearch.categoryTitle">🏥 병원 분류별 필터</h3>
-            <div class="category-filters">
-                <button class="category-btn active" data-category="all" data-i18n="hospitalSearch.categories.all">전체</button>
-                <button class="category-btn" data-category="상급종합" data-i18n="hospitalSearch.categories.tertiary">상급종합병원</button>
-                <button class="category-btn" data-category="종합병원" data-i18n="hospitalSearch.categories.general">종합병원</button>
-                <button class="category-btn" data-category="전문병원" data-i18n="hospitalSearch.categories.specialized">전문병원</button>
-                <button class="category-btn" data-category="요양병원" data-i18n="hospitalSearch.categories.nursing">요양병원</button>
-                <button class="category-btn" data-category="재활병원" data-i18n="hospitalSearch.categories.rehabilitation">재활병원</button>
-                <button class="category-btn" data-category="한방병원" data-i18n="hospitalSearch.categories.oriental">한방병원</button>
-                <button class="category-btn" data-category="일반병원" data-i18n="hospitalSearch.categories.regular">일반병원</button>
-            </div>
-
-            <h3 style="color: #2c5aa0; margin: 1.5rem 0 1rem;" data-i18n="hospitalSearch.regionTitle">📍 지역별 필터</h3>
-            <div class="region-filters">
-                <button class="region-btn active" data-region="all" data-i18n="hospitalSearch.regions.all">전국</button>
-                <button class="region-btn" data-region="서울" data-i18n="hospitalSearch.regions.seoul">서울</button>
-                <button class="region-btn" data-region="경기" data-i18n="hospitalSearch.regions.gyeonggi">경기</button>
-                <button class="region-btn" data-region="인천" data-i18n="hospitalSearch.regions.incheon">인천</button>
-                <button class="region-btn" data-region="부산" data-i18n="hospitalSearch.regions.busan">부산</button>
-                <button class="region-btn" data-region="대구" data-i18n="hospitalSearch.regions.daegu">대구</button>
-                <button class="region-btn" data-region="대전" data-i18n="hospitalSearch.regions.daejeon">대전</button>
-                <button class="region-btn" data-region="광주" data-i18n="hospitalSearch.regions.gwangju">광주</button>
-                <button class="region-btn" data-region="울산" data-i18n="hospitalSearch.regions.ulsan">울산</button>
-                <button class="region-btn" data-region="세종" data-i18n="hospitalSearch.regions.sejong">세종</button>
-                <button class="region-btn" data-region="강원" data-i18n="hospitalSearch.regions.gangwon">강원</button>
-                <button class="region-btn" data-region="충북" data-i18n="hospitalSearch.regions.chungbuk">충북</button>
-                <button class="region-btn" data-region="충남" data-i18n="hospitalSearch.regions.chungnam">충남</button>
-                <button class="region-btn" data-region="전북" data-i18n="hospitalSearch.regions.jeonbuk">전북</button>
-                <button class="region-btn" data-region="전남" data-i18n="hospitalSearch.regions.jeonnam">전남</button>
-                <button class="region-btn" data-region="경북" data-i18n="hospitalSearch.regions.gyeongbuk">경북</button>
-                <button class="region-btn" data-region="경남" data-i18n="hospitalSearch.regions.gyeongnam">경남</button>
-                <button class="region-btn" data-region="제주" data-i18n="hospitalSearch.regions.jeju">제주</button>
-            </div>
-        </div>
-        <div class="results-count">
-            <p>검색 결과: <span id="resultCount">3500</span>개</p>
         </div>
 
         <div id="hospitalGrid" class="hospital-grid">
