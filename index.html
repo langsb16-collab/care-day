@@ -157,90 +157,59 @@
     </section>
 
     <!-- Main Services Grid -->
-    <section class="py-16 bg-white">
+    <section class="py-12 md:py-16 bg-white">
         <div class="container mx-auto px-4">
-            <h3 class="text-3xl font-bold text-center mb-12" data-i18n="sections.title">주요 서비스</h3>
+            <h3 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12" data-i18n="sections.title">주요 서비스</h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 모바일: 2x2 그리드 (4개 보임), 태블릿: 2x3, 데스크톱: 3x2 -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-6">
                 
-                <!-- Disease Info -->
-                <a href="disease-info.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">🧠</div>
-                    <h4 class="text-xl font-bold mb-2">뇌질환 정보</h4>
-                    <p class="text-gray-600 text-sm mb-4">ICD-10 질병분류코드 기반 상세 정보</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
-                </a>
-
                 <!-- Hospital Search -->
-                <a href="hospital.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">🏥</div>
-                    <h4 class="text-xl font-bold mb-2">병원 검색</h4>
-                    <p class="text-gray-600 text-sm mb-4">2,500+ 병원, 7개 분류</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
+                <a href="hospital.html" class="bg-white rounded-lg md:rounded-xl shadow-lg hover:shadow-2xl transition p-4 md:p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-3xl md:text-5xl mb-2 md:mb-4">🏥</div>
+                    <h4 class="text-sm md:text-xl font-bold mb-1 md:mb-2">병원 검색</h4>
+                    <p class="text-gray-600 text-xs md:text-sm mb-2 md:mb-4">2,500+ 병원</p>
+                    <span class="text-primary font-medium text-xs md:text-base">보기 →</span>
                 </a>
 
                 <!-- Caregivers -->
-                <a href="caregivers.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">👩‍⚕️</div>
-                    <h4 class="text-xl font-bold mb-2">간병인 찾기</h4>
-                    <p class="text-gray-600 text-sm mb-4">마켓플레이스 형태 매칭</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
-                </a>
-
-                <!-- Rehabilitation -->
-                <a href="rehab.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">🤸</div>
-                    <h4 class="text-xl font-bold mb-2">재활운동 영상</h4>
-                    <p class="text-gray-600 text-sm mb-4">30개 이상 전문 재활영상</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
+                <a href="caregivers.html" class="bg-white rounded-lg md:rounded-xl shadow-lg hover:shadow-2xl transition p-4 md:p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-3xl md:text-5xl mb-2 md:mb-4">👩‍⚕️</div>
+                    <h4 class="text-sm md:text-xl font-bold mb-1 md:mb-2">간병인 찾기</h4>
+                    <p class="text-gray-600 text-xs md:text-sm mb-2 md:mb-4">전문 간병인</p>
+                    <span class="text-primary font-medium text-xs md:text-base">보기 →</span>
                 </a>
 
                 <!-- Care Diary -->
-                <a href="care-diary.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">📔</div>
-                    <h4 class="text-xl font-bold mb-2">간병일지</h4>
-                    <p class="text-gray-600 text-sm mb-4">환자 기록 및 보호자 공유</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
+                <a href="care-diary.html" class="bg-white rounded-lg md:rounded-xl shadow-lg hover:shadow-2xl transition p-4 md:p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-3xl md:text-5xl mb-2 md:mb-4">📔</div>
+                    <h4 class="text-sm md:text-xl font-bold mb-1 md:mb-2">간병일지</h4>
+                    <p class="text-gray-600 text-xs md:text-sm mb-2 md:mb-4">기록 & 공유</p>
+                    <span class="text-primary font-medium text-xs md:text-base">보기 →</span>
                 </a>
 
-                <!-- Insurance -->
-                <a href="insurance.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">💳</div>
-                    <h4 class="text-xl font-bold mb-2">보험 정보</h4>
-                    <p class="text-gray-600 text-sm mb-4">보험금 청구 및 비교</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
+                <!-- Rehabilitation -->
+                <a href="rehab.html" class="bg-white rounded-lg md:rounded-xl shadow-lg hover:shadow-2xl transition p-4 md:p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-3xl md:text-5xl mb-2 md:mb-4">🤸</div>
+                    <h4 class="text-sm md:text-xl font-bold mb-1 md:mb-2">재활운동</h4>
+                    <p class="text-gray-600 text-xs md:text-sm mb-2 md:mb-4">30+ 영상</p>
+                    <span class="text-primary font-medium text-xs md:text-base">보기 →</span>
                 </a>
 
                 <!-- Support Policies -->
-                <a href="support.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">📋</div>
-                    <h4 class="text-xl font-bold mb-2">지원정책</h4>
-                    <p class="text-gray-600 text-sm mb-4">정부·지자체 지원정책</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
+                <a href="support.html" class="bg-white rounded-lg md:rounded-xl shadow-lg hover:shadow-2xl transition p-4 md:p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-3xl md:text-5xl mb-2 md:mb-4">📋</div>
+                    <h4 class="text-sm md:text-xl font-bold mb-1 md:mb-2">지원정책</h4>
+                    <p class="text-gray-600 text-xs md:text-sm mb-2 md:mb-4">정부 지원</p>
+                    <span class="text-primary font-medium text-xs md:text-base">보기 →</span>
                 </a>
 
-                <!-- Care Supplies -->
-                <a href="supplies.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">🛒</div>
-                    <h4 class="text-xl font-bold mb-2">간병용품</h4>
-                    <p class="text-gray-600 text-sm mb-4">가격비교 및 마켓플레이스</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
-                </a>
-
-                <!-- Find Doctors -->
-                <a href="medical.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-primary">
-                    <div class="text-5xl mb-4">👨‍⚕️</div>
-                    <h4 class="text-xl font-bold mb-2">명의 찾기</h4>
-                    <p class="text-gray-600 text-sm mb-4">전국 명의·교수 정보</p>
-                    <span class="text-primary font-medium">자세히 보기 →</span>
-                </a>
-
-                <!-- Emergency Guide -->
-                <a href="emergency.html" class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition p-6 border-2 border-transparent hover:border-red-500">
-                    <div class="text-5xl mb-4">🚨</div>
-                    <h4 class="text-xl font-bold mb-2 text-red-600">응급 가이드</h4>
-                    <p class="text-gray-600 text-sm mb-4">응급실 도착 가이드</p>
-                    <span class="text-red-600 font-medium">자세히 보기 →</span>
+                <!-- Community -->
+                <a href="community.html" class="bg-white rounded-lg md:rounded-xl shadow-lg hover:shadow-2xl transition p-4 md:p-6 border-2 border-transparent hover:border-primary">
+                    <div class="text-3xl md:text-5xl mb-2 md:mb-4">💬</div>
+                    <h4 class="text-sm md:text-xl font-bold mb-1 md:mb-2">커뮤니티</h4>
+                    <p class="text-gray-600 text-xs md:text-sm mb-2 md:mb-4">소통 공간</p>
+                    <span class="text-primary font-medium text-xs md:text-base">보기 →</span>
                 </a>
 
             </div>
