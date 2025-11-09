@@ -71,6 +71,74 @@ const translations = {
                 other: '기타'
             }
         },
+        caregiverVideos: {
+            pageTitle: '가족간병 영상자료 - 뇌질환케어',
+            title: '가족간병 영상자료',
+            subtitle: '가족 간병에 도움이 되는 영상 모음',
+            watchButton: '영상 보기',
+            categories: {
+                policy: '정부 정책',
+                caregiving: '간병 기술',
+                insurance: '보험 제도',
+                documentary: '다큐멘터리'
+            },
+            sections: {
+                policy: {
+                    title: '정부 간병 정책',
+                    desc: '정부에서 추진하는 간병비 지원, 건강보험 급여화 등 최신 정책 정보'
+                },
+                caregiving: {
+                    title: '간병 기술 & 방법',
+                    desc: '실제 간병에 필요한 기술과 노하우'
+                },
+                insurance: {
+                    title: '보험 제도',
+                    desc: '간병 관련 보험 제도 및 약관 정보'
+                },
+                documentary: {
+                    title: '다큐멘터리',
+                    desc: '가족 간병의 현실을 다룬 다큐멘터리'
+                }
+            },
+            videos: {
+                policy1: {
+                    title: '요양병원 간병비 건강보험 급여화',
+                    desc: '2026년부터 간병비 본인부담 100%→30%로 대폭 경감'
+                },
+                policy2: {
+                    title: '간병비 급여화 공청회',
+                    desc: '의료중심 요양병원 혁신 및 간병비 급여화 추진방향'
+                },
+                policy3: {
+                    title: '간병비 70% 지원 제도 안내',
+                    desc: '한 달 200만원 간병비가 60만원으로! 제도 완벽 정리'
+                },
+                policy4: {
+                    title: '간병비 제도 어떻게 달라지나',
+                    desc: '간병 파산, 간병 살인 막는 새로운 제도 변화'
+                },
+                caregiving1: {
+                    title: '가족요양 제도 안내',
+                    desc: '가족을 간병하면서 돈도 벌 수 있는 제도'
+                },
+                caregiving2: {
+                    title: '간병 지원 서비스',
+                    desc: '환자도 가족도 고통스러운 간병을 돕는 지원 서비스'
+                },
+                insurance1: {
+                    title: '가족간병 보험 안내',
+                    desc: '2025 가족간병 간병인보험 약관 변경사항'
+                },
+                insurance2: {
+                    title: '건강보험 적용 안내',
+                    desc: '간병비 건강보험 적용 상세 안내'
+                },
+                documentary1: {
+                    title: '다큐 - 가족 간병',
+                    desc: '가족 간병의 현실을 다룬 감동 다큐멘터리'
+                }
+            }
+        },
         community: {
             title: '커뮤니티',
             subtitle: '환자와 가족을 위한 정보 공유',
@@ -202,6 +270,74 @@ const translations = {
                 hemorrhage: 'Brain Hemorrhage',
                 infarction: 'Brain Infarction',
                 other: 'Other'
+            }
+        },
+        caregiverVideos: {
+            pageTitle: 'Family Caregiving Videos - Brain Disease Care',
+            title: 'Family Caregiving Videos',
+            subtitle: 'Helpful video collection for family caregiving',
+            watchButton: 'Watch Video',
+            categories: {
+                policy: 'Government Policy',
+                caregiving: 'Caregiving Skills',
+                insurance: 'Insurance System',
+                documentary: 'Documentary'
+            },
+            sections: {
+                policy: {
+                    title: 'Government Caregiving Policy',
+                    desc: 'Latest policy information on caregiving cost support and health insurance coverage'
+                },
+                caregiving: {
+                    title: 'Caregiving Skills & Methods',
+                    desc: 'Practical skills and know-how for actual caregiving'
+                },
+                insurance: {
+                    title: 'Insurance System',
+                    desc: 'Caregiving-related insurance systems and policy information'
+                },
+                documentary: {
+                    title: 'Documentary',
+                    desc: 'Documentaries about the reality of family caregiving'
+                }
+            },
+            videos: {
+                policy1: {
+                    title: 'Nursing Home Care Cost Health Insurance Coverage',
+                    desc: 'Drastic reduction of care cost burden from 100% to 30% starting 2026'
+                },
+                policy2: {
+                    title: 'Care Cost Coverage Public Hearing',
+                    desc: 'Medical-centered nursing home innovation and care cost coverage direction'
+                },
+                policy3: {
+                    title: '70% Care Cost Support System Guide',
+                    desc: 'Monthly care cost reduced from $1,500 to $450! Complete system summary'
+                },
+                policy4: {
+                    title: 'How Care Cost System Changes',
+                    desc: 'New system changes to prevent care bankruptcy and care-related crimes'
+                },
+                caregiving1: {
+                    title: 'Family Care System Guide',
+                    desc: 'A system that allows you to earn money while caring for family'
+                },
+                caregiving2: {
+                    title: 'Caregiving Support Service',
+                    desc: 'Support services to help with painful caregiving for both patients and families'
+                },
+                insurance1: {
+                    title: 'Family Caregiving Insurance Guide',
+                    desc: '2025 family caregiving insurance policy changes'
+                },
+                insurance2: {
+                    title: 'Health Insurance Application Guide',
+                    desc: 'Detailed guide on health insurance application for care costs'
+                },
+                documentary1: {
+                    title: 'Documentary - Family Caregiving',
+                    desc: 'Touching documentary about the reality of family caregiving'
+                }
             }
         },
         community: {
@@ -337,6 +473,74 @@ const translations = {
                 other: '其他'
             }
         },
+        caregiverVideos: {
+            pageTitle: '家庭护理视频资料 - 脑疾病护理',
+            title: '家庭护理视频资料',
+            subtitle: '对家庭护理有帮助的视频集',
+            watchButton: '观看视频',
+            categories: {
+                policy: '政府政策',
+                caregiving: '护理技术',
+                insurance: '保险制度',
+                documentary: '纪录片'
+            },
+            sections: {
+                policy: {
+                    title: '政府护理政策',
+                    desc: '政府推进的护理费支持、健康保险覆盖等最新政策信息'
+                },
+                caregiving: {
+                    title: '护理技术与方法',
+                    desc: '实际护理所需的技术和诀窍'
+                },
+                insurance: {
+                    title: '保险制度',
+                    desc: '护理相关保险制度和条款信息'
+                },
+                documentary: {
+                    title: '纪录片',
+                    desc: '关于家庭护理现实的纪录片'
+                }
+            },
+            videos: {
+                policy1: {
+                    title: '疗养医院护理费健康保险覆盖',
+                    desc: '从2026年起护理费自付比例从100%大幅降至30%'
+                },
+                policy2: {
+                    title: '护理费覆盖公听会',
+                    desc: '以医疗为中心的疗养医院创新及护理费覆盖推进方向'
+                },
+                policy3: {
+                    title: '护理费70%支持制度指南',
+                    desc: '月护理费从200万韩元降至60万韩元！制度完整总结'
+                },
+                policy4: {
+                    title: '护理费制度如何变化',
+                    desc: '防止护理破产、护理犯罪的新制度变革'
+                },
+                caregiving1: {
+                    title: '家庭疗养制度指南',
+                    desc: '护理家人的同时还能赚钱的制度'
+                },
+                caregiving2: {
+                    title: '护理支援服务',
+                    desc: '帮助患者和家属减轻痛苦护理的支援服务'
+                },
+                insurance1: {
+                    title: '家庭护理保险指南',
+                    desc: '2025年家庭护理保险条款变更事项'
+                },
+                insurance2: {
+                    title: '健康保险适用指南',
+                    desc: '护理费健康保险适用详细指南'
+                },
+                documentary1: {
+                    title: '纪录片 - 家庭护理',
+                    desc: '关于家庭护理现实的感人纪录片'
+                }
+            }
+        },
         community: {
             title: '社区',
             subtitle: '为患者和家属提供信息共享',
@@ -468,6 +672,74 @@ const translations = {
                 hemorrhage: '脳出血',
                 infarction: '脳梗塞',
                 other: 'その他'
+            }
+        },
+        caregiverVideos: {
+            pageTitle: '家族介護動画資料 - 脳疾患ケア',
+            title: '家族介護動画資料',
+            subtitle: '家族介護に役立つ動画集',
+            watchButton: '動画を見る',
+            categories: {
+                policy: '政府政策',
+                caregiving: '介護技術',
+                insurance: '保険制度',
+                documentary: 'ドキュメンタリー'
+            },
+            sections: {
+                policy: {
+                    title: '政府介護政策',
+                    desc: '政府が推進する介護費支援、健康保険給付化などの最新政策情報'
+                },
+                caregiving: {
+                    title: '介護技術と方法',
+                    desc: '実際の介護に必要な技術とノウハウ'
+                },
+                insurance: {
+                    title: '保険制度',
+                    desc: '介護関連保険制度および約款情報'
+                },
+                documentary: {
+                    title: 'ドキュメンタリー',
+                    desc: '家族介護の現実を扱ったドキュメンタリー'
+                }
+            },
+            videos: {
+                policy1: {
+                    title: '療養病院介護費健康保険給付化',
+                    desc: '2026年から介護費自己負担が100%→30%へ大幅軽減'
+                },
+                policy2: {
+                    title: '介護費給付化公聴会',
+                    desc: '医療中心の療養病院革新および介護費給付化推進方向'
+                },
+                policy3: {
+                    title: '介護費70%支援制度案内',
+                    desc: '月200万ウォンの介護費が60万ウォンに！制度完全整理'
+                },
+                policy4: {
+                    title: '介護費制度はどう変わるか',
+                    desc: '介護破産、介護殺人を防ぐ新しい制度変化'
+                },
+                caregiving1: {
+                    title: '家族療養制度案内',
+                    desc: '家族を介護しながらお金も稼げる制度'
+                },
+                caregiving2: {
+                    title: '介護支援サービス',
+                    desc: '患者も家族も苦しい介護を助ける支援サービス'
+                },
+                insurance1: {
+                    title: '家族介護保険案内',
+                    desc: '2025年家族介護保険約款変更事項'
+                },
+                insurance2: {
+                    title: '健康保険適用案内',
+                    desc: '介護費健康保険適用詳細案内'
+                },
+                documentary1: {
+                    title: 'ドキュメンタリー - 家族介護',
+                    desc: '家族介護の現実を扱った感動ドキュメンタリー'
+                }
             }
         },
         community: {
