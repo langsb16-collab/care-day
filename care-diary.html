@@ -34,10 +34,16 @@
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 8px;
             font-weight: 600;
             transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
         }
         .btn-primary:hover {
             transform: translateY(-2px);
@@ -47,14 +53,31 @@
             background: white;
             border: 2px solid #667eea;
             color: #667eea;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 8px;
             font-weight: 600;
             transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
         }
         .btn-secondary:hover {
             background: #667eea;
             color: white;
+        }
+        
+        /* 모바일 반응형 스타일 */
+        @media (max-width: 768px) {
+            .btn-primary, .btn-secondary {
+                padding: 14px 16px;
+                font-size: 14px;
+                min-height: 52px;
+            }
+            .btn-primary i, .btn-secondary i {
+                font-size: 16px;
+            }
         }
         .status-badge {
             display: inline-flex;
@@ -153,24 +176,24 @@
             </div>
 
             <!-- Quick Action Buttons -->
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-                <button onclick="showRecordModal()" class="btn-primary text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 mb-8">
+                <button onclick="showRecordModal()" class="btn-primary">
                     <i class="fas fa-plus-circle mr-2"></i>
                     <span data-i18n="careDiary.newRecord">새 기록 작성</span>
                 </button>
-                <button onclick="startVoiceRecording()" class="btn-secondary text-center">
+                <button onclick="startVoiceRecording()" class="btn-secondary">
                     <i class="fas fa-microphone mr-2"></i>
                     <span data-i18n="careDiary.voiceRecord">음성 녹음</span>
                 </button>
-                <button onclick="capturePhoto()" class="btn-secondary text-center">
+                <button onclick="capturePhoto()" class="btn-secondary">
                     <i class="fas fa-camera mr-2"></i>
                     <span data-i18n="careDiary.takePhoto">사진 촬영</span>
                 </button>
-                <button onclick="uploadMedia()" class="btn-secondary text-center">
+                <button onclick="uploadMedia()" class="btn-secondary">
                     <i class="fas fa-upload mr-2"></i>
                     <span data-i18n="careDiary.uploadFile">파일 업로드</span>
                 </button>
-                <a href="medical-lens.html" class="btn-secondary text-center flex items-center justify-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                <a href="medical-lens.html" class="btn-secondary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; text-decoration: none;">
                     <i class="fas fa-camera-retro mr-2"></i>
                     <span data-i18n="careDiary.medicalLens">메디컬 렌즈</span>
                 </a>
