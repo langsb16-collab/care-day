@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="medicalLens.title">메디컬 렌즈 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .camera-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+        }
+        .camera-video {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+        }
+        .capture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .capture-frame {
+            width: 80%;
+            height: 60%;
+            border: 3px dashed #fff;
+            border-radius: 12px;
+            box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+        }
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            animation: scan 2s linear infinite;
+        }
+        @keyframes scan {
+            0%, 100% { top: 20%; }
+            50% { top: 80%; }
+        }
+        .analysis-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+        .info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+        .badge-name { background: #e3f2fd; color: #1976d2; }
+        .badge-ingredient { background: #f3e5f5; color: #7b1fa2; }
+        .badge-efficacy { background: #e8f5e9; color: #388e3c; }
+        .badge-warning { background: #fff3e0; color: #f57c00; }
+        .badge-contraindication { background: #ffebee; color: #c62828; }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 32px 0;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        .step::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: -1;
+        }
+        .step:last-child::after {
+            display: none;
+        }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .step.active .step-circle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.2);
+        }
+        .step.completed .step-circle {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .medicine-detail {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2">
+                <div class="flex items-center space-x-3">
+                    <span class="text-3xl">🧠</span>
+                    <div>
+                        <h1 class="text-lg font-bold text-primary" data-i18n="site.name">뇌질환케어</h1>
+                        <p class="text-xs text-gray-600" data-i18n="site.subtitle">Brain Disease Care</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="care-diary.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.careDiary">간병일기</a>
+                <a href="medical-lens.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap bg-primary text-white" data-i18n="menu.medicalLens">메디컬 렌즈</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="care-diary.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.careDiary">간병일기</a>
+                <a href="medical-lens.html" class="block px-4 py-2 bg-primary text-white rounded-lg" data-i18n="menu.medicalLens">메디컬 렌즈</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="community.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4">
+            
+            <!-- Header Section -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                    <i class="fas fa-camera-retro text-primary mr-3"></i>
+                    <span data-i18n="medicalLens.pageTitle">메디컬 렌즈</span>
+                </h2>
+                <p class="text-gray-600 text-lg" data-i18n="medicalLens.pageSubtitle">
+                    약제 라벨을 촬영하면 AI가 자동으로 분석합니다
+                </p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="step-indicator">
+                <div class="step active" id="step1">
+                    <div class="step-circle">1</div>
+                    <div class="text-sm font-semibold" data-i18n="medicalLens.step1">사진 촬영</div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-circle">2</div>
+                    <div class="text-sm font-semibold" data-i18n="medicalLens.step2">AI 분석</div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-circle">3</div>
+                    <div class="text-sm font-semibold" data-i18n="medicalLens.step3">간병일지 저장</div>
+                </div>
+                <div class="step" id="step4">
+                    <div class="step-circle">4</div>
+                    <div class="text-sm font-semibold" data-i18n="medicalLens.step4">보호자 전송</div>
+                </div>
+            </div>
+
+            <!-- Camera Section -->
+            <div id="cameraSection" class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+                <h3 class="text-2xl font-bold mb-4 text-center" data-i18n="medicalLens.captureTitle">
+                    약제 라벨 촬영
+                </h3>
+                
+                <div class="camera-container" id="cameraContainer">
+                    <video id="cameraVideo" class="camera-video" autoplay playsinline></video>
+                    <div class="capture-overlay">
+                        <div class="capture-frame">
+                            <div class="scan-line" id="scanLine" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6 space-y-4">
+                    <button onclick="startCamera()" id="startCameraBtn" class="btn-primary">
+                        <i class="fas fa-camera mr-2"></i>
+                        <span data-i18n="medicalLens.startCamera">카메라 시작</span>
+                    </button>
+                    
+                    <div id="cameraControls" style="display:none;">
+                        <button onclick="capturePhoto()" class="btn-primary mr-3">
+                            <i class="fas fa-circle text-red-500 mr-2"></i>
+                            <span data-i18n="medicalLens.capture">촬영</span>
+                        </button>
+                        <button onclick="stopCamera()" class="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-400 transition">
+                            <i class="fas fa-stop mr-2"></i>
+                            <span data-i18n="medicalLens.stop">중지</span>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <input type="file" id="fileUpload" accept="image/*" class="hidden" onchange="handleFileUpload(event)">
+                        <button onclick="document.getElementById('fileUpload').click()" class="px-6 py-3 bg-white border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition">
+                            <i class="fas fa-upload mr-2"></i>
+                            <span data-i18n="medicalLens.uploadPhoto">사진 업로드</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <canvas id="captureCanvas" style="display:none;"></canvas>
+            </div>
+
+            <!-- Analysis Section -->
+            <div id="analysisSection" class="bg-white rounded-2xl shadow-xl p-6 mb-8" style="display:none;">
+                <h3 class="text-2xl font-bold mb-6 text-center">
+                    <i class="fas fa-brain text-primary mr-2"></i>
+                    <span data-i18n="medicalLens.analysisTitle">AI 분석 결과</span>
+                </h3>
+                
+                <!-- Captured Image Preview -->
+                <div class="text-center mb-6">
+                    <img id="capturedImage" src="" alt="Captured medication label" class="max-w-md mx-auto rounded-lg shadow-lg">
+                </div>
+                
+                <!-- Analysis Loading -->
+                <div id="analysisLoading" class="text-center py-8">
+                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+                    <p class="mt-4 text-gray-600 font-semibold" data-i18n="medicalLens.analyzing">분석 중입니다...</p>
+                </div>
+                
+                <!-- Analysis Results -->
+                <div id="analysisResults" style="display:none;">
+                    <div class="analysis-card mb-6">
+                        <h4 class="text-2xl font-bold mb-4" id="medicineName">약품명</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="info-badge badge-name">
+                                <i class="fas fa-pills"></i>
+                                <span id="medicineType">주사제</span>
+                            </span>
+                            <span class="info-badge badge-ingredient">
+                                <i class="fas fa-flask"></i>
+                                <span id="medicineIngredient">성분명</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="medicine-detail">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span data-i18n="medicalLens.efficacy">효능·효과</span>
+                        </h5>
+                        <p id="medicineEfficacy" class="text-gray-700 leading-relaxed">약품의 효능과 효과에 대한 설명</p>
+                    </div>
+                    
+                    <div class="medicine-detail">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-heartbeat text-blue-500 mr-2"></i>
+                            <span data-i18n="medicalLens.reason">투여 이유</span>
+                        </h5>
+                        <p id="medicineReason" class="text-gray-700 leading-relaxed">이 환자에게 이 약을 투여하는 이유</p>
+                    </div>
+                    
+                    <div class="medicine-detail">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                            <i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>
+                            <span data-i18n="medicalLens.sideEffects">부작용</span>
+                        </h5>
+                        <p id="medicineSideEffects" class="text-gray-700 leading-relaxed">가능한 부작용 및 주의사항</p>
+                    </div>
+                    
+                    <div class="medicine-detail bg-red-50">
+                        <h5 class="text-xl font-bold text-red-700 mb-3 flex items-center">
+                            <i class="fas fa-ban text-red-600 mr-2"></i>
+                            <span data-i18n="medicalLens.contraindications">금기사항</span>
+                        </h5>
+                        <p id="medicineContraindications" class="text-red-700 leading-relaxed font-semibold">이 약을 사용해서는 안 되는 경우</p>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex gap-3 mt-6">
+                        <button onclick="saveToDiary()" class="btn-primary flex-1">
+                            <i class="fas fa-save mr-2"></i>
+                            <span data-i18n="medicalLens.saveToDiary">간병일지 저장</span>
+                        </button>
+                        <button onclick="sendToGuardian()" class="px-6 py-3 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            <span data-i18n="medicalLens.sendToGuardian">보호자 전송</span>
+                        </button>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button onclick="resetAnalysis()" class="text-primary hover:underline font-semibold">
+                            <i class="fas fa-redo mr-2"></i>
+                            <span data-i18n="medicalLens.analyzeAnother">다른 약 분석하기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Section -->
+            <div id="successSection" class="bg-white rounded-2xl shadow-xl p-8 text-center" style="display:none;">
+                <div class="text-6xl mb-4">✅</div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-3" data-i18n="medicalLens.successTitle">저장 완료!</h3>
+                <p class="text-gray-600 mb-6" data-i18n="medicalLens.successMessage">간병일지에 저장되고 보호자에게 전송되었습니다.</p>
+                <div class="flex gap-3 justify-center">
+                    <button onclick="viewDiary()" class="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:opacity-90 transition">
+                        <i class="fas fa-book mr-2"></i>
+                        <span data-i18n="medicalLens.viewDiary">간병일지 보기</span>
+                    </button>
+                    <button onclick="resetAnalysis()" class="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-400 transition">
+                        <i class="fas fa-camera mr-2"></i>
+                        <span data-i18n="medicalLens.scanAgain">다시 촬영</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="bg-blue-50 rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-3">📸</div>
+                    <h4 class="font-bold text-lg mb-2" data-i18n="medicalLens.info1Title">간편한 촬영</h4>
+                    <p class="text-sm text-gray-600" data-i18n="medicalLens.info1Text">약제 라벨을 촬영하기만 하면 됩니다</p>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-3">🤖</div>
+                    <h4 class="font-bold text-lg mb-2" data-i18n="medicalLens.info2Title">AI 자동 분석</h4>
+                    <p class="text-sm text-gray-600" data-i18n="medicalLens.info2Text">약 이름, 성분, 효능을 자동 인식합니다</p>
+                </div>
+                <div class="bg-green-50 rounded-xl p-6 text-center">
+                    <div class="text-4xl mb-3">📱</div>
+                    <h4 class="font-bold text-lg mb-2" data-i18n="medicalLens.info3Title">실시간 공유</h4>
+                    <p class="text-sm text-gray-600" data-i18n="medicalLens.info3Text">보호자에게 즉시 전송됩니다</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">&copy; 2025 CASHiQ.org - 뇌질환케어. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        let videoStream = null;
+        let capturedImageData = null;
+        let analysisData = null;
+
+        // Start Camera
+        async function startCamera() {
+            try {
+                videoStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'environment' },
+                    audio: false 
+                });
+                
+                const video = document.getElementById('cameraVideo');
+                video.srcObject = videoStream;
+                
+                document.getElementById('startCameraBtn').style.display = 'none';
+                document.getElementById('cameraControls').style.display = 'block';
+                document.getElementById('scanLine').style.display = 'block';
+                
+                updateStep(1);
+            } catch (error) {
+                console.error('카메라 접근 오류:', error);
+                alert('카메라 접근 권한이 필요합니다.');
+            }
+        }
+
+        // Stop Camera
+        function stopCamera() {
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+                videoStream = null;
+            }
+            
+            const video = document.getElementById('cameraVideo');
+            video.srcObject = null;
+            
+            document.getElementById('startCameraBtn').style.display = 'block';
+            document.getElementById('cameraControls').style.display = 'none';
+            document.getElementById('scanLine').style.display = 'none';
+        }
+
+        // Capture Photo
+        function capturePhoto() {
+            const video = document.getElementById('cameraVideo');
+            const canvas = document.getElementById('captureCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0);
+            
+            capturedImageData = canvas.toDataURL('image/jpeg');
+            
+            stopCamera();
+            analyzeImage(capturedImageData);
+        }
+
+        // Handle File Upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    capturedImageData = e.target.result;
+                    analyzeImage(capturedImageData);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Analyze Image with AI
+        async function analyzeImage(imageData) {
+            document.getElementById('cameraSection').style.display = 'none';
+            document.getElementById('analysisSection').style.display = 'block';
+            document.getElementById('capturedImage').src = imageData;
+            document.getElementById('analysisLoading').style.display = 'block';
+            document.getElementById('analysisResults').style.display = 'none';
+            
+            updateStep(2);
+            
+            // 실제 구현: OCR + AI 분석 API 호출
+            // 여기서는 시뮬레이션
+            setTimeout(() => {
+                // 샘플 분석 결과
+                analysisData = {
+                    name: '노르에피네프린 주사',
+                    type: '주사제',
+                    ingredient: '노르에피네프린 4mg/4mL',
+                    efficacy: '저혈압 치료제로, 혈압을 높이고 심장 박동을 증가시킵니다. 급성 저혈압, 쇼크 상태, 심정지 시 사용됩니다.',
+                    reason: '뇌졸중 환자의 경우 혈압이 급격히 떨어질 수 있어 뇌로 가는 혈류를 유지하기 위해 사용됩니다. 적절한 혈압 유지가 뇌 회복에 중요합니다.',
+                    sideEffects: '두통, 불안감, 떨림, 빈맥, 부정맥이 나타날 수 있습니다. 주사 부위 괴사 가능성이 있어 주의가 필요합니다.',
+                    contraindications: '심한 고혈압, 갑상선 기능 항진증, 당뇨병 환자는 주의가 필요합니다. 임산부는 의사와 상담 후 사용해야 합니다.'
+                };
+                
+                displayAnalysisResults(analysisData);
+            }, 3000);
+        }
+
+        // Display Analysis Results
+        function displayAnalysisResults(data) {
+            document.getElementById('analysisLoading').style.display = 'none';
+            document.getElementById('analysisResults').style.display = 'block';
+            
+            document.getElementById('medicineName').textContent = data.name;
+            document.getElementById('medicineType').textContent = data.type;
+            document.getElementById('medicineIngredient').textContent = data.ingredient;
+            document.getElementById('medicineEfficacy').textContent = data.efficacy;
+            document.getElementById('medicineReason').textContent = data.reason;
+            document.getElementById('medicineSideEffects').textContent = data.sideEffects;
+            document.getElementById('medicineContraindications').textContent = data.contraindications;
+        }
+
+        // Save to Diary
+        function saveToDiary() {
+            updateStep(3);
+            
+            // localStorage에 저장
+            const diaryEntry = {
+                id: Date.now(),
+                type: 'medication_analysis',
+                date: new Date().toISOString(),
+                image: capturedImageData,
+                data: analysisData
+            };
+            
+            const diaries = JSON.parse(localStorage.getItem('care_diaries') || '[]');
+            diaries.push(diaryEntry);
+            localStorage.setItem('care_diaries', JSON.stringify(diaries));
+            
+            // 보호자 전송
+            sendToGuardian();
+        }
+
+        // Send to Guardian
+        function sendToGuardian() {
+            updateStep(4);
+            
+            // 실제 구현: SMS/카카오톡/텔레그램 API 호출
+            console.log('보호자에게 전송:', analysisData);
+            
+            setTimeout(() => {
+                document.getElementById('analysisSection').style.display = 'none';
+                document.getElementById('successSection').style.display = 'block';
+            }, 1000);
+        }
+
+        // Reset Analysis
+        function resetAnalysis() {
+            document.getElementById('cameraSection').style.display = 'block';
+            document.getElementById('analysisSection').style.display = 'none';
+            document.getElementById('successSection').style.display = 'none';
+            
+            capturedImageData = null;
+            analysisData = null;
+            
+            updateStep(1);
+        }
+
+        // View Diary
+        function viewDiary() {
+            window.location.href = 'care-diary.html';
+        }
+
+        // Update Progress Step
+        function updateStep(stepNumber) {
+            for (let i = 1; i <= 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.classList.remove('active', 'completed');
+                
+                if (i < stepNumber) {
+                    step.classList.add('completed');
+                } else if (i === stepNumber) {
+                    step.classList.add('active');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
