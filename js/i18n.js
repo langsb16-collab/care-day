@@ -70,6 +70,67 @@ const translations = {
                 infarction: '뇌경색',
                 other: '기타'
             }
+        },
+        community: {
+            title: '커뮤니티',
+            subtitle: '환자와 가족을 위한 정보 공유',
+            cards: {
+                organDonation: {
+                    title: '뇌사 장기기증 절차',
+                    desc: '생명을 나누는 장기기증에 대한 절차와 안내',
+                    action: '자세히 보기'
+                },
+                caregiverVideos: {
+                    title: '가족간병 영상자료',
+                    desc: '가족 간병에 대한 유용한 동영상 모음',
+                    action: '자세히 보기'
+                },
+                patientRights: {
+                    title: '환자 보호자 권리',
+                    desc: '환자와 보호자의 권리 및 항의 절차 안내',
+                    action: '자세히 보기'
+                },
+                contactInfo: {
+                    title: '주요 연락처',
+                    desc: '긴급상황 및 필수 연락처 모음',
+                    action: '자세히 보기'
+                },
+                funeralServices: {
+                    title: '상조회사 & 납골당',
+                    desc: '전국 상조회사 및 납골당 연락처 정보',
+                    action: '자세히 보기'
+                },
+                forum: {
+                    title: '자유게시판',
+                    desc: '환자와 보호자의 경험 공유 및 소통 공간',
+                    action: '게시판 바로가기'
+                },
+                papers: {
+                    title: '논문 (한국어/영어)',
+                    desc: '뇌질환 관련 국내외 학술 논문 및 연구 자료',
+                    action: '논문 자료 보기'
+                },
+                insurance: {
+                    title: '보험',
+                    desc: '뇌질환 치료를 위한 보험 정보 및 가이드',
+                    action: '보험 정보 보기'
+                },
+                support: {
+                    title: '지원정책',
+                    desc: '정부 및 지자체 지원 정책 안내',
+                    action: '지원정책 보기'
+                },
+                supplies: {
+                    title: '간병용품',
+                    desc: '필수 간병 용품 및 구매 정보',
+                    action: '용품 보기'
+                },
+                complaints: {
+                    title: '민원 (병원,국가기관)',
+                    desc: '병원 및 국가기관에 대한 민원 접수',
+                    action: '민원 접수하기'
+                }
+            }
         }
     },
     en: {
@@ -141,6 +202,67 @@ const translations = {
                 hemorrhage: 'Brain Hemorrhage',
                 infarction: 'Brain Infarction',
                 other: 'Other'
+            }
+        },
+        community: {
+            title: 'Community',
+            subtitle: 'Information sharing for patients and families',
+            cards: {
+                organDonation: {
+                    title: 'Brain Death Organ Donation',
+                    desc: 'Procedures and guidance for life-saving organ donation',
+                    action: 'Learn More'
+                },
+                caregiverVideos: {
+                    title: 'Family Caregiver Videos',
+                    desc: 'Useful video collection for family caregiving',
+                    action: 'Learn More'
+                },
+                patientRights: {
+                    title: 'Patient & Guardian Rights',
+                    desc: 'Rights and complaint procedures for patients and guardians',
+                    action: 'Learn More'
+                },
+                contactInfo: {
+                    title: 'Key Contacts',
+                    desc: 'Emergency and essential contact information',
+                    action: 'Learn More'
+                },
+                funeralServices: {
+                    title: 'Funeral Services & Ossuaries',
+                    desc: 'Nationwide funeral services and ossuary contact information',
+                    action: 'Learn More'
+                },
+                forum: {
+                    title: 'Community Forum',
+                    desc: 'Space for patients and guardians to share experiences',
+                    action: 'Go to Forum'
+                },
+                papers: {
+                    title: 'Research Papers (KR/EN)',
+                    desc: 'Domestic and international academic papers on brain diseases',
+                    action: 'View Papers'
+                },
+                insurance: {
+                    title: 'Insurance',
+                    desc: 'Insurance information and guides for brain disease treatment',
+                    action: 'View Insurance Info'
+                },
+                support: {
+                    title: 'Support Policies',
+                    desc: 'Government and local support policy information',
+                    action: 'View Policies'
+                },
+                supplies: {
+                    title: 'Caregiving Supplies',
+                    desc: 'Essential caregiving supplies and purchase information',
+                    action: 'View Supplies'
+                },
+                complaints: {
+                    title: 'Complaints (Hospital/Government)',
+                    desc: 'File complaints about hospitals and government agencies',
+                    action: 'File Complaint'
+                }
             }
         }
     },
@@ -214,6 +336,67 @@ const translations = {
                 infarction: '脑梗塞',
                 other: '其他'
             }
+        },
+        community: {
+            title: '社区',
+            subtitle: '为患者和家属提供信息共享',
+            cards: {
+                organDonation: {
+                    title: '脑死亡器官捐献程序',
+                    desc: '关于拯救生命的器官捐献程序和指南',
+                    action: '了解更多'
+                },
+                caregiverVideos: {
+                    title: '家庭护理视频资料',
+                    desc: '有关家庭护理的有用视频集',
+                    action: '了解更多'
+                },
+                patientRights: {
+                    title: '患者和监护人权利',
+                    desc: '患者和监护人的权利及投诉程序指南',
+                    action: '了解更多'
+                },
+                contactInfo: {
+                    title: '重要联系方式',
+                    desc: '紧急情况和必要联系信息',
+                    action: '了解更多'
+                },
+                funeralServices: {
+                    title: '丧葬服务公司和骨灰堂',
+                    desc: '全国丧葬服务公司和骨灰堂联系信息',
+                    action: '了解更多'
+                },
+                forum: {
+                    title: '自由讨论区',
+                    desc: '患者和监护人分享经验和交流的空间',
+                    action: '前往论坛'
+                },
+                papers: {
+                    title: '论文 (韩语/英语)',
+                    desc: '国内外脑疾病相关学术论文和研究资料',
+                    action: '查看论文'
+                },
+                insurance: {
+                    title: '保险',
+                    desc: '脑疾病治疗的保险信息和指南',
+                    action: '查看保险信息'
+                },
+                support: {
+                    title: '支持政策',
+                    desc: '政府和地方政府支持政策信息',
+                    action: '查看政策'
+                },
+                supplies: {
+                    title: '护理用品',
+                    desc: '必要护理用品和购买信息',
+                    action: '查看用品'
+                },
+                complaints: {
+                    title: '投诉 (医院/政府机关)',
+                    desc: '对医院和政府机关的投诉受理',
+                    action: '提交投诉'
+                }
+            }
         }
     },
     ja: {
@@ -285,6 +468,67 @@ const translations = {
                 hemorrhage: '脳出血',
                 infarction: '脳梗塞',
                 other: 'その他'
+            }
+        },
+        community: {
+            title: 'コミュニティ',
+            subtitle: '患者とご家族のための情報共有',
+            cards: {
+                organDonation: {
+                    title: '脳死臓器提供手続き',
+                    desc: '命を分かち合う臓器提供の手続きと案内',
+                    action: '詳細を見る'
+                },
+                caregiverVideos: {
+                    title: '家族介護動画資料',
+                    desc: '家族介護に関する有用な動画集',
+                    action: '詳細を見る'
+                },
+                patientRights: {
+                    title: '患者・保護者の権利',
+                    desc: '患者と保護者の権利および苦情手続きの案内',
+                    action: '詳細を見る'
+                },
+                contactInfo: {
+                    title: '主要連絡先',
+                    desc: '緊急時および必須連絡先一覧',
+                    action: '詳細を見る'
+                },
+                funeralServices: {
+                    title: '葬儀会社と納骨堂',
+                    desc: '全国の葬儀会社と納骨堂の連絡先情報',
+                    action: '詳細を見る'
+                },
+                forum: {
+                    title: '自由掲示板',
+                    desc: '患者と保護者の経験共有とコミュニケーションスペース',
+                    action: '掲示板へ'
+                },
+                papers: {
+                    title: '論文 (韓国語/英語)',
+                    desc: '脳疾患関連の国内外学術論文と研究資料',
+                    action: '論文を見る'
+                },
+                insurance: {
+                    title: '保険',
+                    desc: '脳疾患治療のための保険情報とガイド',
+                    action: '保険情報を見る'
+                },
+                support: {
+                    title: '支援政策',
+                    desc: '政府および地方自治体の支援政策案内',
+                    action: '政策を見る'
+                },
+                supplies: {
+                    title: '介護用品',
+                    desc: '必須介護用品と購入情報',
+                    action: '用品を見る'
+                },
+                complaints: {
+                    title: '苦情 (病院/政府機関)',
+                    desc: '病院および政府機関に対する苦情受付',
+                    action: '苦情を申し立てる'
+                }
             }
         }
     }
