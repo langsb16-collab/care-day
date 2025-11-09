@@ -355,7 +355,7 @@
             <i class="fas fa-users" style="font-size: 20px; color: #fff;"></i>
             <span style="font-size: 12px; opacity: 0.95; font-weight: 500; letter-spacing: 0.5px;">방문자 수</span>
         </div>
-        <span id="visitor-count" style="font-size: 28px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">0</span>
+        <span id="visitor-count" style="font-size: 28px; font-weight: 800; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: transform 0.3s ease;">1,248</span>
     </div>
 
     <style>
@@ -427,11 +427,17 @@
             const VISITOR_KEY = 'brain_care_visitor_count';
             const TODAY_KEY = 'brain_care_today';
             const UNIQUE_VISITOR_KEY = 'brain_care_unique_visitor';
+            const INIT_COUNT = 1248; // 초기 방문자 수
             
             // 오늘 날짜 가져오기
             function getTodayDate() {
                 const today = new Date();
-                return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+                return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            }
+            
+            // 숫자에 콤마 추가
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
             
             // 방문자 수 초기화 및 업데이트
@@ -440,7 +446,14 @@
                 const lastVisitDate = localStorage.getItem(TODAY_KEY);
                 const isUniqueVisitor = localStorage.getItem(UNIQUE_VISITOR_KEY);
                 
-                // 날짜가 바뀌면 리셋
+                // 첫 방문이거나 카운트가 없으면 초기값 설정
+                let count = parseInt(localStorage.getItem(VISITOR_KEY));
+                if (isNaN(count) || count < INIT_COUNT) {
+                    count = INIT_COUNT;
+                    localStorage.setItem(VISITOR_KEY, count.toString());
+                }
+                
+                // 날짜가 바뀌면 오늘 방문자 플래그만 리셋
                 if (lastVisitDate !== today) {
                     localStorage.setItem(TODAY_KEY, today);
                     localStorage.removeItem(UNIQUE_VISITOR_KEY);
@@ -448,40 +461,31 @@
                 
                 // 오늘 첫 방문이면 카운트 증가
                 if (!isUniqueVisitor) {
-                    let count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
                     count++;
                     localStorage.setItem(VISITOR_KEY, count.toString());
                     localStorage.setItem(UNIQUE_VISITOR_KEY, 'true');
                 }
                 
-                // 화면에 표시
-                const count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
+                // 화면에 애니메이션으로 표시
                 displayCount(count);
-            }
-            
-            // 숫자에 콤마 추가
-            function numberWithCommas(x) {
-                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
             
             // 카운트 애니메이션과 함께 표시
             function displayCount(targetCount) {
                 const counterElement = document.getElementById('visitor-count');
-                if (!counterElement) return;
+                if (!counterElement) {
+                    console.error('visitor-count element not found');
+                    return;
+                }
                 
-                let currentCount = 0;
-                const increment = Math.ceil(targetCount / 50);
-                const duration = 1500; // 1.5초
-                const stepTime = duration / (targetCount / increment);
+                // 즉시 표시 (애니메이션 없이)
+                counterElement.textContent = numberWithCommas(targetCount);
                 
-                const timer = setInterval(() => {
-                    currentCount += increment;
-                    if (currentCount >= targetCount) {
-                        currentCount = targetCount;
-                        clearInterval(timer);
-                    }
-                    counterElement.textContent = numberWithCommas(currentCount);
-                }, stepTime);
+                // 약간의 펄스 효과
+                counterElement.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    counterElement.style.transform = 'scale(1)';
+                }, 300);
             }
             
             // 페이지 로드 시 실행
@@ -492,11 +496,14 @@
             }
             
             // 클릭 시 상세 정보 표시
-            document.getElementById('visitor-counter')?.addEventListener('click', function() {
-                const count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
-                const today = getTodayDate();
-                alert(`📊 방문자 통계\n\n오늘 방문자: ${numberWithCommas(count)}명\n날짜: ${today}\n\n※ 이 카운터는 브라우저 로컬 저장소를 사용합니다.`);
-            });
+            const counterDiv = document.getElementById('visitor-counter');
+            if (counterDiv) {
+                counterDiv.addEventListener('click', function() {
+                    const count = parseInt(localStorage.getItem(VISITOR_KEY) || INIT_COUNT.toString());
+                    const today = getTodayDate();
+                    alert(`📊 방문자 통계\n\n전체 방문자: ${numberWithCommas(count)}명\n날짜: ${today}\n\n※ 하루에 한 번 카운트됩니다.`);
+                });
+            }
         })();
     </script>
 </body>
