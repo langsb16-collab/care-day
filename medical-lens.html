@@ -436,11 +436,6 @@
     <script src="js/i18n.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        });
-
         let videoStream = null;
         let capturedImageData = null;
         let analysisData = null;
@@ -463,7 +458,21 @@
                 updateStep(1);
             } catch (error) {
                 console.error('카메라 접근 오류:', error);
-                alert('카메라 접근 권한이 필요합니다.');
+                let errorMessage = '카메라 접근 권한이 필요합니다.\n\n';
+                
+                if (error.name === 'NotAllowedError') {
+                    errorMessage += '카메라 권한을 허용해주세요.\n브라우저 설정에서 카메라 접근을 허용하신 후 페이지를 새로고침해주세요.';
+                } else if (error.name === 'NotFoundError') {
+                    errorMessage += '카메라를 찾을 수 없습니다.\n기기에 카메라가 연결되어 있는지 확인해주세요.';
+                } else if (error.name === 'NotReadableError') {
+                    errorMessage += '카메라가 다른 앱에서 사용 중입니다.\n다른 앱을 종료하신 후 다시 시도해주세요.';
+                } else if (error.name === 'OverconstrainedError') {
+                    errorMessage += '요청한 카메라 설정을 사용할 수 없습니다.';
+                } else {
+                    errorMessage += '오류: ' + error.message;
+                }
+                
+                alert(errorMessage);
             }
         }
 
