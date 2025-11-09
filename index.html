@@ -325,5 +325,159 @@
 
         // switchLanguage 함수는 i18n.js에서 정의됨
     </script>
+
+    <!-- 방문자 카운터 -->
+    <div id="visitor-counter" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        z-index: 1000;
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    " onmouseover="this.style.transform='translateY(-5px) scale(1.05)'" onmouseout="this.style.transform='translateY(0) scale(1)'">
+        <i class="fas fa-users" style="font-size: 16px;"></i>
+        <span style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.3;">
+            <span style="font-size: 10px; opacity: 0.9; font-weight: 400;">방문자</span>
+            <span id="visitor-count" style="font-size: 18px; font-weight: 700; letter-spacing: 1px;">0</span>
+        </span>
+    </div>
+
+    <style>
+        @media (max-width: 768px) {
+            #visitor-counter {
+                bottom: 15px !important;
+                right: 15px !important;
+                padding: 10px 16px !important;
+                font-size: 12px !important;
+                border-radius: 40px !important;
+            }
+            
+            #visitor-counter i {
+                font-size: 14px !important;
+            }
+            
+            #visitor-counter #visitor-count {
+                font-size: 16px !important;
+            }
+            
+            #visitor-counter span:first-of-type {
+                font-size: 9px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #visitor-counter {
+                bottom: 12px !important;
+                right: 12px !important;
+                padding: 8px 14px !important;
+                gap: 6px !important;
+            }
+        }
+
+        /* 애니메이션 효과 */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        #visitor-counter:hover {
+            animation: pulse 2s infinite;
+        }
+    </style>
+
+    <script>
+        // 방문자 카운터 기능
+        (function() {
+            const VISITOR_KEY = 'brain_care_visitor_count';
+            const TODAY_KEY = 'brain_care_today';
+            const UNIQUE_VISITOR_KEY = 'brain_care_unique_visitor';
+            
+            // 오늘 날짜 가져오기
+            function getTodayDate() {
+                const today = new Date();
+                return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+            }
+            
+            // 방문자 수 초기화 및 업데이트
+            function updateVisitorCount() {
+                const today = getTodayDate();
+                const lastVisitDate = localStorage.getItem(TODAY_KEY);
+                const isUniqueVisitor = localStorage.getItem(UNIQUE_VISITOR_KEY);
+                
+                // 날짜가 바뀌면 리셋
+                if (lastVisitDate !== today) {
+                    localStorage.setItem(TODAY_KEY, today);
+                    localStorage.removeItem(UNIQUE_VISITOR_KEY);
+                }
+                
+                // 오늘 첫 방문이면 카운트 증가
+                if (!isUniqueVisitor) {
+                    let count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
+                    count++;
+                    localStorage.setItem(VISITOR_KEY, count.toString());
+                    localStorage.setItem(UNIQUE_VISITOR_KEY, 'true');
+                }
+                
+                // 화면에 표시
+                const count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
+                displayCount(count);
+            }
+            
+            // 숫자에 콤마 추가
+            function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // 카운트 애니메이션과 함께 표시
+            function displayCount(targetCount) {
+                const counterElement = document.getElementById('visitor-count');
+                if (!counterElement) return;
+                
+                let currentCount = 0;
+                const increment = Math.ceil(targetCount / 50);
+                const duration = 1500; // 1.5초
+                const stepTime = duration / (targetCount / increment);
+                
+                const timer = setInterval(() => {
+                    currentCount += increment;
+                    if (currentCount >= targetCount) {
+                        currentCount = targetCount;
+                        clearInterval(timer);
+                    }
+                    counterElement.textContent = numberWithCommas(currentCount);
+                }, stepTime);
+            }
+            
+            // 페이지 로드 시 실행
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateVisitorCount);
+            } else {
+                updateVisitorCount();
+            }
+            
+            // 클릭 시 상세 정보 표시
+            document.getElementById('visitor-counter')?.addEventListener('click', function() {
+                const count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
+                const today = getTodayDate();
+                alert(`📊 방문자 통계\n\n오늘 방문자: ${numberWithCommas(count)}명\n날짜: ${today}\n\n※ 이 카운터는 브라우저 로컬 저장소를 사용합니다.`);
+            });
+        })();
+    </script>
 </body>
 </html>
