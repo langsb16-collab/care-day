@@ -336,7 +336,7 @@
         padding: 12px 20px;
         border-radius: 50px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        z-index: 1000;
+        z-index: 9999;
         font-family: 'Noto Sans KR', sans-serif;
         font-size: 14px;
         font-weight: 600;
@@ -346,6 +346,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
+        pointer-events: auto;
     " onmouseover="this.style.transform='translateY(-5px) scale(1.05)'" onmouseout="this.style.transform='translateY(0) scale(1)'">
         <i class="fas fa-users" style="font-size: 16px;"></i>
         <span style="display: flex; flex-direction: column; align-items: flex-start; line-height: 1.3;">
