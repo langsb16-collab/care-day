@@ -199,6 +199,45 @@ const translations = {
                     action: '민원 접수하기'
                 }
             }
+        },
+        hospitalSearch: {
+            pageTitle: '병원 검색 - 뇌질환케어',
+            mainTitle: '뇌질환 전문 병원 검색',
+            searchPlaceholder: '병원 이름, 지역명을 입력하세요 (예: 서울대병원, 강남구)',
+            searchButton: '검색',
+            categoryTitle: '병원 분류별 필터',
+            regionTitle: '지역별 필터',
+            resultCount: '검색 결과',
+            categories: {
+                all: '전체',
+                tertiary: '상급종합병원',
+                general: '종합병원',
+                specialized: '전문병원',
+                nursing: '요양병원',
+                rehabilitation: '재활병원',
+                oriental: '한방병원',
+                regular: '일반병원'
+            },
+            regions: {
+                all: '전국',
+                seoul: '서울',
+                gyeonggi: '경기',
+                incheon: '인천',
+                busan: '부산',
+                daegu: '대구',
+                daejeon: '대전',
+                gwangju: '광주',
+                ulsan: '울산',
+                sejong: '세종',
+                gangwon: '강원',
+                chungbuk: '충북',
+                chungnam: '충남',
+                jeonbuk: '전북',
+                jeonnam: '전남',
+                gyeongbuk: '경북',
+                gyeongnam: '경남',
+                jeju: '제주'
+            }
         }
     },
     en: {
@@ -399,6 +438,45 @@ const translations = {
                     desc: 'File complaints about hospitals and government agencies',
                     action: 'File Complaint'
                 }
+            }
+        },
+        hospitalSearch: {
+            pageTitle: 'Hospital Search - Brain Disease Care',
+            mainTitle: 'Brain Disease Specialized Hospital Search',
+            searchPlaceholder: 'Enter hospital name or region (e.g., Seoul National University Hospital, Gangnam)',
+            searchButton: 'Search',
+            categoryTitle: 'Filter by Hospital Category',
+            regionTitle: 'Filter by Region',
+            resultCount: 'Search Results',
+            categories: {
+                all: 'All',
+                tertiary: 'Tertiary Hospital',
+                general: 'General Hospital',
+                specialized: 'Specialized Hospital',
+                nursing: 'Nursing Hospital',
+                rehabilitation: 'Rehabilitation Hospital',
+                oriental: 'Oriental Medicine Hospital',
+                regular: 'Regular Hospital'
+            },
+            regions: {
+                all: 'Nationwide',
+                seoul: 'Seoul',
+                gyeonggi: 'Gyeonggi',
+                incheon: 'Incheon',
+                busan: 'Busan',
+                daegu: 'Daegu',
+                daejeon: 'Daejeon',
+                gwangju: 'Gwangju',
+                ulsan: 'Ulsan',
+                sejong: 'Sejong',
+                gangwon: 'Gangwon',
+                chungbuk: 'Chungbuk',
+                chungnam: 'Chungnam',
+                jeonbuk: 'Jeonbuk',
+                jeonnam: 'Jeonnam',
+                gyeongbuk: 'Gyeongbuk',
+                gyeongnam: 'Gyeongnam',
+                jeju: 'Jeju'
             }
         }
     },
@@ -601,6 +679,45 @@ const translations = {
                     action: '提交投诉'
                 }
             }
+        },
+        hospitalSearch: {
+            pageTitle: '医院搜索 - 脑疾病护理',
+            mainTitle: '脑疾病专门医院搜索',
+            searchPlaceholder: '输入医院名称或地区（例：首尔大学医院、江南区）',
+            searchButton: '搜索',
+            categoryTitle: '按医院分类筛选',
+            regionTitle: '按地区筛选',
+            resultCount: '搜索结果',
+            categories: {
+                all: '全部',
+                tertiary: '上级综合医院',
+                general: '综合医院',
+                specialized: '专科医院',
+                nursing: '疗养医院',
+                rehabilitation: '康复医院',
+                oriental: '韩医院',
+                regular: '普通医院'
+            },
+            regions: {
+                all: '全国',
+                seoul: '首尔',
+                gyeonggi: '京畿',
+                incheon: '仁川',
+                busan: '釜山',
+                daegu: '大邱',
+                daejeon: '大田',
+                gwangju: '光州',
+                ulsan: '蔚山',
+                sejong: '世宗',
+                gangwon: '江原',
+                chungbuk: '忠北',
+                chungnam: '忠南',
+                jeonbuk: '全北',
+                jeonnam: '全南',
+                gyeongbuk: '庆北',
+                gyeongnam: '庆南',
+                jeju: '济州'
+            }
         }
     },
     ja: {
@@ -801,6 +918,45 @@ const translations = {
                     desc: '病院および政府機関に対する苦情受付',
                     action: '苦情を申し立てる'
                 }
+            }
+        },
+        hospitalSearch: {
+            pageTitle: '病院検索 - 脳疾患ケア',
+            mainTitle: '脳疾患専門病院検索',
+            searchPlaceholder: '病院名または地域を入力してください（例：ソウル大学病院、江南区）',
+            searchButton: '検索',
+            categoryTitle: '病院分類別フィルター',
+            regionTitle: '地域別フィルター',
+            resultCount: '検索結果',
+            categories: {
+                all: '全体',
+                tertiary: '上級総合病院',
+                general: '総合病院',
+                specialized: '専門病院',
+                nursing: '療養病院',
+                rehabilitation: 'リハビリ病院',
+                oriental: '韓方病院',
+                regular: '一般病院'
+            },
+            regions: {
+                all: '全国',
+                seoul: 'ソウル',
+                gyeonggi: '京畿',
+                incheon: '仁川',
+                busan: '釜山',
+                daegu: '大邱',
+                daejeon: '大田',
+                gwangju: '光州',
+                ulsan: '蔚山',
+                sejong: '世宗',
+                gangwon: '江原',
+                chungbuk: '忠北',
+                chungnam: '忠南',
+                jeonbuk: '全北',
+                jeonnam: '全南',
+                gyeongbuk: '慶北',
+                gyeongnam: '慶南',
+                jeju: '済州'
             }
         }
     }
