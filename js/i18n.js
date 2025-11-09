@@ -19,7 +19,8 @@ const translations = {
             community: '커뮤니티',
             medical: '명의찾기',
             complaints: '민원',
-            emergency: '응급'
+            emergency: '응급',
+            papers: '논문 (한국어/영어)'
         },
         hero: {
             title: '뇌출혈·뇌경색 환자와 가족을 위한<br>종합 케어 플랫폼',
@@ -90,7 +91,8 @@ const translations = {
             community: 'Community',
             medical: 'Find Doctors',
             complaints: 'Complaints',
-            emergency: 'Emergency'
+            emergency: 'Emergency',
+            papers: 'Papers (KR/EN)'
         },
         hero: {
             title: 'Comprehensive Care Platform<br>for Stroke Patients and Families',
@@ -161,7 +163,8 @@ const translations = {
             community: '社区',
             medical: '寻找名医',
             complaints: '投诉',
-            emergency: '急救'
+            emergency: '急救',
+            papers: '论文 (韩语/英语)'
         },
         hero: {
             title: '为脑出血和脑梗塞患者及家属<br>提供的综合护理平台',
@@ -232,7 +235,8 @@ const translations = {
             community: 'コミュニティ',
             medical: '名医を探す',
             complaints: '苦情',
-            emergency: '緊急'
+            emergency: '緊急',
+            papers: '論文 (韓国語/英語)'
         },
         hero: {
             title: '脳出血・脳梗塞患者とご家族のための<br>総合ケアプラットフォーム',

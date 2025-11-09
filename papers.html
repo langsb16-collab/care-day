@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>논문 자료 - 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-4xl">🧠</span>
+                    <div><h1 class="text-xl font-bold text-primary">뇌질환케어</h1></div>
+                </a>
+                
+                <div class="flex items-center space-x-2">
+                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ko">
+                        🇰🇷 <span class="hidden sm:inline">한국어</span>
+                    </button>
+                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="en">
+                        🇺🇸 <span class="hidden sm:inline">English</span>
+                    </button>
+                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="zh">
+                        🇨🇳 <span class="hidden sm:inline">中文</span>
+                    </button>
+                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg hover:bg-gray-100 transition" data-lang="ja">
+                        🇯🇵 <span class="hidden sm:inline">日本語</span>
+                    </button>
+                    
+                    <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.supplies">간병용품</a>
+                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="complaints.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.complaints">민원</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.insurance">보험</a>
+                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.support">지원정책</a>
+                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.supplies">간병용품</a>
+                <a href="community.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="complaints.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.complaints">민원</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">📚</div>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-i18n="page.papers.title">뇌질환 치료 논문 자료</h1>
+                <p class="text-xl text-gray-600" data-i18n="page.papers.subtitle">한국어·영어 학술 논문 및 저널 정보</p>
+            </div>
+
+            <!-- 탭 메뉴 -->
+            <div class="flex justify-center mb-8 border-b">
+                <button onclick="showTab('journals')" id="tab-journals" class="tab-btn px-6 py-3 font-semibold text-primary border-b-2 border-primary">
+                    <i class="fas fa-book mr-2"></i>국제 학술 저널
+                </button>
+                <button onclick="showTab('korean')" id="tab-korean" class="tab-btn px-6 py-3 font-semibold text-gray-500 hover:text-primary">
+                    <i class="fas fa-file-alt mr-2"></i>한국어 논문
+                </button>
+                <button onclick="showTab('english')" id="tab-english" class="tab-btn px-6 py-3 font-semibold text-gray-500 hover:text-primary">
+                    <i class="fas fa-globe mr-2"></i>영어 논문
+                </button>
+            </div>
+
+            <!-- 국제 학술 저널 탭 -->
+            <div id="content-journals" class="tab-content">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-blue-800 mb-1">국제 학술 저널 안내</p>
+                            <p class="text-sm text-blue-700">뇌질환 치료 및 재활 관련 연구를 다루는 주요 국제 저널입니다. 오픈액세스 논문을 통해 최신 연구 동향을 확인하실 수 있습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <i class="fas fa-journal-whills text-blue-600 mr-2"></i>Brain Sciences (MDPI)
+                                </h3>
+                                <p class="text-gray-600 mb-3">국제 피어리뷰 오픈액세스 저널, 뇌과학 전반 및 신경질환 치료법 등을 다룸</p>
+                                <a href="https://www.mdpi.com/journal/brainsci" target="_blank" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                                    <i class="fas fa-external-link-alt mr-2"></i>저널 방문하기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <i class="fas fa-journal-whills text-green-600 mr-2"></i>Brain & NeuroRehabilitation (BNR)
+                                </h3>
+                                <p class="text-gray-600 mb-3">신경재활 전반을 주제로 한 플래티넘 오픈액세스 저널. 치료·재활 관련 논문 열람 가능</p>
+                                <a href="https://e-bnr.org" target="_blank" class="inline-block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm">
+                                    <i class="fas fa-external-link-alt mr-2"></i>저널 방문하기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <i class="fas fa-journal-whills text-purple-600 mr-2"></i>Journal of Neuroinflammation
+                                </h3>
+                                <p class="text-gray-600 mb-3">신경계 염증 및 면역-뇌질환 상관관계에 집중하는 오픈액세스 저널</p>
+                                <a href="https://jneuroinflammation.biomedcentral.com/" target="_blank" class="inline-block px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                                    <i class="fas fa-external-link-alt mr-2"></i>저널 방문하기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <i class="fas fa-journal-whills text-indigo-600 mr-2"></i>Brain and Behavior
+                                </h3>
+                                <p class="text-gray-600 mb-3">신경·심리·정신과 영역을 포함하는 오픈액세스 저널로 뇌질환 연구 포함</p>
+                                <a href="https://onlinelibrary.wiley.com/journal/21579032" target="_blank" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm">
+                                    <i class="fas fa-external-link-alt mr-2"></i>저널 방문하기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <i class="fas fa-journal-whills text-red-600 mr-2"></i>Journal of the Korean Neurological Association
+                                </h3>
+                                <p class="text-gray-600 mb-3">한국 신경학회 공식 저널. 한국어 논문도 포함되어 국내 치료법 연구 참고 가능</p>
+                                <a href="https://www.jkna.org" target="_blank" class="inline-block px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm">
+                                    <i class="fas fa-external-link-alt mr-2"></i>저널 방문하기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <i class="fas fa-journal-whills text-yellow-600 mr-2"></i>Brain (Oxford Academic)
+                                </h3>
+                                <p class="text-gray-600 mb-3">고급 신경과학 저널. 일부 오픈액세스 논문 존재. 치료법 및 기전 연구 포함</p>
+                                <a href="https://academic.oup.com/brain" target="_blank" class="inline-block px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition text-sm">
+                                    <i class="fas fa-external-link-alt mr-2"></i>저널 방문하기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                                    <i class="fas fa-journal-whills text-teal-600 mr-2"></i>JAMA Neurology
+                                </h3>
+                                <p class="text-gray-600 mb-3">임상 신경질환 및 치료법을 다루는 저널. 일부 논문 오픈액세스 가능</p>
+                                <a href="https://jamanetwork.com/journals/jamaneurology" target="_blank" class="inline-block px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition text-sm">
+                                    <i class="fas fa-external-link-alt mr-2"></i>저널 방문하기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 text-xl mr-3 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-yellow-800 mb-1">유의사항</p>
+                            <ul class="text-sm text-yellow-700 space-y-1 list-disc list-inside">
+                                <li>일부 저널은 완전 오픈액세스가 아니며, 특정 논문만 무료로 제공될 수 있습니다</li>
+                                <li>최신 치료법 논문은 임상시험 또는 리뷰논문 형태가 많으며, 실제 상용화 치료와 연구단계 치료를 구분해야 합니다</li>
+                                <li>논문 열람 전 "Open Access" 표시 여부를 확인하시기 바랍니다</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 한국어 논문 탭 -->
+            <div id="content-korean" class="tab-content" style="display: none;">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-blue-800 mb-1">한국어 논문 안내</p>
+                            <p class="text-sm text-blue-700">국내 연구진이 발표한 뇌질환 치료 및 재활 관련 한국어 논문입니다. 국내 환자에게 적용 가능한 치료법을 중심으로 정리되었습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">뇌출혈의 내과적 치료</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: 조기현 (2003)</p>
+                        <p class="text-gray-700 mb-3">국내 환자에서 고혈압성 뇌출혈의 내과적 치료 전략을 정리한 논문</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">국내 연구</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">치료법</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">뇌출혈의 실험적 연구동향 및 새로운 치료방법</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: 정상욱 (2003)</p>
+                        <p class="text-gray-700 mb-3">국내 뇌출혈 관련 실험 연구 및 새로운 치료 방법 동향을 분석</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">국내 연구</span>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">실험 연구</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">완고한 보행장애를 주소로 하는 만성기 뇌출혈 환자의 한의 치료 및 재활 운동 증례보고</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: 김 JY 등 (2014)</p>
+                        <p class="text-gray-700 mb-3">만성 뇌출혈환자에 대한 한방 치료 + 재활운동 사례 보고</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">국내 연구</span>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs rounded-full">재활</span>
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">한방</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Efficacy of Methylphenidate in Patients With Brain Disease: A Systematic Review and Meta‑Analysis</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: 박 JM 등 (2025)</p>
+                        <p class="text-gray-700 mb-3">한국 연구자가 참여한 국내형 리뷰 논문으로, 뇌질환 환자에서 메틸페니데이트의 효능을 분석</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">국내 연구</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">약물 치료</span>
+                            <span class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full">메타분석</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">급성 허혈성 뇌졸중에서 항혈전제 치료의 최신 가이드라인</h3>
+                        <p class="text-sm text-gray-600 mb-2">최신 리뷰</p>
+                        <p class="text-gray-700 mb-3">국내 허혈성 뇌졸중 치료에서 항혈전제 사용을 다룬 최신 리뷰</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">국내 연구</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">가이드라인</span>
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full">항혈전제</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-green-50 border-l-4 border-green-500 p-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-search text-green-500 text-xl mr-3 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-green-800 mb-1">추가 논문 검색</p>
+                            <p class="text-sm text-green-700 mb-2">국내 학술지 검색 포털에서 "뇌질환 치료", "뇌졸중 재활", "뇌출혈 치료" 등의 키워드로 검색하시면 20-30편 이상의 논문을 찾으실 수 있습니다.</p>
+                            <div class="flex gap-2 mt-3">
+                                <a href="https://www.kci.go.kr" target="_blank" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700">KCI</a>
+                                <a href="https://www.dbpia.co.kr" target="_blank" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700">DBpia</a>
+                                <a href="https://scienceon.kisti.re.kr" target="_blank" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700">ScienceON</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 영어 논문 탭 -->
+            <div id="content-english" class="tab-content" style="display: none;">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-blue-800 mb-1">영어 논문 안내</p>
+                            <p class="text-sm text-blue-700">해외에서 발표된 뇌질환 치료법, 재활, 신기술 적용 등을 다룬 대표적인 영어 논문입니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Tailored Treatment of Acute Ischemic Stroke: A Narrative Review</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: Kargiotis O et al. (2025)</p>
+                        <p class="text-gray-700 mb-3">급성 허혈성 뇌졸중에서 정맥 내 방식(IVT)과 혈관내치료(EVT)의 개인화된 접근을 논함</p>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">허혈성 뇌졸중</span>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">맞춤 치료</span>
+                        </div>
+                        <a href="https://www.mdpi.com/1648-9144/61/9/1700" target="_blank" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                            <i class="fas fa-external-link-alt mr-2"></i>논문 보기
+                        </a>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Therapeutic Opportunities and Delivery Strategies for Brain Microvasculature</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: Gallego I et al. (2022)</p>
+                        <p class="text-gray-700 mb-3">뇌 미세혈관을 공략한 치료기회 및 전달 전략을 리뷰한 논문</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">약물 전달</span>
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full">미세혈관</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Advances in Acute Ischemic Stroke Therapy</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: Xiong Y et al. (2022)</p>
+                        <p class="text-gray-700 mb-3">허혈성 뇌졸중 치료의 최신 발전사항 정리</p>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">허혈성 뇌졸중</span>
+                            <span class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full">최신 치료</span>
+                        </div>
+                        <a href="https://www.ahajournals.org/doi/10.1161/CIRCRESAHA.121.319948" target="_blank" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                            <i class="fas fa-external-link-alt mr-2"></i>논문 보기
+                        </a>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Stem cell‑based therapies for ischemic stroke: a systematic review and meta‑analysis</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: Li Z et al. (2020)</p>
+                        <p class="text-gray-700 mb-3">줄기세포 기반 치료의 허혈성 뇌졸중 적용 가능성과 한계 분석</p>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">줄기세포</span>
+                            <span class="px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full">메타분석</span>
+                        </div>
+                        <a href="https://stemcellres.biomedcentral.com/articles/10.1186/s13287-020-01762-z" target="_blank" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                            <i class="fas fa-external-link-alt mr-2"></i>논문 보기
+                        </a>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Efficacy and safety of brain–computer interface for stroke rehabilitation</h3>
+                        <p class="text-sm text-gray-600 mb-2">저자: Liu J et al. (2025)</p>
+                        <p class="text-gray-700 mb-3">뇌–컴퓨터 인터페이스(BCI)를 활용한 뇌졸중 재활의 효능 및 안전성 분석</p>
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs rounded-full">재활</span>
+                            <span class="px-3 py-1 bg-teal-100 text-teal-700 text-xs rounded-full">BCI</span>
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">신기술</span>
+                        </div>
+                        <a href="https://www.frontiersin.org/journals/human-neuroscience/articles/10.3389/fnhum.2025.1525293/full" target="_blank" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                            <i class="fas fa-external-link-alt mr-2"></i>논문 보기
+                        </a>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">New strategies of neurodegenerative disease treatment with extracellular vesicles (EVs) derived from mesenchymal stem cells (MSCs)</h3>
+                        <p class="text-sm text-gray-600 mb-2">(2023)</p>
+                        <p class="text-gray-700 mb-3">퇴행성 뇌질환 치료법 최신 리뷰 논문</p>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">줄기세포</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full">퇴행성질환</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 하단 커뮤니티로 돌아가기 -->
+            <div class="mt-12 text-center">
+                <a href="community.html" class="inline-block px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition shadow-lg">
+                    <i class="fas fa-arrow-left mr-2"></i>커뮤니티로 돌아가기
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">🧠 뇌질환케어</h3>
+                    <p class="text-gray-400 mb-2">뇌출혈·뇌경색 환자와 가족을 위한</p>
+                    <p class="text-gray-400">종합 케어 플랫폼</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">빠른 링크</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="disease-info.html" class="hover:text-white">뇌질환 정보</a></li>
+                        <li><a href="hospital.html" class="hover:text-white">병원 검색</a></li>
+                        <li><a href="support.html" class="hover:text-white">지원정책</a></li>
+                        <li><a href="community.html" class="hover:text-white">커뮤니티</a></li>
+                        <li><a href="emergency.html" class="hover:text-white text-red-400">응급정보</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">📱 플랫폼 개발 문의</h3>
+                    <p class="text-gray-400 mb-4 text-sm">QR코드를 스캔하여 문의하세요</p>
+                    <div class="flex gap-4">
+                        <div class="text-center">
+                            <img src="images/wechat-qr.jpg" alt="WeChat QR Code" class="w-32 h-32 bg-white p-2 rounded-lg mb-2">
+                            <p class="text-sm text-gray-400">WeChat</p>
+                        </div>
+                        <div class="text-center">
+                            <img src="images/telegram-qr.jpg" alt="Telegram QR Code" class="w-32 h-32 bg-white p-2 rounded-lg mb-2">
+                            <p class="text-sm text-gray-400">Telegram</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 CASHiQ.org - 뇌질환케어. All rights reserved.</p>
+                <p class="text-sm mt-2">본 사이트의 정보는 참고용이며, 전문의와 상담이 필요합니다.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // 탭 전환 기능
+        function showTab(tabName) {
+            // 모든 탭 콘텐츠 숨기기
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // 모든 탭 버튼 비활성화
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                btn.classList.add('text-gray-500');
+            });
+            
+            // 선택한 탭 콘텐츠 표시
+            document.getElementById('content-' + tabName).style.display = 'block';
+            
+            // 선택한 탭 버튼 활성화
+            const activeBtn = document.getElementById('tab-' + tabName);
+            activeBtn.classList.remove('text-gray-500');
+            activeBtn.classList.add('text-primary', 'border-b-2', 'border-primary');
+        }
+    </script>
+</body>
+</html>
