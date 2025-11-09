@@ -18,7 +18,7 @@ const translations = {
             supplies: '간병용품',
             community: '커뮤니티',
             medical: '명의찾기',
-            complaints: '민원',
+            complaints: '민원 (병원,국가기관)',
             emergency: '응급',
             papers: '논문 (한국어/영어)'
         },
@@ -90,7 +90,7 @@ const translations = {
             supplies: 'Supplies',
             community: 'Community',
             medical: 'Find Doctors',
-            complaints: 'Complaints',
+            complaints: 'Complaints (Hospital/Government)',
             emergency: 'Emergency',
             papers: 'Papers (KR/EN)'
         },
@@ -162,7 +162,7 @@ const translations = {
             supplies: '护理用品',
             community: '社区',
             medical: '寻找名医',
-            complaints: '投诉',
+            complaints: '投诉 (医院/政府机关)',
             emergency: '急救',
             papers: '论文 (韩语/英语)'
         },
@@ -234,7 +234,7 @@ const translations = {
             supplies: '介護用品',
             community: 'コミュニティ',
             medical: '名医を探す',
-            complaints: '苦情',
+            complaints: '苦情 (病院/政府機関)',
             emergency: '緊急',
             papers: '論文 (韓国語/英語)'
         },

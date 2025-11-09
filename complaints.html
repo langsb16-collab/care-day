@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>민원 게시판 - 뇌질환케어</title>
+    <title>민원 (병원,국가기관) - 뇌질환케어</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -168,33 +168,25 @@
             </div>
             
             <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
-                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">홈</a>
-                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">뇌질환 정보</a>
-                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">병원 검색</a>
-                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">간병인</a>
-                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">재활운동</a>
-                <a href="insurance.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">보험</a>
-                <a href="support.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">지원정책</a>
-                <a href="supplies.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">간병용품</a>
-                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.community">커뮤니티</a>
-                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">명의찾기</a>
-                <a href="complaints.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap">민원</a>
-                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600">응급</a>
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
+                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
             </div>
             
             <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">홈</a>
-                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">뇌질환 정보</a>
-                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">병원 검색</a>
-                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">간병인</a>
-                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">재활운동</a>
-                <a href="insurance.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">보험</a>
-                <a href="support.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">지원정책</a>
-                <a href="supplies.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">간병용품</a>
-                <a href="community.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.community">커뮤니티</a>
-                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">명의찾기</a>
-                <a href="complaints.html" class="block px-4 py-2 bg-primary text-white rounded-lg">민원</a>
-                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg">응급</a>
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
+                <a href="community.html" class="block px-4 py-2 bg-primary text-white rounded-lg" data-i18n="menu.community">커뮤니티</a>
+                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
+                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
             </div>
         </div>
     </nav>
@@ -204,8 +196,8 @@
             <!-- 페이지 헤더 -->
             <div class="text-center mb-12">
                 <div class="text-6xl mb-4">📝</div>
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">민원 게시판</h1>
-                <p class="text-xl text-gray-600">병원, 간병인 관련 민원을 등록하고 공유하세요</p>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">민원 (병원,국가기관)</h1>
+                <p class="text-xl text-gray-600">병원 및 국가기관에 대한 민원을 접수하고 공유하세요</p>
             </div>
             
             <!-- 민원 등록 버튼 -->
