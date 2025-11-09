@@ -2,12 +2,26 @@
 
 // Mobile Menu Toggle
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Main.js loaded');
+    
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     
+    console.log('Mobile menu toggle:', mobileMenuToggle);
+    console.log('Mobile menu:', mobileMenu);
+    
     if (mobileMenuToggle && mobileMenu) {
-        mobileMenuToggle.addEventListener('click', function() {
+        // Remove any existing listeners to prevent duplicates
+        const newToggle = mobileMenuToggle.cloneNode(true);
+        mobileMenuToggle.parentNode.replaceChild(newToggle, mobileMenuToggle);
+        
+        newToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('📱 Menu toggle clicked!');
+            
             mobileMenu.classList.toggle('hidden');
+            console.log('Menu hidden:', mobileMenu.classList.contains('hidden'));
             
             // Toggle icon
             const icon = this.querySelector('i');
@@ -21,6 +35,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+        
+        console.log('✅ Mobile menu listener attached');
+    } else {
+        console.error('❌ Mobile menu elements not found!');
     }
 });
 
