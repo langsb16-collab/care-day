@@ -276,6 +276,232 @@
                 </div>
             </div>
 
+            <!-- 뇌질환 분야별 특화 진료 버튼 -->
+            <div class="mb-8">
+                <button onclick="toggleSpecializedCare()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-3">
+                    <i class="fas fa-hospital-alt text-2xl"></i>
+                    <span class="text-lg md:text-xl">🏥 뇌질환 분야별 특화 진료</span>
+                    <i id="specializedCareIcon" class="fas fa-chevron-down ml-2 transition-transform"></i>
+                </button>
+            </div>
+
+            <!-- 뇌질환 분야별 특화 진료 상세 내용 (기본 숨김) -->
+            <div id="specializedCareContent" class="hidden mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <div class="prose max-w-none">
+                        <!-- 소개 -->
+                        <div class="mb-8 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                            <p class="text-sm md:text-base text-gray-700 leading-relaxed">
+                                국내에서 뇌질환 진료 분야로 평가가 높은 주요 병원들 및 그들이 강점으로 삼는 진료 분야들을 요약한 내용입니다. 
+                                의료전문가 평가·언론보도 등을 통해 자주 언급되는 병원들을 중심으로 정리했습니다.
+                            </p>
+                        </div>
+
+                        <!-- 주요 병원 목록 -->
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                            <i class="fas fa-hospital text-blue-600"></i>
+                            주요 병원 및 특화 분야
+                        </h3>
+
+                        <!-- 병원 카드 그리드 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <!-- 1. 서울대학교병원 -->
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl p-6 hover:shadow-xl transition">
+                                <div class="flex items-start gap-4 mb-4">
+                                    <div class="text-4xl">🏥</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold text-blue-900 mb-2">서울대학교병원</h4>
+                                        <p class="text-sm text-blue-600 font-semibold mb-2">📞 1588-5700</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">✅ 특화 분야</p>
+                                        <p class="text-sm text-gray-600">뇌혈관질환 (뇌동맥류, 모야모야병, 경동맥협착), 뇌졸중, 뇌종양, 뇌전증</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">🔬 특징</p>
+                                        <p class="text-sm text-gray-600">신경외과 내 "뇌혈관 클리닉" 교수진 및 중재시술 체계, 다학제 진료 제공</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">👨‍⚕️ 명의 예시</p>
+                                        <p class="text-sm text-gray-600">백선하 교수 (뇌종양·파킨슨병·이상운동)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. 세브란스병원 -->
+                            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-6 hover:shadow-xl transition">
+                                <div class="flex items-start gap-4 mb-4">
+                                    <div class="text-4xl">🏥</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold text-green-900 mb-2">세브란스병원</h4>
+                                        <p class="text-sm text-green-600 font-semibold mb-2">📞 1599-1004</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">✅ 특화 분야</p>
+                                        <p class="text-sm text-gray-600">뇌동맥류 수술 및 혈관내 색전술, 뇌혈관응급, 뇌출혈·뇌경색 치료</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">🔬 특징</p>
+                                        <p class="text-sm text-gray-600">미세현미경 수술 및 혈관내 중재술 전문, 복잡한 뇌혈관질환 치료 경험</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">👨‍⚕️ 명의 예시</p>
+                                        <p class="text-sm text-gray-600">김용배 교수 (뇌동맥류·뇌출혈·뇌혈관기형)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. 삼성서울병원 -->
+                            <div class="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl p-6 hover:shadow-xl transition">
+                                <div class="flex items-start gap-4 mb-4">
+                                    <div class="text-4xl">🏥</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold text-purple-900 mb-2">삼성서울병원</h4>
+                                        <p class="text-sm text-purple-600 font-semibold mb-2">📞 02-3410-2114</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">✅ 특화 분야</p>
+                                        <p class="text-sm text-gray-600">뇌종양·두개저외과 (뇌하수체종양, 뇌수막종, 전이성뇌종양), 뇌혈관질환</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">🔬 특징</p>
+                                        <p class="text-sm text-gray-600">다양한 신경계 질환 클리닉, 뇌졸중 및 뇌혈관 응급체계</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">👨‍⚕️ 명의 예시</p>
+                                        <p class="text-sm text-gray-600">공두식 교수 (뇌수막종·뇌하수체종양), 연제영 교수 (뇌동맥류·뇌출혈)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. 가톨릭대학교서울성모병원 -->
+                            <div class="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 rounded-xl p-6 hover:shadow-xl transition">
+                                <div class="flex items-start gap-4 mb-4">
+                                    <div class="text-4xl">🏥</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold text-red-900 mb-2">서울성모병원</h4>
+                                        <p class="text-sm text-red-600 font-semibold mb-2">📞 02-1588-1511</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">✅ 특화 분야</p>
+                                        <p class="text-sm text-gray-600">뇌혈관질환 및 뇌졸중, 두개저외과 (뇌동맥류, 뇌혈관기형, 소아뇌질환)</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">🔬 특징</p>
+                                        <p class="text-sm text-gray-600">신경외과 학계 역사적 전통, 뇌질환 치료 및 연구 역량</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">👨‍⚕️ 명의 예시</p>
+                                        <p class="text-sm text-gray-600">신용삼 교수, 이관성 교수 (모야모야병·뇌동맥류)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. 명지성모병원 -->
+                            <div class="bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-200 rounded-xl p-6 hover:shadow-xl transition md:col-span-2">
+                                <div class="flex items-start gap-4 mb-4">
+                                    <div class="text-4xl">🏥</div>
+                                    <div>
+                                        <h4 class="text-xl font-bold text-yellow-900 mb-2">명지성모병원</h4>
+                                        <p class="text-sm text-yellow-600 font-semibold mb-2">📞 1899-1475</p>
+                                    </div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">✅ 특화 분야</p>
+                                        <p class="text-sm text-gray-600">뇌혈관질환 전문병원 (뇌졸중·뇌출혈·뇌동맥류·모야모야병), 24시간 응급체계</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">🔬 특징</p>
+                                        <p class="text-sm text-gray-600">'뇌혈관 전문병원' 인증 기관, 뇌혈관 응급·수술 치료 집중 진료체계, 뇌손상재활</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-700 mb-1">👨‍⚕️ 명의 예시</p>
+                                        <p class="text-sm text-gray-600">하승현 과장 (뇌졸중·뇌출혈), 정형희 센터장 (뇌졸중재활·뇌손상재활)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 선택 이유 -->
+                        <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-6 mb-8">
+                            <h3 class="text-xl font-bold text-indigo-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-star text-yellow-500"></i>
+                                왜 이 병원들이 추천되는가?
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-800">전문클리닉 구성</p>
+                                        <p class="text-xs text-gray-600">뇌혈관, 뇌종양, 뇌졸중 등 분야별 세부 클리닉과 전문의 보유</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-800">응급 및 집중치료</p>
+                                        <p class="text-xs text-gray-600">24시간 응급진료, 골든타임 대응체계</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-800">연구·시술 역량</p>
+                                        <p class="text-xs text-gray-600">미세수술, 중재시술 등 고난도 치료법 수행 경험</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-800">다학제 진료</p>
+                                        <p class="text-xs text-gray-600">신경외과, 신경과, 영상의학과, 재활의학과 협진</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 분야별 특화 진료영역 -->
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fas fa-clipboard-list text-blue-600"></i>
+                                분야별 특화 진료영역
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-brain text-red-500"></i>
+                                    <span class="text-gray-700"><strong>뇌혈관질환:</strong> 뇌동맥류, 뇌출혈, 뇌경색, 경동맥협착</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-brain text-purple-500"></i>
+                                    <span class="text-gray-700"><strong>뇌종양:</strong> 뇌하수체종양, 수막종, 청신경종, 전이성뇌종양</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-ambulance text-orange-500"></i>
+                                    <span class="text-gray-700"><strong>뇌졸중응급:</strong> 급성기 치료 및 집중 재활</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-heartbeat text-pink-500"></i>
+                                    <span class="text-gray-700"><strong>뇌전증:</strong> 뇌전증 수술, 모야모야병, 뇌혈관기형</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-walking text-green-500"></i>
+                                    <span class="text-gray-700"><strong>신경재활:</strong> 뇌손상 후 재활, 만성 뇌질환 관리</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 진료과 선택 -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div onclick="showDoctors('neurology')" class="bg-red-50 border-2 border-red-200 rounded-xl p-6 text-center cursor-pointer hover:shadow-lg transition transform hover:scale-105">
@@ -400,6 +626,22 @@
 
 
     <script>
+        // 뇌질환 분야별 특화 진료 토글 함수
+        function toggleSpecializedCare() {
+            const content = document.getElementById('specializedCareContent');
+            const icon = document.getElementById('specializedCareIcon');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+                // 스크롤 애니메이션
+                content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
         // 명의 데이터베이스
         const doctorsData = {
             neurology: [
