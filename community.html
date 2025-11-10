@@ -48,182 +48,388 @@
         </div>
     </nav>
 
-    <main class="pt-28 pb-16">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <div class="text-6xl mb-4">👥</div>
-                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-i18n="community.title">커뮤니티</h1>
-                <p class="text-xl text-gray-600" data-i18n="community.subtitle">환자와 가족을 위한 정보 공유</p>
+    <main class="pt-20 md:pt-28 pb-8 md:pb-16">
+        <div class="container mx-auto px-2 md:px-4">
+            <!-- 헤더 -->
+            <div class="text-center mb-6 md:mb-12">
+                <div class="text-3xl md:text-6xl mb-2 md:mb-4">👥</div>
+                <h1 class="text-xl md:text-4xl font-bold text-gray-900 mb-2 md:mb-4" data-i18n="community.title">커뮤니티</h1>
+                <p class="text-xs md:text-xl text-gray-600" data-i18n="community.subtitle">환자와 가족을 위한 정보 공유</p>
             </div>
             
-            <!-- 커뮤니티 메뉴 카드 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
+            <!-- 1️⃣ 간병·배설 돌봄 로봇 섹션 (NEW!) -->
+            <div class="mb-6 md:mb-12">
+                <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl p-3 md:p-6 mb-3 md:mb-6">
+                    <h2 class="text-base md:text-3xl font-bold text-purple-900 flex items-center gap-2">
+                        <span class="text-xl md:text-4xl">🤖</span>
+                        간병·배설 돌봄 로봇
+                    </h2>
+                    <p class="text-[10px] md:text-sm text-purple-700 mt-1 md:mt-2">AI 돌봄 로봇으로 간병 부담 줄이기</p>
+                </div>
                 
-                <!-- 뇌사 장기기증 -->
-                <a href="organ-donation.html" class="bg-gradient-to-br from-green-50 to-teal-50 border-2 border-green-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">💚</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-green-800" data-i18n="community.cards.organDonation.title">뇌사 장기기증 절차</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.organDonation.desc">생명을 나누는 장기기증에 대한 절차와 안내</p>
-                    <div class="text-green-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.organDonation.action">자세히 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                    <!-- 로봇 영상 -->
+                    <a href="#robot-videos" class="bg-white border-2 border-purple-200 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl md:text-4xl">🎬</div>
+                            <div class="flex-1">
+                                <h3 class="text-xs md:text-xl font-bold text-purple-800 mb-1 md:mb-2">로봇 영상</h3>
+                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                    배설로봇, 식사로봇, AI 돌봄로봇 소개 영상
+                                </p>
+                                <div class="text-purple-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-play-circle"></i>
+                                    <span>영상 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- 지원·연락처 -->
+                    <a href="#robot-support" class="bg-white border-2 border-pink-200 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl md:text-4xl">📞</div>
+                            <div class="flex-1">
+                                <h3 class="text-xs md:text-xl font-bold text-pink-800 mb-1 md:mb-2">지원·연락처</h3>
+                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                    돌봄로봇 신청, 체험, 구매 상담
+                                </p>
+                                <div class="text-pink-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <span>연락처 확인</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-                <!-- 가족간병 영상자료 -->
-                <a href="caregiver-videos.html" class="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">🎬</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-purple-800" data-i18n="community.cards.caregiverVideos.title">가족간병 영상자료</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.caregiverVideos.desc">가족 간병에 대한 유용한 동영상 모음</p>
-                    <div class="text-purple-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.caregiverVideos.action">자세히 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+            <!-- 2️⃣ 연락처 & 권리 통합 섹션 -->
+            <div class="mb-6 md:mb-12">
+                <div class="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-xl p-3 md:p-6 mb-3 md:mb-6">
+                    <h2 class="text-base md:text-3xl font-bold text-blue-900 flex items-center gap-2">
+                        <span class="text-xl md:text-4xl">📋</span>
+                        주요 연락처 & 환자 권리
+                    </h2>
+                    <p class="text-[10px] md:text-sm text-blue-700 mt-1 md:mt-2">긴급상황 대응 및 권리 보호</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                    <!-- 주요 연락처 -->
+                    <a href="contact-info.html" class="bg-white border-2 border-yellow-200 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl md:text-4xl">📞</div>
+                            <div class="flex-1">
+                                <h3 class="text-xs md:text-xl font-bold text-yellow-800 mb-1 md:mb-2">주요 연락처</h3>
+                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                    긴급상황 및 필수 연락처 모음
+                                </p>
+                                <div class="text-yellow-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- 환자 보호자 권리 -->
+                    <a href="patient-rights.html" class="bg-white border-2 border-blue-200 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl md:text-4xl">⚖️</div>
+                            <div class="flex-1">
+                                <h3 class="text-xs md:text-xl font-bold text-blue-800 mb-1 md:mb-2">환자 보호자 권리</h3>
+                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                    권리 안내 및 항의 절차
+                                </p>
+                                <div class="text-blue-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-                <!-- 환자 보호자 권리 -->
-                <a href="patient-rights.html" class="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">⚖️</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-blue-800" data-i18n="community.cards.patientRights.title">환자 보호자 권리</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.patientRights.desc">환자와 보호자의 권리 및 항의 절차 안내</p>
-                    <div class="text-blue-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.patientRights.action">자세히 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+            <!-- 3️⃣ 정보 & 자료 -->
+            <div class="mb-6 md:mb-12">
+                <div class="bg-gradient-to-r from-green-100 to-teal-100 rounded-xl p-3 md:p-6 mb-3 md:mb-6">
+                    <h2 class="text-base md:text-3xl font-bold text-green-900 flex items-center gap-2">
+                        <span class="text-xl md:text-4xl">📚</span>
+                        정보 & 자료
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+                    <!-- 뇌사 장기기증 -->
+                    <a href="organ-donation.html" class="bg-white border-2 border-green-200 rounded-xl shadow-md p-2 md:p-4 hover:shadow-lg transition">
+                        <div class="text-xl md:text-3xl mb-1 md:mb-2 text-center">💚</div>
+                        <h3 class="text-[10px] md:text-base font-bold text-green-800 text-center mb-1">뇌사 장기기증</h3>
+                        <p class="text-[8px] md:text-xs text-gray-600 text-center">절차 안내</p>
+                    </a>
 
-                <!-- 주요 연락처 -->
-                <a href="contact-info.html" class="bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">📞</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-yellow-800" data-i18n="community.cards.contactInfo.title">주요 연락처</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.contactInfo.desc">긴급상황 및 필수 연락처 모음</p>
-                    <div class="text-yellow-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.contactInfo.action">자세히 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+                    <!-- 가족간병 영상 -->
+                    <a href="caregiver-videos.html" class="bg-white border-2 border-purple-200 rounded-xl shadow-md p-2 md:p-4 hover:shadow-lg transition">
+                        <div class="text-xl md:text-3xl mb-1 md:mb-2 text-center">🎬</div>
+                        <h3 class="text-[10px] md:text-base font-bold text-purple-800 text-center mb-1">가족간병 영상</h3>
+                        <p class="text-[8px] md:text-xs text-gray-600 text-center">영상 자료</p>
+                    </a>
 
-                <!-- 상조회사 & 납골당 -->
-                <a href="funeral-services.html" class="bg-gradient-to-br from-gray-50 to-slate-50 border-2 border-gray-300 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">🕊️</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-gray-800" data-i18n="community.cards.funeralServices.title">상조회사 & 납골당</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.funeralServices.desc">전국 상조회사 및 납골당 연락처 정보</p>
-                    <div class="text-gray-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.funeralServices.action">자세히 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+                    <!-- 논문 -->
+                    <a href="papers.html" class="bg-white border-2 border-indigo-200 rounded-xl shadow-md p-2 md:p-4 hover:shadow-lg transition">
+                        <div class="text-xl md:text-3xl mb-1 md:mb-2 text-center">📚</div>
+                        <h3 class="text-[10px] md:text-base font-bold text-indigo-800 text-center mb-1">논문 자료</h3>
+                        <p class="text-[8px] md:text-xs text-gray-600 text-center">국내외 연구</p>
+                    </a>
 
-                <!-- 자유게시판 -->
-                <a href="forum.html" class="bg-gradient-to-br from-rose-50 to-pink-50 border-2 border-rose-300 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">💬</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-rose-800" data-i18n="community.cards.forum.title">자유게시판</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.forum.desc">환자와 보호자의 경험 공유 및 소통 공간</p>
-                    <div class="text-rose-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.forum.action">게시판 바로가기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+                    <!-- 보험 정보 -->
+                    <a href="insurance.html" class="bg-white border-2 border-cyan-200 rounded-xl shadow-md p-2 md:p-4 hover:shadow-lg transition">
+                        <div class="text-xl md:text-3xl mb-1 md:mb-2 text-center">💳</div>
+                        <h3 class="text-[10px] md:text-base font-bold text-cyan-800 text-center mb-1">보험 정보</h3>
+                        <p class="text-[8px] md:text-xs text-gray-600 text-center">청구 & 비교</p>
+                    </a>
+                </div>
+            </div>
 
-                <!-- 논문 (한국어/영어) -->
-                <a href="papers.html" class="bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-300 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">📚</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-indigo-800" data-i18n="community.cards.papers.title">논문 (한국어/영어)</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.papers.desc">뇌질환 관련 국내외 학술 논문 및 연구 자료</p>
-                    <div class="text-indigo-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.papers.action">논문 자료 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+            <!-- 4️⃣ 지원 & 복지 -->
+            <div class="mb-6 md:mb-12">
+                <div class="bg-gradient-to-r from-emerald-100 to-green-100 rounded-xl p-3 md:p-6 mb-3 md:mb-6">
+                    <h2 class="text-base md:text-3xl font-bold text-emerald-900 flex items-center gap-2">
+                        <span class="text-xl md:text-4xl">🏛️</span>
+                        지원 & 복지
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                    <!-- 지원정책 -->
+                    <a href="support.html" class="bg-white border-2 border-emerald-200 rounded-xl shadow-md p-2 md:p-4 hover:shadow-lg transition">
+                        <div class="text-xl md:text-3xl mb-1 md:mb-2 text-center">🏛️</div>
+                        <h3 class="text-[10px] md:text-base font-bold text-emerald-800 text-center mb-1">지원정책</h3>
+                        <p class="text-[8px] md:text-xs text-gray-600 text-center">정부 지원</p>
+                    </a>
 
-                <!-- 보험 정보 -->
-                <a href="insurance.html" class="bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">💳</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-cyan-800" data-i18n="community.cards.insurance.title">보험 정보</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.insurance.desc">보험금 청구 및 비교</p>
-                    <div class="text-cyan-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.insurance.action">보험 정보 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+                    <!-- 간병용품 -->
+                    <a href="supplies.html" class="bg-white border-2 border-amber-200 rounded-xl shadow-md p-2 md:p-4 hover:shadow-lg transition">
+                        <div class="text-xl md:text-3xl mb-1 md:mb-2 text-center">🛒</div>
+                        <h3 class="text-[10px] md:text-base font-bold text-amber-800 text-center mb-1">간병용품</h3>
+                        <p class="text-[8px] md:text-xs text-gray-600 text-center">필수 용품</p>
+                    </a>
 
-                <!-- 지원정책 -->
-                <a href="support.html" class="bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">🏛️</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-emerald-800" data-i18n="community.cards.support.title">지원정책</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.support.desc">정부 및 지자체 지원 정책 안내</p>
-                    <div class="text-emerald-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.support.action">지원정책 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+                    <!-- 민원 -->
+                    <a href="complaints.html" class="bg-white border-2 border-red-200 rounded-xl shadow-md p-2 md:p-4 hover:shadow-lg transition">
+                        <div class="text-xl md:text-3xl mb-1 md:mb-2 text-center">📋</div>
+                        <h3 class="text-[10px] md:text-base font-bold text-red-800 text-center mb-1">민원 접수</h3>
+                        <p class="text-[8px] md:text-xs text-gray-600 text-center">병원·기관</p>
+                    </a>
+                </div>
+            </div>
 
-                <!-- 간병용품 -->
-                <a href="supplies.html" class="bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">🛒</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-amber-800" data-i18n="community.cards.supplies.title">간병용품</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.supplies.desc">필수 간병 용품 및 구매 정보</p>
-                    <div class="text-amber-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.supplies.action">용품 보기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+            <!-- 5️⃣ 커뮤니티 -->
+            <div>
+                <div class="bg-gradient-to-r from-rose-100 to-pink-100 rounded-xl p-3 md:p-6 mb-3 md:mb-6">
+                    <h2 class="text-base md:text-3xl font-bold text-rose-900 flex items-center gap-2">
+                        <span class="text-xl md:text-4xl">💬</span>
+                        커뮤니티 & 상조
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+                    <!-- 자유게시판 -->
+                    <a href="forum.html" class="bg-white border-2 border-rose-200 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl md:text-4xl">💬</div>
+                            <div class="flex-1">
+                                <h3 class="text-xs md:text-xl font-bold text-rose-800 mb-1 md:mb-2">자유게시판</h3>
+                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                    경험 공유 및 소통 공간
+                                </p>
+                                <div class="text-rose-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>게시판 바로가기</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
 
-                <!-- 민원 (병원,국가기관) -->
-                <a href="complaints.html" class="bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-200 rounded-xl shadow-lg p-3 md:p-8 hover:shadow-xl transition transform hover:-translate-y-1">
-                    <div class="text-2xl md:text-5xl mb-1 md:mb-4">📋</div>
-                    <h2 class="text-xs md:text-2xl font-bold mb-1 md:mb-3 text-red-800" data-i18n="community.cards.complaints.title">민원 (병원,국가기관)</h2>
-                    <p class="text-[10px] md:text-base text-gray-600 mb-1 md:mb-4" data-i18n="community.cards.complaints.desc">병원 및 국가기관에 대한 민원 접수</p>
-                    <div class="text-red-600 font-semibold flex items-center text-xs md:text-base">
-                        <span data-i18n="community.cards.complaints.action">민원 접수하기</span> <i class="fas fa-arrow-right ml-2"></i>
-                    </div>
-                </a>
+                    <!-- 상조회사 & 납골당 -->
+                    <a href="funeral-services.html" class="bg-white border-2 border-gray-300 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
+                        <div class="flex items-start gap-3">
+                            <div class="text-2xl md:text-4xl">🕊️</div>
+                            <div class="flex-1">
+                                <h3 class="text-xs md:text-xl font-bold text-gray-800 mb-1 md:mb-2">상조회사 & 납골당</h3>
+                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                    전국 연락처 정보
+                                </p>
+                                <div class="text-gray-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                    <i class="fas fa-arrow-right"></i>
+                                    <span>자세히 보기</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
+            <!-- 로봇 영상 상세 섹션 (앵커 링크 대상) -->
+            <div id="robot-videos" class="mt-12 md:mt-16 bg-white rounded-xl shadow-lg p-4 md:p-8">
+                <h2 class="text-lg md:text-3xl font-bold text-purple-900 mb-4 md:mb-6 flex items-center gap-2">
+                    <i class="fas fa-video text-purple-600"></i>
+                    <span>간병·돌봄 로봇 영상</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 mb-6 md:mb-8">
+                    <!-- 영상 1 -->
+                    <div class="border-2 border-purple-200 rounded-lg p-3 md:p-4">
+                        <h3 class="text-xs md:text-lg font-bold text-purple-800 mb-2 md:mb-3">🎬 AI돌봄로봇 효돌</h3>
+                        <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 flex items-center justify-center">
+                            <a href="https://www.youtube.com/watch?v=bxZQX-kQKfk" target="_blank" class="text-purple-600 hover:text-purple-800">
+                                <i class="fas fa-play-circle text-4xl md:text-6xl"></i>
+                            </a>
+                        </div>
+                        <p class="text-[10px] md:text-sm text-gray-600">정서 지원·대화형 로봇으로 노인 고독감 해소</p>
+                    </div>
+
+                    <!-- 영상 2 -->
+                    <div class="border-2 border-pink-200 rounded-lg p-3 md:p-4">
+                        <h3 class="text-xs md:text-lg font-bold text-pink-800 mb-2 md:mb-3">🎬 배설로봇 케어비데</h3>
+                        <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 flex items-center justify-center">
+                            <a href="https://www.youtube.com/watch?v=TI3Xi7Jib3A" target="_blank" class="text-pink-600 hover:text-pink-800">
+                                <i class="fas fa-play-circle text-4xl md:text-6xl"></i>
+                            </a>
+                        </div>
+                        <p class="text-[10px] md:text-sm text-gray-600">배설 지원 로봇, 간병 부담 경감</p>
+                    </div>
+
+                    <!-- 영상 3 -->
+                    <div class="border-2 border-indigo-200 rounded-lg p-3 md:p-4">
+                        <h3 class="text-xs md:text-lg font-bold text-indigo-800 mb-2 md:mb-3">🎬 돌봄로봇 식사 지원</h3>
+                        <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 flex items-center justify-center">
+                            <a href="https://www.youtube.com/watch?v=Tk-RbIKKVMA" target="_blank" class="text-indigo-600 hover:text-indigo-800">
+                                <i class="fas fa-play-circle text-4xl md:text-6xl"></i>
+                            </a>
+                        </div>
+                        <p class="text-[10px] md:text-sm text-gray-600">식사·배설 지원으로 돌봄 질 향상</p>
+                    </div>
+
+                    <!-- 영상 4 -->
+                    <div class="border-2 border-red-200 rounded-lg p-3 md:p-4">
+                        <h3 class="text-xs md:text-lg font-bold text-red-800 mb-2 md:mb-3">⚠️ 로봇 현실과 문제점</h3>
+                        <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 flex items-center justify-center">
+                            <a href="https://www.youtube.com/watch?v=fg9_kzkJofg" target="_blank" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-play-circle text-4xl md:text-6xl"></i>
+                            </a>
+                        </div>
+                        <p class="text-[10px] md:text-sm text-gray-600">간병 로봇 도입의 현실과 괴리</p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 md:p-4">
+                    <p class="text-[10px] md:text-sm text-yellow-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>참고:</strong> 돌봄로봇은 아직 초기 단계이며, 품질·비용·적응 난이도 등의 과제가 있습니다. 구매 전 충분한 상담과 체험을 권장합니다.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 지원·연락처 상세 섹션 -->
+            <div id="robot-support" class="mt-6 md:mt-8 bg-white rounded-xl shadow-lg p-4 md:p-8">
+                <h2 class="text-lg md:text-3xl font-bold text-pink-900 mb-4 md:mb-6 flex items-center gap-2">
+                    <i class="fas fa-headset text-pink-600"></i>
+                    <span>돌봄로봇 지원·연락처</span>
+                </h2>
+                
+                <div class="space-y-3 md:space-y-4">
+                    <!-- 원더풀플랫폼 (다솜) -->
+                    <div class="border-2 border-pink-200 rounded-lg p-3 md:p-4">
+                        <h3 class="text-xs md:text-lg font-bold text-pink-800 mb-2">🤖 원더풀플랫폼 - AI 돌봄로봇 '다솜'</h3>
+                        <p class="text-[10px] md:text-sm text-gray-600 mb-2">독거 노인 음성 대화, 일상 알림, 응급 연계</p>
+                        <div class="flex flex-wrap gap-2 text-[10px] md:text-sm">
+                            <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded">전국 100곳+ 납품</span>
+                            <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded">지자체 보건소 운영</span>
+                        </div>
+                    </div>
+
+                    <!-- 케어비데 -->
+                    <div class="border-2 border-purple-200 rounded-lg p-3 md:p-4">
+                        <h3 class="text-xs md:text-lg font-bold text-purple-800 mb-2">🚽 배설로봇 '케어비데'</h3>
+                        <p class="text-[10px] md:text-sm text-gray-600 mb-2">배설 지원 자동화, 간병 부담 경감</p>
+                        <div class="flex flex-wrap gap-2 text-[10px] md:text-sm">
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">실증·설명회 진행 중</span>
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">체험 신청 가능</span>
+                        </div>
+                    </div>
+
+                    <!-- 정부 지원 -->
+                    <div class="border-2 border-blue-200 rounded-lg p-3 md:p-4">
+                        <h3 class="text-xs md:text-lg font-bold text-blue-800 mb-2">🏛️ 정부 에이지테크 지원사업</h3>
+                        <p class="text-[10px] md:text-sm text-gray-600 mb-2">고령자 생활지원 기술 개발 및 보급</p>
+                        <div class="flex flex-wrap gap-2 text-[10px] md:text-sm">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">보조금 지원</span>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">렌탈 서비스</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 md:mt-6 bg-blue-50 border-l-4 border-blue-400 p-3 md:p-4">
+                    <p class="text-[10px] md:text-sm text-blue-800">
+                        <i class="fas fa-phone-alt mr-2"></i>
+                        <strong>문의:</strong> 자세한 상담은 <a href="support.html" class="underline hover:text-blue-600">지원정책 페이지</a>에서 해당 기관 연락처를 확인하세요.
+                    </p>
+                </div>
             </div>
         </div>
     </main>
 
-            <footer class="bg-gray-900 text-white py-12 mt-16">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-8 max-w-4xl mx-auto">
-            <!-- 플랫폼 개발 문의 -->
-            <div>
-                <h3 class="text-xl font-bold mb-4">💼 플랫폼 개발 문의</h3>
-                <p class="text-gray-400 mb-4 text-sm">QR코드를 스캔하여 문의하세요</p>
-                <div class="flex gap-4 mb-4 justify-center md:justify-start">
-                    <!-- 위챗 QR -->
-                    <div class="text-center">
-                        <img src="images/wechat-qr.jpg" alt="WeChat QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
-                        <p class="text-xs text-gray-400">WeChat</p>
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-8 max-w-4xl mx-auto">
+                <!-- 플랫폼 개발 문의 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">💼 플랫폼 개발 문의</h3>
+                    <p class="text-gray-400 mb-4 text-sm">QR코드를 스캔하여 문의하세요</p>
+                    <div class="flex gap-4 mb-4 justify-center md:justify-start">
+                        <!-- 위챗 QR -->
+                        <div class="text-center">
+                            <img src="images/wechat-qr.jpg" alt="WeChat QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
+                            <p class="text-xs text-gray-400">WeChat</p>
+                        </div>
+                        <!-- 텔레그램 QR -->
+                        <div class="text-center">
+                            <img src="images/telegram-qr.jpg" alt="Telegram QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
+                            <p class="text-xs text-gray-400">Telegram</p>
+                        </div>
                     </div>
-                    <!-- 텔레그램 QR -->
-                    <div class="text-center">
-                        <img src="images/telegram-qr.jpg" alt="Telegram QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
-                        <p class="text-xs text-gray-400">Telegram</p>
+                    <!-- 개발자 이메일 -->
+                    <div class="flex items-center gap-2 text-gray-400 hover:text-white transition justify-center md:justify-start">
+                        <i class="fas fa-envelope-open-text text-xl text-blue-400"></i>
+                        <div>
+                            <p class="text-xs text-gray-500">개발자 문의</p>
+                            <a href="mailto:locks88@naver.com" class="text-sm hover:text-blue-400 transition">locks88@naver.com</a>
+                        </div>
                     </div>
                 </div>
-                <!-- 개발자 이메일 -->
-                <div class="flex items-center gap-2 text-gray-400 hover:text-white transition justify-center md:justify-start">
-                    <i class="fas fa-envelope-open-text text-xl text-blue-400"></i>
-                    <div>
-                        <p class="text-xs text-gray-500">개발자 문의</p>
-                        <a href="mailto:locks88@naver.com" class="text-sm hover:text-blue-400 transition">locks88@naver.com</a>
-                    </div>
+                
+                <!-- 빠른 링크 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">⚡ 빠른 링크</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="disease-info.html" class="hover:text-white transition">뇌질환 정보</a></li>
+                        <li><a href="hospital.html" class="hover:text-white transition">병원 검색</a></li>
+                        <li><a href="care-diary.html" class="hover:text-white transition">간병일기</a></li>
+                        <li><a href="support.html" class="hover:text-white transition">지원정책</a></li>
+                        <li><a href="community.html" class="hover:text-white transition">커뮤니티</a></li>
+                        <li><a href="emergency.html" class="hover:text-white text-red-400 transition">응급정보</a></li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- 빠른 링크 -->
-            <div>
-                <h3 class="text-xl font-bold mb-4">⚡ 빠른 링크</h3>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="disease-info.html" class="hover:text-white transition">뇌질환 정보</a></li>
-                    <li><a href="hospital.html" class="hover:text-white transition">병원 검색</a></li>
-                    <li><a href="care-diary.html" class="hover:text-white transition">간병일기</a></li>
-                    <li><a href="support.html" class="hover:text-white transition">지원정책</a></li>
-                    <li><a href="community.html" class="hover:text-white transition">커뮤니티</a></li>
-                    <li><a href="emergency.html" class="hover:text-white text-red-400 transition">응급정보</a></li>
-                </ul>
+            <!-- 저작권 -->
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 CASHiQ.org - 뇌질환케어. All rights reserved.</p>
+                <p class="text-sm mt-2">본 사이트의 정보는 참고용이며, 전문의와 상담이 필요합니다.</p>
             </div>
         </div>
-        
-        <!-- 저작권 -->
-        <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
-            <p>&copy; 2025 CASHiQ.org - 뇌질환케어. All rights reserved.</p>
-            <p class="text-sm mt-2">본 사이트의 정보는 참고용이며, 전문의와 상담이 필요합니다.</p>
-        </div>
-    </div>
-</footer>
-
+    </footer>
 
     <script src="js/i18n.js"></script>
     <script src="js/main.js"></script>
