@@ -402,48 +402,220 @@
             </div>
 
             <!-- 5️⃣ 커뮤니티 -->
-            <div>
+            <div class="mb-6 md:mb-12">
                 <div class="bg-gradient-to-r from-rose-100 to-pink-100 rounded-xl p-3 md:p-6 mb-3 md:mb-6">
                     <h2 class="text-base md:text-3xl font-bold text-rose-900 flex items-center gap-2">
                         <span class="text-xl md:text-4xl">💬</span>
-                        커뮤니티 & 상조
+                        커뮤니티
                     </h2>
+                    <p class="text-[10px] md:text-sm text-rose-700 mt-1 md:mt-2">경험 공유 및 소통 공간</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
-                    <!-- 자유게시판 -->
-                    <a href="forum.html" class="bg-white border-2 border-rose-200 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
-                        <div class="flex items-start gap-3">
-                            <div class="text-2xl md:text-4xl">💬</div>
-                            <div class="flex-1">
-                                <h3 class="text-xs md:text-xl font-bold text-rose-800 mb-1 md:mb-2">자유게시판</h3>
-                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
-                                    경험 공유 및 소통 공간
-                                </p>
-                                <div class="text-rose-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
-                                    <i class="fas fa-arrow-right"></i>
-                                    <span>게시판 바로가기</span>
-                                </div>
+                <!-- 자유게시판 -->
+                <a href="forum.html" class="block bg-white border-2 border-rose-200 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
+                    <div class="flex items-start gap-3">
+                        <div class="text-2xl md:text-4xl">💬</div>
+                        <div class="flex-1">
+                            <h3 class="text-xs md:text-xl font-bold text-rose-800 mb-1 md:mb-2">자유게시판</h3>
+                            <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                간병 경험 공유, 정보 교환, 질문과 답변
+                            </p>
+                            <div class="text-rose-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>게시판 바로가기</span>
                             </div>
                         </div>
-                    </a>
+                    </div>
+                </a>
+            </div>
 
-                    <!-- 상조회사 & 납골당 -->
-                    <a href="funeral-services.html" class="bg-white border-2 border-gray-300 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition">
-                        <div class="flex items-start gap-3">
-                            <div class="text-2xl md:text-4xl">🕊️</div>
-                            <div class="flex-1">
-                                <h3 class="text-xs md:text-xl font-bold text-gray-800 mb-1 md:mb-2">상조회사 & 납골당</h3>
-                                <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
-                                    전국 연락처 정보
-                                </p>
-                                <div class="text-gray-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
-                                    <i class="fas fa-arrow-right"></i>
-                                    <span>자세히 보기</span>
-                                </div>
+            <!-- 5.5️⃣ 상조회사 & 납골당 (독립 섹션) -->
+            <div class="mb-6 md:mb-12">
+                <div class="bg-gradient-to-r from-gray-100 to-slate-100 rounded-xl p-3 md:p-6 mb-3 md:mb-6">
+                    <h2 class="text-base md:text-3xl font-bold text-gray-900 flex items-center gap-2">
+                        <span class="text-xl md:text-4xl">🕊️</span>
+                        상조회사 & 납골당
+                    </h2>
+                    <p class="text-[10px] md:text-sm text-gray-700 mt-1 md:mt-2">전국 상조회사 및 납골당 연락처 정보</p>
+                </div>
+                
+                <!-- 메인 카드 -->
+                <a href="funeral-services.html" class="block bg-white border-2 border-gray-300 rounded-xl shadow-md p-3 md:p-6 hover:shadow-lg transition mb-4 md:mb-6">
+                    <div class="flex items-start gap-3">
+                        <div class="text-2xl md:text-4xl">🕊️</div>
+                        <div class="flex-1">
+                            <h3 class="text-xs md:text-xl font-bold text-gray-800 mb-1 md:mb-2">상조회사 & 납골당 정보</h3>
+                            <p class="text-[10px] md:text-sm text-gray-600 mb-2 md:mb-3">
+                                전국 상조회사, 납골당, 장례업체 연락처 및 서비스 정보
+                            </p>
+                            <div class="text-gray-600 text-[10px] md:text-sm font-semibold flex items-center gap-1">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>자세히 보기</span>
                             </div>
                         </div>
-                    </a>
+                    </div>
+                </a>
+
+                <!-- 유튜브 해시태그 링크 섹션 -->
+                <div class="bg-gradient-to-r from-gray-50 to-slate-50 rounded-lg p-3 md:p-4 mb-4 md:mb-6">
+                    <h3 class="text-xs md:text-lg font-bold text-gray-800 mb-2 md:mb-3 flex items-center gap-2">
+                        <i class="fab fa-youtube text-red-600"></i>
+                        <span>유튜브 해시태그로 더 많은 영상 보기</span>
+                    </h3>
+                    <div class="flex flex-wrap gap-1 md:gap-2">
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%ED%9A%8C%EC%82%AC" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-gray-600 hover:bg-gray-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조회사</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%A0%84%EA%B5%AD%EC%83%81%EC%A1%B0%ED%9A%8C%EC%82%AC" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-slate-600 hover:bg-slate-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#전국상조회사</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EC%84%9C%EB%B9%84%EC%8A%A4" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-zinc-600 hover:bg-zinc-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조서비스</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%9E%A5%EB%A1%80%EC%83%81%EC%A1%B0%ED%9A%8C%EC%82%AC" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-stone-600 hover:bg-stone-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#장례상조회사</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%9E%A5%EB%A1%80%EB%8C%80%ED%96%89%EC%97%85%EC%B2%B4" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-neutral-600 hover:bg-neutral-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#장례대행업체</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EB%B9%84%EC%9A%A9" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-gray-700 hover:bg-gray-800 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조비용</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EA%B0%80%EC%9E%85" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-slate-700 hover:bg-slate-800 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조가입</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EC%83%81%ED%92%88" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-zinc-700 hover:bg-zinc-800 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조상품</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EB%AC%B8%EC%9D%98" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-stone-700 hover:bg-stone-800 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조문의</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%ED%9A%8C%EC%82%AC%EC%97%B0%EB%9D%BD%EC%B2%98" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-neutral-700 hover:bg-neutral-800 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조회사연락처</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EC%97%85%EC%B2%B4%EB%A6%AC%EC%8A%A4%ED%8A%B8" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-gray-800 hover:bg-gray-900 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조업체리스트</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%A0%84%EA%B5%AD%EC%83%81%EC%A1%B0%EC%97%85%EC%B2%B4" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-slate-800 hover:bg-slate-900 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#전국상조업체</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%ED%98%91%ED%9A%8C" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-zinc-800 hover:bg-zinc-900 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조협회</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EA%B3%B5%EC%A0%9C%EC%A1%B0%ED%95%A9%EC%83%81%EC%A1%B0%ED%9A%8C%EC%82%AC" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-stone-800 hover:bg-stone-900 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#공제조합상조회사</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EB%B3%B4%EC%A6%9D%EA%B3%B5%EC%A0%9C%EC%A1%B0%ED%95%A9" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-neutral-800 hover:bg-neutral-900 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조보증공제조합</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EB%B9%84%EA%B5%90%EA%B2%AC%EC%A0%81" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조비교견적</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%ED%9A%8C%EC%82%AC%ED%8F%89%EA%B0%80" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조회사평가</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%9E%A5%EB%A1%80%EC%A7%80%EC%9B%90%EC%84%9C%EB%B9%84%EC%8A%A4" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-violet-600 hover:bg-violet-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#장례지원서비스</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%ED%9A%8C%EC%9B%90%EC%A0%9C" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-purple-600 hover:bg-purple-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조회원제</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EC%84%9C%EB%B9%84%EC%8A%A4%EB%B9%84%EA%B5%90" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-fuchsia-600 hover:bg-fuchsia-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조서비스비교</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%EA%B0%80%EC%9E%85%EC%83%81%EB%8B%B4" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-pink-600 hover:bg-pink-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조가입상담</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%83%81%EC%A1%B0%ED%98%9C%ED%83%9D" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-rose-600 hover:bg-rose-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#상조혜택</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%9E%A5%EB%A1%80%ED%86%A0%ED%83%88%EC%84%9C%EB%B9%84%EC%8A%A4" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#장례토탈서비스</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/%EC%9E%A5%EB%A1%80%EC%97%85%EC%B2%B4%EC%A0%95%EB%B3%B4" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-orange-600 hover:bg-orange-700 text-white text-[8px] md:text-xs px-2 py-1 rounded-full transition">
+                            <i class="fab fa-youtube text-[8px] md:text-xs"></i>
+                            <span>#장례업체정보</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 안내 메시지 (오류 방지) -->
+                <div class="bg-gray-50 border-l-4 border-gray-400 p-3 md:p-4">
+                    <p class="text-[10px] md:text-sm text-gray-800">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        <strong>현재 상태:</strong> 관련 콘텐츠를 준비 중입니다. 상세 정보는 곧 업데이트될 예정입니다.
+                    </p>
                 </div>
             </div>
 
