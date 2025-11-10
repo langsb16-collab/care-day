@@ -277,73 +277,162 @@
                     <span>간병·돌봄 로봇 영상</span>
                 </h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 mb-6 md:mb-8">
-                    <!-- 영상 1 -->
-                    <div class="border-2 border-purple-200 rounded-lg p-3 md:p-4">
-                        <h3 class="text-xs md:text-lg font-bold text-purple-800 mb-2 md:mb-3">🎬 AI돌봄로봇 효돌</h3>
-                        <a href="https://www.youtube.com/watch?v=bxZQX-kQKfk" target="_blank" class="block relative group">
-                            <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 overflow-hidden relative">
-                                <img src="https://img.youtube.com/vi/bxZQX-kQKfk/maxresdefault.jpg" 
-                                     alt="AI돌봄로봇 효돌" 
-                                     class="w-full h-full object-cover"
-                                     onerror="this.src='https://img.youtube.com/vi/bxZQX-kQKfk/hqdefault.jpg'">
-                                <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
-                                    <i class="fas fa-play-circle text-white text-4xl md:text-6xl opacity-90 group-hover:opacity-100 transition"></i>
-                                </div>
-                            </div>
-                        </a>
-                        <p class="text-[10px] md:text-sm text-gray-600">정서 지원·대화형 로봇으로 노인 고독감 해소</p>
-                    </div>
-
-                    <!-- 영상 2 -->
-                    <div class="border-2 border-pink-200 rounded-lg p-3 md:p-4">
-                        <h3 class="text-xs md:text-lg font-bold text-pink-800 mb-2 md:mb-3">🎬 배설로봇 케어비데</h3>
-                        <a href="https://www.youtube.com/watch?v=TI3Xi7Jib3A" target="_blank" class="block relative group">
-                            <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 overflow-hidden relative">
-                                <img src="https://img.youtube.com/vi/TI3Xi7Jib3A/maxresdefault.jpg" 
-                                     alt="배설로봇 케어비데" 
-                                     class="w-full h-full object-cover"
-                                     onerror="this.src='https://img.youtube.com/vi/TI3Xi7Jib3A/hqdefault.jpg'">
-                                <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
-                                    <i class="fas fa-play-circle text-white text-4xl md:text-6xl opacity-90 group-hover:opacity-100 transition"></i>
-                                </div>
-                            </div>
-                        </a>
-                        <p class="text-[10px] md:text-sm text-gray-600">배설 지원 로봇, 간병 부담 경감</p>
-                    </div>
-
-                    <!-- 영상 3 -->
-                    <div class="border-2 border-indigo-200 rounded-lg p-3 md:p-4">
-                        <h3 class="text-xs md:text-lg font-bold text-indigo-800 mb-2 md:mb-3">🎬 돌봄로봇 식사 지원</h3>
+                <!-- 모바일: 2열, 태블릿: 3열, PC: 4열 그리드 -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 mb-6 md:mb-8">
+                    <!-- 영상 1: 식사·배설 지원 사례 -->
+                    <div class="border-2 border-indigo-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-indigo-800 mb-1 md:mb-2 line-clamp-2">🍽️ 식사·배설 지원</h3>
                         <a href="https://www.youtube.com/watch?v=Tk-RbIKKVMA" target="_blank" class="block relative group">
-                            <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 overflow-hidden relative">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative">
                                 <img src="https://img.youtube.com/vi/Tk-RbIKKVMA/maxresdefault.jpg" 
                                      alt="돌봄로봇 식사 지원" 
                                      class="w-full h-full object-cover"
                                      onerror="this.src='https://img.youtube.com/vi/Tk-RbIKKVMA/hqdefault.jpg'">
                                 <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
-                                    <i class="fas fa-play-circle text-white text-4xl md:text-6xl opacity-90 group-hover:opacity-100 transition"></i>
+                                    <i class="fas fa-play-circle text-white text-2xl md:text-4xl opacity-90 group-hover:opacity-100 transition"></i>
                                 </div>
                             </div>
                         </a>
-                        <p class="text-[10px] md:text-sm text-gray-600">식사·배설 지원으로 돌봄 질 향상</p>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">돌봄 질 향상 사례</p>
                     </div>
 
-                    <!-- 영상 4 -->
-                    <div class="border-2 border-red-200 rounded-lg p-3 md:p-4">
-                        <h3 class="text-xs md:text-lg font-bold text-red-800 mb-2 md:mb-3">⚠️ 로봇 현실과 문제점</h3>
+                    <!-- 영상 2: 비판적 시각 -->
+                    <div class="border-2 border-red-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-red-800 mb-1 md:mb-2 line-clamp-2">⚠️ 현실과 괴리</h3>
                         <a href="https://www.youtube.com/watch?v=fg9_kzkJofg" target="_blank" class="block relative group">
-                            <div class="aspect-video bg-gray-100 rounded-lg mb-2 md:mb-3 overflow-hidden relative">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative">
                                 <img src="https://img.youtube.com/vi/fg9_kzkJofg/maxresdefault.jpg" 
                                      alt="로봇 현실과 문제점" 
                                      class="w-full h-full object-cover"
                                      onerror="this.src='https://img.youtube.com/vi/fg9_kzkJofg/hqdefault.jpg'">
                                 <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
-                                    <i class="fas fa-play-circle text-white text-4xl md:text-6xl opacity-90 group-hover:opacity-100 transition"></i>
+                                    <i class="fas fa-play-circle text-white text-2xl md:text-4xl opacity-90 group-hover:opacity-100 transition"></i>
                                 </div>
                             </div>
                         </a>
-                        <p class="text-[10px] md:text-sm text-gray-600">간병 로봇 도입의 현실과 괴리</p>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">비판적 관점</p>
+                    </div>
+
+                    <!-- 영상 3: 정서지원 효돌 -->
+                    <div class="border-2 border-purple-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-purple-800 mb-1 md:mb-2 line-clamp-2">💬 AI돌봄 효돌</h3>
+                        <a href="https://www.youtube.com/watch?v=bxZQX-kQKfk" target="_blank" class="block relative group">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative">
+                                <img src="https://img.youtube.com/vi/bxZQX-kQKfk/maxresdefault.jpg" 
+                                     alt="AI돌봄로봇 효돌" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://img.youtube.com/vi/bxZQX-kQKfk/hqdefault.jpg'">
+                                <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
+                                    <i class="fas fa-play-circle text-white text-2xl md:text-4xl opacity-90 group-hover:opacity-100 transition"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">정서·대화 지원</p>
+                    </div>
+
+                    <!-- 영상 4: 케어비데 실증 -->
+                    <div class="border-2 border-pink-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-pink-800 mb-1 md:mb-2 line-clamp-2">🚽 케어비데 실증</h3>
+                        <a href="https://www.youtube.com/watch?v=TI3Xi7Jib3A" target="_blank" class="block relative group">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative">
+                                <img src="https://img.youtube.com/vi/TI3Xi7Jib3A/maxresdefault.jpg" 
+                                     alt="배설로봇 케어비데" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://img.youtube.com/vi/TI3Xi7Jib3A/hqdefault.jpg'">
+                                <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
+                                    <i class="fas fa-play-circle text-white text-2xl md:text-4xl opacity-90 group-hover:opacity-100 transition"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">배설로봇 기술</p>
+                    </div>
+
+                    <!-- 영상 5: 케어비데 설명회 -->
+                    <div class="border-2 border-pink-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-pink-800 mb-1 md:mb-2 line-clamp-2">🚽 케어비데 설명</h3>
+                        <a href="https://www.youtube.com/watch?v=dtZlaH7B7zI" target="_blank" class="block relative group">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative">
+                                <img src="https://img.youtube.com/vi/dtZlaH7B7zI/maxresdefault.jpg" 
+                                     alt="케어비데 설명회" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://img.youtube.com/vi/dtZlaH7B7zI/hqdefault.jpg'">
+                                <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
+                                    <i class="fas fa-play-circle text-white text-2xl md:text-4xl opacity-90 group-hover:opacity-100 transition"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">상세 설명회</p>
+                    </div>
+
+                    <!-- 영상 6: 치매 노인 돌봄 (광주MBC) -->
+                    <div class="border-2 border-green-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-green-800 mb-1 md:mb-2 line-clamp-2">💊 치매 돌봄</h3>
+                        <a href="https://www.youtube.com/watch?v=mHDd34VBLiE" target="_blank" class="block relative group">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative">
+                                <img src="https://img.youtube.com/vi/mHDd34VBLiE/maxresdefault.jpg" 
+                                     alt="치매 노인 돌봄 로봇" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://img.youtube.com/vi/mHDd34VBLiE/hqdefault.jpg'">
+                                <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
+                                    <i class="fas fa-play-circle text-white text-2xl md:text-4xl opacity-90 group-hover:opacity-100 transition"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">광주MBC 보도</p>
+                    </div>
+
+                    <!-- 영상 7: 시니어 테크 (MBN) -->
+                    <div class="border-2 border-blue-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-blue-800 mb-1 md:mb-2 line-clamp-2">🔬 시니어 테크</h3>
+                        <a href="https://www.youtube.com/watch?v=C6IMPq-lf5Y" target="_blank" class="block relative group">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative">
+                                <img src="https://img.youtube.com/vi/C6IMPq-lf5Y/maxresdefault.jpg" 
+                                     alt="시니어 테크" 
+                                     class="w-full h-full object-cover"
+                                     onerror="this.src='https://img.youtube.com/vi/C6IMPq-lf5Y/hqdefault.jpg'">
+                                <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition flex items-center justify-center">
+                                    <i class="fas fa-play-circle text-white text-2xl md:text-4xl opacity-90 group-hover:opacity-100 transition"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">AI·의료기기 MBN</p>
+                    </div>
+
+                    <!-- 영상 8: 중앙보조기기센터 효돌 -->
+                    <div class="border-2 border-purple-200 rounded-lg p-2 md:p-3">
+                        <h3 class="text-[9px] md:text-sm font-bold text-purple-800 mb-1 md:mb-2 line-clamp-2">🏛️ 효돌 실증</h3>
+                        <a href="https://www.knat.go.kr/knw/home/board/brd_vew.php?brd_no=2050&tb_no=55" target="_blank" class="block relative group">
+                            <div class="aspect-video bg-gray-100 rounded-lg mb-1 md:mb-2 overflow-hidden relative flex items-center justify-center">
+                                <div class="text-center p-2">
+                                    <i class="fas fa-video text-purple-400 text-3xl md:text-5xl mb-1"></i>
+                                    <p class="text-[8px] md:text-xs text-purple-600 font-bold">보조기기센터</p>
+                                </div>
+                                <div class="absolute inset-0 bg-purple-50 bg-opacity-50 group-hover:bg-opacity-70 transition"></div>
+                            </div>
+                        </a>
+                        <p class="text-[8px] md:text-xs text-gray-600 line-clamp-2">중앙보조기기센터</p>
+                    </div>
+                </div>
+
+                <!-- 유튜브 해시태그 링크 섹션 -->
+                <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-lg p-3 md:p-4 mb-6 md:mb-8">
+                    <h3 class="text-xs md:text-lg font-bold text-red-800 mb-2 md:mb-3 flex items-center gap-2">
+                        <i class="fab fa-youtube text-red-600"></i>
+                        <span>유튜브 해시태그로 더 많은 영상 보기</span>
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="https://www.youtube.com/hashtag/%EB%8F%8C%EB%B4%84%EB%A1%9C%EB%B4%87" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white text-[9px] md:text-sm px-2 md:px-3 py-1 md:py-2 rounded-full transition">
+                            <i class="fab fa-youtube"></i>
+                            <span>#돌봄로봇</span>
+                        </a>
+                        <a href="https://www.youtube.com/hashtag/ai%EB%8F%8C%EB%B4%84%EB%A1%9C%EB%B4%87" 
+                           target="_blank" 
+                           class="inline-flex items-center gap-1 bg-purple-500 hover:bg-purple-600 text-white text-[9px] md:text-sm px-2 md:px-3 py-1 md:py-2 rounded-full transition">
+                            <i class="fab fa-youtube"></i>
+                            <span>#AI돌봄로봇</span>
+                        </a>
                     </div>
                 </div>
 
