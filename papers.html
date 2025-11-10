@@ -88,6 +88,160 @@
                 </button>
             </div>
 
+            <!-- 한국 신경외과 논문 많은 의사 섹션 -->
+            <div class="mb-8">
+                <button onclick="toggleResearchDoctors()" class="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold py-3 md:py-4 px-4 md:px-6 rounded-xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2 md:gap-3">
+                    <i class="fas fa-user-md text-lg md:text-2xl"></i>
+                    <span class="text-[10px] md:text-sm lg:text-xl">🔬 한국 신경외과 논문 많은 의사</span>
+                    <i id="researchDoctorsIcon" class="fas fa-chevron-down ml-2 transition-transform text-sm md:text-base"></i>
+                </button>
+                
+                <div id="researchDoctorsContent" class="hidden mt-4 md:mt-6 space-y-3 md:space-y-4">
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-3 md:p-4 mb-4 md:mb-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-info-circle text-blue-500 text-base md:text-xl mr-2 md:mr-3 mt-1"></i>
+                            <div>
+                                <p class="font-semibold text-blue-800 mb-1 text-[10px] md:text-sm">안내</p>
+                                <p class="text-[10px] md:text-sm text-blue-700">국내에서 뇌질환 관련 수술·시술 분야 논문 실적이 비교적 많은 한국인 의사·연구자입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 김재헌 교수 -->
+                    <div class="bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-xl p-4 md:p-6 hover:shadow-xl transition">
+                        <div class="flex items-start gap-3 md:gap-4 mb-3 md:mb-4">
+                            <div class="text-2xl md:text-4xl">👨‍⚕️</div>
+                            <div>
+                                <h4 class="text-base md:text-xl font-bold text-blue-900 mb-1 md:mb-2">Jae Heon Kim (김재헌)</h4>
+                                <p class="text-[10px] md:text-sm text-blue-600 font-semibold mb-1 md:mb-2">📊 분야: 뇌동맥류 치료</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 md:space-y-3">
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">🔬 전문 분야</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">뇌동맥류(ruptured/unruptured intracranial aneurysm) 치료 경향 분석 및 수술·중재시술 비교 연구</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">📄 대표 논문</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">"National Trends in the Treatment of Ruptured Cerebral Aneurysms in Korea Using an Age-adjusted Method" (2020) - 한국의 파열 뇌동맥류 수술(클리핑)과 중재술(코일링) 사용 변화 분석</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">💡 특징</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">뇌혈관질환(특히 동맥류)과 치료 방식의 변화를 통계적으로 분석한 연구가 있어 뇌혈관 분야 논문 실적이 돋보입니다</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 서대철 교수 -->
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-4 md:p-6 hover:shadow-xl transition">
+                        <div class="flex items-start gap-3 md:gap-4 mb-3 md:mb-4">
+                            <div class="text-2xl md:text-4xl">👨‍⚕️</div>
+                            <div>
+                                <h4 class="text-base md:text-xl font-bold text-green-900 mb-1 md:mb-2">Dae Chul Suh (서대철)</h4>
+                                <p class="text-[10px] md:text-sm text-green-600 font-semibold mb-1 md:mb-2">📊 분야: 비파열 뇌동맥류 관리</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 md:space-y-3">
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">🔬 전문 분야</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">비파열 뇌동맥류(unruptured intracranial aneurysm) 관리 및 중재 시술 결과 연구</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">📄 대표 논문</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">"Outpatient Day-Care Management of Unruptured Intracranial Aneurysm: A Retrospective Cohort Study" (2022) - 한국에서 일일입원(데이케어) 형태로 뇌동맥류 치료한 결과 분석</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">💡 특징</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">뇌혈관질환 중 동맥류 분야에서 수술·시술 실적 기반의 논문이 많고, 중재시술 혈관내치료(intervention) 쪽에서도 활발히 연구됨</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 서유헌 교수 -->
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl p-4 md:p-6 hover:shadow-xl transition">
+                        <div class="flex items-start gap-3 md:gap-4 mb-3 md:mb-4">
+                            <div class="text-2xl md:text-4xl">👨‍⚕️</div>
+                            <div>
+                                <h4 class="text-base md:text-xl font-bold text-purple-900 mb-1 md:mb-2">Suh Yoo-hun (서유헌)</h4>
+                                <p class="text-[10px] md:text-sm text-purple-600 font-semibold mb-1 md:mb-2">📊 분야: 신경퇴행성질환 연구</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 md:space-y-3">
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">🔬 전문 분야</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">뇌질환 중 신경퇴행성질환(치매, 파킨슨병) 연구 중심</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">📄 논문 실적</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">논문 수가 200편 이상으로 매우 많은 연구 실적 보유</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">💡 특징</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">뇌혈관 수술보다는 신경과학·질환 메커니즘 연구 중심이지만, 뇌질환 연구 전체 맥락에서 논문 실적이 매우 많은 사례입니다</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 정성 교수 -->
+                    <div class="bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 rounded-xl p-4 md:p-6 hover:shadow-xl transition">
+                        <div class="flex items-start gap-3 md:gap-4 mb-3 md:mb-4">
+                            <div class="text-2xl md:text-4xl">👨‍⚕️</div>
+                            <div>
+                                <h4 class="text-base md:text-xl font-bold text-orange-900 mb-1 md:mb-2">Sung Jung (정성)</h4>
+                                <p class="text-[10px] md:text-sm text-orange-600 font-semibold mb-1 md:mb-2">📊 분야: 두개저외과·뇌종양</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 md:space-y-3">
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">🔬 전문 분야</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">두개저외과·뇌종양(기저두개저 뇌종양 및 뇌하수체 종양) 수술 및 연구</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] md:text-sm font-semibold text-gray-700 mb-1">💡 특징</p>
+                                <p class="text-[10px] md:text-sm text-gray-600">두개저 뇌종양 수술 분야에서 선도적 센터 논문이 있는 연구자이며, 논문 게재 및 성과가 알려져 있습니다</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 요약 섹션 -->
+                    <div class="bg-gradient-to-r from-indigo-50 to-blue-50 border-2 border-indigo-200 rounded-xl p-4 md:p-6">
+                        <h4 class="text-base md:text-lg font-bold text-indigo-900 mb-3 md:mb-4 flex items-center gap-2">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>분야별 요약</span>
+                        </h4>
+                        <div class="space-y-2 md:space-y-3">
+                            <div class="flex items-start gap-2">
+                                <span class="text-[10px] md:text-sm">🔹</span>
+                                <p class="text-[10px] md:text-sm text-gray-700"><strong>뇌혈관질환(동맥류):</strong> 김재헌 교수, 서대철 교수</p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-[10px] md:text-sm">🔹</span>
+                                <p class="text-[10px] md:text-sm text-gray-700"><strong>뇌종양/두개저외과:</strong> 정성 교수</p>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="text-[10px] md:text-sm">🔹</span>
+                                <p class="text-[10px] md:text-sm text-gray-700"><strong>신경퇴행성/뇌질환 메커니즘:</strong> 서유헌 교수</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 유의사항 -->
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 md:p-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-exclamation-triangle text-yellow-500 text-base md:text-xl mr-2 md:mr-3 mt-1"></i>
+                            <div>
+                                <p class="font-semibold text-yellow-800 mb-1 text-[10px] md:text-sm">참고 및 한계</p>
+                                <ul class="text-[10px] md:text-sm text-yellow-700 space-y-1 list-disc list-inside">
+                                    <li>위 인물들은 뇌질환 수술 논문을 많이 발표한 공개된 실적이 있는 분들입니다</li>
+                                    <li>수술·시술 중심 논문인지, 기초연구인지, 임상 통계연구인지 분야의 차이가 있습니다</li>
+                                    <li>최신 논문 실적이나 논문 인용지표(h-index) 등은 추가 조사가 필요합니다</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 국제 학술 저널 탭 -->
             <div id="content-journals" class="tab-content">
                 <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
@@ -469,6 +623,21 @@
             const activeBtn = document.getElementById('tab-' + tabName);
             activeBtn.classList.remove('text-gray-500');
             activeBtn.classList.add('text-primary', 'border-b-2', 'border-primary');
+        }
+
+        // 한국 신경외과 논문 많은 의사 토글 기능
+        function toggleResearchDoctors() {
+            const content = document.getElementById('researchDoctorsContent');
+            const icon = document.getElementById('researchDoctorsIcon');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+                content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
         }
     </script>
 </body>
