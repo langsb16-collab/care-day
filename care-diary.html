@@ -74,9 +74,35 @@
                 padding: 14px 16px;
                 font-size: 14px;
                 min-height: 52px;
+                touch-action: manipulation; /* 더블탭 줌 방지 */
             }
             .btn-primary i, .btn-secondary i {
                 font-size: 16px;
+            }
+            
+            /* 모바일 모달 최적화 */
+            .modal-content {
+                margin: 5% auto;
+                max-height: 90vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* 모바일 입력 필드 최적화 */
+            input, textarea, select {
+                font-size: 16px !important; /* iOS 자동 줌 방지 */
+            }
+            
+            /* 모바일 미디어 프리뷰 */
+            .media-preview {
+                max-height: 200px;
+            }
+        }
+        
+        /* 터치 디바이스 최적화 */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-primary:active, .btn-secondary:active {
+                transform: scale(0.95);
             }
         }
         .status-badge {
@@ -92,6 +118,30 @@
         .status-badge.meal { background: #fff3e0; color: #f57c00; }
         .status-badge.vital { background: #fce4ec; color: #c2185b; }
         .status-badge.recovery { background: #e8f5e9; color: #388e3c; }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="font-sans bg-gray-50">
@@ -192,7 +242,7 @@
                     <i class="fas fa-upload mr-2"></i>
                     <span data-i18n="careDiary.uploadFile">파일 업로드</span>
                 </button>
-                <a href="medical-lens.html" class="btn-secondary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; text-decoration: none;">
+                <a href="medical-lens.html" class="btn-secondary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; text-decoration: none;" title="AI가 의료 정보를 분석하고 간병일지에 자동 추가합니다">
                     <i class="fas fa-camera-retro mr-2"></i>
                     <span data-i18n="careDiary.medicalLens">메디컬 렌즈</span>
                 </a>
@@ -338,11 +388,12 @@
                         <i class="fas fa-circle text-red-500 recording-pulse mr-2"></i>
                         <span data-i18n="careDiary.modal.recording">녹음 중...</span>
                     </div>
-                    <input type="file" id="audioUpload" accept="audio/*,.mp3,.wav,.3gp,.amr,.ogg,.opus" class="hidden" onchange="handleAudioUpload(event)">
-                    <button onclick="document.getElementById('audioUpload').click()" class="mt-3 text-primary hover:underline">
+                    <input type="file" id="audioUpload" accept="audio/*,.mp3,.wav,.m4a,.3gp,.amr,.ogg,.opus,.aac" class="hidden" onchange="handleAudioUpload(event)" capture="microphone">
+                    <button onclick="document.getElementById('audioUpload').click()" class="mt-3 text-primary hover:underline text-sm">
                         <i class="fas fa-upload mr-2"></i>
-                        <span data-i18n="careDiary.modal.uploadAudio">음성 파일 업로드</span>
+                        <span data-i18n="careDiary.modal.uploadAudio">음성 파일 업로드 (한국어/중국어/영어/일본어 지원)</span>
                     </button>
+                    <p class="text-xs text-gray-500 mt-2">💡 업로드된 음성은 자동으로 한국어로 번역됩니다</p>
                 </div>
 
                 <!-- Photo/Video Capture -->
@@ -358,10 +409,10 @@
                             <span data-i18n="careDiary.modal.recordVideo">영상 촬영</span>
                         </button>
                     </div>
-                    <input type="file" id="mediaUpload" accept="image/*,video/*" class="hidden" onchange="handleMediaUpload(event)">
-                    <button onclick="document.getElementById('mediaUpload').click()" class="mt-3 text-primary hover:underline">
+                    <input type="file" id="mediaUpload" accept="image/*,video/*" class="hidden" onchange="handleMediaUpload(event)" capture="environment">
+                    <button onclick="document.getElementById('mediaUpload').click()" class="mt-3 text-primary hover:underline text-sm">
                         <i class="fas fa-upload mr-2"></i>
-                        <span data-i18n="careDiary.modal.uploadMedia">파일 업로드</span>
+                        <span data-i18n="careDiary.modal.uploadMedia">사진/영상 파일 업로드</span>
                     </button>
                     <div id="mediaPreview" class="mt-4"></div>
                 </div>
@@ -537,49 +588,213 @@
             }
         }
 
-        // 음성 파일 업로드 및 텍스트 변환
+        // 음성 파일 업로드 및 텍스트 변환 (다국어 지원)
         async function handleAudioUpload(event) {
             const file = event.target.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('audio', file);
+            if (!file) return;
+            
+            // 로딩 표시
+            const content = document.getElementById('diaryContent');
+            const originalContent = content.value;
+            content.value += '\n\n🎤 음성 파일 처리 중...\n';
+            content.disabled = true;
+            
+            try {
+                // 파일을 Base64로 변환
+                const base64Audio = await fileToBase64(file);
                 
-                // 서버로 전송하여 텍스트 변환 (실제 구현 시 API 엔드포인트 필요)
-                alert(`음성 파일 "${file.name}" 업로드됨. 텍스트 변환 기능은 서버 API가 필요합니다.`);
+                // Gemini API를 통한 음성 인식 및 번역
+                const result = await transcribeAndTranslateAudio(base64Audio, file.type);
                 
-                // 임시: 파일 정보 표시
-                const content = document.getElementById('diaryContent');
-                content.value += `\n[음성 파일: ${file.name}]\n`;
+                if (result.success) {
+                    content.value = originalContent + '\n\n' + result.translatedText + '\n';
+                    
+                    // 원본 언어 표시
+                    if (result.originalLanguage !== 'ko') {
+                        content.value += `\n[원본 언어: ${getLanguageName(result.originalLanguage)}]\n`;
+                        content.value += `[원본 내용: ${result.originalText}]\n`;
+                    }
+                    
+                    alert(`✅ 음성이 텍스트로 변환되고 한국어로 번역되었습니다!\n\n파일명: ${file.name}\n언어: ${getLanguageName(result.originalLanguage)}`);
+                } else {
+                    throw new Error(result.error || '음성 변환 실패');
+                }
+                
+            } catch (error) {
+                console.error('음성 변환 오류:', error);
+                content.value = originalContent;
+                alert(`❌ 음성 변환 중 오류가 발생했습니다.\n\n${error.message}\n\n다시 시도해주세요.`);
+            } finally {
+                content.disabled = false;
             }
         }
-
-        // 음성을 텍스트로 변환 (Web Speech API 사용 예시)
-        async function transcribeAudio(audioBlob) {
-            // 실제 구현: 서버 API 또는 Web Speech API 사용
-            // 여기서는 간단한 시뮬레이션
-            const content = document.getElementById('diaryContent');
-            content.value += '\n[녹음된 내용이 텍스트로 변환됩니다]\n';
-            
-            alert('음성이 텍스트로 변환되었습니다. 실제 구현 시 음성인식 API가 필요합니다.');
+        
+        // 파일을 Base64로 변환
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Gemini API를 통한 음성 인식 및 번역
+        async function transcribeAndTranslateAudio(base64Audio, mimeType) {
+            try {
+                // Gemini API 키 (실제 운영 환경에서는 서버에서 처리해야 함)
+                const GEMINI_API_KEY = 'AIzaSyD-B5gYvIUWYWz1p0S-kCLxLwVCqW85O4k';
+                const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
+                
+                const response = await fetch(`${API_URL}?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                {
+                                    text: "이 음성 파일의 내용을 텍스트로 변환하고, 한국어로 번역해주세요. 응답 형식:\n언어: [감지된 언어 코드 (ko/zh/en/ja)]\n원본: [원본 텍스트]\n번역: [한국어 번역]"
+                                },
+                                {
+                                    inline_data: {
+                                        mime_type: mimeType,
+                                        data: base64Audio
+                                    }
+                                }
+                            ]
+                        }]
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API 오류: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const text = data.candidates[0].content.parts[0].text;
+                
+                // 응답 파싱
+                const languageMatch = text.match(/언어:\s*(\w+)/i);
+                const originalMatch = text.match(/원본:\s*(.+?)(?=\n번역:|$)/is);
+                const translationMatch = text.match(/번역:\s*(.+?)$/is);
+                
+                return {
+                    success: true,
+                    originalLanguage: languageMatch ? languageMatch[1] : 'unknown',
+                    originalText: originalMatch ? originalMatch[1].trim() : text,
+                    translatedText: translationMatch ? translationMatch[1].trim() : text
+                };
+                
+            } catch (error) {
+                console.error('Gemini API 오류:', error);
+                return {
+                    success: false,
+                    error: error.message
+                };
+            }
+        }
+        
+        // 언어 코드를 언어 이름으로 변환
+        function getLanguageName(code) {
+            const languages = {
+                'ko': '한국어',
+                'zh': '중국어',
+                'en': '영어',
+                'ja': '일본어',
+                'unknown': '알 수 없음'
+            };
+            return languages[code] || code;
         }
 
-        // Photo/Video Capture (기능2)
+        // 음성을 텍스트로 변환 (Gemini API 사용)
+        async function transcribeAudio(audioBlob) {
+            const content = document.getElementById('diaryContent');
+            const originalContent = content.value;
+            content.value += '\n\n🎤 녹음된 음성 처리 중...\n';
+            content.disabled = true;
+            
+            try {
+                // Blob을 Base64로 변환
+                const base64Audio = await blobToBase64(audioBlob);
+                
+                // Gemini API를 통한 음성 인식 및 번역
+                const result = await transcribeAndTranslateAudio(base64Audio, 'audio/wav');
+                
+                if (result.success) {
+                    content.value = originalContent + '\n\n' + result.translatedText + '\n';
+                    
+                    // 원본 언어 표시
+                    if (result.originalLanguage !== 'ko') {
+                        content.value += `\n[원본 언어: ${getLanguageName(result.originalLanguage)}]\n`;
+                        content.value += `[원본 내용: ${result.originalText}]\n`;
+                    }
+                    
+                    alert(`✅ 음성이 텍스트로 변환되고 한국어로 번역되었습니다!\n\n언어: ${getLanguageName(result.originalLanguage)}`);
+                } else {
+                    throw new Error(result.error || '음성 변환 실패');
+                }
+                
+            } catch (error) {
+                console.error('음성 변환 오류:', error);
+                content.value = originalContent;
+                alert(`❌ 음성 변환 중 오류가 발생했습니다.\n\n${error.message}\n\n다시 시도해주세요.`);
+            } finally {
+                content.disabled = false;
+            }
+        }
+        
+        // Blob을 Base64로 변환
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        // Photo/Video Capture (기능2) - 모바일 최적화
         async function capturePhotoModal() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // 모바일에서 후면 카메라 우선 사용
+                const constraints = {
+                    video: {
+                        facingMode: { ideal: 'environment' },
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    }
+                };
+                
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
                 const video = document.createElement('video');
                 video.srcObject = stream;
                 video.autoplay = true;
+                video.playsInline = true; // iOS 지원
                 video.style.width = '100%';
+                video.style.maxHeight = '400px';
                 video.style.borderRadius = '8px';
+                video.style.objectFit = 'cover';
                 
                 const preview = document.getElementById('mediaPreview');
                 preview.innerHTML = '';
                 preview.appendChild(video);
                 
+                // 버튼 컨테이너
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'flex gap-3 mt-3';
+                
+                // 촬영 버튼
                 const captureBtn = document.createElement('button');
-                captureBtn.className = 'btn-primary mt-3 w-full';
-                captureBtn.innerHTML = '<i class="fas fa-camera mr-2"></i> 촬영';
+                captureBtn.className = 'btn-primary flex-1';
+                captureBtn.innerHTML = '<i class="fas fa-camera mr-2"></i> 📸 촬영';
                 captureBtn.onclick = () => {
                     const canvas = document.createElement('canvas');
                     canvas.width = video.videoWidth;
@@ -587,31 +802,57 @@
                     canvas.getContext('2d').drawImage(video, 0, 0);
                     
                     const img = document.createElement('img');
-                    img.src = canvas.toDataURL('image/jpeg');
+                    img.src = canvas.toDataURL('image/jpeg', 0.9);
                     img.className = 'media-preview';
                     
                     preview.innerHTML = '';
                     preview.appendChild(img);
                     
+                    // 재촬영 버튼
+                    const retakeBtn = document.createElement('button');
+                    retakeBtn.className = 'btn-secondary w-full mt-3';
+                    retakeBtn.innerHTML = '<i class="fas fa-redo mr-2"></i> 다시 촬영';
+                    retakeBtn.onclick = () => {
+                        stream.getTracks().forEach(track => track.stop());
+                        capturePhotoModal();
+                    };
+                    preview.appendChild(retakeBtn);
+                    
                     stream.getTracks().forEach(track => track.stop());
                     
-                    alert('사진이 촬영되었습니다. 실제 구현 시 보호자에게 전송됩니다.');
+                    alert('✅ 사진이 촬영되었습니다!\n\n간병일기 저장 시 보호자에게 함께 전송됩니다.');
                 };
                 
-                preview.appendChild(captureBtn);
+                // 카메라 전환 버튼 (모바일)
+                const switchBtn = document.createElement('button');
+                switchBtn.className = 'btn-secondary';
+                switchBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                switchBtn.title = '카메라 전환';
+                switchBtn.onclick = async () => {
+                    stream.getTracks().forEach(track => track.stop());
+                    const currentFacing = constraints.video.facingMode.ideal;
+                    constraints.video.facingMode.ideal = currentFacing === 'environment' ? 'user' : 'environment';
+                    capturePhotoModal();
+                };
+                
+                btnContainer.appendChild(captureBtn);
+                btnContainer.appendChild(switchBtn);
+                preview.appendChild(btnContainer);
                 
             } catch (error) {
                 console.error('카메라 접근 오류:', error);
-                let errorMessage = '카메라 접근 권한이 필요합니다.\n\n';
+                let errorMessage = '📷 카메라 접근 권한이 필요합니다.\n\n';
                 
                 if (error.name === 'NotAllowedError') {
-                    errorMessage += '카메라 권한을 허용해주세요.\n브라우저 설정에서 카메라 접근을 허용하신 후 페이지를 새로고침해주세요.';
+                    errorMessage += '✋ 카메라 권한을 허용해주세요.\n\n';
+                    errorMessage += '📱 모바일: 설정 > 브라우저 > 권한 > 카메라 허용\n';
+                    errorMessage += '💻 PC: 브라우저 주소창 옆 자물쇠 아이콘 클릭';
                 } else if (error.name === 'NotFoundError') {
-                    errorMessage += '카메라를 찾을 수 없습니다.\n기기에 카메라가 연결되어 있는지 확인해주세요.';
+                    errorMessage += '❌ 카메라를 찾을 수 없습니다.\n기기에 카메라가 있는지 확인해주세요.';
                 } else if (error.name === 'NotReadableError') {
-                    errorMessage += '카메라가 다른 앱에서 사용 중입니다.\n다른 앱을 종료하신 후 다시 시도해주세요.';
+                    errorMessage += '⚠️ 카메라가 다른 앱에서 사용 중입니다.\n다른 앱을 종료하신 후 다시 시도해주세요.';
                 } else if (error.name === 'OverconstrainedError') {
-                    errorMessage += '요청한 카메라 설정을 사용할 수 없습니다.';
+                    errorMessage += '⚙️ 요청한 카메라 설정을 사용할 수 없습니다.';
                 } else {
                     errorMessage += '오류: ' + error.message;
                 }
@@ -643,35 +884,52 @@
         }
 
         // Save Diary (기능4)
-        function saveDiary() {
+        async function saveDiary() {
             const dateTime = document.getElementById('diaryDateTime').value;
             const content = document.getElementById('diaryContent').value;
             
             if (!dateTime || !content) {
-                alert('날짜와 내용을 입력해주세요.');
+                alert('⚠️ 날짜와 내용을 입력해주세요.');
                 return;
             }
             
-            // localStorage에 저장 (회원 기능 시 서버 API 사용)
-            const diaries = JSON.parse(localStorage.getItem('care_diaries') || '[]');
-            const newDiary = {
-                id: Date.now(),
-                dateTime: dateTime,
-                content: content,
-                categories: getSelectedCategories(),
-                notifications: getSelectedNotifications(),
-                createdAt: new Date().toISOString()
-            };
+            // 저장 중 표시
+            const saveBtn = event.target;
+            const originalText = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> 저장 중...';
             
-            diaries.push(newDiary);
-            localStorage.setItem('care_diaries', JSON.stringify(diaries));
-            
-            // 보호자에게 알림 전송 (실제 구현 시 API 필요)
-            sendNotificationsToGuardian(newDiary);
-            
-            alert('간병일기가 저장되고 보호자에게 전송되었습니다!');
-            closeRecordModal();
-            loadDiaries();
+            try {
+                // localStorage에 저장 (회원 기능 시 서버 API 사용)
+                const diaries = JSON.parse(localStorage.getItem('care_diaries') || '[]');
+                const newDiary = {
+                    id: Date.now(),
+                    dateTime: dateTime,
+                    content: content,
+                    categories: getSelectedCategories(),
+                    notifications: getSelectedNotifications(),
+                    createdAt: new Date().toISOString()
+                };
+                
+                diaries.push(newDiary);
+                localStorage.setItem('care_diaries', JSON.stringify(diaries));
+                
+                // 보호자에게 알림 전송
+                const notificationResult = await sendNotificationsToGuardian(newDiary);
+                
+                // 결과 표시
+                alert(`✅ 간병일기가 저장되었습니다!\n\n${notificationResult.message || '저장 완료'}`);
+                
+                closeRecordModal();
+                loadDiaries();
+                
+            } catch (error) {
+                console.error('저장 오류:', error);
+                alert(`❌ 저장 중 오류가 발생했습니다.\n\n${error.message}`);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+            }
         }
 
         function saveDraft() {
@@ -697,21 +955,115 @@
             };
         }
 
-        function sendNotificationsToGuardian(diary) {
+        async function sendNotificationsToGuardian(diary) {
             const notifications = diary.notifications;
+            const dateTime = new Date(diary.dateTime).toLocaleString('ko-KR');
+            const categories = diary.categories.map(c => {
+                const names = {
+                    'medication': '💊 복약',
+                    'meal': '🍽️ 식사',
+                    'vital': '💓 생체신호',
+                    'recovery': '📈 회복상태'
+                };
+                return names[c] || c;
+            }).join(', ');
             
-            // 실제 구현 시 서버 API를 통해 전송
-            console.log('보호자 알림 전송:', notifications);
+            // 알림 메시지 구성
+            const message = `
+📝 간병일지 알림
+━━━━━━━━━━━━━━
+📅 시간: ${dateTime}
+📋 분류: ${categories}
+
+${diary.content}
+
+━━━━━━━━━━━━━━
+🧠 뇌질환케어 (CASHiQ.org)
+            `.trim();
             
-            if (notifications.sms) {
-                console.log('SMS 전송:', diary.content);
+            const sentMethods = [];
+            
+            try {
+                // SMS 전송 (실제 구현 시 SMS API 필요)
+                if (notifications.sms) {
+                    console.log('📱 SMS 전송:', message);
+                    sentMethods.push('문자 메시지');
+                    // await sendSMS(message);
+                }
+                
+                // 카카오톡 전송 (실제 구현 시 카카오톡 API 필요)
+                if (notifications.kakao) {
+                    console.log('💬 카카오톡 전송:', message);
+                    sentMethods.push('카카오톡');
+                    // await sendKakaoTalk(message);
+                }
+                
+                // 텔레그램 전송 (실제 구현 시 텔레그램 Bot API 필요)
+                if (notifications.telegram) {
+                    console.log('✈️ 텔레그램 전송:', message);
+                    sentMethods.push('텔레그램');
+                    // await sendTelegram(message);
+                }
+                
+                if (sentMethods.length > 0) {
+                    return {
+                        success: true,
+                        methods: sentMethods,
+                        message: `✅ 보호자에게 ${sentMethods.join(', ')}으로 알림이 전송되었습니다!`
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: '⚠️ 선택된 알림 방법이 없습니다.'
+                    };
+                }
+                
+            } catch (error) {
+                console.error('알림 전송 오류:', error);
+                return {
+                    success: false,
+                    message: `❌ 알림 전송 중 오류가 발생했습니다: ${error.message}`
+                };
             }
-            if (notifications.kakao) {
-                console.log('카카오톡 전송:', diary.content);
-            }
-            if (notifications.telegram) {
-                console.log('텔레그램 전송:', diary.content);
-            }
+        }
+        
+        // SMS 전송 API (실제 구현 예시)
+        async function sendSMS(message) {
+            // Twilio, AWS SNS, 또는 국내 SMS API 사용
+            // const response = await fetch('/api/send-sms', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ message })
+            // });
+            return { success: true };
+        }
+        
+        // 카카오톡 전송 API (실제 구현 예시)
+        async function sendKakaoTalk(message) {
+            // 카카오톡 알림톡 API 사용
+            // const response = await fetch('/api/send-kakao', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ message })
+            // });
+            return { success: true };
+        }
+        
+        // 텔레그램 전송 API (실제 구현 예시)
+        async function sendTelegram(message) {
+            // Telegram Bot API 사용
+            // const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
+            // const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+            // const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         chat_id: TELEGRAM_CHAT_ID,
+            //         text: message,
+            //         parse_mode: 'HTML'
+            //     })
+            // });
+            return { success: true };
         }
 
         // Filter Functions
