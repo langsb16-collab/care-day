@@ -22,7 +22,8 @@ const translations = {
             medical: '명의찾기',
             complaints: '민원 (병원,국가기관)',
             emergency: '응급',
-            papers: '논문 (한국어/영어)'
+            papers: '논문 (한국어/영어)',
+            notice: '공지'
         },
         hero: {
             title: '뇌출혈·뇌경색 환자와 가족을 위한<br>종합 케어 플랫폼',
@@ -54,6 +55,7 @@ const translations = {
             languages: 'Languages',
             rights: 'All rights reserved.'
         },
+        backToHome: '메인화면 돌아가기',
         service: {
             disease: {
                 title: '뇌질환 정보 - 뇌질환케어'
@@ -319,6 +321,67 @@ const translations = {
             info2Text: '약 이름, 성분, 효능을 자동 인식합니다',
             info3Title: '실시간 공유',
             info3Text: '보호자에게 즉시 전송됩니다'
+        },
+        signup: {
+            pageTitle: '회원가입 - CASHiQ 뇌질환케어',
+            backToHome: '홈으로 돌아가기',
+            membershipTitle: '회원 등급 선택',
+            signupTitle: '회원가입',
+            signupSubtitle: 'CASHiQ와 함께 건강한 케어를 시작하세요',
+            free: {
+                title: '무료 회원',
+                subtitle: 'Free Membership',
+                price: '₩0',
+                duration: '영구 무료',
+                feature1: '하루 병원 검색 2회',
+                feature2: '공지사항 열람',
+                button: '무료로 시작하기'
+            },
+            premium1Year: {
+                title: '프리미엄 1년',
+                subtitle: 'Premium 1 Year',
+                price: '₩68,000',
+                duration: '약 ₩5,666/월',
+                feature1: '플랫폼 모든 메뉴 사용',
+                feature2: '모든 하위 메뉴 접근',
+                feature3: '무제한 병원 검색',
+                feature4: '커뮤니티 전체 이용',
+                feature5: '병원 리뷰 & 평가',
+                feature6: '필터링 & 지도 검색',
+                feature7: '제휴 병원 할인',
+                feature8: '우선 고객 지원'
+            },
+            premium2Year: {
+                title: '프리미엄 2년',
+                subtitle: 'Premium 2 Years',
+                badge: '32% 할인!',
+                price: '₩100,000',
+                duration: '약 ₩4,166/월',
+                feature1: '1년 플랜의 모든 혜택',
+                feature2: '플랫폼 모든 기능 사용',
+                feature3: '₩36,000 추가 절약',
+                feature4: '프리미엄 간병 가이드',
+                feature5: 'VIP 전용 혜택'
+            },
+            form: {
+                nameLabel: '이름',
+                namePlaceholder: '홍길동',
+                emailLabel: '이메일',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: '전화번호',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: '비밀번호',
+                passwordPlaceholder: '8자 이상',
+                passwordConfirmLabel: '비밀번호 확인',
+                passwordConfirmPlaceholder: '비밀번호 재입력',
+                termsLabel: '이용약관 및 개인정보처리방침에 동의합니다',
+                marketingLabel: '마케팅 정보 수신에 동의합니다 (선택)',
+                selectedPlan: '선택한 플랜:',
+                submitButton: '회원가입',
+                loginText: '이미 회원이신가요?',
+                loginLink: '로그인',
+                required: '*'
+            }
         }
     },
     en: {
@@ -343,7 +406,8 @@ const translations = {
             medical: 'Find Doctors',
             complaints: 'Complaints (Hospital/Government)',
             emergency: 'Emergency',
-            papers: 'Papers (KR/EN)'
+            papers: 'Papers (KR/EN)',
+            notice: 'Notice'
         },
         hero: {
             title: 'Comprehensive Care Platform<br>for Stroke Patients and Families',
@@ -375,6 +439,7 @@ const translations = {
             languages: 'Languages',
             rights: 'All rights reserved.'
         },
+        backToHome: 'Back to Home',
         service: {
             disease: {
                 title: 'Brain Disease Information - Brain Disease Care'
@@ -664,7 +729,8 @@ const translations = {
             medical: '寻找名医',
             complaints: '投诉 (医院/政府机关)',
             emergency: '急救',
-            papers: '论文 (韩语/英语)'
+            papers: '论文 (韩语/英语)',
+            notice: '公告'
         },
         hero: {
             title: '为脑出血和脑梗塞患者及家属<br>提供的综合护理平台',
@@ -696,6 +762,7 @@ const translations = {
             languages: '语言',
             rights: '版权所有。'
         },
+        backToHome: '返回主页',
         service: {
             disease: {
                 title: '脑疾病信息 - 脑疾病护理'
@@ -985,7 +1052,8 @@ const translations = {
             medical: '名医を探す',
             complaints: '苦情 (病院/政府機関)',
             emergency: '緊急',
-            papers: '論文 (韓国語/英語)'
+            papers: '論文 (韓国語/英語)',
+            notice: 'お知らせ'
         },
         hero: {
             title: '脳出血・脳梗塞患者とご家族のための<br>総合ケアプラットフォーム',
@@ -1017,6 +1085,7 @@ const translations = {
             languages: '言語',
             rights: 'すべての権利を保有。'
         },
+        backToHome: 'ホームに戻る',
         service: {
             disease: {
                 title: '脳疾患情報 - 脳疾患ケア'
