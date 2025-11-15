@@ -101,16 +101,24 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            이미지 URL
+                            <i class="fas fa-image mr-2 text-blue-600"></i>이미지 업로드
                         </label>
-                        <input type="text" id="imageUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="https://example.com/image.jpg">
+                        <input type="file" id="imageFile" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <input type="hidden" id="imageUrl">
+                        <div id="imagePreview" class="mt-2 hidden">
+                            <img id="previewImg" class="max-w-xs rounded-lg shadow-md" alt="미리보기">
+                            <button type="button" onclick="removeImage()" class="mt-2 text-sm text-red-600 hover:text-red-800">
+                                <i class="fas fa-times mr-1"></i>이미지 제거
+                            </button>
+                        </div>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            동영상 URL (YouTube 등)
+                            <i class="fas fa-video mr-2 text-red-600"></i>동영상 URL (YouTube)
                         </label>
                         <input type="text" id="videoUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="https://youtu.be/xxxxx">
+                        <p class="mt-1 text-xs text-gray-500">YouTube 링크를 입력하세요</p>
                     </div>
                 </div>
 
@@ -323,6 +331,30 @@
             });
         }
 
+        // Image file upload handler
+        document.getElementById('imageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Save base64 data to hidden input
+                    document.getElementById('imageUrl').value = event.target.result;
+                    
+                    // Show preview
+                    document.getElementById('previewImg').src = event.target.result;
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Remove image
+        function removeImage() {
+            document.getElementById('imageFile').value = '';
+            document.getElementById('imageUrl').value = '';
+            document.getElementById('imagePreview').classList.add('hidden');
+        }
+
         // Save notice
         document.getElementById('noticeForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -375,12 +407,20 @@
             document.getElementById('importance').value = notice.importance;
             document.getElementById('summary').value = notice.summary;
             document.getElementById('content').value = notice.content;
-            document.getElementById('imageUrl').value = notice.imageUrl;
-            document.getElementById('videoUrl').value = notice.videoUrl;
-            document.getElementById('startDate').value = notice.startDate;
-            document.getElementById('endDate').value = notice.endDate;
-            document.getElementById('pinned').checked = notice.pinned;
-            document.getElementById('active').checked = notice.active;
+            document.getElementById('imageUrl').value = notice.imageUrl || '';
+            document.getElementById('videoUrl').value = notice.videoUrl || '';
+            document.getElementById('startDate').value = notice.startDate || '';
+            document.getElementById('endDate').value = notice.endDate || '';
+            document.getElementById('pinned').checked = notice.pinned || false;
+            document.getElementById('active').checked = notice.active || false;
+
+            // Show image preview if exists
+            if (notice.imageUrl) {
+                document.getElementById('previewImg').src = notice.imageUrl;
+                document.getElementById('imagePreview').classList.remove('hidden');
+            } else {
+                document.getElementById('imagePreview').classList.add('hidden');
+            }
 
             document.getElementById('formTitle').textContent = '공지 수정';
             document.querySelector('form button[type="submit"]').innerHTML = '<i class="fas fa-save mr-2"></i>수정';
@@ -404,6 +444,8 @@
         function resetForm() {
             document.getElementById('noticeForm').reset();
             document.getElementById('noticeId').value = '';
+            document.getElementById('imageUrl').value = '';
+            document.getElementById('imagePreview').classList.add('hidden');
             document.getElementById('formTitle').textContent = '공지 등록';
             document.querySelector('form button[type="submit"]').innerHTML = '<i class="fas fa-save mr-2"></i>저장';
         }
