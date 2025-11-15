@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASHiQ 관리자 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <nav class="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <span class="text-2xl">🧠</span>
+                    <div>
+                        <h1 class="text-xl font-bold">CASHiQ 관리자</h1>
+                        <p class="text-sm opacity-90">Admin Dashboard</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="hidden md:inline text-sm"><i class="fas fa-user-shield mr-1"></i><span id="adminName"></span></span>
+                    <button onclick="logout()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition">
+                        <i class="fas fa-sign-out-alt mr-1"></i>로그아웃
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Welcome Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">환영합니다, <span id="welcomeName"></span>님</h2>
+            <p class="text-gray-600">CASHiQ 플랫폼 관리자 대시보드입니다.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">공지사항</p>
+                        <p class="text-3xl font-bold text-gray-800" id="noticeCount">0</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <i class="fas fa-bullhorn text-blue-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">팝업</p>
+                        <p class="text-3xl font-bold text-gray-800" id="popupCount">0</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg">
+                        <i class="fas fa-window-restore text-green-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">배너광고</p>
+                        <p class="text-3xl font-bold text-gray-800" id="bannerCount">0</p>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-lg">
+                        <i class="fas fa-ad text-purple-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">회원</p>
+                        <p class="text-3xl font-bold text-gray-800" id="memberCount">0</p>
+                    </div>
+                    <div class="bg-orange-100 p-3 rounded-lg">
+                        <i class="fas fa-users text-orange-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="notices.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-blue-100 p-4 rounded-lg">
+                        <i class="fas fa-bullhorn text-blue-600 text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">공지 관리</h3>
+                        <p class="text-gray-600 text-sm">공지사항 등록/수정/삭제</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="popups.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-green-100 p-4 rounded-lg">
+                        <i class="fas fa-window-restore text-green-600 text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">팝업 관리</h3>
+                        <p class="text-gray-600 text-sm">팝업 등록/수정/삭제</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="banners.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-purple-100 p-4 rounded-lg">
+                        <i class="fas fa-ad text-purple-600 text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">배너광고 관리</h3>
+                        <p class="text-gray-600 text-sm">배너 등록/수정/삭제</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="members.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-orange-100 p-4 rounded-lg">
+                        <i class="fas fa-users text-orange-600 text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">회원 관리</h3>
+                        <p class="text-gray-600 text-sm">회원 정보 조회/관리</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="../index.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <i class="fas fa-home text-gray-600 text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">메인 사이트</h3>
+                        <p class="text-gray-600 text-sm">사용자 페이지 보기</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="settings.html" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-red-100 p-4 rounded-lg">
+                        <i class="fas fa-cog text-red-600 text-3xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">설정</h3>
+                        <p class="text-gray-600 text-sm">시스템 설정 관리</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const loggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (!loggedIn) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            return true;
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        async function loadStats() {
+            try {
+                // Load notices count
+                const noticesRes = await fetch('../data/notices.json');
+                const notices = await noticesRes.json();
+                document.getElementById('noticeCount').textContent = notices.length;
+
+                // Load popups count
+                const popupsRes = await fetch('../data/popups.json');
+                const popups = await popupsRes.json();
+                document.getElementById('popupCount').textContent = popups.length;
+
+                // Load banners count
+                const bannersRes = await fetch('../data/banners.json');
+                const banners = await bannersRes.json();
+                document.getElementById('bannerCount').textContent = banners.length;
+
+                // Load members count
+                const membersRes = await fetch('../data/members.json');
+                const members = await membersRes.json();
+                document.getElementById('memberCount').textContent = members.length;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Initialize
+        if (checkAuth()) {
+            const username = sessionStorage.getItem('adminUsername') || 'Admin';
+            document.getElementById('adminName').textContent = username;
+            document.getElementById('welcomeName').textContent = username;
+            loadStats();
+        }
+    </script>
+</body>
+</html>

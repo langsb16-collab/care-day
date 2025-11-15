@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지 관리 - CASHiQ Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <nav class="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-white hover:text-gray-200">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-xl font-bold">공지 관리</h1>
+                        <p class="text-sm opacity-90">Notice Management</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition">
+                    <i class="fas fa-sign-out-alt mr-1"></i>로그아웃
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Add Notice Form -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-plus-circle text-blue-600 mr-2"></i>
+                <span id="formTitle">공지 등록</span>
+            </h2>
+            
+            <form id="noticeForm" class="space-y-4">
+                <input type="hidden" id="noticeId">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            제목 <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            카테고리 <span class="text-red-500">*</span>
+                        </label>
+                        <select id="category" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="service">서비스 안내</option>
+                            <option value="maintenance">시스템 점검</option>
+                            <option value="event">이벤트/프로모션</option>
+                            <option value="policy">법령·정책 변경</option>
+                            <option value="emergency">긴급(응급) 안내</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            언어 <span class="text-red-500">*</span>
+                        </label>
+                        <select id="lang" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="ko">한국어</option>
+                            <option value="en">English</option>
+                            <option value="zh">中文</option>
+                            <option value="ja">日本語</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            중요도 <span class="text-red-500">*</span>
+                        </label>
+                        <select id="importance" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="normal">일반</option>
+                            <option value="important">중요</option>
+                            <option value="urgent">긴급</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        한줄 요약
+                    </label>
+                    <input type="text" id="summary" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="간단한 요약을 입력하세요">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        내용 <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="content" required rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="공지 내용을 입력하세요"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            이미지 URL
+                        </label>
+                        <input type="text" id="imageUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            동영상 URL (YouTube 등)
+                        </label>
+                        <input type="text" id="videoUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="https://youtu.be/xxxxx">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            시작일
+                        </label>
+                        <input type="datetime-local" id="startDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            종료일
+                        </label>
+                        <input type="datetime-local" id="endDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="pinned" class="mr-2 w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                        <span class="text-sm font-medium text-gray-700">상단 고정</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="active" checked class="mr-2 w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                        <span class="text-sm font-medium text-gray-700">활성화</span>
+                    </label>
+                </div>
+
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        <i class="fas fa-save mr-2"></i>저장
+                    </button>
+                    <button type="button" onclick="resetForm()" class="px-6 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition">
+                        <i class="fas fa-times mr-2"></i>취소
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Notice List -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-list text-blue-600 mr-2"></i>공지 목록
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">제목</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">카테고리</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">중요도</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">언어</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">작성일</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">상태</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody id="noticeTableBody" class="divide-y divide-gray-200">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const loggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (!loggedIn) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            return true;
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        let notices = [];
+
+        // Load notices
+        async function loadNotices() {
+            try {
+                const response = await fetch('../data/notices.json');
+                notices = await response.json();
+                renderNotices();
+            } catch (error) {
+                console.error('Error loading notices:', error);
+                notices = [];
+            }
+        }
+
+        // Render notices table
+        function renderNotices() {
+            const tbody = document.getElementById('noticeTableBody');
+            
+            if (notices.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">등록된 공지가 없습니다.</td></tr>';
+                return;
+            }
+
+            // Sort by pinned and date
+            const sortedNotices = [...notices].sort((a, b) => {
+                if (a.pinned && !b.pinned) return -1;
+                if (!a.pinned && b.pinned) return 1;
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            });
+
+            tbody.innerHTML = sortedNotices.map(notice => `
+                <tr class="hover:bg-gray-50 ${notice.pinned ? 'bg-yellow-50' : ''}">
+                    <td class="px-4 py-3">
+                        ${notice.pinned ? '<i class="fas fa-thumbtack text-yellow-600 mr-2"></i>' : ''}
+                        <span class="font-medium">${notice.title}</span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs rounded ${getCategoryColor(notice.category)}">
+                            ${getCategoryText(notice.category)}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs rounded ${getImportanceColor(notice.importance)}">
+                            ${getImportanceText(notice.importance)}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-sm">${getLangText(notice.lang)}</td>
+                    <td class="px-4 py-3 text-sm">${formatDate(notice.createdAt)}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs rounded ${notice.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${notice.active ? '활성' : '비활성'}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex space-x-2">
+                            <button onclick="editNotice(${notice.id})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteNotice(${notice.id})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                service: 'bg-blue-100 text-blue-800',
+                maintenance: 'bg-orange-100 text-orange-800',
+                event: 'bg-green-100 text-green-800',
+                policy: 'bg-purple-100 text-purple-800',
+                emergency: 'bg-red-100 text-red-800'
+            };
+            return colors[category] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getCategoryText(category) {
+            const texts = {
+                service: '서비스',
+                maintenance: '점검',
+                event: '이벤트',
+                policy: '정책',
+                emergency: '긴급'
+            };
+            return texts[category] || category;
+        }
+
+        function getImportanceColor(importance) {
+            const colors = {
+                normal: 'bg-gray-100 text-gray-800',
+                important: 'bg-yellow-100 text-yellow-800',
+                urgent: 'bg-red-100 text-red-800'
+            };
+            return colors[importance] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getImportanceText(importance) {
+            const texts = {
+                normal: '일반',
+                important: '중요',
+                urgent: '긴급'
+            };
+            return texts[importance] || importance;
+        }
+
+        function getLangText(lang) {
+            const texts = {
+                ko: '🇰🇷 한국어',
+                en: '🇺🇸 English',
+                zh: '🇨🇳 中文',
+                ja: '🇯🇵 日本語'
+            };
+            return texts[lang] || lang;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ko-KR', { 
+                year: 'numeric', 
+                month: '2-digit', 
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Save notice
+        document.getElementById('noticeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const noticeId = document.getElementById('noticeId').value;
+            const notice = {
+                id: noticeId ? parseInt(noticeId) : Date.now(),
+                title: document.getElementById('title').value,
+                category: document.getElementById('category').value,
+                lang: document.getElementById('lang').value,
+                importance: document.getElementById('importance').value,
+                summary: document.getElementById('summary').value,
+                content: document.getElementById('content').value,
+                imageUrl: document.getElementById('imageUrl').value,
+                videoUrl: document.getElementById('videoUrl').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                pinned: document.getElementById('pinned').checked,
+                active: document.getElementById('active').checked,
+                createdAt: noticeId ? notices.find(n => n.id === parseInt(noticeId)).createdAt : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            if (noticeId) {
+                // Update existing
+                const index = notices.findIndex(n => n.id === parseInt(noticeId));
+                notices[index] = notice;
+            } else {
+                // Add new
+                notices.push(notice);
+            }
+
+            // Save to localStorage (simulating backend)
+            localStorage.setItem('notices', JSON.stringify(notices));
+            
+            alert('공지가 저장되었습니다.');
+            resetForm();
+            renderNotices();
+        });
+
+        // Edit notice
+        function editNotice(id) {
+            const notice = notices.find(n => n.id === id);
+            if (!notice) return;
+
+            document.getElementById('noticeId').value = notice.id;
+            document.getElementById('title').value = notice.title;
+            document.getElementById('category').value = notice.category;
+            document.getElementById('lang').value = notice.lang;
+            document.getElementById('importance').value = notice.importance;
+            document.getElementById('summary').value = notice.summary;
+            document.getElementById('content').value = notice.content;
+            document.getElementById('imageUrl').value = notice.imageUrl;
+            document.getElementById('videoUrl').value = notice.videoUrl;
+            document.getElementById('startDate').value = notice.startDate;
+            document.getElementById('endDate').value = notice.endDate;
+            document.getElementById('pinned').checked = notice.pinned;
+            document.getElementById('active').checked = notice.active;
+
+            document.getElementById('formTitle').textContent = '공지 수정';
+            document.querySelector('form button[type="submit"]').innerHTML = '<i class="fas fa-save mr-2"></i>수정';
+            
+            // Scroll to form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Delete notice
+        function deleteNotice(id) {
+            if (!confirm('이 공지를 삭제하시겠습니까?')) return;
+
+            notices = notices.filter(n => n.id !== id);
+            localStorage.setItem('notices', JSON.stringify(notices));
+            
+            alert('공지가 삭제되었습니다.');
+            renderNotices();
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('noticeForm').reset();
+            document.getElementById('noticeId').value = '';
+            document.getElementById('formTitle').textContent = '공지 등록';
+            document.querySelector('form button[type="submit"]').innerHTML = '<i class="fas fa-save mr-2"></i>저장';
+        }
+
+        // Initialize
+        if (checkAuth()) {
+            loadNotices();
+            
+            // Load from localStorage if exists
+            const savedNotices = localStorage.getItem('notices');
+            if (savedNotices) {
+                notices = JSON.parse(savedNotices);
+                renderNotices();
+            }
+        }
+    </script>
+</body>
+</html>
