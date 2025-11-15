@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뇌질환 예약 진료 - CASHiQ 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .header-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .hospital-card {
+            transition: all 0.3s ease;
+        }
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .region-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #e3f2fd;
+            color: #1565c0;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background: #4a90e2;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <span class="text-base md:text-xl">🧠</span>
+                    <h1 class="text-[10px] md:text-xs font-bold text-primary whitespace-nowrap">뇌질환케어</h1>
+                </a>
+                <a href="hospital.html" class="text-sm text-primary hover:text-blue-700 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>병원 검색으로 돌아가기
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <!-- Header -->
+            <div class="header-gradient text-white rounded-2xl p-8 mb-8 text-center">
+                <h1 class="text-3xl md:text-4xl font-bold mb-3">
+                    <i class="fas fa-calendar-check mr-3"></i>뇌질환 예약 진료
+                </h1>
+                <p class="text-lg opacity-95 mb-2">온라인 진료예약 가능한 전국 뇌질환 전문병원</p>
+                <p class="text-sm opacity-90">전국 주요 대학병원 및 권역심뇌혈관질환센터 온라인 예약 안내</p>
+            </div>
+
+            <!-- Search and Filter Section -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-search text-primary mr-2"></i>병원 검색
+                    </h3>
+                    <div class="flex gap-3">
+                        <input type="text" id="searchInput" 
+                            class="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-primary" 
+                            placeholder="병원명, 지역명으로 검색 (예: 세브란스, 서울, 분당)">
+                        <button onclick="searchHospitals()" 
+                            class="px-8 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-blue-700 transition">
+                            검색
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-map-marker-alt text-primary mr-2"></i>지역별 필터
+                    </h3>
+                    <div class="flex flex-wrap gap-2" id="regionFilters">
+                        <button class="filter-btn active px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="전체" onclick="filterByRegion('전체')">전체</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="서울" onclick="filterByRegion('서울')">서울</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="경기" onclick="filterByRegion('경기')">경기</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="인천" onclick="filterByRegion('인천')">인천</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="부산" onclick="filterByRegion('부산')">부산</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="대구" onclick="filterByRegion('대구')">대구</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="대전" onclick="filterByRegion('대전')">대전</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="광주" onclick="filterByRegion('광주')">광주</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="울산" onclick="filterByRegion('울산')">울산</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="강원" onclick="filterByRegion('강원')">강원</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="충북" onclick="filterByRegion('충북')">충청북도</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="충남" onclick="filterByRegion('충남')">충청남도</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="전북" onclick="filterByRegion('전북')">전라북도</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="전남" onclick="filterByRegion('전남')">전라남도</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="경북" onclick="filterByRegion('경북')">경상북도</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="경남" onclick="filterByRegion('경남')">경상남도</button>
+                        <button class="filter-btn px-4 py-2 border-2 border-gray-300 rounded-full text-sm font-medium hover:border-primary hover:text-primary" 
+                            data-region="제주" onclick="filterByRegion('제주')">제주</button>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t">
+                    <p class="text-center text-gray-600">
+                        검색 결과: <span id="resultCount" class="font-bold text-primary text-lg">0</span>개 병원
+                    </p>
+                </div>
+            </div>
+
+            <!-- Hospital List -->
+            <div id="hospitalList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 병원 카드들이 여기에 동적으로 추가됩니다 -->
+            </div>
+
+            <!-- No Results -->
+            <div id="noResults" class="hidden text-center py-16">
+                <div class="text-6xl mb-4">🏥</div>
+                <h3 class="text-2xl font-bold text-gray-700 mb-2">검색 결과가 없습니다</h3>
+                <p class="text-gray-600">다른 지역이나 병원명으로 검색해보세요</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm opacity-90">© 2024 CASHiQ 뇌질환케어. All rights reserved.</p>
+            <p class="text-xs opacity-75 mt-2">본 정보는 참고용이며, 실제 예약 전 병원 확인이 필요합니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 병원 데이터
+        const hospitals = [
+            // 서울권
+            {
+                name: '세브란스병원',
+                region: '서울',
+                district: '서대문구',
+                center: '뇌혈관센터',
+                url: 'https://online.iseverance.com',
+                phone: '1599-1004',
+                features: ['진료과/센터/클리닉 선택', '의료진 선택', '회원/비회원 예약 가능'],
+                note: '초진 시 요양급여의뢰서 필요',
+                confirm: 'ARS (1599-1004), 마이세브란스 앱'
+            },
+            {
+                name: '서울대학교병원',
+                region: '서울',
+                district: '종로구',
+                center: '신경과·신경외과·뇌졸중센터',
+                url: 'https://www.snuh.org',
+                phone: '1588-5700',
+                features: ['인터넷 예약', '전화예약', '방문예약'],
+                note: '',
+                confirm: '온라인 예약·전화·방문'
+            },
+            {
+                name: '서울아산병원',
+                region: '서울',
+                district: '송파구',
+                center: '뇌졸중·뇌종양·심뇌혈관센터',
+                url: 'https://www.amc.seoul.kr',
+                phone: '1688-7575',
+                features: ['홈페이지·모바일 진료예약', '예약조회 제공'],
+                note: '',
+                confirm: '홈페이지·모바일'
+            },
+            {
+                name: '삼성서울병원',
+                region: '서울',
+                district: '강남구',
+                center: '신경과·신경외과·심장뇌혈관병원',
+                url: 'https://www.samsunghospital.com',
+                phone: '1599-3114',
+                features: ['회원/비회원 예약', '예약조회'],
+                note: '',
+                confirm: '온라인 진료예약·예약조회'
+            },
+            {
+                name: '이대서울병원 뇌혈관병원',
+                region: '서울',
+                district: '마포/양천',
+                center: '이대뇌혈관병원·뇌졸중재활센터',
+                url: 'https://ewhabrain.eumc.ac.kr',
+                phone: '1522-1750',
+                features: ['온라인/모바일 예약', '알림톡 가능'],
+                note: '',
+                confirm: '온라인 진료예약·예약확인'
+            },
+            {
+                name: '명지성모병원',
+                region: '서울',
+                district: '영등포구',
+                center: '뇌혈관센터',
+                url: 'https://www.mjhosp.com',
+                phone: '02-829-7000',
+                features: ['365일 24시간 신경외과 전문의 상주', '뇌혈관질환 전문병원'],
+                note: '상담부서 연락 대기',
+                confirm: '홈페이지 상담/예약 후 병원 연락'
+            },
+            {
+                name: '보라매병원',
+                region: '서울',
+                district: '동작구',
+                center: '뇌졸중센터·신경과·신경외과',
+                url: 'https://www.boramae.seoul.kr',
+                phone: '02-870-2114',
+                features: ['인터넷 진료예약현황 조회'],
+                note: '',
+                confirm: '온라인 예약조회'
+            },
+            {
+                name: '광동병원 뇌건강치매예방센터',
+                region: '서울',
+                district: '강남구',
+                center: '뇌건강치매예방센터',
+                url: 'https://ekwangdong.co.kr',
+                phone: '02-2222-4888',
+                features: ['온라인 예약 가능'],
+                note: '',
+                confirm: '홈페이지 온라인 예약'
+            },
+
+            // 경기·인천권
+            {
+                name: '분당서울대학교병원',
+                region: '경기',
+                district: '성남시 분당구',
+                center: '뇌신경센터·뇌혈관센터',
+                url: 'https://www.snubh.org',
+                phone: '1588-3369',
+                features: ['온라인 진료예약', '예약현황조회'],
+                note: '',
+                confirm: '온라인 예약·조회'
+            },
+            {
+                name: '분당제생병원',
+                region: '경기',
+                district: '성남시 분당구',
+                center: '24시간 뇌졸중센터',
+                url: 'https://www.dj.co.kr',
+                phone: '031-779-0000',
+                features: ['인터넷 진료예약', '진료예약현황/검사예약현황 조회'],
+                note: '',
+                confirm: '홈페이지 예약조회'
+            },
+            {
+                name: '아주대학교병원',
+                region: '경기',
+                district: '수원시',
+                center: '뇌졸중센터·신경과·신경외과',
+                url: 'https://www.ajoumc.or.kr',
+                phone: '1688-6114',
+                features: ['회원/대리인/비회원 예약', '비회원예약조회'],
+                note: '',
+                confirm: '인터넷 진료예약·조회'
+            },
+            {
+                name: '중앙대학교광명병원',
+                region: '경기',
+                district: '광명시',
+                center: '뇌혈관센터',
+                url: 'https://www.cauhs.or.kr',
+                phone: '02-2610-7114',
+                features: ['온라인 예약', '예약 내역 조회'],
+                note: '',
+                confirm: '온라인 예약·조회'
+            },
+            {
+                name: '평촌우리병원',
+                region: '경기',
+                district: '안양시 동안구',
+                center: '뇌신경센터',
+                url: 'https://woorijoint.com',
+                phone: '031-380-0114',
+                features: ['온라인예약', '전화예약'],
+                note: '',
+                confirm: '온라인/전화예약'
+            },
+            {
+                name: 'H+양지병원 뇌신경센터',
+                region: '서울',
+                district: '관악구',
+                center: '뇌신경센터',
+                url: 'https://newyjh.com',
+                phone: '02-1577-8119',
+                features: ['인터넷 사전예약'],
+                note: '',
+                confirm: '인터넷 또는 전화예약 후 병원 연락'
+            },
+            {
+                name: '인천사랑병원',
+                region: '인천',
+                district: '미추홀구',
+                center: '뇌신경센터',
+                url: 'https://www.incheonsh.com',
+                phone: '032-866-1120',
+                features: ['온라인진료예약', '예약조회'],
+                note: '',
+                confirm: '온라인 예약·조회'
+            },
+            {
+                name: '인하대학교병원',
+                region: '인천',
+                district: '중구',
+                center: '신경과·신경외과·뇌졸중 클리닉',
+                url: 'https://www.inha.com',
+                phone: '1577-0063',
+                features: ['회원/비회원/전화 예약'],
+                note: '',
+                confirm: '홈페이지 진료예약'
+            },
+            {
+                name: '한림병원 뇌혈관센터',
+                region: '인천',
+                district: '북부',
+                center: '뇌혈관센터',
+                url: 'https://www.hallym.or.kr',
+                phone: '032-540-9000',
+                features: ['진료예약 바로가기'],
+                note: '',
+                confirm: '홈페이지 진료예약'
+            },
+
+            // 부산·대구권
+            {
+                name: '부산대학교병원',
+                region: '부산',
+                district: '서구',
+                center: '신경과·신경외과·뇌졸중',
+                url: 'https://www.pnuh.or.kr',
+                phone: '051-240-7000',
+                features: ['첫진료·재진 인터넷 예약', '예약일정조회'],
+                note: '',
+                confirm: '온라인 예약·조회'
+            },
+            {
+                name: '인제대학교 부산백병원',
+                region: '부산',
+                district: '진구',
+                center: '뇌혈관질환 클리닉',
+                url: 'https://www.paik.ac.kr',
+                phone: '051-890-6114',
+                features: ['온라인 진료예약'],
+                note: '',
+                confirm: '홈페이지 예약'
+            },
+            {
+                name: '동아대학교병원',
+                region: '부산',
+                district: '서구',
+                center: '뇌졸중센터·신경과·신경외과',
+                url: 'https://www.damc.or.kr',
+                phone: '051-240-2000',
+                features: ['인터넷예약'],
+                note: '',
+                confirm: '홈페이지 진료예약'
+            },
+            {
+                name: '대동병원',
+                region: '부산',
+                district: '동래구',
+                center: '권역심뇌혈관질환센터',
+                url: 'https://www.daedong.co.kr',
+                phone: '051-554-1233',
+                features: ['뇌혈관 전문진료'],
+                note: '',
+                confirm: '센터 페이지 예약 안내'
+            },
+            {
+                name: '경북대학교병원',
+                region: '대구',
+                district: '중구',
+                center: '신경과·신경외과·뇌졸중센터',
+                url: 'https://www.knuh.or.kr',
+                phone: '053-200-5000',
+                features: ['인터넷예약', '첫방문예약상담'],
+                note: '',
+                confirm: '온라인 예약·안내'
+            },
+
+            // 광주·제주권
+            {
+                name: '전남대학교병원',
+                region: '광주',
+                district: '동구',
+                center: '권역심뇌혈관질환센터·신경과·신경외과',
+                url: 'https://www.cnuh.com',
+                phone: '062-220-5000',
+                features: ['온라인 진료예약', '예약조회'],
+                note: '',
+                confirm: '홈페이지 예약·조회'
+            },
+            {
+                name: '제주대학교병원',
+                region: '제주',
+                district: '제주시',
+                center: '권역심뇌혈관질환센터·신경과·신경외과',
+                url: 'https://www.jejunuh.co.kr',
+                phone: '064-717-1111',
+                features: ['진료예약 신청', '예약조회·취소'],
+                note: '',
+                confirm: '온라인 예약·조회·취소'
+            },
+
+            // 충청·강원권
+            {
+                name: '충남대학교병원',
+                region: '대전',
+                district: '중구',
+                center: '권역심뇌혈관질환센터·신경과·신경외과',
+                url: 'https://www.cnuh.co.kr',
+                phone: '042-280-7000',
+                features: ['진료예약', '인터넷 예약·조회'],
+                note: '',
+                confirm: '홈페이지 예약·조회'
+            },
+            {
+                name: '충북대학교병원',
+                region: '충북',
+                district: '청주시',
+                center: '신경과·신경외과·뇌졸중',
+                url: 'https://www.chungbuk.ac.kr',
+                phone: '043-269-6000',
+                features: ['인터넷/전화 예약'],
+                note: '',
+                confirm: '진료예약 안내'
+            },
+            {
+                name: '원주세브란스기독병원',
+                region: '강원',
+                district: '원주시',
+                center: '신경과·신경외과·뇌혈관센터',
+                url: 'https://www.yonsei.ac.kr',
+                phone: '033-741-0114',
+                features: ['연세의료원 온라인 예약'],
+                note: '',
+                confirm: '온라인 예약 시스템'
+            },
+            {
+                name: '강원대학교병원',
+                region: '강원',
+                district: '춘천시',
+                center: '신경과·신경외과·뇌졸중',
+                url: 'https://www.knuh.or.kr',
+                phone: '033-258-2000',
+                features: ['인터넷예약'],
+                note: '',
+                confirm: '진료예약 안내'
+            },
+
+            // 전북·전남권
+            {
+                name: '한국병원 뇌혈관센터',
+                region: '전북',
+                district: '전주시',
+                center: '뇌혈관센터',
+                url: 'https://hanhsp.co.kr',
+                phone: '063-240-2000',
+                features: ['온라인예약'],
+                note: '',
+                confirm: '온라인 예약 후 병원 안내'
+            },
+            {
+                name: '전북대학교병원',
+                region: '전북',
+                district: '전주시',
+                center: '신경과·신경외과·뇌졸중',
+                url: 'https://www.jbuh.co.kr',
+                phone: '063-250-1114',
+                features: ['전화·인터넷 예약'],
+                note: '',
+                confirm: '진료예약 안내'
+            }
+        ];
+
+        let currentRegion = '전체';
+        let filteredHospitals = hospitals;
+
+        // 초기 로드
+        window.addEventListener('DOMContentLoaded', function() {
+            displayHospitals(hospitals);
+        });
+
+        // 지역별 필터
+        function filterByRegion(region) {
+            currentRegion = region;
+            
+            // 필터 버튼 활성화 상태 변경
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // 검색어가 있으면 함께 적용
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (region === '전체') {
+                filteredHospitals = hospitals;
+            } else {
+                filteredHospitals = hospitals.filter(h => h.region.includes(region));
+            }
+
+            // 검색어 필터 적용
+            if (searchTerm) {
+                filteredHospitals = filteredHospitals.filter(h => 
+                    h.name.toLowerCase().includes(searchTerm) || 
+                    h.region.includes(searchTerm) ||
+                    h.district.includes(searchTerm)
+                );
+            }
+
+            displayHospitals(filteredHospitals);
+        }
+
+        // 검색 기능
+        function searchHospitals() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            // 현재 지역 필터 적용
+            let results = currentRegion === '전체' ? hospitals : 
+                         hospitals.filter(h => h.region.includes(currentRegion));
+            
+            // 검색어 적용
+            if (searchTerm) {
+                results = results.filter(h => 
+                    h.name.toLowerCase().includes(searchTerm) || 
+                    h.region.includes(searchTerm) ||
+                    h.district.includes(searchTerm) ||
+                    h.center.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            filteredHospitals = results;
+            displayHospitals(results);
+        }
+
+        // Enter 키로 검색
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchHospitals();
+                }
+            });
+        });
+
+        // 병원 카드 표시
+        function displayHospitals(hospitalsToShow) {
+            const hospitalList = document.getElementById('hospitalList');
+            const noResults = document.getElementById('noResults');
+            const resultCount = document.getElementById('resultCount');
+            
+            resultCount.textContent = hospitalsToShow.length;
+
+            if (hospitalsToShow.length === 0) {
+                hospitalList.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            
+            hospitalList.innerHTML = hospitalsToShow.map(hospital => `
+                <div class="hospital-card bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-800 flex-1">${hospital.name}</h3>
+                        <span class="region-badge">${hospital.region}</span>
+                    </div>
+                    
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-start text-gray-600">
+                            <i class="fas fa-map-marker-alt text-primary mt-1 mr-2 w-5"></i>
+                            <span>${hospital.region} ${hospital.district}</span>
+                        </div>
+                        
+                        <div class="flex items-start text-gray-600">
+                            <i class="fas fa-hospital text-primary mt-1 mr-2 w-5"></i>
+                            <span>${hospital.center}</span>
+                        </div>
+                        
+                        <div class="flex items-start text-gray-600">
+                            <i class="fas fa-phone text-primary mt-1 mr-2 w-5"></i>
+                            <span>${hospital.phone}</span>
+                        </div>
+                        
+                        <div class="flex items-start text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2 w-5"></i>
+                            <span>${hospital.confirm}</span>
+                        </div>
+                    </div>
+
+                    ${hospital.features.length > 0 ? `
+                        <div class="mb-4">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">주요 특징:</p>
+                            <ul class="space-y-1">
+                                ${hospital.features.map(f => `
+                                    <li class="text-sm text-gray-600 flex items-start">
+                                        <i class="fas fa-star text-yellow-500 mr-2 mt-1 text-xs"></i>
+                                        <span>${f}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    ${hospital.note ? `
+                        <div class="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
+                            <p class="text-sm text-yellow-800">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>${hospital.note}
+                            </p>
+                        </div>
+                    ` : ''}
+
+                    <a href="${hospital.url}" target="_blank" rel="noopener noreferrer"
+                        class="block w-full text-center bg-primary text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        <i class="fas fa-calendar-check mr-2"></i>온라인 예약하기
+                    </a>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
