@@ -3,45 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>민원 (병원,국가기관) - 뇌질환케어</title>
+    <title>민원 접수 - 뇌질환케어</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .complaint-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* 경고문 스타일 */
+        .warning-box {
+            background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+            border: 8px solid #000;
+            border-left: 40px solid #000;
+            border-right: 40px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .warning-box::before,
+        .warning-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                #000,
+                #000 20px,
+                #FFD700 20px,
+                #FFD700 40px
+            );
+        }
+        
+        .warning-box::before {
+            left: -40px;
+        }
+        
+        .warning-box::after {
+            right: -40px;
+        }
+        
+        .warning-icon {
+            width: 80px;
+            height: 80px;
+            border: 6px solid #000;
+            border-radius: 50%;
+            background: #FFD700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 900;
+            color: #000;
+            margin: 0 auto 20px;
+        }
+        
+        /* 카테고리 카드 */
+        .category-card {
+            transition: all 0.3s ease;
             cursor: pointer;
+            border: 2px solid transparent;
         }
         
-        .complaint-card:hover {
+        .category-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: currentColor;
         }
         
-        .category-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 600;
+        .category-card:active {
+            transform: translateY(-2px);
         }
         
-        .category-hospital {
-            background: #e3f2fd;
-            color: #1565c0;
+        /* 모바일 최적화 */
+        @media (max-width: 768px) {
+            .warning-box {
+                border-left: 20px solid #000;
+                border-right: 20px solid #000;
+            }
+            
+            .warning-box::before,
+            .warning-box::after {
+                width: 20px;
+            }
+            
+            .warning-box::before {
+                left: -20px;
+            }
+            
+            .warning-box::after {
+                right: -20px;
+            }
+            
+            .warning-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 36px;
+            }
         }
         
-        .category-caregiver {
-            background: #f3e5f5;
-            color: #6a1b9a;
-        }
-        
+        /* 모달 스타일 */
         .modal {
             display: none;
             position: fixed;
@@ -51,103 +113,81 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
         }
         
         .modal-content {
             background-color: white;
             margin: 2% auto;
-            padding: 2rem;
-            border-radius: 12px;
-            width: 90%;
+            padding: 0;
+            border-radius: 16px;
+            width: 95%;
             max-width: 800px;
-            max-height: 90vh;
+            max-height: 95vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            max-height: calc(95vh - 200px);
             overflow-y: auto;
         }
         
         .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+            color: white;
+            font-size: 32px;
             font-weight: bold;
             cursor: pointer;
+            transition: transform 0.2s;
         }
         
-        .close:hover,
-        .close:focus {
-            color: #000;
+        .close:hover {
+            transform: scale(1.1);
         }
         
-        .file-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .file-preview-item {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .file-preview-item img,
-        .file-preview-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .file-preview-item .remove-file {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255, 0, 0, 0.8);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .media-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .media-gallery-item {
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #e0e0e0;
-        }
-        
-        .media-gallery-item img,
-        .media-gallery-item video {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 98%;
+                margin: 1% auto;
+            }
+            
+            .modal-header {
+                padding: 1rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body class="font-sans bg-gray-50">
+    
+    <!-- Navigation -->
     <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
         <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <a href="index.html" class="flex items-center space-x-3">
+            <div class="flex justify-between items-center py-2">
+                <!-- Logo -->
+                <div class="flex items-center space-x-1">
                     <span class="text-base md:text-xl">🧠</span>
                     <h1 class="text-[10px] md:text-xs font-bold text-primary whitespace-nowrap">뇌질환케어</h1>
-                </a>
+                    <span class="hidden md:inline text-xs text-gray-400">|</span>
+                    <p class="hidden md:inline text-[10px] md:text-xs text-gray-600 whitespace-nowrap">Brain Disease Care</p>
+                </div>
                 
-                <div class="flex items-center space-x-2">
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-1">
                     <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko">
                         🇰🇷 <span class="hidden sm:inline">한국어</span>
                     </button>
@@ -161,477 +201,486 @@
                         🇯🇵 <span class="hidden sm:inline">日本語</span>
                     </button>
                     
+                    <!-- Mobile Menu Toggle -->
                     <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
             
+            <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-1 pb-2 overflow-x-auto">
-                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.home">홈</a>
-                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.disease">뇌질환 정보</a>
-                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.hospital">병원 검색</a>
-                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.caregivers">간병인</a>
-                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.rehab">재활운동</a>
-                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white hover:bg-blue-700 transition whitespace-nowrap" data-i18n="menu.community">커뮤니티</a>
-                <a href="medical.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap" data-i18n="menu.medical">명의찾기</a>
-                <a href="emergency.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap text-red-600 hover:bg-red-600" data-i18n="menu.emergency">응급</a>
+                <a href="index.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">홈</a>
+                <a href="disease-info.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">뇌질환 정보</a>
+                <a href="hospital.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">병원 검색</a>
+                <a href="caregivers.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">간병인</a>
+                <a href="care-diary.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">간병일기</a>
+                <a href="rehab.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">재활운동</a>
+                <a href="community.html" class="menu-link px-3 py-1 text-sm rounded-lg hover:bg-primary hover:text-white transition whitespace-nowrap">커뮤니티</a>
+                <a href="complaints.html" class="menu-link px-3 py-1 text-sm rounded-lg bg-primary text-white transition whitespace-nowrap">민원 접수</a>
             </div>
             
+            <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.home">홈</a>
-                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.disease">뇌질환 정보</a>
-                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.hospital">병원 검색</a>
-                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.caregivers">간병인</a>
-                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.rehab">재활운동</a>
-                <a href="community.html" class="block px-4 py-2 bg-primary text-white rounded-lg" data-i18n="menu.community">커뮤니티</a>
-                <a href="medical.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg" data-i18n="menu.medical">명의찾기</a>
-                <a href="emergency.html" class="block px-4 py-2 hover:bg-red-100 text-red-600 rounded-lg" data-i18n="menu.emergency">응급</a>
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">홈</a>
+                <a href="disease-info.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">뇌질환 정보</a>
+                <a href="hospital.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">병원 검색</a>
+                <a href="caregivers.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">간병인</a>
+                <a href="care-diary.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">간병일기</a>
+                <a href="rehab.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">재활운동</a>
+                <a href="community.html" class="block px-4 py-2 hover:bg-gray-100 rounded-lg">커뮤니티</a>
+                <a href="complaints.html" class="block px-4 py-2 bg-primary text-white rounded-lg mb-1">민원 접수</a>
             </div>
         </div>
     </nav>
 
-    <main class="pt-28 pb-16">
+    <!-- Main Content -->
+    <main class="pt-24 md:pt-28 pb-16">
         <div class="container mx-auto px-4">
+            
             <!-- 페이지 헤더 -->
-            <div class="text-center mb-12">
-                <div class="text-6xl mb-4">📝</div>
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">민원 (병원,국가기관)</h1>
-                <p class="text-xl text-gray-600">병원 및 국가기관에 대한 민원을 접수하고 공유하세요</p>
+            <div class="text-center mb-8 md:mb-12">
+                <div class="text-4xl md:text-6xl mb-4">📝</div>
+                <h1 class="text-2xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4">민원 접수 (병원, 국가기관)</h1>
+                <p class="text-sm md:text-xl text-gray-600">병원 및 국가기관에 민원을 접수하고 공유하세요</p>
             </div>
             
-            <!-- 민원 등록 버튼 -->
-            <div class="mb-8 text-center">
-                <button id="newComplaintBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition">
-                    <i class="fas fa-plus mr-2"></i>민원 등록하기
-                </button>
+            <!-- 경고문 -->
+            <div class="warning-box rounded-2xl p-6 md:p-12 mb-8 md:mb-12">
+                <div class="warning-icon">!</div>
+                
+                <div class="text-center mb-6 md:mb-8">
+                    <h2 class="text-xl md:text-3xl font-black text-black mb-4 leading-tight">
+                        보건복지부,국민신문고,국민건강보험공단,건강보험심사<br class="hidden md:block">
+                        평가원,의료분쟁조정중재원, 국가인권위원회,관할 보건소
+                    </h2>
+                    <p class="text-base md:text-2xl font-bold text-black mb-2">
+                        같은 국가 기관이 아닌 온라인은 명개는 사실이어도 명예
+                    </p>
+                    <p class="text-base md:text-2xl font-bold text-black">
+                        훼손 가능합니다,
+                    </p>
+                </div>
+                
+                <div class="border-t-4 border-dotted border-black my-6 md:my-8"></div>
+                
+                <div class="text-center">
+                    <p class="text-base md:text-2xl font-bold text-black mb-4">
+                        초성,이니셜도 위험합니다. 특정 불가 형태로만 작성해야<br class="hidden md:block">
+                        안전합니다. 본 플랫폼에 별도 게시무로 게시되거나 표시<br class="hidden md:block">
+                        되지 않습니다
+                    </p>
+                </div>
+                
+                <div class="border-t-4 border-dotted border-black my-6 md:my-8"></div>
+                
+                <div class="bg-red-600 text-white rounded-xl p-4 md:p-6 mt-6 md:mt-8">
+                    <p class="text-sm md:text-xl font-bold text-center leading-relaxed">
+                        여기에 민원들록 하시면 국가 기관(보건복지부,국민신문고,국민건강보험공단,<br class="hidden md:block">
+                        건강보험심사평가원,의료분쟁조정중재원,국가인권위원회,관할 보건소같은<br class="hidden md:block">
+                        국가 기관)카테고리별 전송-접수-등록해줄뿐입니다.<br class="hidden md:block">
+                        하지만, 국민의 공익차원에서 해당 국가기관에 민원을 제기합니다.
+                    </p>
+                </div>
             </div>
             
-            <!-- 필터 버튼 -->
-            <div class="mb-8 flex justify-center gap-4 flex-wrap">
-                <button class="filter-btn px-6 py-2 rounded-full border-2 border-blue-600 bg-blue-600 text-white font-semibold" data-filter="all">
-                    전체
-                </button>
-                <button class="filter-btn px-6 py-2 rounded-full border-2 border-blue-600 text-blue-600 font-semibold hover:bg-blue-50" data-filter="hospital">
-                    병원
-                </button>
-                <button class="filter-btn px-6 py-2 rounded-full border-2 border-purple-600 text-purple-600 font-semibold hover:bg-purple-50" data-filter="caregiver">
-                    간병인
-                </button>
+            <!-- 민원 카테고리 -->
+            <div class="mb-8 md:mb-12">
+                <h2 class="text-xl md:text-3xl font-bold text-gray-900 mb-6 md:mb-8 text-center">
+                    <i class="fas fa-building mr-2 text-blue-600"></i>
+                    민원 접수 기관 선택
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    
+                    <!-- 1. 보건복지부 -->
+                    <div class="category-card bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 md:p-8 shadow-lg border-blue-200" onclick="openComplaintModal('보건복지부')">
+                        <div class="text-4xl md:text-5xl mb-4 text-center">🏛️</div>
+                        <h3 class="text-lg md:text-xl font-bold text-blue-800 mb-3 text-center">보건복지부</h3>
+                        <p class="text-xs md:text-sm text-gray-700 mb-4">의료법 위반, 입퇴원 강요, 부당 청구, 의료진 폭언/비윤리 행위</p>
+                        <div class="text-xs md:text-sm text-blue-600 font-semibold">
+                            <i class="fas fa-phone mr-2"></i>129 (국번 없음)<br>
+                            <i class="fas fa-globe mr-2"></i>www.mohw.go.kr
+                        </div>
+                    </div>
+                    
+                    <!-- 2. 국민신문고 -->
+                    <div class="category-card bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 md:p-8 shadow-lg border-purple-200" onclick="openComplaintModal('국민신문고')">
+                        <div class="text-4xl md:text-5xl mb-4 text-center">📢</div>
+                        <h3 class="text-lg md:text-xl font-bold text-purple-800 mb-3 text-center">국민신문고</h3>
+                        <p class="text-xs md:text-sm text-gray-700 mb-4">종합 민원 시스템. 행정기관 전체 전달, 병원 상급기관 동시 검토</p>
+                        <div class="text-xs md:text-sm text-purple-600 font-semibold">
+                            <i class="fas fa-globe mr-2"></i>www.epeople.go.kr
+                        </div>
+                    </div>
+                    
+                    <!-- 3. 국민건강보험공단 -->
+                    <div class="category-card bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 md:p-8 shadow-lg border-green-200" onclick="openComplaintModal('국민건강보험공단')">
+                        <div class="text-4xl md:text-5xl mb-4 text-center">🏥</div>
+                        <h3 class="text-lg md:text-xl font-bold text-green-800 mb-3 text-center">국민건강보험공단</h3>
+                        <p class="text-xs md:text-sm text-gray-700 mb-4">부당청구, 수가 부풀리기, 입원료/간병비 부당청구, 입원 거부</p>
+                        <div class="text-xs md:text-sm text-green-600 font-semibold">
+                            <i class="fas fa-phone mr-2"></i>1577-1000<br>
+                            <i class="fas fa-globe mr-2"></i>www.nhis.or.kr
+                        </div>
+                    </div>
+                    
+                    <!-- 4. 건강보험심사평가원 -->
+                    <div class="category-card bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 md:p-8 shadow-lg border-yellow-200" onclick="openComplaintModal('건강보험심사평가원')">
+                        <div class="text-4xl md:text-5xl mb-4 text-center">📋</div>
+                        <h3 class="text-lg md:text-xl font-bold text-yellow-800 mb-3 text-center">건강보험심사평가원</h3>
+                        <p class="text-xs md:text-sm text-gray-700 mb-4">진료비 심사, 비급여 설명 부족, 불필요한 검사 강요</p>
+                        <div class="text-xs md:text-sm text-yellow-700 font-semibold">
+                            <i class="fas fa-phone mr-2"></i>1644-2000<br>
+                            <i class="fas fa-globe mr-2"></i>www.hira.or.kr
+                        </div>
+                    </div>
+                    
+                    <!-- 5. 의료분쟁조정중재원 -->
+                    <div class="category-card bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 md:p-8 shadow-lg border-red-200" onclick="openComplaintModal('의료분쟁조정중재원')">
+                        <div class="text-4xl md:text-5xl mb-4 text-center">⚖️</div>
+                        <h3 class="text-lg md:text-xl font-bold text-red-800 mb-3 text-center">의료분쟁조정중재원</h3>
+                        <p class="text-xs md:text-sm text-gray-700 mb-4">의료 사고, 오진 의심, 과실 가능성, 수술 부작용 분쟁</p>
+                        <div class="text-xs md:text-sm text-red-600 font-semibold">
+                            <i class="fas fa-phone mr-2"></i>1670-2545<br>
+                            <i class="fas fa-globe mr-2"></i>www.k-medi.or.kr
+                        </div>
+                    </div>
+                    
+                    <!-- 6. 국가인권위원회 -->
+                    <div class="category-card bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 md:p-8 shadow-lg border-indigo-200" onclick="openComplaintModal('국가인권위원회')">
+                        <div class="text-4xl md:text-5xl mb-4 text-center">👤</div>
+                        <h3 class="text-lg md:text-xl font-bold text-indigo-800 mb-3 text-center">국가인권위원회</h3>
+                        <p class="text-xs md:text-sm text-gray-700 mb-4">폭언/모욕, 장애 환자 차별, 인권/프라이버시 침해, 강압적 퇴원</p>
+                        <div class="text-xs md:text-sm text-indigo-600 font-semibold">
+                            <i class="fas fa-phone mr-2"></i>1331<br>
+                            <i class="fas fa-globe mr-2"></i>www.humanrights.go.kr
+                        </div>
+                    </div>
+                    
+                    <!-- 7. 관할 보건소 -->
+                    <div class="category-card bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 md:p-8 shadow-lg border-teal-200" onclick="openComplaintModal('관할 보건소')">
+                        <div class="text-4xl md:text-5xl mb-4 text-center">🏢</div>
+                        <h3 class="text-lg md:text-xl font-bold text-teal-800 mb-3 text-center">관할 보건소</h3>
+                        <p class="text-xs md:text-sm text-gray-700 mb-4">병원 위법 행위, 퇴원 강요, 부당 진료, 위생/운영 문제, 현장점검</p>
+                        <div class="text-xs md:text-sm text-teal-600 font-semibold">
+                            <i class="fas fa-map-marker-alt mr-2"></i>지역 보건소 연락처 확인<br>
+                            <i class="fas fa-info-circle mr-2"></i>주민센터 홈페이지 참조
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
             
-            <!-- 민원 목록 -->
-            <div id="complaintsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- 민원 카드들이 여기에 동적으로 추가됩니다 -->
+            <!-- 안내사항 -->
+            <div class="bg-blue-50 border-l-4 border-blue-600 rounded-lg p-4 md:p-6 mb-8">
+                <h3 class="text-base md:text-lg font-bold text-blue-900 mb-3 flex items-center">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    민원 접수 안내
+                </h3>
+                <ul class="space-y-2 text-xs md:text-sm text-gray-700">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-600 mr-2 mt-1"></i>
+                        <span>각 기관별로 전문 분야가 다르니 해당하는 기관을 선택하여 민원을 접수해주세요.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-600 mr-2 mt-1"></i>
+                        <span>구체적인 날짜, 상황, 증빙자료(녹음, 문자, 영수증 등)를 첨부하면 효과적입니다.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-600 mr-2 mt-1"></i>
+                        <span>병원명이나 의사 실명은 적지 마시고, 특정 불가한 형태로 작성해주세요.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-blue-600 mr-2 mt-1"></i>
+                        <span>접수된 민원은 해당 기관에 공식적으로 전달되어 조사 및 시정이 이루어집니다.</span>
+                    </li>
+                </ul>
             </div>
             
-            <!-- 빈 상태 메시지 -->
-            <div id="emptyState" class="text-center py-16" style="display: none;">
-                <div class="text-6xl mb-4">📭</div>
-                <h3 class="text-2xl font-bold text-gray-700 mb-2">등록된 민원이 없습니다</h3>
-                <p class="text-gray-600">첫 번째 민원을 등록해보세요!</p>
-            </div>
         </div>
     </main>
 
     <!-- 민원 등록 모달 -->
     <div id="complaintModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 class="text-2xl font-bold mb-6">민원 등록</h2>
-            
-            <form id="complaintForm">
-                <!-- 카테고리 선택 -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">카테고리 <span class="text-red-500">*</span></label>
-                    <select id="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                        <option value="">선택하세요</option>
-                        <option value="hospital">병원</option>
-                        <option value="caregiver">간병인</option>
-                    </select>
-                </div>
-                
-                <!-- 제목 -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">제목 <span class="text-red-500">*</span></label>
-                    <input type="text" id="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="민원 제목을 입력하세요" required>
-                </div>
-                
-                <!-- 내용 -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">내용 <span class="text-red-500">*</span></label>
-                    <textarea id="content" rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="민원 내용을 상세히 작성해주세요" required></textarea>
-                </div>
-                
-                <!-- 작성자 -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">작성자 <span class="text-red-500">*</span></label>
-                    <input type="text" id="author" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="이름 또는 익명" required>
-                </div>
-                
-                <!-- 파일 업로드 -->
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">사진/동영상 첨부</label>
-                    <input type="file" id="fileInput" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" accept="image/*,video/*" multiple>
-                    <p class="text-sm text-gray-500 mt-1">※ 이미지 및 동영상 파일을 첨부할 수 있습니다 (최대 10개)</p>
+            <div class="modal-header">
+                <h2 class="text-xl md:text-2xl font-bold">민원 등록</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="complaintForm">
+                    <!-- 접수 기관 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-800 font-bold mb-3 text-sm md:text-base">
+                            <i class="fas fa-building text-blue-600 mr-2"></i>
+                            접수 기관 <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="agency" class="w-full px-4 py-3 text-sm md:text-base border-2 border-gray-300 rounded-lg bg-gray-100 font-semibold" readonly>
+                    </div>
                     
-                    <!-- 파일 미리보기 -->
-                    <div id="filePreview" class="file-preview"></div>
-                </div>
-                
-                <!-- 제출 버튼 -->
-                <div class="flex gap-4">
-                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">
-                        등록하기
-                    </button>
-                    <button type="button" id="cancelBtn" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg">
-                        취소
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 민원 상세보기 모달 -->
-    <div id="detailModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeDetailModal">&times;</span>
-            <div id="detailContent">
-                <!-- 상세 내용이 여기에 동적으로 추가됩니다 -->
+                    <!-- 제목 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-800 font-bold mb-3 text-sm md:text-base">
+                            <i class="fas fa-heading text-purple-600 mr-2"></i>
+                            제목 <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="title" class="w-full px-4 py-3 text-sm md:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="민원 제목을 입력하세요 (병원명/의사명 제외)" required>
+                    </div>
+                    
+                    <!-- 내용 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-800 font-bold mb-3 text-sm md:text-base">
+                            <i class="fas fa-file-alt text-green-600 mr-2"></i>
+                            내용 <span class="text-red-500">*</span>
+                        </label>
+                        <textarea id="content" rows="8" class="w-full px-4 py-3 text-sm md:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="민원 내용을 상세히 작성해주세요.&#10;&#10;※ 주의: 병원명, 의사명, 간호사명은 실명이나 이니셜로 작성하지 마세요.&#10;   예시: '한 대학병원에서...', '모 종합병원의 의료진이...'" required></textarea>
+                        <p class="text-xs md:text-sm text-red-600 mt-2 font-semibold">
+                            <i class="fas fa-exclamation-triangle mr-1"></i>
+                            병원/의사 실명 기재 시 명예훼손으로 고소될 수 있습니다. 특정 불가 형태로 작성하세요.
+                        </p>
+                    </div>
+                    
+                    <!-- 작성자 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-800 font-bold mb-3 text-sm md:text-base">
+                            <i class="fas fa-user text-yellow-600 mr-2"></i>
+                            작성자 <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="author" class="w-full px-4 py-3 text-sm md:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="이름 또는 익명 (예: 김**, 익명)" required>
+                    </div>
+                    
+                    <!-- 연락처 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-800 font-bold mb-3 text-sm md:text-base">
+                            <i class="fas fa-phone text-red-600 mr-2"></i>
+                            연락처 (선택사항)
+                        </label>
+                        <input type="tel" id="contact" class="w-full px-4 py-3 text-sm md:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="010-XXXX-XXXX (조사 시 연락 필요)">
+                    </div>
+                    
+                    <!-- 파일 첨부 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-800 font-bold mb-3 text-sm md:text-base">
+                            <i class="fas fa-paperclip text-indigo-600 mr-2"></i>
+                            증빙자료 첨부 (선택사항)
+                        </label>
+                        <input type="file" id="fileInput" class="w-full px-4 py-3 text-sm md:text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" accept="image/*,video/*,.pdf,.doc,.docx" multiple>
+                        <p class="text-xs md:text-sm text-gray-600 mt-2">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            사진, 영상, 문서 파일 첨부 가능 (각 파일 최대 10MB, 최대 5개)
+                        </p>
+                    </div>
+                    
+                    <!-- 개인정보 동의 -->
+                    <div class="mb-6 bg-gray-50 border-2 border-gray-300 rounded-lg p-4">
+                        <label class="flex items-start cursor-pointer">
+                            <input type="checkbox" id="privacyAgree" class="mt-1 mr-3 w-5 h-5" required>
+                            <span class="text-xs md:text-sm text-gray-700">
+                                <strong class="text-gray-900">개인정보 수집 및 이용 동의 (필수)</strong><br>
+                                민원 처리를 위해 수집된 개인정보는 해당 기관에만 전달되며, 처리 완료 후 안전하게 파기됩니다.
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <!-- 제출 버튼 -->
+                    <div class="flex flex-col md:flex-row gap-3 md:gap-4">
+                        <button type="submit" class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-lg text-sm md:text-base shadow-lg transition">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            민원 접수하기
+                        </button>
+                        <button type="button" id="cancelBtn" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-4 px-6 rounded-lg text-sm md:text-base transition">
+                            <i class="fas fa-times mr-2"></i>
+                            취소
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-            <footer class="bg-gray-900 text-white py-12 mt-16">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-8 max-w-4xl mx-auto">
-            <!-- 플랫폼 개발 문의 -->
-            <div>
-                <h3 class="text-xl font-bold mb-4">💼 플랫폼 개발 문의</h3>
-                <p class="text-gray-400 mb-4 text-sm">QR코드를 스캔하여 문의하세요</p>
-                <div class="flex gap-4 mb-4 justify-center md:justify-start">
-                    <!-- 위챗 QR -->
-                    <div class="text-center">
-                        <img src="images/wechat-qr.jpg" alt="WeChat QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
-                        <p class="text-xs text-gray-400">WeChat</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-8 max-w-4xl mx-auto">
+                <!-- 플랫폼 개발 문의 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">💼 플랫폼 개발 문의</h3>
+                    <p class="text-gray-400 mb-4 text-sm">QR코드를 스캔하여 문의하세요</p>
+                    <div class="flex gap-4 mb-4 justify-center md:justify-start">
+                        <!-- 위챗 QR -->
+                        <div class="text-center">
+                            <img src="images/wechat-qr.jpg" alt="WeChat QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
+                            <p class="text-xs text-gray-400">WeChat</p>
+                        </div>
+                        <!-- 텔레그램 QR -->
+                        <div class="text-center">
+                            <img src="images/telegram-qr.jpg" alt="Telegram QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
+                            <p class="text-xs text-gray-400">Telegram</p>
+                        </div>
                     </div>
-                    <!-- 텔레그램 QR -->
-                    <div class="text-center">
-                        <img src="images/telegram-qr.jpg" alt="Telegram QR Code" class="w-24 h-24 bg-white p-2 rounded-lg mb-2">
-                        <p class="text-xs text-gray-400">Telegram</p>
+                    <!-- 개발자 이메일 -->
+                    <div class="flex items-center gap-2 text-gray-400 hover:text-white transition justify-center md:justify-start">
+                        <i class="fas fa-envelope-open-text text-xl text-blue-400"></i>
+                        <div>
+                            <p class="text-xs text-gray-500">개발자 문의</p>
+                            <a href="mailto:locks88@naver.com" class="text-sm hover:text-blue-400 transition">locks88@naver.com</a>
+                        </div>
                     </div>
                 </div>
-                <!-- 개발자 이메일 -->
-                <div class="flex items-center gap-2 text-gray-400 hover:text-white transition justify-center md:justify-start">
-                    <i class="fas fa-envelope-open-text text-xl text-blue-400"></i>
-                    <div>
-                        <p class="text-xs text-gray-500">개발자 문의</p>
-                        <a href="mailto:locks88@naver.com" class="text-sm hover:text-blue-400 transition">locks88@naver.com</a>
-                    </div>
+                
+                <!-- 빠른 링크 -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">⚡ 빠른 링크</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="disease-info.html" class="hover:text-white transition">뇌질환 정보</a></li>
+                        <li><a href="hospital.html" class="hover:text-white transition">병원 검색</a></li>
+                        <li><a href="care-diary.html" class="hover:text-white transition">간병일기</a></li>
+                        <li><a href="support.html" class="hover:text-white transition">지원정책</a></li>
+                        <li><a href="community.html" class="hover:text-white transition">커뮤니티</a></li>
+                        <li><a href="complaints.html" class="hover:text-white text-blue-400 transition">민원 접수</a></li>
+                    </ul>
                 </div>
             </div>
             
-            <!-- 빠른 링크 -->
-            <div>
-                <h3 class="text-xl font-bold mb-4">⚡ 빠른 링크</h3>
-                <ul class="space-y-2 text-gray-400">
-                    <li><a href="disease-info.html" class="hover:text-white transition">뇌질환 정보</a></li>
-                    <li><a href="hospital.html" class="hover:text-white transition">병원 검색</a></li>
-                    <li><a href="care-diary.html" class="hover:text-white transition">간병일기</a></li>
-                    <li><a href="support.html" class="hover:text-white transition">지원정책</a></li>
-                    <li><a href="community.html" class="hover:text-white transition">커뮤니티</a></li>
-                    <li><a href="emergency.html" class="hover:text-white text-red-400 transition">응급정보</a></li>
-                </ul>
+            <!-- 저작권 -->
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 CASHiQ.org - 뇌질환케어. All rights reserved.</p>
+                <p class="text-sm mt-2">본 사이트의 정보는 참고용이며, 전문의와 상담이 필요합니다.</p>
             </div>
         </div>
-        
-        <!-- 저작권 -->
-        <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
-            <p>&copy; 2025 CASHiQ.org - 뇌질환케어. All rights reserved.</p>
-            <p class="text-sm mt-2">본 사이트의 정보는 참고용이며, 전문의와 상담이 필요합니다.</p>
-        </div>
-    </div>
-</footer>
-
+    </footer>
 
     <script src="js/i18n.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // 민원 데이터 저장소
-        let complaints = JSON.parse(localStorage.getItem('complaints')) || [];
-        let selectedFiles = [];
-        
         // 모달 요소
         const modal = document.getElementById('complaintModal');
-        const detailModal = document.getElementById('detailModal');
-        const newComplaintBtn = document.getElementById('newComplaintBtn');
         const closeBtn = document.getElementsByClassName('close')[0];
-        const closeDetailBtn = document.getElementById('closeDetailModal');
         const cancelBtn = document.getElementById('cancelBtn');
+        const form = document.getElementById('complaintForm');
         
-        // 모달 열기/닫기
-        newComplaintBtn.onclick = function() {
+        // 민원 등록 모달 열기
+        function openComplaintModal(agency) {
+            document.getElementById('agency').value = agency;
             modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
         
-        closeBtn.onclick = function() {
+        // 모달 닫기
+        function closeModal() {
             modal.style.display = 'none';
-            resetForm();
+            document.body.style.overflow = 'auto';
+            form.reset();
         }
         
-        closeDetailBtn.onclick = function() {
-            detailModal.style.display = 'none';
-        }
-        
-        cancelBtn.onclick = function() {
-            modal.style.display = 'none';
-            resetForm();
-        }
+        closeBtn.onclick = closeModal;
+        cancelBtn.onclick = closeModal;
         
         window.onclick = function(event) {
             if (event.target == modal) {
-                modal.style.display = 'none';
-                resetForm();
+                closeModal();
             }
-            if (event.target == detailModal) {
-                detailModal.style.display = 'none';
-            }
-        }
-        
-        // 파일 선택 처리
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const files = Array.from(e.target.files);
-            
-            if (files.length + selectedFiles.length > 10) {
-                alert('최대 10개까지만 첨부할 수 있습니다.');
-                return;
-            }
-            
-            files.forEach(file => {
-                if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        selectedFiles.push({
-                            type: file.type.startsWith('image/') ? 'image' : 'video',
-                            data: e.target.result,
-                            name: file.name
-                        });
-                        updateFilePreview();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-            
-            e.target.value = '';
-        });
-        
-        // 파일 미리보기 업데이트
-        function updateFilePreview() {
-            const previewContainer = document.getElementById('filePreview');
-            previewContainer.innerHTML = '';
-            
-            selectedFiles.forEach((file, index) => {
-                const previewItem = document.createElement('div');
-                previewItem.className = 'file-preview-item';
-                
-                if (file.type === 'image') {
-                    previewItem.innerHTML = `
-                        <img src="${file.data}" alt="${file.name}">
-                        <button type="button" class="remove-file" onclick="removeFile(${index})">×</button>
-                    `;
-                } else {
-                    previewItem.innerHTML = `
-                        <video src="${file.data}" controls></video>
-                        <button type="button" class="remove-file" onclick="removeFile(${index})">×</button>
-                    `;
-                }
-                
-                previewContainer.appendChild(previewItem);
-            });
-        }
-        
-        // 파일 제거
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            updateFilePreview();
         }
         
         // 폼 제출
-        document.getElementById('complaintForm').addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const complaint = {
-                id: Date.now(),
-                category: document.getElementById('category').value,
-                title: document.getElementById('title').value,
-                content: document.getElementById('content').value,
-                author: document.getElementById('author').value,
-                files: selectedFiles,
-                date: new Date().toISOString(),
-                views: 0
-            };
+            const agency = document.getElementById('agency').value;
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const author = document.getElementById('author').value;
+            const contact = document.getElementById('contact').value;
+            const privacyAgree = document.getElementById('privacyAgree').checked;
             
-            complaints.unshift(complaint);
-            localStorage.setItem('complaints', JSON.stringify(complaints));
-            
-            modal.style.display = 'none';
-            resetForm();
-            displayComplaints();
-            
-            alert('민원이 성공적으로 등록되었습니다!');
-        });
-        
-        // 폼 리셋
-        function resetForm() {
-            document.getElementById('complaintForm').reset();
-            selectedFiles = [];
-            updateFilePreview();
-        }
-        
-        // 민원 목록 표시
-        function displayComplaints(filter = 'all') {
-            const container = document.getElementById('complaintsList');
-            const emptyState = document.getElementById('emptyState');
-            
-            let filteredComplaints = complaints;
-            if (filter !== 'all') {
-                filteredComplaints = complaints.filter(c => c.category === filter);
-            }
-            
-            if (filteredComplaints.length === 0) {
-                container.innerHTML = '';
-                emptyState.style.display = 'block';
+            if (!privacyAgree) {
+                alert('개인정보 수집 및 이용에 동의해주세요.');
                 return;
             }
             
-            emptyState.style.display = 'none';
-            container.innerHTML = filteredComplaints.map(complaint => {
-                const date = new Date(complaint.date);
-                const dateStr = `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
-                const categoryText = complaint.category === 'hospital' ? '병원' : '간병인';
-                const categoryClass = complaint.category === 'hospital' ? 'category-hospital' : 'category-caregiver';
-                
-                return `
-                    <div class="complaint-card" onclick="showDetail(${complaint.id})">
-                        <div class="flex items-start justify-between mb-3">
-                            <span class="category-badge ${categoryClass}">${categoryText}</span>
-                            <span class="text-sm text-gray-500"><i class="fas fa-eye mr-1"></i>${complaint.views}</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">${complaint.title}</h3>
-                        <p class="text-gray-600 text-sm mb-3 line-clamp-3">${complaint.content}</p>
-                        ${complaint.files.length > 0 ? `
-                            <div class="flex gap-1 mb-3">
-                                ${complaint.files.slice(0, 3).map(file => {
-                                    if (file.type === 'image') {
-                                        return `<img src="${file.data}" class="w-16 h-16 object-cover rounded">`;
-                                    } else {
-                                        return `<div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center"><i class="fas fa-video text-gray-500"></i></div>`;
-                                    }
-                                }).join('')}
-                                ${complaint.files.length > 3 ? `<div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center text-sm font-semibold">+${complaint.files.length - 3}</div>` : ''}
-                            </div>
-                        ` : ''}
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <span><i class="fas fa-user mr-1"></i>${complaint.author}</span>
-                            <span><i class="fas fa-calendar mr-1"></i>${dateStr}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        // 민원 상세보기
-        function showDetail(id) {
-            const complaint = complaints.find(c => c.id === id);
-            if (!complaint) return;
-            
-            // 조회수 증가
-            complaint.views++;
-            localStorage.setItem('complaints', JSON.stringify(complaints));
-            
-            const date = new Date(complaint.date);
-            const dateStr = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-            const categoryText = complaint.category === 'hospital' ? '병원' : '간병인';
-            const categoryClass = complaint.category === 'hospital' ? 'category-hospital' : 'category-caregiver';
-            
-            const detailContent = document.getElementById('detailContent');
-            detailContent.innerHTML = `
-                <div class="mb-4">
-                    <span class="category-badge ${categoryClass}">${categoryText}</span>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">${complaint.title}</h2>
-                <div class="flex items-center gap-4 text-sm text-gray-500 mb-6 pb-4 border-b">
-                    <span><i class="fas fa-user mr-1"></i>${complaint.author}</span>
-                    <span><i class="fas fa-calendar mr-1"></i>${dateStr}</span>
-                    <span><i class="fas fa-eye mr-1"></i>${complaint.views}</span>
-                </div>
-                <div class="text-gray-700 whitespace-pre-wrap mb-6">${complaint.content}</div>
-                ${complaint.files.length > 0 ? `
-                    <div class="media-gallery mb-6">
-                        ${complaint.files.map(file => {
-                            if (file.type === 'image') {
-                                return `<div class="media-gallery-item"><img src="${file.data}" alt="${file.name}"></div>`;
-                            } else {
-                                return `<div class="media-gallery-item"><video src="${file.data}" controls></video></div>`;
-                            }
-                        }).join('')}
-                    </div>
-                ` : ''}
-                <div class="flex gap-4">
-                    <button onclick="deleteComplaint(${complaint.id})" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">
-                        삭제
-                    </button>
-                    <button onclick="document.getElementById('detailModal').style.display='none'" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg">
-                        닫기
-                    </button>
-                </div>
-            `;
-            
-            detailModal.style.display = 'block';
-            displayComplaints();
-        }
-        
-        // 민원 삭제
-        function deleteComplaint(id) {
-            if (confirm('정말 이 민원을 삭제하시겠습니까?')) {
-                complaints = complaints.filter(c => c.id !== id);
-                localStorage.setItem('complaints', JSON.stringify(complaints));
-                detailModal.style.display = 'none';
-                displayComplaints();
-                alert('민원이 삭제되었습니다.');
-            }
-        }
-        
-        // 필터 버튼 처리
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('bg-blue-600', 'bg-purple-600', 'text-white');
-                    if (b.dataset.filter === 'hospital') {
-                        b.classList.remove('bg-blue-600');
-                        b.classList.add('text-blue-600');
-                    } else if (b.dataset.filter === 'caregiver') {
-                        b.classList.remove('bg-purple-600');
-                        b.classList.add('text-purple-600');
-                    }
-                });
-                
-                if (this.dataset.filter === 'hospital') {
-                    this.classList.remove('text-blue-600');
-                    this.classList.add('bg-blue-600', 'text-white');
-                } else if (this.dataset.filter === 'caregiver') {
-                    this.classList.remove('text-purple-600');
-                    this.classList.add('bg-purple-600', 'text-white');
-                } else {
-                    this.classList.add('bg-blue-600', 'text-white');
+            // 실명 체크 (간단한 검증)
+            const forbiddenWords = ['병원', '의원', '의사', '원장', '교수', '간호사', '간호'];
+            let hasForbidden = false;
+            forbiddenWords.forEach(word => {
+                if (title.includes(word) || content.includes(word)) {
+                    hasForbidden = true;
                 }
-                
-                displayComplaints(this.dataset.filter);
             });
+            
+            if (hasForbidden) {
+                const confirmSubmit = confirm(
+                    '⚠️ 경고\n\n' +
+                    '제목이나 내용에 병원, 의사 등의 단어가 포함되어 있습니다.\n' +
+                    '실명이나 특정 가능한 표현은 명예훼손의 위험이 있습니다.\n\n' +
+                    '그래도 제출하시겠습니까?'
+                );
+                
+                if (!confirmSubmit) {
+                    return;
+                }
+            }
+            
+            // 로딩 표시
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>접수 중...';
+            
+            try {
+                // 실제 구현 시 서버 API로 전송
+                // await fetch('/api/submit-complaint', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ agency, title, content, author, contact })
+                // });
+                
+                // 시뮬레이션
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                alert(
+                    `✅ 민원이 성공적으로 접수되었습니다!\n\n` +
+                    `접수 기관: ${agency}\n` +
+                    `제목: ${title}\n\n` +
+                    `해당 기관에서 민원을 검토하여 처리할 예정입니다.\n` +
+                    `연락처를 입력하신 경우 처리 결과를 안내받으실 수 있습니다.`
+                );
+                
+                closeModal();
+                
+            } catch (error) {
+                console.error('민원 접수 오류:', error);
+                alert('❌ 민원 접수 중 오류가 발생했습니다.\n\n다시 시도해주세요.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
         });
         
-        // 페이지 로드 시 민원 목록 표시
-        displayComplaints();
+        // 파일 크기 체크
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            const maxFiles = 5;
+            
+            if (files.length > maxFiles) {
+                alert(`최대 ${maxFiles}개 파일까지만 첨부할 수 있습니다.`);
+                e.target.value = '';
+                return;
+            }
+            
+            let oversized = false;
+            files.forEach(file => {
+                if (file.size > maxSize) {
+                    oversized = true;
+                }
+            });
+            
+            if (oversized) {
+                alert('파일 크기는 각각 10MB 이하여야 합니다.');
+                e.target.value = '';
+            }
+        });
     </script>
 </body>
 </html>
