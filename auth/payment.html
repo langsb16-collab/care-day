@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 - CASHiQ 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .payment-method {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .payment-method:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .payment-method.selected {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .crypto-address {
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen p-4">
+    
+    <div class="max-w-4xl mx-auto py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-primary rounded-full mb-4">
+                <i class="fas fa-credit-card text-white text-2xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">결제하기</h1>
+            <p class="text-gray-600">안전하고 간편한 결제 시스템</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Left Column - Order Summary -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-xl shadow-lg p-6 sticky top-4">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">주문 정보</h2>
+                    
+                    <div id="orderSummary" class="space-y-3 mb-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">선택 플랜</span>
+                            <span id="planName" class="font-semibold text-gray-800">프리미엄 1년</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">기간</span>
+                            <span id="planDuration" class="font-semibold text-gray-800">12개월</span>
+                        </div>
+                        <div class="border-t pt-3 mt-3">
+                            <div class="flex justify-between items-center text-lg">
+                                <span class="font-bold text-gray-800">총 결제금액</span>
+                                <span id="totalAmount" class="font-bold text-primary text-2xl">₩68,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Benefits -->
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-gift text-primary mr-2"></i>플랜 혜택
+                        </h3>
+                        <ul id="benefitsList" class="space-y-2 text-sm text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>무제한 병원 검색</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>병원 리뷰 & 평가</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>제휴 병원 할인</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                <span>우선 고객 지원</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Payment Methods -->
+            <div class="md:col-span-2">
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">결제 수단 선택</h2>
+
+                    <!-- Payment Method Selection -->
+                    <div class="space-y-4 mb-8">
+                        <!-- Company Bank Account -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4" onclick="selectPaymentMethod('bank')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-building-columns text-primary text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">회사 계좌이체</h3>
+                                        <p class="text-sm text-gray-600">우리은행 입금</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full payment-radio"></div>
+                            </div>
+                        </div>
+
+                        <!-- Virtual Account -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4" onclick="selectPaymentMethod('virtual')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-receipt text-purple-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">가상계좌</h3>
+                                        <p class="text-sm text-gray-600">입금 전용 계좌 발급</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full payment-radio"></div>
+                            </div>
+                        </div>
+
+                        <!-- KakaoPay -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4" onclick="selectPaymentMethod('kakao')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-comment text-yellow-500 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">카카오페이</h3>
+                                        <p class="text-sm text-gray-600">간편 결제</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full payment-radio"></div>
+                            </div>
+                        </div>
+
+                        <!-- NaverPay -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4" onclick="selectPaymentMethod('naver')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fas fa-n text-green-600 text-xl font-bold"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">네이버페이</h3>
+                                        <p class="text-sm text-gray-600">간편 결제</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full payment-radio"></div>
+                            </div>
+                        </div>
+
+                        <!-- PayPal -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4" onclick="selectPaymentMethod('paypal')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fab fa-paypal text-blue-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">PayPal</h3>
+                                        <p class="text-sm text-gray-600">해외 결제</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full payment-radio"></div>
+                            </div>
+                        </div>
+
+                        <!-- Tether (USDT) -->
+                        <div class="payment-method border-2 border-gray-200 rounded-xl p-4" onclick="selectPaymentMethod('usdt')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mr-4">
+                                        <i class="fab fa-bitcoin text-emerald-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">Tether (USDT)</h3>
+                                        <p class="text-sm text-gray-600" id="usdtPrice">50 USDT = 1년 / 90 USDT = 2년</p>
+                                    </div>
+                                </div>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded-full payment-radio"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Details Section -->
+                    <div id="paymentDetails" class="hidden">
+                        <!-- Bank Transfer Details -->
+                        <div id="bankDetails" class="hidden bg-blue-50 border-l-4 border-primary rounded-lg p-6 mb-6">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-building-columns text-primary mr-2"></i>
+                                입금 계좌 정보
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">은행</span>
+                                    <span class="font-semibold">우리은행</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">계좌번호</span>
+                                    <span class="font-mono font-semibold">1002-123-456789</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">예금주</span>
+                                    <span class="font-semibold">(주)CASHiQ</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">입금금액</span>
+                                    <span class="font-bold text-primary text-lg" id="bankAmount">₩68,000</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <p class="text-sm text-yellow-800">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    입금자명은 회원가입 시 입력한 이름과 동일해야 합니다.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Virtual Account Details -->
+                        <div id="virtualDetails" class="hidden bg-purple-50 border-l-4 border-purple-600 rounded-lg p-6 mb-6">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-receipt text-purple-600 mr-2"></i>
+                                가상계좌 발급
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">은행</span>
+                                    <span class="font-semibold" id="virtualBank">우리은행</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">가상계좌번호</span>
+                                    <span class="font-mono font-semibold" id="virtualAccount">발급중...</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">입금기한</span>
+                                    <span class="font-semibold text-red-600" id="virtualExpiry">48시간</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white rounded-lg p-3">
+                                    <span class="text-gray-600">입금금액</span>
+                                    <span class="font-bold text-primary text-lg" id="virtualAmount">₩68,000</span>
+                                </div>
+                            </div>
+                            <button onclick="generateVirtualAccount()" class="w-full mt-4 bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                                <i class="fas fa-plus-circle mr-2"></i>가상계좌 발급받기
+                            </button>
+                            <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <p class="text-sm text-yellow-800">
+                                    <i class="fas fa-clock mr-2"></i>
+                                    가상계좌는 48시간 이내 입금하지 않으면 자동 소멸됩니다.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- KakaoPay Details -->
+                        <div id="kakaoDetails" class="hidden bg-yellow-50 border-l-4 border-yellow-500 rounded-lg p-6 mb-6">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-comment text-yellow-500 mr-2"></i>
+                                카카오페이 결제
+                            </h3>
+                            <div class="text-center py-8">
+                                <div class="w-48 h-48 mx-auto bg-white rounded-lg shadow-lg flex items-center justify-center mb-4">
+                                    <i class="fas fa-qrcode text-gray-300 text-8xl"></i>
+                                </div>
+                                <p class="text-gray-600 mb-4">카카오톡 앱으로 QR코드를 스캔하세요</p>
+                                <button onclick="openKakaoPay()" class="bg-yellow-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-yellow-600 transition">
+                                    <i class="fas fa-comment mr-2"></i>카카오페이 열기
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- NaverPay Details -->
+                        <div id="naverDetails" class="hidden bg-green-50 border-l-4 border-green-600 rounded-lg p-6 mb-6">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-n text-green-600 mr-2"></i>
+                                네이버페이 결제
+                            </h3>
+                            <div class="text-center py-8">
+                                <div class="w-48 h-48 mx-auto bg-white rounded-lg shadow-lg flex items-center justify-center mb-4">
+                                    <i class="fas fa-qrcode text-gray-300 text-8xl"></i>
+                                </div>
+                                <p class="text-gray-600 mb-4">네이버 앱으로 QR코드를 스캔하세요</p>
+                                <button onclick="openNaverPay()" class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                    <i class="fas fa-n mr-2"></i>네이버페이 열기
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PayPal Details -->
+                        <div id="paypalDetails" class="hidden bg-blue-50 border-l-4 border-blue-600 rounded-lg p-6 mb-6">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                <i class="fab fa-paypal text-blue-600 mr-2"></i>
+                                PayPal 결제
+                            </h3>
+                            <div class="text-center py-8">
+                                <div class="mb-4">
+                                    <i class="fab fa-paypal text-blue-600 text-6xl"></i>
+                                </div>
+                                <p class="text-gray-600 mb-2">안전한 해외 결제</p>
+                                <p class="text-2xl font-bold text-gray-800 mb-6" id="paypalAmount">$50 USD</p>
+                                <button onclick="openPayPal()" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                                    <i class="fab fa-paypal mr-2"></i>PayPal로 결제하기
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- USDT Details -->
+                        <div id="usdtDetails" class="hidden bg-emerald-50 border-l-4 border-emerald-600 rounded-lg p-6 mb-6">
+                            <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                <i class="fab fa-bitcoin text-emerald-600 mr-2"></i>
+                                Tether (USDT) 결제
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="bg-white rounded-lg p-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-gray-600">네트워크</span>
+                                        <span class="font-semibold">TRC20 (Tron)</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-gray-600">입금 금액</span>
+                                        <span class="font-bold text-emerald-600 text-xl" id="usdtAmount">50 USDT</span>
+                                    </div>
+                                    <div class="mt-4">
+                                        <p class="text-sm text-gray-600 mb-2">입금 주소:</p>
+                                        <div class="bg-gray-100 rounded-lg p-3 flex items-center justify-between">
+                                            <code class="crypto-address text-xs text-gray-800" id="usdtAddress">TXYZxxx...xxxXYZ</code>
+                                            <button onclick="copyUSDTAddress()" class="ml-2 text-primary hover:text-blue-700">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center py-4">
+                                    <div class="w-48 h-48 mx-auto bg-white rounded-lg shadow-lg flex items-center justify-center">
+                                        <i class="fas fa-qrcode text-gray-300 text-8xl"></i>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-2">QR코드로 입금 주소 스캔</p>
+                                </div>
+                                <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                    <p class="text-sm text-yellow-800">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <strong>중요:</strong> 반드시 TRC20 네트워크를 사용하여 송금해주세요. 다른 네트워크 사용 시 자산을 잃을 수 있습니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="space-y-3">
+                        <button id="confirmPaymentBtn" onclick="confirmPayment()" class="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-check-circle mr-2"></i>결제 확인
+                        </button>
+                        <button onclick="cancelPayment()" class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                            <i class="fas fa-times mr-2"></i>취소
+                        </button>
+                    </div>
+
+                    <!-- Security Notice -->
+                    <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p class="text-sm text-gray-600 flex items-start">
+                            <i class="fas fa-shield-alt text-green-500 mr-2 mt-1"></i>
+                            <span>모든 결제는 안전하게 암호화되어 처리됩니다. 결제 정보는 저장되지 않습니다.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedMethod = null;
+        let currentPlan = null;
+        let planPrice = 0;
+        let planDuration = 0;
+
+        // Initialize page with plan data from URL
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentPlan = urlParams.get('plan') || '1year';
+            
+            const planData = {
+                '1year': {
+                    name: '프리미엄 1년',
+                    duration: '12개월',
+                    price: 68000,
+                    priceKRW: '₩68,000',
+                    priceUSD: '$50',
+                    priceUSDT: '50 USDT'
+                },
+                '2year': {
+                    name: '프리미엄 2년',
+                    duration: '24개월',
+                    price: 100000,
+                    priceKRW: '₩100,000',
+                    priceUSD: '$75',
+                    priceUSDT: '90 USDT',
+                    benefits: [
+                        '1년 플랜의 모든 혜택',
+                        '₩36,000 추가 절약',
+                        '프리미엄 간병 가이드',
+                        'VIP 전용 혜택'
+                    ]
+                }
+            };
+
+            const plan = planData[currentPlan];
+            planPrice = plan.price;
+            planDuration = plan.duration;
+
+            document.getElementById('planName').textContent = plan.name;
+            document.getElementById('planDuration').textContent = plan.duration;
+            document.getElementById('totalAmount').textContent = plan.priceKRW;
+            document.getElementById('bankAmount').textContent = plan.priceKRW;
+            document.getElementById('virtualAmount').textContent = plan.priceKRW;
+            document.getElementById('paypalAmount').textContent = plan.priceUSD;
+            document.getElementById('usdtAmount').textContent = plan.priceUSDT;
+
+            // Update benefits if 2-year plan
+            if (currentPlan === '2year' && plan.benefits) {
+                const benefitsList = document.getElementById('benefitsList');
+                benefitsList.innerHTML = plan.benefits.map(benefit => `
+                    <li class="flex items-start">
+                        <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                        <span>${benefit}</span>
+                    </li>
+                `).join('');
+            }
+
+            // Generate USDT address (demo)
+            const demoAddress = 'TXYZabcdefghijklmnopqrstuvwxyz1234567890';
+            document.getElementById('usdtAddress').textContent = demoAddress;
+        });
+
+        function selectPaymentMethod(method) {
+            selectedMethod = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+                const radio = el.querySelector('.payment-radio');
+                radio.innerHTML = '';
+            });
+            
+            event.currentTarget.classList.add('selected');
+            const radio = event.currentTarget.querySelector('.payment-radio');
+            radio.innerHTML = '<div class="w-3 h-3 bg-primary rounded-full m-auto"></div>';
+            
+            // Show payment details
+            document.getElementById('paymentDetails').classList.remove('hidden');
+            
+            // Hide all details first
+            ['bankDetails', 'virtualDetails', 'kakaoDetails', 'naverDetails', 'paypalDetails', 'usdtDetails'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            // Show selected method details
+            const detailsMap = {
+                'bank': 'bankDetails',
+                'virtual': 'virtualDetails',
+                'kakao': 'kakaoDetails',
+                'naver': 'naverDetails',
+                'paypal': 'paypalDetails',
+                'usdt': 'usdtDetails'
+            };
+            
+            document.getElementById(detailsMap[method]).classList.remove('hidden');
+            
+            // Enable confirm button
+            document.getElementById('confirmPaymentBtn').disabled = false;
+        }
+
+        function generateVirtualAccount() {
+            const virtualAccount = '1002-' + Math.floor(Math.random() * 900000 + 100000);
+            document.getElementById('virtualAccount').textContent = virtualAccount;
+            
+            const expiry = new Date();
+            expiry.setHours(expiry.getHours() + 48);
+            document.getElementById('virtualExpiry').textContent = expiry.toLocaleString('ko-KR');
+            
+            alert('가상계좌가 발급되었습니다!\n48시간 이내에 입금해주세요.');
+        }
+
+        function openKakaoPay() {
+            alert('카카오페이 앱으로 연결됩니다...\n\n[데모 모드: 실제 결제는 진행되지 않습니다]');
+            setTimeout(() => {
+                if(confirm('결제를 완료하셨습니까?')) {
+                    completePayment('카카오페이');
+                }
+            }, 1000);
+        }
+
+        function openNaverPay() {
+            alert('네이버페이 앱으로 연결됩니다...\n\n[데모 모드: 실제 결제는 진행되지 않습니다]');
+            setTimeout(() => {
+                if(confirm('결제를 완료하셨습니까?')) {
+                    completePayment('네이버페이');
+                }
+            }, 1000);
+        }
+
+        function openPayPal() {
+            alert('PayPal 사이트로 연결됩니다...\n\n[데모 모드: 실제 결제는 진행되지 않습니다]');
+            setTimeout(() => {
+                if(confirm('결제를 완료하셨습니까?')) {
+                    completePayment('PayPal');
+                }
+            }, 1000);
+        }
+
+        function copyUSDTAddress() {
+            const address = document.getElementById('usdtAddress').textContent;
+            navigator.clipboard.writeText(address).then(() => {
+                alert('USDT 주소가 복사되었습니다!');
+            });
+        }
+
+        function confirmPayment() {
+            if (!selectedMethod) {
+                alert('결제 수단을 선택해주세요.');
+                return;
+            }
+
+            const methodNames = {
+                'bank': '회사 계좌이체',
+                'virtual': '가상계좌',
+                'kakao': '카카오페이',
+                'naver': '네이버페이',
+                'paypal': 'PayPal',
+                'usdt': 'Tether (USDT)'
+            };
+
+            if (selectedMethod === 'bank' || selectedMethod === 'virtual' || selectedMethod === 'usdt') {
+                if(confirm(`${methodNames[selectedMethod]}로 결제를 진행하시겠습니까?\n\n입금 후 확인까지 1-2시간 소요될 수 있습니다.`)) {
+                    completePayment(methodNames[selectedMethod]);
+                }
+            } else {
+                completePayment(methodNames[selectedMethod]);
+            }
+        }
+
+        function completePayment(method) {
+            // Update user membership status
+            const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (currentUser) {
+                currentUser.paymentMethod = method;
+                currentUser.paymentDate = new Date().toISOString();
+                currentUser.paymentStatus = 'pending'; // Will be 'completed' after verification
+                
+                // Update in localStorage members array
+                let members = JSON.parse(localStorage.getItem('members') || '[]');
+                const memberIndex = members.findIndex(m => m.email === currentUser.email);
+                if (memberIndex !== -1) {
+                    members[memberIndex] = currentUser;
+                    localStorage.setItem('members', JSON.stringify(members));
+                }
+                
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+
+            alert(`결제 정보가 접수되었습니다!\n\n결제수단: ${method}\n금액: ${document.getElementById('totalAmount').textContent}\n\n입금 확인 후 프리미엄 회원으로 업그레이드됩니다.\n감사합니다!`);
+            window.location.href = '../index.html';
+        }
+
+        function cancelPayment() {
+            if(confirm('결제를 취소하시겠습니까?')) {
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>
