@@ -49,7 +49,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">관리자 이메일</label>
                         <input type="email" value="admin@cashiq.org" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     </div>
-                    <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                    <button onclick="saveSiteSettings()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
                         <i class="fas fa-save mr-2"></i>저장
                     </button>
                 </div>
@@ -95,7 +95,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">입금 계좌</label>
                         <input type="text" value="우리은행 1002-123-456789" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
                     </div>
-                    <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+                    <button onclick="savePaymentSettings()" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
                         <i class="fas fa-save mr-2"></i>저장
                     </button>
                 </div>
@@ -125,7 +125,7 @@
                             <span class="ml-2 text-gray-700">신규 회원 환영 이메일 발송</span>
                         </label>
                     </div>
-                    <button class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">
+                    <button onclick="saveMembershipSettings()" class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition">
                         <i class="fas fa-save mr-2"></i>저장
                     </button>
                 </div>
@@ -154,31 +154,7 @@
                             <span class="ml-2 text-gray-700">로그인 시도 기록</span>
                         </label>
                     </div>
-                    <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
-                        <i class="fas fa-save mr-2"></i>저장
-                    </button>
-                </div>
-            </div>
-
-            <!-- Email Settings -->
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                    <i class="fas fa-envelope text-purple-600 mr-3"></i>이메일 설정
-                </h2>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">SMTP 서버</label>
-                        <input type="text" placeholder="smtp.gmail.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">SMTP 포트</label>
-                        <input type="number" placeholder="587" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">발신자 이메일</label>
-                        <input type="email" placeholder="noreply@cashiq.org" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                    </div>
-                    <button class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
+                    <button onclick="saveSecuritySettings()" class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
                         <i class="fas fa-save mr-2"></i>저장
                     </button>
                 </div>
@@ -253,17 +229,96 @@
         }
 
         // Initialize
-        if (!checkAuth()) {
-            // Redirect handled in checkAuth
+        checkAuth();
+
+        // Save settings functions
+        function saveSiteSettings() {
+            // Save to localStorage
+            const settings = {
+                siteTitle: document.querySelector('input[value="CASHiQ 뇌질환케어"]').value,
+                siteDescription: document.querySelector('textarea').value,
+                adminEmail: document.querySelector('input[type="email"][value="admin@cashiq.org"]').value
+            };
+            localStorage.setItem('siteSettings', JSON.stringify(settings));
+            alert('사이트 설정이 저장되었습니다.');
         }
 
-        // Save settings (placeholder)
-        document.querySelectorAll('button[type="button"]').forEach(btn => {
-            if (btn.textContent.includes('저장')) {
-                btn.addEventListener('click', function() {
-                    alert('설정이 저장되었습니다.');
-                });
+        function savePaymentSettings() {
+            // Save payment methods
+            const paymentSettings = {
+                kakaoPay: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[0].checked,
+                naverPay: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[1].checked,
+                bankTransfer: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[2].checked,
+                paypal: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[3].checked,
+                usdt: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[4].checked,
+                bankAccount: document.querySelector('input[value="우리은행 1002-123-456789"]').value
+            };
+            localStorage.setItem('paymentSettings', JSON.stringify(paymentSettings));
+            alert('결제 설정이 저장되었습니다.');
+        }
+
+        function saveMembershipSettings() {
+            // Save membership settings
+            const membershipSettings = {
+                freeSearchLimit: document.querySelector('input[value="2"]').value,
+                oneYearPrice: document.querySelector('input[value="68000"]').value,
+                twoYearPrice: document.querySelector('input[value="100000"]').value,
+                welcomeEmail: document.querySelectorAll('.bg-white.rounded-xl')[2].querySelector('input[type="checkbox"]').checked
+            };
+            localStorage.setItem('membershipSettings', JSON.stringify(membershipSettings));
+            alert('회원 설정이 저장되었습니다.');
+        }
+
+        function saveSecuritySettings() {
+            // Save security settings
+            const passwords = document.querySelectorAll('.bg-white.rounded-xl')[3].querySelectorAll('input[type="password"]');
+            const newPassword = passwords[0].value;
+            const confirmPassword = passwords[1].value;
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
             }
+            
+            const securitySettings = {
+                twoFactorAuth: document.querySelectorAll('.bg-white.rounded-xl')[3].querySelectorAll('input[type="checkbox"]')[0].checked,
+                loginLogging: document.querySelectorAll('.bg-white.rounded-xl')[3].querySelectorAll('input[type="checkbox"]')[1].checked
+            };
+            
+            if (newPassword) {
+                securitySettings.password = newPassword;
+            }
+            
+            localStorage.setItem('securitySettings', JSON.stringify(securitySettings));
+            alert('보안 설정이 저장되었습니다.');
+            
+            // Clear password fields
+            passwords[0].value = '';
+            passwords[1].value = '';
+        }
+
+        // Backup button
+        document.querySelector('.bg-teal-600').addEventListener('click', function() {
+            const allData = {
+                siteSettings: localStorage.getItem('siteSettings'),
+                paymentSettings: localStorage.getItem('paymentSettings'),
+                membershipSettings: localStorage.getItem('membershipSettings'),
+                securitySettings: localStorage.getItem('securitySettings'),
+                members: localStorage.getItem('members'),
+                notices: localStorage.getItem('notices'),
+                popups: localStorage.getItem('popups'),
+                banners: localStorage.getItem('banners')
+            };
+            
+            const dataStr = JSON.stringify(allData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'cashiq-backup-' + new Date().toISOString().split('T')[0] + '.json';
+            link.click();
+            
+            alert('백업이 완료되었습니다.');
         });
     </script>
 </body>
