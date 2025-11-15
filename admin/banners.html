@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배너광고 관리 - CASHiQ Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <nav class="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-white hover:text-gray-200">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-xl font-bold">배너광고 관리</h1>
+                        <p class="text-sm opacity-90">Banner Ad Management</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition">
+                    <i class="fas fa-sign-out-alt mr-1"></i>로그아웃
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Add Banner Form -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-plus-circle text-purple-600 mr-2"></i>
+                <span id="formTitle">배너 등록</span>
+            </h2>
+            
+            <form id="bannerForm" class="space-y-4">
+                <input type="hidden" id="bannerId">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            배너 제목 <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="title" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="배너 1">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            위치 <span class="text-red-500">*</span>
+                        </label>
+                        <select id="position" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="left">좌측 (Left)</option>
+                            <option value="right">우측 (Right)</option>
+                            <option value="top">상단 (Top)</option>
+                            <option value="bottom">하단 (Bottom)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            이미지 URL <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="imageUrl" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="https://example.com/banner.jpg">
+                        <p class="text-xs text-gray-500 mt-1">JPG, PNG, GIF 지원</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            링크 URL
+                        </label>
+                        <input type="text" id="linkUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" placeholder="https://example.com">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            표시 페이지 <span class="text-red-500">*</span>
+                        </label>
+                        <select id="showOn" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="all">전체 페이지</option>
+                            <option value="index">메인 페이지</option>
+                            <option value="hospital">병원 검색</option>
+                            <option value="caregivers">간병인</option>
+                            <option value="rehab">재활운동</option>
+                            <option value="community">커뮤니티</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            우선순위 (낮을수록 먼저 표시)
+                        </label>
+                        <input type="number" id="priority" value="1" min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            시작일
+                        </label>
+                        <input type="datetime-local" id="startDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            종료일
+                        </label>
+                        <input type="datetime-local" id="endDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="active" checked class="mr-2 w-4 h-4 text-purple-600 rounded focus:ring-purple-500">
+                        <span class="text-sm font-medium text-gray-700">활성화</span>
+                    </label>
+                </div>
+
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
+                        <i class="fas fa-save mr-2"></i>저장
+                    </button>
+                    <button type="button" onclick="resetForm()" class="px-6 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition">
+                        <i class="fas fa-times mr-2"></i>취소
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Banner List -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-list text-purple-600 mr-2"></i>배너 목록
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">미리보기</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">제목</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">위치</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">페이지</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">우선순위</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">상태</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bannerTableBody" class="divide-y divide-gray-200">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const loggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (!loggedIn) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            return true;
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        let banners = [];
+
+        // Load banners
+        async function loadBanners() {
+            try {
+                const response = await fetch('../data/banners.json');
+                banners = await response.json();
+                renderBanners();
+            } catch (error) {
+                console.error('Error loading banners:', error);
+                banners = [];
+            }
+        }
+
+        // Render banners table
+        function renderBanners() {
+            const tbody = document.getElementById('bannerTableBody');
+            
+            if (banners.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">등록된 배너가 없습니다.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = banners.map(banner => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">
+                        <img src="${banner.imageUrl}" alt="${banner.title}" class="w-20 h-20 object-cover rounded">
+                    </td>
+                    <td class="px-4 py-3 font-medium">${banner.title}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs rounded ${getPositionColor(banner.position)}">
+                            ${getPositionText(banner.position)}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-sm">${getShowOnText(banner.showOn)}</td>
+                    <td class="px-4 py-3 text-center">${banner.priority}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs rounded ${banner.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${banner.active ? '활성' : '비활성'}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex space-x-2">
+                            <button onclick="editBanner(${banner.id})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteBanner(${banner.id})" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getPositionColor(position) {
+            const colors = {
+                left: 'bg-blue-100 text-blue-800',
+                right: 'bg-green-100 text-green-800',
+                top: 'bg-purple-100 text-purple-800',
+                bottom: 'bg-orange-100 text-orange-800'
+            };
+            return colors[position] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getPositionText(position) {
+            const texts = {
+                left: '좌측',
+                right: '우측',
+                top: '상단',
+                bottom: '하단'
+            };
+            return texts[position] || position;
+        }
+
+        function getShowOnText(showOn) {
+            const texts = {
+                all: '전체',
+                index: '메인',
+                hospital: '병원검색',
+                caregivers: '간병인',
+                rehab: '재활운동',
+                community: '커뮤니티'
+            };
+            return texts[showOn] || showOn;
+        }
+
+        // Save banner
+        document.getElementById('bannerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const bannerId = document.getElementById('bannerId').value;
+            const banner = {
+                id: bannerId ? parseInt(bannerId) : Date.now(),
+                title: document.getElementById('title').value,
+                position: document.getElementById('position').value,
+                imageUrl: document.getElementById('imageUrl').value,
+                linkUrl: document.getElementById('linkUrl').value,
+                showOn: document.getElementById('showOn').value,
+                priority: parseInt(document.getElementById('priority').value),
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                active: document.getElementById('active').checked,
+                createdAt: bannerId ? banners.find(b => b.id === parseInt(bannerId)).createdAt : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+
+            if (bannerId) {
+                // Update existing
+                const index = banners.findIndex(b => b.id === parseInt(bannerId));
+                banners[index] = banner;
+            } else {
+                // Add new
+                banners.push(banner);
+            }
+
+            // Save to localStorage (simulating backend)
+            localStorage.setItem('banners', JSON.stringify(banners));
+            
+            alert('배너가 저장되었습니다.');
+            resetForm();
+            renderBanners();
+        });
+
+        // Edit banner
+        function editBanner(id) {
+            const banner = banners.find(b => b.id === id);
+            if (!banner) return;
+
+            document.getElementById('bannerId').value = banner.id;
+            document.getElementById('title').value = banner.title;
+            document.getElementById('position').value = banner.position;
+            document.getElementById('imageUrl').value = banner.imageUrl;
+            document.getElementById('linkUrl').value = banner.linkUrl;
+            document.getElementById('showOn').value = banner.showOn;
+            document.getElementById('priority').value = banner.priority;
+            document.getElementById('startDate').value = banner.startDate;
+            document.getElementById('endDate').value = banner.endDate;
+            document.getElementById('active').checked = banner.active;
+
+            document.getElementById('formTitle').textContent = '배너 수정';
+            document.querySelector('form button[type="submit"]').innerHTML = '<i class="fas fa-save mr-2"></i>수정';
+            
+            // Scroll to form
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Delete banner
+        function deleteBanner(id) {
+            if (!confirm('이 배너를 삭제하시겠습니까?')) return;
+
+            banners = banners.filter(b => b.id !== id);
+            localStorage.setItem('banners', JSON.stringify(banners));
+            
+            alert('배너가 삭제되었습니다.');
+            renderBanners();
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('bannerForm').reset();
+            document.getElementById('bannerId').value = '';
+            document.getElementById('formTitle').textContent = '배너 등록';
+            document.querySelector('form button[type="submit"]').innerHTML = '<i class="fas fa-save mr-2"></i>저장';
+        }
+
+        // Initialize
+        if (checkAuth()) {
+            loadBanners();
+            
+            // Load from localStorage if exists
+            const savedBanners = localStorage.getItem('banners');
+            if (savedBanners) {
+                banners = JSON.parse(savedBanners);
+                renderBanners();
+            }
+        }
+    </script>
+</body>
+</html>
