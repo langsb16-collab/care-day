@@ -118,46 +118,85 @@
                 const savedNotices = localStorage.getItem('notices');
                 if (savedNotices) {
                     allNotices = JSON.parse(savedNotices);
-                    console.log('Loaded notices from localStorage:', allNotices.length);
+                    console.log('✅ Loaded notices from localStorage:', allNotices.length);
+                    console.log('📋 All notices:', allNotices);
                 } else {
                     try {
                         const response = await fetch('../data/notices.json');
                         allNotices = await response.json();
-                        console.log('Loaded notices from JSON:', allNotices.length);
+                        console.log('✅ Loaded notices from JSON:', allNotices.length);
+                        console.log('📋 All notices:', allNotices);
                     } catch (e) {
-                        console.log('No notices.json file found');
+                        console.log('⚠️ No notices.json file found');
                         allNotices = [];
                     }
                 }
                 
+                console.log('🔍 Before filters - Total notices:', allNotices.length);
+                
                 // Filter active notices (if active property exists, only show active=true)
                 allNotices = allNotices.filter(notice => {
                     // If active property doesn't exist, show it (backward compatibility)
-                    if (notice.active === undefined) return true;
-                    return notice.active === true;
+                    if (notice.active === undefined) {
+                        console.log('✓ Notice without active property (showing):', notice.title);
+                        return true;
+                    }
+                    const shouldShow = notice.active === true;
+                    console.log(shouldShow ? '✓' : '✗', 'Active filter:', notice.title, '- active:', notice.active);
+                    return shouldShow;
                 });
                 
-                console.log('After active filter:', allNotices.length);
+                console.log('📊 After active filter:', allNotices.length, 'notices');
                 
-                // Check date ranges (only if dates are set)
+                // Check date ranges (only if both dates are set and valid)
                 const now = new Date();
                 allNotices = allNotices.filter(notice => {
-                    // If startDate exists and is in future, don't show
-                    if (notice.startDate) {
+                    // If no dates set, always show
+                    if (!notice.startDate && !notice.endDate) {
+                        return true;
+                    }
+                    
+                    // If only startDate exists
+                    if (notice.startDate && !notice.endDate) {
                         const startDate = new Date(notice.startDate);
+                        if (isNaN(startDate.getTime())) return true; // Invalid date, show it
                         if (startDate > now) {
-                            console.log('Notice not yet started:', notice.title);
+                            console.log('Notice not yet started:', notice.title, 'Start:', notice.startDate);
                             return false;
                         }
+                        return true;
                     }
-                    // If endDate exists and is in past, don't show
-                    if (notice.endDate) {
+                    
+                    // If only endDate exists
+                    if (!notice.startDate && notice.endDate) {
                         const endDate = new Date(notice.endDate);
+                        if (isNaN(endDate.getTime())) return true; // Invalid date, show it
                         if (endDate < now) {
-                            console.log('Notice expired:', notice.title);
+                            console.log('Notice expired:', notice.title, 'End:', notice.endDate);
                             return false;
                         }
+                        return true;
                     }
+                    
+                    // Both dates exist
+                    const startDate = new Date(notice.startDate);
+                    const endDate = new Date(notice.endDate);
+                    
+                    // If dates are invalid, show the notice
+                    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+                        return true;
+                    }
+                    
+                    // Check if current date is within range
+                    if (startDate > now) {
+                        console.log('Notice not yet started:', notice.title, 'Start:', notice.startDate);
+                        return false;
+                    }
+                    if (endDate < now) {
+                        console.log('Notice expired:', notice.title, 'End:', notice.endDate);
+                        return false;
+                    }
+                    
                     return true;
                 });
                 
