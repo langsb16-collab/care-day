@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - CASHiQ 뇌질환케어</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen flex items-center justify-center p-4">
+    
+    <div class="w-full max-w-5xl">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="../index.html" class="inline-flex items-center text-primary hover:text-blue-700 font-medium">
+                <i class="fas fa-arrow-left mr-2"></i>홈으로 돌아가기
+            </a>
+        </div>
+
+        <!-- Main Container -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div class="grid md:grid-cols-2 gap-0">
+                <!-- Left Side - Membership Plans -->
+                <div class="bg-gradient-to-br from-blue-600 to-purple-600 p-8 md:p-12 text-white">
+                    <h2 class="text-3xl font-bold mb-6">회원 등급 선택</h2>
+                    
+                    <!-- Free Plan -->
+                    <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 mb-6 hover:bg-opacity-20 transition cursor-pointer border-2 border-transparent hover:border-white" onclick="selectPlan('free')">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold">무료 회원</h3>
+                                <p class="text-blue-100 text-sm mt-1">Free Membership</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold">₩0</div>
+                                <div class="text-sm text-blue-100">영구 무료</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle mr-2 text-green-300"></i>
+                                <span>하루 병원 검색 2회</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle mr-2 text-green-300"></i>
+                                <span>공지사항 열람</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle mr-2 text-green-300"></i>
+                                <span>커뮤니티 이용</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle mr-2 text-green-300"></i>
+                                <span>기본 정보 열람</span>
+                            </div>
+                        </div>
+                        <button type="button" class="w-full mt-4 bg-white text-blue-600 py-2 rounded-lg font-semibold hover:bg-blue-50 transition">
+                            무료로 시작하기
+                        </button>
+                    </div>
+
+                    <!-- Paid Plans -->
+                    <div class="space-y-4">
+                        <div class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-6 hover:shadow-2xl transition cursor-pointer border-2 border-transparent hover:border-yellow-300" onclick="selectPlan('1year')">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">프리미엄 1년</h3>
+                                    <p class="text-orange-100 text-sm mt-1">Premium 1 Year</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-white">₩68,000</div>
+                                    <div class="text-xs text-orange-100">약 ₩5,666/월</div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm text-white">
+                                <div class="flex items-center">
+                                    <i class="fas fa-crown mr-2 text-yellow-200"></i>
+                                    <span>무제한 병원 검색</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-crown mr-2 text-yellow-200"></i>
+                                    <span>병원 리뷰 & 평가</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-crown mr-2 text-yellow-200"></i>
+                                    <span>필터링 & 지도 검색</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-crown mr-2 text-yellow-200"></i>
+                                    <span>제휴 병원 할인</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-crown mr-2 text-yellow-200"></i>
+                                    <span>우선 고객 지원</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-6 hover:shadow-2xl transition cursor-pointer border-2 border-transparent hover:border-purple-300" onclick="selectPlan('2year')">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">프리미엄 2년</h3>
+                                    <p class="text-purple-100 text-sm mt-1">Premium 2 Years</p>
+                                    <span class="inline-block bg-red-500 text-white text-xs px-2 py-1 rounded-full mt-1">32% 할인!</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-white">₩100,000</div>
+                                    <div class="text-xs text-purple-100">약 ₩4,166/월</div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm text-white">
+                                <div class="flex items-center">
+                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
+                                    <span>1년 플랜의 모든 혜택</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
+                                    <span>₩36,000 추가 절약</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
+                                    <span>프리미엄 간병 가이드</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
+                                    <span>VIP 전용 혜택</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Signup Form -->
+                <div class="p-8 md:p-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">회원가입</h2>
+                    <p class="text-gray-600 mb-8">CASHiQ와 함께 건강한 케어를 시작하세요</p>
+
+                    <form id="signupForm" class="space-y-4">
+                        <input type="hidden" id="membershipPlan" value="free">
+
+                        <!-- Name -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                이름 <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="홍길동">
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                이메일 <span class="text-red-500">*</span>
+                            </label>
+                            <input type="email" id="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="email@example.com">
+                        </div>
+
+                        <!-- Phone -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                전화번호 <span class="text-red-500">*</span>
+                            </label>
+                            <input type="tel" id="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="010-1234-5678">
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                비밀번호 <span class="text-red-500">*</span>
+                            </label>
+                            <input type="password" id="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="8자 이상">
+                        </div>
+
+                        <!-- Password Confirm -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                비밀번호 확인 <span class="text-red-500">*</span>
+                            </label>
+                            <input type="password" id="passwordConfirm" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="비밀번호 재입력">
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="space-y-2">
+                            <label class="flex items-start">
+                                <input type="checkbox" id="termsAgree" required class="mt-1 w-4 h-4 text-primary rounded focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-600">
+                                    <a href="#" class="text-primary hover:underline">이용약관</a> 및 
+                                    <a href="#" class="text-primary hover:underline">개인정보처리방침</a>에 동의합니다 <span class="text-red-500">*</span>
+                                </span>
+                            </label>
+                            <label class="flex items-start">
+                                <input type="checkbox" id="marketingAgree" class="mt-1 w-4 h-4 text-primary rounded focus:ring-primary">
+                                <span class="ml-2 text-sm text-gray-600">
+                                    마케팅 정보 수신에 동의합니다 (선택)
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Selected Plan Display -->
+                        <div id="selectedPlanDisplay" class="bg-blue-50 border-l-4 border-primary p-4 rounded">
+                            <p class="text-sm font-medium text-gray-700">선택한 플랜: <span id="planName" class="text-primary">무료 회원</span></p>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition transform hover:scale-105">
+                            <i class="fas fa-user-plus mr-2"></i>회원가입
+                        </button>
+
+                        <!-- Login Link -->
+                        <p class="text-center text-sm text-gray-600">
+                            이미 회원이신가요? 
+                            <a href="login.html" class="text-primary hover:underline font-medium">로그인</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectPlan(plan) {
+            const planNames = {
+                'free': '무료 회원',
+                '1year': '프리미엄 1년 (₩68,000)',
+                '2year': '프리미엄 2년 (₩100,000)'
+            };
+
+            document.getElementById('membershipPlan').value = plan;
+            document.getElementById('planName').textContent = planNames[plan];
+
+            // Visual feedback
+            document.querySelectorAll('[onclick*="selectPlan"]').forEach(el => {
+                el.style.transform = 'scale(1)';
+            });
+            event.currentTarget.style.transform = 'scale(1.05)';
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+
+            if (password !== passwordConfirm) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            if (password.length < 8) {
+                alert('비밀번호는 8자 이상이어야 합니다.');
+                return;
+            }
+
+            if (!document.getElementById('termsAgree').checked) {
+                alert('이용약관에 동의해주세요.');
+                return;
+            }
+
+            const memberData = {
+                id: Date.now(),
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                type: document.getElementById('membershipPlan').value === 'free' ? 'free' : 'paid',
+                plan: document.getElementById('membershipPlan').value === 'free' ? '무료' : 
+                      document.getElementById('membershipPlan').value === '1year' ? '1년 프리미엄' : '2년 프리미엄',
+                joinDate: new Date().toISOString().split('T')[0],
+                expireDate: document.getElementById('membershipPlan').value === 'free' ? null :
+                           document.getElementById('membershipPlan').value === '1year' ? 
+                           new Date(Date.now() + 365*24*60*60*1000).toISOString().split('T')[0] :
+                           new Date(Date.now() + 730*24*60*60*1000).toISOString().split('T')[0],
+                status: 'active',
+                searchCount: 0,
+                lastLogin: new Date().toISOString(),
+                marketingAgree: document.getElementById('marketingAgree').checked
+            };
+
+            // Save to localStorage
+            let members = JSON.parse(localStorage.getItem('members') || '[]');
+            
+            // Check if email already exists
+            if (members.some(m => m.email === memberData.email)) {
+                alert('이미 가입된 이메일입니다.');
+                return;
+            }
+
+            members.push(memberData);
+            localStorage.setItem('members', JSON.stringify(members));
+
+            // Save current user session
+            sessionStorage.setItem('currentUser', JSON.stringify(memberData));
+
+            // If paid plan, redirect to payment
+            if (memberData.type === 'paid') {
+                alert('회원가입이 완료되었습니다!\n결제 페이지로 이동합니다.');
+                window.location.href = 'payment.html?plan=' + document.getElementById('membershipPlan').value;
+            } else {
+                alert('회원가입이 완료되었습니다!');
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>

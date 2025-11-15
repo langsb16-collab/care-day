@@ -56,7 +56,7 @@
                     <p class="hidden md:inline text-[10px] md:text-xs text-gray-600 whitespace-nowrap" data-i18n="site.subtitle">Brain Disease Care</p>
                 </div>
                 
-                <!-- Language Switcher -->
+                <!-- Language Switcher & Auth -->
                 <div class="flex items-center space-x-1">
                     <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko">
                         🇰🇷 <span class="hidden sm:inline">한국어</span>
@@ -70,6 +70,16 @@
                     <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ja">
                         🇯🇵 <span class="hidden sm:inline">日本語</span>
                     </button>
+                    
+                    <!-- Auth Buttons -->
+                    <div class="hidden md:flex items-center space-x-2 ml-4">
+                        <a href="auth/login.html" class="px-3 py-1 text-sm text-primary hover:text-blue-700 font-medium transition">
+                            로그인
+                        </a>
+                        <a href="auth/signup.html" class="px-4 py-1 text-sm bg-primary text-white rounded-lg hover:bg-blue-700 font-medium transition">
+                            회원가입
+                        </a>
+                    </div>
                     
                     <!-- Mobile Menu Toggle -->
                     <button id="mobile-menu-toggle" class="md:hidden ml-4 text-gray-600 hover:text-primary">
