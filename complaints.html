@@ -45,18 +45,18 @@
         }
         
         .warning-icon {
-            width: 80px;
-            height: 80px;
-            border: 6px solid #000;
+            width: 48px;
+            height: 48px;
+            border: 3px solid #000;
             border-radius: 50%;
             background: #FFD700;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
+            font-size: 24px;
             font-weight: 900;
             color: #000;
-            margin: 0 auto 20px;
+            margin: 0 auto 12px;
         }
         
         /* 카테고리 카드 */
@@ -79,27 +79,29 @@
         /* 모바일 최적화 */
         @media (max-width: 768px) {
             .warning-box {
-                border-left: 20px solid #000;
-                border-right: 20px solid #000;
+                border-left: 12px solid #000;
+                border-right: 12px solid #000;
+                border-width: 4px;
             }
             
             .warning-box::before,
             .warning-box::after {
-                width: 20px;
+                width: 12px;
             }
             
             .warning-box::before {
-                left: -20px;
+                left: -12px;
             }
             
             .warning-box::after {
-                right: -20px;
+                right: -12px;
             }
             
             .warning-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 36px;
+                width: 32px;
+                height: 32px;
+                font-size: 18px;
+                border: 2px solid #000;
             }
         }
         
@@ -245,37 +247,37 @@
                 <p class="text-sm md:text-xl text-gray-600">병원 및 국가기관에 민원을 접수하고 공유하세요</p>
             </div>
             
-            <!-- 경고문 -->
-            <div class="warning-box rounded-2xl p-6 md:p-12 mb-8 md:mb-12">
+            <!-- 경고문 (80% 축소) -->
+            <div class="warning-box rounded-xl p-3 md:p-5 mb-6 md:mb-8">
                 <div class="warning-icon">!</div>
                 
-                <div class="text-center mb-6 md:mb-8">
-                    <h2 class="text-xl md:text-3xl font-black text-black mb-4 leading-tight">
+                <div class="text-center mb-3 md:mb-4">
+                    <h2 class="text-xs md:text-base font-black text-black mb-2 leading-tight">
                         보건복지부,국민신문고,국민건강보험공단,건강보험심사<br class="hidden md:block">
                         평가원,의료분쟁조정중재원, 국가인권위원회,관할 보건소
                     </h2>
-                    <p class="text-base md:text-2xl font-bold text-black mb-2">
+                    <p class="text-[10px] md:text-sm font-bold text-black mb-1">
                         같은 국가 기관이 아닌 온라인은 명개는 사실이어도 명예
                     </p>
-                    <p class="text-base md:text-2xl font-bold text-black">
+                    <p class="text-[10px] md:text-sm font-bold text-black">
                         훼손 가능합니다,
                     </p>
                 </div>
                 
-                <div class="border-t-4 border-dotted border-black my-6 md:my-8"></div>
+                <div class="border-t-2 border-dotted border-black my-3 md:my-4"></div>
                 
                 <div class="text-center">
-                    <p class="text-base md:text-2xl font-bold text-black mb-4">
+                    <p class="text-[10px] md:text-sm font-bold text-black mb-2">
                         초성,이니셜도 위험합니다. 특정 불가 형태로만 작성해야<br class="hidden md:block">
                         안전합니다. 본 플랫폼에 별도 게시무로 게시되거나 표시<br class="hidden md:block">
                         되지 않습니다
                     </p>
                 </div>
                 
-                <div class="border-t-4 border-dotted border-black my-6 md:my-8"></div>
+                <div class="border-t-2 border-dotted border-black my-3 md:my-4"></div>
                 
-                <div class="bg-red-600 text-white rounded-xl p-4 md:p-6 mt-6 md:mt-8">
-                    <p class="text-sm md:text-xl font-bold text-center leading-relaxed">
+                <div class="bg-red-600 text-white rounded-lg p-2 md:p-3 mt-3 md:mt-4">
+                    <p class="text-[9px] md:text-xs font-bold text-center leading-relaxed">
                         여기에 민원들록 하시면 국가 기관(보건복지부,국민신문고,국민건강보험공단,<br class="hidden md:block">
                         건강보험심사평가원,의료분쟁조정중재원,국가인권위원회,관할 보건소같은<br class="hidden md:block">
                         국가 기관)카테고리별 전송-접수-등록해줄뿐입니다.<br class="hidden md:block">
