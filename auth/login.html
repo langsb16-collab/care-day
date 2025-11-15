@@ -28,17 +28,17 @@
             </div>
 
             <form id="loginForm" class="space-y-4">
-                <!-- Email -->
+                <!-- Email or Username -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                        <i class="fas fa-envelope mr-2 text-primary"></i>이메일
+                        <i class="fas fa-user mr-2 text-primary"></i>이메일 또는 아이디
                     </label>
                     <input 
-                        type="email" 
+                        type="text" 
                         id="email" 
                         required 
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" 
-                        placeholder="email@example.com"
+                        placeholder="locks88@naver.com 또는 guest"
                     >
                 </div>
 
@@ -133,23 +133,28 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const email = document.getElementById('email').value;
+            const emailOrUsername = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const remember = document.getElementById('remember').checked;
 
             // Get members from localStorage
             const members = JSON.parse(localStorage.getItem('members') || '[]');
 
-            // Find user
-            const user = members.find(m => m.email === email);
+            // Find user by email or username
+            const user = members.find(m => 
+                m.email === emailOrUsername || m.username === emailOrUsername
+            );
 
             if (!user) {
-                showError('등록되지 않은 이메일입니다.');
+                showError('등록되지 않은 이메일 또는 아이디입니다.');
                 return;
             }
 
-            // In real app, you would verify password hash
-            // For demo, we'll just accept any password with correct email
+            // Check password
+            if (user.password !== password) {
+                showError('비밀번호가 일치하지 않습니다.');
+                return;
+            }
 
             // Update last login
             user.lastLogin = new Date().toISOString();
@@ -159,10 +164,21 @@
             sessionStorage.setItem('currentUser', JSON.stringify(user));
             
             if (remember) {
-                localStorage.setItem('rememberedEmail', email);
+                localStorage.setItem('rememberedEmail', emailOrUsername);
             }
 
-            // Check if membership expired
+            // Check if membership expired (for old membershipPlan field)
+            if (user.membershipPlan && user.expiresAt) {
+                const expireDate = new Date(user.expiresAt);
+                const now = new Date();
+                if (expireDate < now) {
+                    alert('유료 회원 기간이 만료되었습니다. 무료 회원으로 전환됩니다.');
+                    user.membershipPlan = 'free';
+                    localStorage.setItem('members', JSON.stringify(members));
+                }
+            }
+
+            // Check old type/expireDate structure
             if (user.type === 'paid' && user.expireDate) {
                 const expireDate = new Date(user.expireDate);
                 const now = new Date();
