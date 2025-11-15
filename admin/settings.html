@@ -39,15 +39,15 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">사이트 제목</label>
-                        <input type="text" value="CASHiQ 뇌질환케어" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="siteTitle" value="CASHiQ 뇌질환케어" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">사이트 설명</label>
-                        <textarea rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">뇌출혈·뇌경색 환자와 가족을 위한 종합 커뮤니티 플랫폼</textarea>
+                        <textarea id="siteDescription" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">뇌출혈·뇌경색 환자와 가족을 위한 종합 커뮤니티 플랫폼</textarea>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">관리자 이메일</label>
-                        <input type="email" value="admin@cashiq.org" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <input type="email" id="adminEmail" value="admin@cashiq.org" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     </div>
                     <button onclick="saveSiteSettings()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
                         <i class="fas fa-save mr-2"></i>저장
@@ -63,37 +63,37 @@
                 <div class="space-y-4">
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                            <input type="checkbox" id="kakaoPay" checked class="w-4 h-4 text-blue-600 rounded">
                             <span class="ml-2 text-gray-700">카카오페이</span>
                         </label>
                     </div>
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                            <input type="checkbox" id="naverPay" checked class="w-4 h-4 text-blue-600 rounded">
                             <span class="ml-2 text-gray-700">네이버페이</span>
                         </label>
                     </div>
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                            <input type="checkbox" id="bankTransfer" checked class="w-4 h-4 text-blue-600 rounded">
                             <span class="ml-2 text-gray-700">계좌이체</span>
                         </label>
                     </div>
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                            <input type="checkbox" id="paypal" checked class="w-4 h-4 text-blue-600 rounded">
                             <span class="ml-2 text-gray-700">PayPal</span>
                         </label>
                     </div>
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                            <input type="checkbox" id="usdt" checked class="w-4 h-4 text-blue-600 rounded">
                             <span class="ml-2 text-gray-700">USDT (테더)</span>
                         </label>
                     </div>
                     <div class="pt-4 border-t">
                         <label class="block text-sm font-medium text-gray-700 mb-2">입금 계좌</label>
-                        <input type="text" value="우리은행 1002-123-456789" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
+                        <input type="text" id="bankAccount" value="우리은행 1002-123-456789" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500">
                     </div>
                     <button onclick="savePaymentSettings()" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
                         <i class="fas fa-save mr-2"></i>저장
@@ -109,19 +109,19 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">무료 회원 일일 검색 제한</label>
-                        <input type="number" value="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                        <input type="number" id="freeSearchLimit" value="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">1년 프리미엄 가격 (₩)</label>
-                        <input type="number" value="68000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                        <input type="number" id="oneYearPrice" value="68000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">2년 프리미엄 가격 (₩)</label>
-                        <input type="number" value="100000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+                        <input type="number" id="twoYearPrice" value="100000" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
                     </div>
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" checked class="w-4 h-4 text-orange-600 rounded">
+                            <input type="checkbox" id="welcomeEmail" checked class="w-4 h-4 text-orange-600 rounded">
                             <span class="ml-2 text-gray-700">신규 회원 환영 이메일 발송</span>
                         </label>
                     </div>
@@ -139,18 +139,18 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">관리자 비밀번호 변경</label>
-                        <input type="password" placeholder="새 비밀번호" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 mb-2">
-                        <input type="password" placeholder="비밀번호 확인" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
+                        <input type="password" id="newPassword" placeholder="새 비밀번호" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 mb-2">
+                        <input type="password" id="confirmPassword" placeholder="비밀번호 확인" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500">
                     </div>
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" class="w-4 h-4 text-red-600 rounded">
+                            <input type="checkbox" id="twoFactorAuth" class="w-4 h-4 text-red-600 rounded">
                             <span class="ml-2 text-gray-700">2단계 인증 활성화</span>
                         </label>
                     </div>
                     <div>
                         <label class="flex items-center">
-                            <input type="checkbox" checked class="w-4 h-4 text-red-600 rounded">
+                            <input type="checkbox" id="loginLogging" checked class="w-4 h-4 text-red-600 rounded">
                             <span class="ml-2 text-gray-700">로그인 시도 기록</span>
                         </label>
                     </div>
@@ -228,16 +228,47 @@
             window.location.href = 'index.html';
         }
 
+        // Load settings from localStorage
+        function loadSettings() {
+            // Load site settings
+            const siteSettings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+            if (siteSettings.siteTitle) document.getElementById('siteTitle').value = siteSettings.siteTitle;
+            if (siteSettings.siteDescription) document.getElementById('siteDescription').value = siteSettings.siteDescription;
+            if (siteSettings.adminEmail) document.getElementById('adminEmail').value = siteSettings.adminEmail;
+
+            // Load payment settings
+            const paymentSettings = JSON.parse(localStorage.getItem('paymentSettings') || '{}');
+            if (paymentSettings.kakaoPay !== undefined) document.getElementById('kakaoPay').checked = paymentSettings.kakaoPay;
+            if (paymentSettings.naverPay !== undefined) document.getElementById('naverPay').checked = paymentSettings.naverPay;
+            if (paymentSettings.bankTransfer !== undefined) document.getElementById('bankTransfer').checked = paymentSettings.bankTransfer;
+            if (paymentSettings.paypal !== undefined) document.getElementById('paypal').checked = paymentSettings.paypal;
+            if (paymentSettings.usdt !== undefined) document.getElementById('usdt').checked = paymentSettings.usdt;
+            if (paymentSettings.bankAccount) document.getElementById('bankAccount').value = paymentSettings.bankAccount;
+
+            // Load membership settings
+            const membershipSettings = JSON.parse(localStorage.getItem('membershipSettings') || '{}');
+            if (membershipSettings.freeSearchLimit) document.getElementById('freeSearchLimit').value = membershipSettings.freeSearchLimit;
+            if (membershipSettings.oneYearPrice) document.getElementById('oneYearPrice').value = membershipSettings.oneYearPrice;
+            if (membershipSettings.twoYearPrice) document.getElementById('twoYearPrice').value = membershipSettings.twoYearPrice;
+            if (membershipSettings.welcomeEmail !== undefined) document.getElementById('welcomeEmail').checked = membershipSettings.welcomeEmail;
+
+            // Load security settings
+            const securitySettings = JSON.parse(localStorage.getItem('securitySettings') || '{}');
+            if (securitySettings.twoFactorAuth !== undefined) document.getElementById('twoFactorAuth').checked = securitySettings.twoFactorAuth;
+            if (securitySettings.loginLogging !== undefined) document.getElementById('loginLogging').checked = securitySettings.loginLogging;
+        }
+
         // Initialize
         checkAuth();
+        loadSettings();
 
         // Save settings functions
         function saveSiteSettings() {
             // Save to localStorage
             const settings = {
-                siteTitle: document.querySelector('input[value="CASHiQ 뇌질환케어"]').value,
-                siteDescription: document.querySelector('textarea').value,
-                adminEmail: document.querySelector('input[type="email"][value="admin@cashiq.org"]').value
+                siteTitle: document.getElementById('siteTitle').value,
+                siteDescription: document.getElementById('siteDescription').value,
+                adminEmail: document.getElementById('adminEmail').value
             };
             localStorage.setItem('siteSettings', JSON.stringify(settings));
             alert('사이트 설정이 저장되었습니다.');
@@ -246,12 +277,12 @@
         function savePaymentSettings() {
             // Save payment methods
             const paymentSettings = {
-                kakaoPay: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[0].checked,
-                naverPay: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[1].checked,
-                bankTransfer: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[2].checked,
-                paypal: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[3].checked,
-                usdt: document.querySelectorAll('.bg-white.rounded-xl')[1].querySelectorAll('input[type="checkbox"]')[4].checked,
-                bankAccount: document.querySelector('input[value="우리은행 1002-123-456789"]').value
+                kakaoPay: document.getElementById('kakaoPay').checked,
+                naverPay: document.getElementById('naverPay').checked,
+                bankTransfer: document.getElementById('bankTransfer').checked,
+                paypal: document.getElementById('paypal').checked,
+                usdt: document.getElementById('usdt').checked,
+                bankAccount: document.getElementById('bankAccount').value
             };
             localStorage.setItem('paymentSettings', JSON.stringify(paymentSettings));
             alert('결제 설정이 저장되었습니다.');
@@ -260,10 +291,10 @@
         function saveMembershipSettings() {
             // Save membership settings
             const membershipSettings = {
-                freeSearchLimit: document.querySelector('input[value="2"]').value,
-                oneYearPrice: document.querySelector('input[value="68000"]').value,
-                twoYearPrice: document.querySelector('input[value="100000"]').value,
-                welcomeEmail: document.querySelectorAll('.bg-white.rounded-xl')[2].querySelector('input[type="checkbox"]').checked
+                freeSearchLimit: document.getElementById('freeSearchLimit').value,
+                oneYearPrice: document.getElementById('oneYearPrice').value,
+                twoYearPrice: document.getElementById('twoYearPrice').value,
+                welcomeEmail: document.getElementById('welcomeEmail').checked
             };
             localStorage.setItem('membershipSettings', JSON.stringify(membershipSettings));
             alert('회원 설정이 저장되었습니다.');
@@ -271,9 +302,8 @@
 
         function saveSecuritySettings() {
             // Save security settings
-            const passwords = document.querySelectorAll('.bg-white.rounded-xl')[3].querySelectorAll('input[type="password"]');
-            const newPassword = passwords[0].value;
-            const confirmPassword = passwords[1].value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
             
             if (newPassword && newPassword !== confirmPassword) {
                 alert('비밀번호가 일치하지 않습니다.');
@@ -281,8 +311,8 @@
             }
             
             const securitySettings = {
-                twoFactorAuth: document.querySelectorAll('.bg-white.rounded-xl')[3].querySelectorAll('input[type="checkbox"]')[0].checked,
-                loginLogging: document.querySelectorAll('.bg-white.rounded-xl')[3].querySelectorAll('input[type="checkbox"]')[1].checked
+                twoFactorAuth: document.getElementById('twoFactorAuth').checked,
+                loginLogging: document.getElementById('loginLogging').checked
             };
             
             if (newPassword) {
@@ -293,8 +323,8 @@
             alert('보안 설정이 저장되었습니다.');
             
             // Clear password fields
-            passwords[0].value = '';
-            passwords[1].value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
         }
 
         // Backup button
