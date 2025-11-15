@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 관리 - CASHiQ Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <nav class="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-white hover:text-gray-200">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-xl font-bold">회원 관리</h1>
+                        <p class="text-sm opacity-90">Member Management</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition">
+                    <i class="fas fa-sign-out-alt mr-1"></i>로그아웃
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">전체 회원</p>
+                        <p class="text-3xl font-bold text-gray-800" id="totalMembers">0</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <i class="fas fa-users text-blue-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">무료 회원</p>
+                        <p class="text-3xl font-bold text-gray-800" id="freeMembers">0</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg">
+                        <i class="fas fa-user text-green-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">유료 회원</p>
+                        <p class="text-3xl font-bold text-gray-800" id="paidMembers">0</p>
+                    </div>
+                    <div class="bg-orange-100 p-3 rounded-lg">
+                        <i class="fas fa-crown text-orange-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="이름, 이메일, 전화번호로 검색..." 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                    >
+                </div>
+                <div>
+                    <select id="memberTypeFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                        <option value="all">전체 회원</option>
+                        <option value="free">무료 회원</option>
+                        <option value="paid">유료 회원</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="exportMembers()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                        <i class="fas fa-download mr-2"></i>내보내기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Members Table -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-list text-orange-600 mr-2"></i>회원 목록
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">이름</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">이메일</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">전화번호</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">회원 등급</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">가입일</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">상태</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersTableBody" class="divide-y divide-gray-200">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member Detail Modal -->
+    <div id="memberModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">회원 상세 정보</h3>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+
+                <div id="memberDetails" class="space-y-4">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <div class="mt-6 flex gap-4">
+                    <button onclick="upgradeMember()" class="flex-1 bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-700 transition">
+                        <i class="fas fa-crown mr-2"></i>유료 전환
+                    </button>
+                    <button onclick="suspendMember()" class="flex-1 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition">
+                        <i class="fas fa-ban mr-2"></i>정지
+                    </button>
+                    <button onclick="closeModal()" class="px-6 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const loggedIn = sessionStorage.getItem('adminLoggedIn');
+            if (!loggedIn) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            return true;
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        let members = [];
+        let currentMemberId = null;
+
+        // Load members
+        async function loadMembers() {
+            try {
+                const saved = localStorage.getItem('members');
+                if (saved) {
+                    members = JSON.parse(saved);
+                } else {
+                    const response = await fetch('../data/members.json');
+                    members = await response.json();
+                }
+                
+                // Generate sample data if empty
+                if (members.length === 0) {
+                    members = generateSampleMembers();
+                    localStorage.setItem('members', JSON.stringify(members));
+                }
+                
+                updateStats();
+                renderMembers();
+            } catch (error) {
+                console.error('Error loading members:', error);
+                members = generateSampleMembers();
+                updateStats();
+                renderMembers();
+            }
+        }
+
+        // Generate sample members for demo
+        function generateSampleMembers() {
+            const sampleMembers = [
+                {
+                    id: 1,
+                    name: '김철수',
+                    email: 'kim@example.com',
+                    phone: '010-1234-5678',
+                    type: 'paid',
+                    plan: '1년 프리미엄',
+                    joinDate: '2024-01-15',
+                    expireDate: '2025-01-14',
+                    status: 'active',
+                    searchCount: 45,
+                    lastLogin: '2024-11-15 09:30'
+                },
+                {
+                    id: 2,
+                    name: '이영희',
+                    email: 'lee@example.com',
+                    phone: '010-2345-6789',
+                    type: 'free',
+                    plan: '무료',
+                    joinDate: '2024-10-20',
+                    expireDate: null,
+                    status: 'active',
+                    searchCount: 2,
+                    lastLogin: '2024-11-15 14:20'
+                },
+                {
+                    id: 3,
+                    name: '박민수',
+                    email: 'park@example.com',
+                    phone: '010-3456-7890',
+                    type: 'paid',
+                    plan: '2년 프리미엄',
+                    joinDate: '2024-03-10',
+                    expireDate: '2026-03-09',
+                    status: 'active',
+                    searchCount: 120,
+                    lastLogin: '2024-11-14 18:45'
+                }
+            ];
+            return sampleMembers;
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = members.length;
+            const free = members.filter(m => m.type === 'free').length;
+            const paid = members.filter(m => m.type === 'paid').length;
+
+            document.getElementById('totalMembers').textContent = total;
+            document.getElementById('freeMembers').textContent = free;
+            document.getElementById('paidMembers').textContent = paid;
+        }
+
+        // Render members table
+        function renderMembers() {
+            const tbody = document.getElementById('membersTableBody');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const typeFilter = document.getElementById('memberTypeFilter').value;
+            
+            let filtered = members;
+            
+            // Apply search filter
+            if (searchTerm) {
+                filtered = filtered.filter(m => 
+                    m.name.toLowerCase().includes(searchTerm) ||
+                    m.email.toLowerCase().includes(searchTerm) ||
+                    m.phone.includes(searchTerm)
+                );
+            }
+            
+            // Apply type filter
+            if (typeFilter !== 'all') {
+                filtered = filtered.filter(m => m.type === typeFilter);
+            }
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="px-4 py-8 text-center text-gray-500">회원이 없습니다.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(member => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium">${member.id}</td>
+                    <td class="px-4 py-3">${member.name}</td>
+                    <td class="px-4 py-3 text-sm">${member.email}</td>
+                    <td class="px-4 py-3 text-sm">${member.phone}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-3 py-1 text-xs rounded-full ${member.type === 'paid' ? 'bg-orange-100 text-orange-800' : 'bg-gray-100 text-gray-800'}">
+                            ${member.type === 'paid' ? '유료 회원' : '무료 회원'}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-sm">${member.joinDate}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-3 py-1 text-xs rounded-full ${member.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${member.status === 'active' ? '활성' : '정지'}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <button onclick="viewMember(${member.id})" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // View member details
+        function viewMember(id) {
+            const member = members.find(m => m.id === id);
+            if (!member) return;
+
+            currentMemberId = id;
+
+            const details = document.getElementById('memberDetails');
+            details.innerHTML = `
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-600">이름</p>
+                        <p class="font-semibold">${member.name}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">회원 ID</p>
+                        <p class="font-semibold">#${member.id}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">이메일</p>
+                        <p class="font-semibold">${member.email}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">전화번호</p>
+                        <p class="font-semibold">${member.phone}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">회원 등급</p>
+                        <p class="font-semibold">${member.type === 'paid' ? '유료 회원' : '무료 회원'}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">플랜</p>
+                        <p class="font-semibold">${member.plan}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">가입일</p>
+                        <p class="font-semibold">${member.joinDate}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">만료일</p>
+                        <p class="font-semibold">${member.expireDate || 'N/A'}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">검색 횟수 (오늘)</p>
+                        <p class="font-semibold">${member.searchCount}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">마지막 로그인</p>
+                        <p class="font-semibold">${member.lastLogin}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">상태</p>
+                        <p class="font-semibold ${member.status === 'active' ? 'text-green-600' : 'text-red-600'}">
+                            ${member.status === 'active' ? '활성' : '정지'}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('memberModal').classList.remove('hidden');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('memberModal').classList.add('hidden');
+            currentMemberId = null;
+        }
+
+        // Upgrade to paid member
+        function upgradeMember() {
+            if (!currentMemberId) return;
+            
+            const member = members.find(m => m.id === currentMemberId);
+            if (!member) return;
+
+            if (confirm(`${member.name}님을 유료 회원으로 전환하시겠습니까?`)) {
+                member.type = 'paid';
+                member.plan = '1년 프리미엄';
+                const now = new Date();
+                const expire = new Date(now);
+                expire.setFullYear(expire.getFullYear() + 1);
+                member.expireDate = expire.toISOString().split('T')[0];
+
+                localStorage.setItem('members', JSON.stringify(members));
+                alert('유료 회원으로 전환되었습니다.');
+                
+                updateStats();
+                renderMembers();
+                closeModal();
+            }
+        }
+
+        // Suspend member
+        function suspendMember() {
+            if (!currentMemberId) return;
+            
+            const member = members.find(m => m.id === currentMemberId);
+            if (!member) return;
+
+            if (confirm(`${member.name}님의 계정을 정지하시겠습니까?`)) {
+                member.status = member.status === 'active' ? 'suspended' : 'active';
+                localStorage.setItem('members', JSON.stringify(members));
+                alert(member.status === 'active' ? '계정이 활성화되었습니다.' : '계정이 정지되었습니다.');
+                
+                renderMembers();
+                closeModal();
+            }
+        }
+
+        // Export members to CSV
+        function exportMembers() {
+            const csv = [
+                ['ID', '이름', '이메일', '전화번호', '회원등급', '플랜', '가입일', '만료일', '상태'],
+                ...members.map(m => [
+                    m.id,
+                    m.name,
+                    m.email,
+                    m.phone,
+                    m.type === 'paid' ? '유료' : '무료',
+                    m.plan,
+                    m.joinDate,
+                    m.expireDate || '',
+                    m.status === 'active' ? '활성' : '정지'
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `members_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', renderMembers);
+        document.getElementById('memberTypeFilter').addEventListener('change', renderMembers);
+
+        // Initialize
+        if (checkAuth()) {
+            loadMembers();
+        }
+    </script>
+</body>
+</html>
