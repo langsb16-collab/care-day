@@ -98,27 +98,57 @@
                     <textarea id="content" required rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="공지 내용을 입력하세요"></textarea>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-image mr-2 text-blue-600"></i>이미지 업로드
-                        </label>
-                        <input type="file" id="imageFile" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                        <input type="hidden" id="imageUrl">
-                        <div id="imagePreview" class="mt-2 hidden">
-                            <img id="previewImg" class="max-w-xs rounded-lg shadow-md" alt="미리보기">
-                            <button type="button" onclick="removeImage()" class="mt-2 text-sm text-red-600 hover:text-red-800">
-                                <i class="fas fa-times mr-1"></i>이미지 제거
+                <!-- Image Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-image mr-2 text-blue-600"></i>이미지 업로드
+                    </label>
+                    <input type="file" id="imageFile" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <input type="hidden" id="imageUrl">
+                    <div id="imagePreview" class="mt-2 hidden">
+                        <img id="previewImg" class="max-w-xs rounded-lg shadow-md" alt="미리보기">
+                        <button type="button" onclick="removeImage()" class="mt-2 text-sm text-red-600 hover:text-red-800">
+                            <i class="fas fa-times mr-1"></i>이미지 제거
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Video Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-video mr-2 text-red-600"></i>동영상 업로드
+                    </label>
+                    
+                    <!-- Tab Buttons -->
+                    <div class="flex space-x-2 mb-3">
+                        <button type="button" id="videoFileTabBtn" onclick="switchVideoTab('file')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg transition">
+                            <i class="fas fa-upload mr-1"></i>파일 업로드
+                        </button>
+                        <button type="button" id="videoUrlTabBtn" onclick="switchVideoTab('url')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
+                            <i class="fas fa-link mr-1"></i>YouTube URL
+                        </button>
+                    </div>
+                    
+                    <!-- File Upload Tab -->
+                    <div id="videoFileTab">
+                        <input type="file" id="videoFile" accept="video/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+                        <p class="mt-1 text-xs text-gray-500">MP4, WebM, AVI 형식 지원 (최대 100MB)</p>
+                        <input type="hidden" id="videoFileUrl">
+                        <div id="videoFilePreview" class="mt-2 hidden">
+                            <video id="previewVideo" class="max-w-md rounded-lg shadow-md" controls>
+                                <source id="videoSource" type="video/mp4">
+                                브라우저가 동영상을 지원하지 않습니다.
+                            </video>
+                            <button type="button" onclick="removeVideo()" class="mt-2 text-sm text-red-600 hover:text-red-800">
+                                <i class="fas fa-times mr-1"></i>동영상 제거
                             </button>
                         </div>
                     </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-video mr-2 text-red-600"></i>동영상 URL (YouTube)
-                        </label>
-                        <input type="text" id="videoUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="https://youtu.be/xxxxx">
-                        <p class="mt-1 text-xs text-gray-500">YouTube 링크를 입력하세요</p>
+                    
+                    <!-- URL Tab -->
+                    <div id="videoUrlTab" class="hidden">
+                        <input type="text" id="videoUrl" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500" placeholder="https://youtu.be/xxxxx 또는 https://www.youtube.com/watch?v=xxxxx">
+                        <p class="mt-1 text-xs text-gray-500">YouTube 동영상 링크를 입력하세요</p>
                     </div>
                 </div>
 
@@ -355,11 +385,83 @@
             document.getElementById('imagePreview').classList.add('hidden');
         }
 
+        // Switch video tab
+        function switchVideoTab(tab) {
+            const fileTab = document.getElementById('videoFileTab');
+            const urlTab = document.getElementById('videoUrlTab');
+            const fileBtn = document.getElementById('videoFileTabBtn');
+            const urlBtn = document.getElementById('videoUrlTabBtn');
+            
+            if (tab === 'file') {
+                fileTab.classList.remove('hidden');
+                urlTab.classList.add('hidden');
+                fileBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                fileBtn.classList.add('bg-red-600', 'text-white');
+                urlBtn.classList.remove('bg-red-600', 'text-white');
+                urlBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            } else {
+                fileTab.classList.add('hidden');
+                urlTab.classList.remove('hidden');
+                urlBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                urlBtn.classList.add('bg-red-600', 'text-white');
+                fileBtn.classList.remove('bg-red-600', 'text-white');
+                fileBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            }
+        }
+
+        // Video file upload handler
+        document.getElementById('videoFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Check file size (max 100MB)
+                const maxSize = 100 * 1024 * 1024; // 100MB in bytes
+                if (file.size > maxSize) {
+                    alert('동영상 파일 크기는 100MB를 초과할 수 없습니다.');
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const videoUrl = event.target.result;
+                    document.getElementById('videoFileUrl').value = videoUrl;
+                    
+                    // Show preview
+                    const videoSource = document.getElementById('videoSource');
+                    const previewVideo = document.getElementById('previewVideo');
+                    
+                    videoSource.src = videoUrl;
+                    videoSource.type = file.type;
+                    previewVideo.load();
+                    
+                    document.getElementById('videoFilePreview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Remove video
+        function removeVideo() {
+            document.getElementById('videoFile').value = '';
+            document.getElementById('videoFileUrl').value = '';
+            document.getElementById('videoFilePreview').classList.add('hidden');
+            
+            const previewVideo = document.getElementById('previewVideo');
+            previewVideo.pause();
+            previewVideo.src = '';
+        }
+
         // Save notice
         document.getElementById('noticeForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const noticeId = document.getElementById('noticeId').value;
+            
+            // Get video URL (either from file or URL input)
+            const videoFileUrl = document.getElementById('videoFileUrl').value;
+            const videoUrlInput = document.getElementById('videoUrl').value;
+            const finalVideoUrl = videoFileUrl || videoUrlInput;
+            
             const notice = {
                 id: noticeId ? parseInt(noticeId) : Date.now(),
                 title: document.getElementById('title').value,
@@ -369,7 +471,8 @@
                 summary: document.getElementById('summary').value,
                 content: document.getElementById('content').value,
                 imageUrl: document.getElementById('imageUrl').value,
-                videoUrl: document.getElementById('videoUrl').value,
+                videoUrl: finalVideoUrl,
+                videoType: videoFileUrl ? 'file' : (videoUrlInput ? 'url' : ''),
                 startDate: document.getElementById('startDate').value,
                 endDate: document.getElementById('endDate').value,
                 pinned: document.getElementById('pinned').checked,
@@ -408,7 +511,6 @@
             document.getElementById('summary').value = notice.summary;
             document.getElementById('content').value = notice.content;
             document.getElementById('imageUrl').value = notice.imageUrl || '';
-            document.getElementById('videoUrl').value = notice.videoUrl || '';
             document.getElementById('startDate').value = notice.startDate || '';
             document.getElementById('endDate').value = notice.endDate || '';
             document.getElementById('pinned').checked = notice.pinned || false;
@@ -420,6 +522,31 @@
                 document.getElementById('imagePreview').classList.remove('hidden');
             } else {
                 document.getElementById('imagePreview').classList.add('hidden');
+            }
+
+            // Load video data
+            if (notice.videoUrl) {
+                if (notice.videoType === 'file') {
+                    // Video file upload
+                    switchVideoTab('file');
+                    document.getElementById('videoFileUrl').value = notice.videoUrl;
+                    
+                    // Show video preview
+                    const videoSource = document.getElementById('videoSource');
+                    const previewVideo = document.getElementById('previewVideo');
+                    videoSource.src = notice.videoUrl;
+                    previewVideo.load();
+                    document.getElementById('videoFilePreview').classList.remove('hidden');
+                } else {
+                    // YouTube URL
+                    switchVideoTab('url');
+                    document.getElementById('videoUrl').value = notice.videoUrl;
+                }
+            } else {
+                // No video, reset
+                document.getElementById('videoUrl').value = '';
+                document.getElementById('videoFileUrl').value = '';
+                document.getElementById('videoFilePreview').classList.add('hidden');
             }
 
             document.getElementById('formTitle').textContent = '공지 수정';
@@ -446,6 +573,14 @@
             document.getElementById('noticeId').value = '';
             document.getElementById('imageUrl').value = '';
             document.getElementById('imagePreview').classList.add('hidden');
+            
+            // Reset video
+            document.getElementById('videoFile').value = '';
+            document.getElementById('videoFileUrl').value = '';
+            document.getElementById('videoUrl').value = '';
+            document.getElementById('videoFilePreview').classList.add('hidden');
+            switchVideoTab('file'); // Reset to file tab
+            
             document.getElementById('formTitle').textContent = '공지 등록';
             document.querySelector('form button[type="submit"]').innerHTML = '<i class="fas fa-save mr-2"></i>저장';
         }
