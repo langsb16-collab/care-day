@@ -175,6 +175,89 @@
                     </label>
                 </div>
 
+                <!-- Position Settings -->
+                <div class="bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">
+                        <i class="fas fa-arrows-alt text-blue-600 mr-2"></i>팝업 위치 설정
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Position Preset -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                위치 프리셋 <span class="text-red-500">*</span>
+                            </label>
+                            <select id="positionPreset" onchange="updatePositionPreview()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="center">정중앙</option>
+                                <option value="top-left">왼쪽 상단</option>
+                                <option value="top-center">중앙 상단</option>
+                                <option value="top-right">오른쪽 상단</option>
+                                <option value="center-left">왼쪽 중앙</option>
+                                <option value="center-right">오른쪽 중앙</option>
+                                <option value="bottom-left">왼쪽 하단</option>
+                                <option value="bottom-center">중앙 하단</option>
+                                <option value="bottom-right">오른쪽 하단</option>
+                                <option value="custom">사용자 지정</option>
+                            </select>
+                        </div>
+
+                        <!-- Position Preview -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                위치 미리보기
+                            </label>
+                            <div class="border-2 border-gray-300 rounded-lg p-2 bg-white" style="height: 100px; position: relative;">
+                                <div id="positionPreview" class="absolute bg-blue-500 rounded" style="width: 20px; height: 20px; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Position Settings (Hidden by default) -->
+                    <div id="customPositionSettings" class="mt-4 hidden">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-arrow-down mr-1"></i>위쪽에서 (픽셀)
+                                </label>
+                                <input type="number" id="positionTop" value="" min="0" placeholder="예: 100" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="updatePositionPreview()">
+                                <p class="text-xs text-gray-500 mt-1">비워두면 자동 배치</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-arrow-up mr-1"></i>아래쪽에서 (픽셀)
+                                </label>
+                                <input type="number" id="positionBottom" value="" min="0" placeholder="예: 100" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="updatePositionPreview()">
+                                <p class="text-xs text-gray-500 mt-1">비워두면 자동 배치</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-arrow-right mr-1"></i>왼쪽에서 (픽셀)
+                                </label>
+                                <input type="number" id="positionLeft" value="" min="0" placeholder="예: 100" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="updatePositionPreview()">
+                                <p class="text-xs text-gray-500 mt-1">비워두면 자동 배치</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-arrow-left mr-1"></i>오른쪽에서 (픽셀)
+                                </label>
+                                <input type="number" id="positionRight" value="" min="0" placeholder="예: 100" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="updatePositionPreview()">
+                                <p class="text-xs text-gray-500 mt-1">비워두면 자동 배치</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="text-sm text-yellow-800">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                <strong>팁:</strong> top/bottom 중 하나, left/right 중 하나만 설정하세요. 
+                                예: 왼쪽 상단 = top: 50, left: 50
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="flex space-x-4">
                     <button type="submit" class="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
                         <i class="fas fa-save mr-2"></i>저장
@@ -392,6 +475,17 @@
             e.preventDefault();
 
             const popupId = document.getElementById('popupId').value;
+            
+            // Get position settings
+            const positionPreset = document.getElementById('positionPreset').value;
+            const position = {
+                preset: positionPreset,
+                top: document.getElementById('positionTop').value,
+                bottom: document.getElementById('positionBottom').value,
+                left: document.getElementById('positionLeft').value,
+                right: document.getElementById('positionRight').value
+            };
+            
             const popup = {
                 id: popupId ? parseInt(popupId) : Date.now(),
                 title: document.getElementById('title').value,
@@ -405,6 +499,7 @@
                 endDate: document.getElementById('endDate').value,
                 showOn: document.getElementById('showOn').value,
                 active: document.getElementById('active').checked,
+                position: position,
                 createdAt: popupId ? popups.find(p => p.id === parseInt(popupId)).createdAt : new Date().toISOString(),
                 updatedAt: new Date().toISOString()
             };
@@ -443,6 +538,16 @@
             document.getElementById('endDate').value = popup.endDate;
             document.getElementById('showOn').value = popup.showOn;
             document.getElementById('active').checked = popup.active;
+
+            // Load position settings
+            if (popup.position) {
+                document.getElementById('positionPreset').value = popup.position.preset || 'center';
+                document.getElementById('positionTop').value = popup.position.top || '';
+                document.getElementById('positionBottom').value = popup.position.bottom || '';
+                document.getElementById('positionLeft').value = popup.position.left || '';
+                document.getElementById('positionRight').value = popup.position.right || '';
+                updatePositionPreview();
+            }
 
             // Show existing image preview if available
             if (popup.imageUrl) {
@@ -605,6 +710,75 @@
             alert('사진이 캡처되었습니다! ✅');
             console.log('📸 Photo captured successfully');
         }
+
+        // Position preset handler
+        function updatePositionPreview() {
+            const preset = document.getElementById('positionPreset').value;
+            const customSettings = document.getElementById('customPositionSettings');
+            const preview = document.getElementById('positionPreview');
+            
+            // Show/hide custom settings
+            if (preset === 'custom') {
+                customSettings.classList.remove('hidden');
+            } else {
+                customSettings.classList.add('hidden');
+                // Clear custom values
+                document.getElementById('positionTop').value = '';
+                document.getElementById('positionBottom').value = '';
+                document.getElementById('positionLeft').value = '';
+                document.getElementById('positionRight').value = '';
+            }
+            
+            // Update preview position
+            const positions = {
+                'center': { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+                'top-left': { top: '10%', left: '10%', transform: 'none' },
+                'top-center': { top: '10%', left: '50%', transform: 'translateX(-50%)' },
+                'top-right': { top: '10%', right: '10%', left: 'auto', transform: 'none' },
+                'center-left': { top: '50%', left: '10%', transform: 'translateY(-50%)' },
+                'center-right': { top: '50%', right: '10%', left: 'auto', transform: 'translateY(-50%)' },
+                'bottom-left': { bottom: '10%', top: 'auto', left: '10%', transform: 'none' },
+                'bottom-center': { bottom: '10%', top: 'auto', left: '50%', transform: 'translateX(-50%)' },
+                'bottom-right': { bottom: '10%', top: 'auto', right: '10%', left: 'auto', transform: 'none' }
+            };
+            
+            if (preset === 'custom') {
+                // Use custom values
+                const top = document.getElementById('positionTop').value;
+                const bottom = document.getElementById('positionBottom').value;
+                const left = document.getElementById('positionLeft').value;
+                const right = document.getElementById('positionRight').value;
+                
+                preview.style.top = top ? top + 'px' : 'auto';
+                preview.style.bottom = bottom ? bottom + 'px' : 'auto';
+                preview.style.left = left ? left + 'px' : 'auto';
+                preview.style.right = right ? right + 'px' : 'auto';
+                preview.style.transform = 'none';
+                
+                // If nothing set, default to center
+                if (!top && !bottom && !left && !right) {
+                    preview.style.top = '50%';
+                    preview.style.left = '50%';
+                    preview.style.transform = 'translate(-50%, -50%)';
+                }
+            } else {
+                // Use preset
+                const pos = positions[preset];
+                preview.style.top = pos.top || 'auto';
+                preview.style.bottom = pos.bottom || 'auto';
+                preview.style.left = pos.left || 'auto';
+                preview.style.right = pos.right || 'auto';
+                preview.style.transform = pos.transform || 'none';
+            }
+        }
+        
+        // Initialize position preview on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePositionPreview();
+            
+            // Add change listener to position preset
+            document.getElementById('positionPreset').addEventListener('change', updatePositionPreview);
+        });
 
         // Initialize
         if (checkAuth()) {

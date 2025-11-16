@@ -85,6 +85,37 @@ class PopupManager {
         const width = isMobile ? Math.min(popup.width, window.innerWidth - 40) : popup.width;
         const height = isMobile ? 'auto' : Math.min(popup.height, window.innerHeight - 100);
         
+        // Apply position settings
+        let positionStyle = '';
+        if (popup.position) {
+            const preset = popup.position.preset || 'center';
+            
+            if (preset === 'custom') {
+                // Use custom position values
+                if (popup.position.top) positionStyle += `top: ${popup.position.top}px;`;
+                if (popup.position.bottom) positionStyle += `bottom: ${popup.position.bottom}px;`;
+                if (popup.position.left) positionStyle += `left: ${popup.position.left}px;`;
+                if (popup.position.right) positionStyle += `right: ${popup.position.right}px;`;
+            } else {
+                // Use preset positions
+                const presets = {
+                    'center': 'top: 50%; left: 50%; transform: translate(-50%, -50%);',
+                    'top-left': 'top: 50px; left: 50px;',
+                    'top-center': 'top: 50px; left: 50%; transform: translateX(-50%);',
+                    'top-right': 'top: 50px; right: 50px;',
+                    'center-left': 'top: 50%; left: 50px; transform: translateY(-50%);',
+                    'center-right': 'top: 50%; right: 50px; transform: translateY(-50%);',
+                    'bottom-left': 'bottom: 50px; left: 50px;',
+                    'bottom-center': 'bottom: 50px; left: 50%; transform: translateX(-50%);',
+                    'bottom-right': 'bottom: 50px; right: 50px;'
+                };
+                positionStyle = presets[preset] || presets['center'];
+            }
+        } else {
+            // Default to center if no position specified
+            positionStyle = 'top: 50%; left: 50%; transform: translate(-50%, -50%);';
+        }
+        
         container.style.cssText = `
             background: white;
             border-radius: 16px;
@@ -94,8 +125,10 @@ class PopupManager {
             ${height !== 'auto' ? `height: ${height}px;` : ''}
             max-height: 90vh;
             overflow-y: auto;
-            position: relative;
+            position: fixed;
+            ${positionStyle}
             animation: slideIn 0.3s ease-out;
+            z-index: 10000;
         `;
 
         // Create close button
