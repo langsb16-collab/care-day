@@ -2,13 +2,8 @@
 
 // Mobile Menu Toggle
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Main.js loaded');
-    
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    
-    console.log('Mobile menu toggle:', mobileMenuToggle);
-    console.log('Mobile menu:', mobileMenu);
     
     if (mobileMenuToggle && mobileMenu) {
         // Remove any existing listeners to prevent duplicates
@@ -18,52 +13,26 @@ document.addEventListener('DOMContentLoaded', function() {
         newToggle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('📱 Menu toggle clicked!');
             
-            const wasHidden = mobileMenu.classList.contains('hidden');
             mobileMenu.classList.toggle('hidden');
             
-            console.log('Menu was hidden:', wasHidden);
-            console.log('Menu is now hidden:', mobileMenu.classList.contains('hidden'));
-            console.log('Menu display:', window.getComputedStyle(mobileMenu).display);
-            
-            // Toggle icon
+            // Toggle icon with smooth animation
             const icon = this.querySelector('i');
             if (icon) {
                 if (mobileMenu.classList.contains('hidden')) {
                     icon.classList.remove('fa-times');
                     icon.classList.add('fa-bars');
-                    console.log('Icon changed to bars');
                 } else {
                     icon.classList.remove('fa-bars');
                     icon.classList.add('fa-times');
-                    console.log('Icon changed to times');
                 }
             }
         });
         
         // Add touch event listener for better mobile support
         newToggle.addEventListener('touchstart', function(e) {
-            console.log('📱 Touch event detected');
+            // Touch support enabled
         }, { passive: true });
-        
-        console.log('✅ Mobile menu listener attached');
-    } else {
-        console.error('❌ Mobile menu elements not found!');
-        console.log('Available elements with IDs:', 
-            Array.from(document.querySelectorAll('[id]')).map(el => el.id)
-        );
-    }
-    
-    // Close mobile menu when clicking on a link
-    if (mobileMenu) {
-        const menuLinks = mobileMenu.querySelectorAll('a');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                console.log('📱 Menu link clicked:', this.href);
-                // Don't close menu, let the link navigate
-            });
-        });
     }
 });
 

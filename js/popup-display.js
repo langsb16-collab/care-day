@@ -27,67 +27,33 @@ class PopupManager {
 
     async loadAndShowPopup() {
         try {
-            console.log('🎪 Loading popups...');
-            console.log('Current page:', this.currentPage);
-            
             // Try localStorage first (for admin updates)
             let popups = [];
             const saved = localStorage.getItem('popups');
             
             if (saved) {
                 popups = JSON.parse(saved);
-                console.log('✅ Loaded', popups.length, 'popups from localStorage');
             } else {
-                console.log('📂 Loading from /data/popups.json');
                 const response = await fetch('/data/popups.json');
                 popups = await response.json();
-                console.log('✅ Loaded', popups.length, 'popups from file');
             }
-            
-            console.log('All popups:', popups);
 
             // Filter active popups for this page
             const now = new Date();
-            console.log('Current time:', now);
-            
             const activePopups = popups.filter(popup => {
-                console.log('Checking popup:', popup.title);
-                console.log('  - Active:', popup.active);
-                console.log('  - ShowOn:', popup.showOn, '(current:', this.currentPage + ')');
-                console.log('  - Start:', popup.startDate, new Date(popup.startDate) <= now);
-                console.log('  - End:', popup.endDate, new Date(popup.endDate) >= now);
-                
-                if (!popup.active) {
-                    console.log('  ❌ Not active');
-                    return false;
-                }
-                if (popup.showOn !== 'all' && popup.showOn !== this.currentPage) {
-                    console.log('  ❌ Wrong page');
-                    return false;
-                }
-                if (new Date(popup.startDate) > now) {
-                    console.log('  ❌ Not yet started');
-                    return false;
-                }
-                if (new Date(popup.endDate) < now) {
-                    console.log('  ❌ Already ended');
-                    return false;
-                }
-                console.log('  ✅ Popup passed filters!');
+                if (!popup.active) return false;
+                if (popup.showOn !== 'all' && popup.showOn !== this.currentPage) return false;
+                if (new Date(popup.startDate) > now) return false;
+                if (new Date(popup.endDate) < now) return false;
                 return true;
             });
-
-            console.log('Active popups:', activePopups.length);
             
             if (activePopups.length > 0) {
-                console.log('🎉 Showing popup:', activePopups[0].title);
                 // Show the first active popup
                 this.showPopup(activePopups[0]);
-            } else {
-                console.log('ℹ️ No active popups to show');
             }
         } catch (error) {
-            console.error('❌ Error loading popups:', error);
+            console.error('Error loading popups:', error);
         }
     }
 
