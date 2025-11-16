@@ -233,6 +233,4 @@ function sharePage() {
     }
 }
 
-// Console log for debugging
-console.log('🧠 Brain Disease Care Website loaded successfully');
-console.log('Current page:', window.location.pathname);
+// Website loaded successfully

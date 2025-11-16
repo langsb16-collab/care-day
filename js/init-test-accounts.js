@@ -43,11 +43,6 @@
         
         // localStorage에 저장
         localStorage.setItem('members', JSON.stringify(members));
-        
-        console.log('✅ 테스트 계정 생성 완료:');
-        console.log('1. 아이디: guest / 비밀번호: 12345 (프리미엄 2년)');
-        console.log('2. 아이디: locks88@naver.com / 비밀번호: 12345 (프리미엄 2년)');
-        console.log('로그인 페이지: /auth/login.html');
     }
     
     // 페이지 로드 시 자동 실행
