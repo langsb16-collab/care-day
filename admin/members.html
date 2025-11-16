@@ -141,8 +141,11 @@
                     <button onclick="upgradeMember()" class="flex-1 bg-orange-600 text-white py-3 rounded-lg hover:bg-orange-700 transition">
                         <i class="fas fa-crown mr-2"></i>유료 전환
                     </button>
-                    <button onclick="suspendMember()" class="flex-1 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition">
+                    <button onclick="suspendMember()" class="flex-1 bg-yellow-600 text-white py-3 rounded-lg hover:bg-yellow-700 transition">
                         <i class="fas fa-ban mr-2"></i>정지
+                    </button>
+                    <button onclick="deleteMemberFromModal()" class="flex-1 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition">
+                        <i class="fas fa-trash mr-2"></i>삭제
                     </button>
                     <button onclick="closeModal()" class="px-6 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition">
                         닫기
@@ -300,8 +303,11 @@
                         </span>
                     </td>
                     <td class="px-4 py-3">
-                        <button onclick="viewMember(${member.id})" class="text-blue-600 hover:text-blue-800">
+                        <button onclick="viewMember(${member.id})" class="text-blue-600 hover:text-blue-800 mr-3" title="상세 보기">
                             <i class="fas fa-eye"></i>
+                        </button>
+                        <button onclick="deleteMember(${member.id})" class="text-red-600 hover:text-red-800" title="삭제">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 </tr>
@@ -412,6 +418,39 @@
                 localStorage.setItem('members', JSON.stringify(members));
                 alert(member.status === 'active' ? '계정이 활성화되었습니다.' : '계정이 정지되었습니다.');
                 
+                renderMembers();
+                closeModal();
+            }
+        }
+
+        // Delete member from table
+        function deleteMember(id) {
+            const member = members.find(m => m.id === id);
+            if (!member) return;
+
+            if (confirm(`${member.name}님의 계정을 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없습니다.`)) {
+                members = members.filter(m => m.id !== id);
+                localStorage.setItem('members', JSON.stringify(members));
+                alert('회원이 삭제되었습니다.');
+                
+                updateStats();
+                renderMembers();
+            }
+        }
+
+        // Delete member from modal
+        function deleteMemberFromModal() {
+            if (!currentMemberId) return;
+            
+            const member = members.find(m => m.id === currentMemberId);
+            if (!member) return;
+
+            if (confirm(`${member.name}님의 계정을 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없습니다.`)) {
+                members = members.filter(m => m.id !== currentMemberId);
+                localStorage.setItem('members', JSON.stringify(members));
+                alert('회원이 삭제되었습니다.');
+                
+                updateStats();
                 renderMembers();
                 closeModal();
             }
