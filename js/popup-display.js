@@ -129,15 +129,18 @@ class PopupManager {
 
         let html = `<h2 style="font-size: 24px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">${popup.title}</h2>`;
         
-        if (popup.content) {
-            html += `<p style="margin-bottom: 16px; color: #4b5563; line-height: 1.6;">${popup.content.replace(/\n/g, '<br>')}</p>`;
+        // Always show content if available
+        if (popup.content && popup.content.trim()) {
+            html += `<div style="margin-bottom: 16px; color: #4b5563; line-height: 1.6; white-space: pre-wrap;">${popup.content.replace(/\n/g, '<br>')}</div>`;
         }
 
-        if (popup.type === 'image' && popup.imageUrl) {
-            html += `<div style="text-align: center;"><img src="${popup.imageUrl}" alt="${popup.title}" style="max-width: 100%; height: auto; border-radius: 8px;"></div>`;
+        // Show image only if type is 'image' AND imageUrl exists
+        if (popup.type === 'image' && popup.imageUrl && popup.imageUrl.trim()) {
+            html += `<div style="text-align: center; margin-top: 16px;"><img src="${popup.imageUrl}" alt="${popup.title}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>`;
         }
 
-        if (popup.type === 'video' && popup.videoUrl) {
+        // Show video only if type is 'video' AND videoUrl exists
+        if (popup.type === 'video' && popup.videoUrl && popup.videoUrl.trim()) {
             const videoId = popup.videoUrl.includes('youtu.be') ? 
                 popup.videoUrl.split('/').pop() : 
                 popup.videoUrl.split('v=')[1]?.split('&')[0];
@@ -155,6 +158,11 @@ class PopupManager {
                     </div>
                 `;
             }
+        }
+
+        // If no content at all, show a placeholder
+        if (!html || html === `<h2 style="font-size: 24px; font-weight: bold; margin-bottom: 16px; color: #1f2937;">${popup.title}</h2>`) {
+            html += `<p style="color: #9ca3af; text-align: center; padding: 20px;">내용이 없습니다.</p>`;
         }
 
         content.innerHTML = html;

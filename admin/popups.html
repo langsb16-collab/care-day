@@ -75,16 +75,22 @@
                         <!-- Tab Buttons -->
                         <div class="flex space-x-2 mb-3">
                             <button type="button" id="fileTabBtn" onclick="switchUploadTab('file')" class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg transition">
-                                파일 선택
+                                <i class="fas fa-file-upload mr-1"></i>파일 업로드
                             </button>
                             <button type="button" id="cameraTabBtn" onclick="switchUploadTab('camera')" class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
-                                사진인 카메라 업로드
+                                <i class="fas fa-camera mr-1"></i>카메라 촬영
                             </button>
                         </div>
                         
                         <!-- File Upload Tab -->
                         <div id="fileUploadTab">
-                            <input type="file" id="imageFile" accept="image/*" class="w-full px-4 py-2 border-2 border-green-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-600 file:text-white hover:file:bg-green-700 file:cursor-pointer cursor-pointer">
+                            <div class="border-2 border-dashed border-green-300 rounded-lg p-4 text-center hover:border-green-500 transition">
+                                <input type="file" id="imageFile" accept="image/*" class="hidden">
+                                <button type="button" onclick="document.getElementById('imageFile').click()" class="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                                    <i class="fas fa-upload mr-2"></i>이미지 파일 선택
+                                </button>
+                                <p class="text-sm text-gray-500 mt-2">JPG, PNG, GIF 형식 지원</p>
+                            </div>
                         </div>
                         
                         <!-- Camera Upload Tab -->
