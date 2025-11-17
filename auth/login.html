@@ -141,7 +141,7 @@
 
             <!-- Social Login -->
             <div class="space-y-3">
-                <button type="button" onclick="alert('Google 로그인 기능은 준비 중입니다.')" class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                <button type="button" onclick="socialLogin('google')" class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
                     <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -150,11 +150,11 @@
                     </svg>
                     <span class="font-medium text-gray-700">구글로 시작하기</span>
                 </button>
-                <button type="button" onclick="alert('카카오 로그인 기능은 준비 중입니다.')" class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                <button type="button" onclick="socialLogin('kakao')" class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
                     <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" alt="Kakao" class="h-5 mr-2">
                     <span class="font-medium text-gray-700">카카오로 시작하기</span>
                 </button>
-                <button type="button" onclick="alert('네이버 로그인 기능은 준비 중입니다.')" class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                <button type="button" onclick="socialLogin('naver')" class="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
                     <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24">
                         <path fill="#03C75A" d="M12.04 2C6.58 2 2.13 5.73 2.13 10.26c0 2.89 1.95 5.42 4.88 6.84-.18.66-.7 2.61-.81 3.02-.13.5-.09.68.16.82.2.12.53.02.8-.11.34-.18 3.18-2.09 4.32-2.84.46.06.94.09 1.56.09 5.46 0 9.91-3.73 9.91-8.26C21.95 5.73 17.5 2 12.04 2z"/>
                     </svg>
@@ -335,6 +335,72 @@
                 closeForgotPassword();
             }
         });
+
+        // Social Login
+        function socialLogin(provider) {
+            // Show loading
+            const providerNames = {
+                'google': 'Google',
+                'kakao': '카카오',
+                'naver': '네이버'
+            };
+            
+            const providerName = providerNames[provider];
+            
+            // Simulate OAuth flow
+            const confirmLogin = confirm(`${providerName} 계정으로 로그인하시겠습니까?\n\n자동으로 회원가입 및 로그인됩니다.`);
+            
+            if (!confirmLogin) return;
+
+            // Get members from localStorage
+            let members = JSON.parse(localStorage.getItem('members') || '[]');
+            
+            // Generate social user ID
+            const socialId = `${provider}_user_${Date.now()}`;
+            const socialEmail = `${provider}user@${provider}.com`;
+            
+            // Check if social user already exists
+            let socialUser = members.find(m => m.socialProvider === provider && m.socialId);
+            
+            if (!socialUser) {
+                // Create new social user
+                const maxId = members.length > 0 ? Math.max(...members.map(m => m.id || 0)) : 0;
+                socialUser = {
+                    id: maxId + 1,
+                    username: socialId,
+                    email: socialEmail,
+                    password: Math.random().toString(36).slice(-8), // Random password
+                    name: `${providerName} 사용자`,
+                    phone: '010-0000-0000',
+                    type: 'paid',
+                    plan: '2년 프리미엄',
+                    joinDate: new Date().toISOString().split('T')[0],
+                    expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    status: 'active',
+                    searchCount: 0,
+                    lastLogin: new Date().toISOString(),
+                    visitCount: 1,
+                    lastIP: getClientIP(),
+                    socialProvider: provider,
+                    socialId: socialId
+                };
+                
+                members.push(socialUser);
+                localStorage.setItem('members', JSON.stringify(members));
+            } else {
+                // Update existing social user
+                socialUser.lastLogin = new Date().toISOString();
+                socialUser.visitCount = (socialUser.visitCount || 0) + 1;
+                socialUser.lastIP = getClientIP();
+                localStorage.setItem('members', JSON.stringify(members));
+            }
+            
+            // Save session
+            sessionStorage.setItem('currentUser', JSON.stringify(socialUser));
+            
+            alert(`${providerName} 로그인 성공!\n환영합니다, ${socialUser.name}님!`);
+            window.location.href = '../index.html';
+        }
     </script>
     <script src="../js/init-test-accounts.js"></script>
 </body>
