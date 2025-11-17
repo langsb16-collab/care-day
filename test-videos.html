@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재활운동 영상 테스트 - CASHiQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">
+            <i class="fas fa-video text-red-600 mr-3"></i>
+            재활운동 영상 재생 테스트
+        </h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-700">테스트 현황</h2>
+                <button onclick="startTest()" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-play mr-2"></i>전체 테스트 시작
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-4">
+                <div class="text-center p-4 bg-blue-50 rounded-lg">
+                    <p class="text-sm text-gray-600 mb-1">상지 재활</p>
+                    <p class="text-3xl font-bold text-blue-600"><span id="upperCount">0</span>/30</p>
+                    <p class="text-xs text-gray-500 mt-1">✅ <span id="upperSuccess">0</span> | ❌ <span id="upperFail">0</span></p>
+                </div>
+                <div class="text-center p-4 bg-green-50 rounded-lg">
+                    <p class="text-sm text-gray-600 mb-1">하지 재활</p>
+                    <p class="text-3xl font-bold text-green-600"><span id="lowerCount">0</span>/30</p>
+                    <p class="text-xs text-gray-500 mt-1">✅ <span id="lowerSuccess">0</span> | ❌ <span id="lowerFail">0</span></p>
+                </div>
+                <div class="text-center p-4 bg-purple-50 rounded-lg">
+                    <p class="text-sm text-gray-600 mb-1">언어 재활</p>
+                    <p class="text-3xl font-bold text-purple-600"><span id="speechCount">0</span>/30</p>
+                    <p class="text-xs text-gray-500 mt-1">✅ <span id="speechSuccess">0</span> | ❌ <span id="speechFail">0</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="space-y-6">
+            <!-- Upper Body -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-bold text-blue-600 mb-4">
+                    <i class="fas fa-hand-paper mr-2"></i>상지 재활운동 (30개)
+                </h3>
+                <div id="upperResults" class="space-y-2"></div>
+            </div>
+
+            <!-- Lower Body -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-bold text-green-600 mb-4">
+                    <i class="fas fa-walking mr-2"></i>하지 재활운동 (30개)
+                </h3>
+                <div id="lowerResults" class="space-y-2"></div>
+            </div>
+
+            <!-- Speech -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-bold text-purple-600 mb-4">
+                    <i class="fas fa-comments mr-2"></i>언어 재활운동 (30개)
+                </h3>
+                <div id="speechResults" class="space-y-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/rehab-videos.js"></script>
+    <script>
+        let testResults = {
+            upper: { success: 0, fail: 0 },
+            lower: { success: 0, fail: 0 },
+            speech: { success: 0, fail: 0 }
+        };
+
+        async function testVideo(youtubeId) {
+            return new Promise((resolve) => {
+                // Method 1: Try to load thumbnail
+                const img = new Image();
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+                img.src = `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`;
+                
+                // Timeout after 5 seconds
+                setTimeout(() => resolve(false), 5000);
+            });
+        }
+
+        async function testCategory(category, categoryName) {
+            const videos = rehabVideos[category];
+            const resultsDiv = document.getElementById(`${category}Results`);
+            const countSpan = document.getElementById(`${category}Count`);
+            const successSpan = document.getElementById(`${category}Success`);
+            const failSpan = document.getElementById(`${category}Fail`);
+            
+            resultsDiv.innerHTML = '<p class="text-gray-500">테스트 중...</p>';
+            
+            for (let i = 0; i < videos.length; i++) {
+                const video = videos[i];
+                countSpan.textContent = i + 1;
+                
+                const isAvailable = await testVideo(video.youtubeId);
+                
+                if (isAvailable) {
+                    testResults[category].success++;
+                } else {
+                    testResults[category].fail++;
+                }
+                
+                successSpan.textContent = testResults[category].success;
+                failSpan.textContent = testResults[category].fail;
+                
+                const resultHtml = `
+                    <div class="flex items-center gap-3 p-3 rounded-lg ${isAvailable ? 'bg-green-50' : 'bg-red-50'}">
+                        <span class="text-2xl">${isAvailable ? '✅' : '❌'}</span>
+                        <div class="flex-1">
+                            <p class="font-semibold text-gray-800">${video.title}</p>
+                            <p class="text-sm text-gray-600">${video.description}</p>
+                            <div class="flex items-center gap-4 mt-1 text-xs text-gray-500">
+                                <span><i class="fas fa-clock mr-1"></i>${video.duration}</span>
+                                <span>${video.level}</span>
+                                <span>${video.channel}</span>
+                                <a href="https://www.youtube.com/watch?v=${video.youtubeId}" 
+                                   target="_blank" 
+                                   class="text-red-600 hover:underline">
+                                    <i class="fab fa-youtube mr-1"></i>YouTube
+                                </a>
+                            </div>
+                        </div>
+                        <button onclick="playTestVideo('${video.youtubeId}')" 
+                                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                            <i class="fas fa-play mr-1"></i>재생
+                        </button>
+                    </div>
+                `;
+                
+                if (i === 0) {
+                    resultsDiv.innerHTML = resultHtml;
+                } else {
+                    resultsDiv.innerHTML += resultHtml;
+                }
+                
+                // Small delay between tests
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+        }
+
+        async function startTest() {
+            // Reset
+            testResults = {
+                upper: { success: 0, fail: 0 },
+                lower: { success: 0, fail: 0 },
+                speech: { success: 0, fail: 0 }
+            };
+            
+            alert('테스트를 시작합니다. 약 30초 소요됩니다.');
+            
+            await testCategory('upper', '상지 재활운동');
+            await testCategory('lower', '하지 재활운동');
+            await testCategory('speech', '언어 재활운동');
+            
+            const totalSuccess = testResults.upper.success + testResults.lower.success + testResults.speech.success;
+            const totalFail = testResults.upper.fail + testResults.lower.fail + testResults.speech.fail;
+            
+            alert(`테스트 완료!\n\n✅ 재생 가능: ${totalSuccess}개\n❌ 재생 불가: ${totalFail}개\n\n성공률: ${((totalSuccess / 90) * 100).toFixed(1)}%`);
+        }
+
+        function playTestVideo(youtubeId) {
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 9999;';
+            modal.innerHTML = `
+                <div style="width: 90%; max-width: 1200px; background: #000; border-radius: 12px; overflow: hidden; position: relative;">
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(255,255,255,0.9); color: #000; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 20px;">
+                        ✕
+                    </button>
+                    <iframe 
+                        width="100%" 
+                        height="600" 
+                        src="https://www.youtube.com/embed/${youtubeId}?autoplay=1" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Auto-load on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (confirm('자동으로 전체 영상 테스트를 시작하시겠습니까?')) {
+                    startTest();
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
