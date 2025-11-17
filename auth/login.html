@@ -11,6 +11,50 @@
 </head>
 <body class="font-sans bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen flex items-center justify-center p-4">
     
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8">
+            <div class="text-center mb-6">
+                <div class="text-4xl mb-3">🔑</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">비밀번호 찾기</h2>
+                <p class="text-sm text-gray-600">등록된 이메일 주소를 입력해주세요</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-envelope mr-2 text-primary"></i>이메일
+                    </label>
+                    <input 
+                        type="email" 
+                        id="forgotEmail" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" 
+                        placeholder="guest@cashiq.org"
+                    >
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 class="text-sm font-bold text-blue-800 mb-2 flex items-center">
+                        <i class="fas fa-info-circle mr-2"></i>테스트 계정 정보
+                    </h4>
+                    <div class="text-xs text-blue-700 space-y-1">
+                        <p><strong>guest@cashiq.org</strong> → 비밀번호: 12345</p>
+                        <p><strong>guest1@cashiq.org</strong> → 비밀번호: 67890</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="closeForgotPassword()" class="flex-1 px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition font-medium">
+                        취소
+                    </button>
+                    <button onclick="sendResetEmail()" class="flex-1 px-6 py-3 bg-primary text-white rounded-lg hover:bg-blue-700 transition font-medium">
+                        <i class="fas fa-paper-plane mr-2"></i>전송
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="w-full max-w-md">
         <!-- Back Button -->
         <div class="mb-6">
@@ -66,7 +110,7 @@
                         <input type="checkbox" id="remember" class="w-4 h-4 text-primary rounded focus:ring-primary">
                         <span class="ml-2 text-gray-600">로그인 유지</span>
                     </label>
-                    <a href="#" class="text-primary hover:underline">비밀번호 찾기</a>
+                    <a href="#" onclick="openForgotPassword(event)" class="text-primary hover:underline">비밀번호 찾기</a>
                 </div>
 
                 <!-- Error Message -->
@@ -241,6 +285,54 @@
             if (rememberedEmail) {
                 document.getElementById('email').value = rememberedEmail;
                 document.getElementById('remember').checked = true;
+            }
+        });
+
+        // Forgot password functions
+        function openForgotPassword(event) {
+            event.preventDefault();
+            document.getElementById('forgotPasswordModal').classList.remove('hidden');
+        }
+
+        function closeForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.add('hidden');
+            document.getElementById('forgotEmail').value = '';
+        }
+
+        function sendResetEmail() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            
+            if (!email) {
+                alert('이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('올바른 이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            // Get members from localStorage
+            const members = JSON.parse(localStorage.getItem('members') || '[]');
+            const user = members.find(m => m.email === email);
+
+            if (!user) {
+                alert('등록되지 않은 이메일 주소입니다.\n\n테스트 계정:\n• guest@cashiq.org\n• guest1@cashiq.org');
+                return;
+            }
+
+            // Show password (for demo purposes)
+            alert(`비밀번호 찾기 완료!\n\n이메일: ${email}\n비밀번호: ${user.password}\n\n※ 실제 서비스에서는 이메일로 재설정 링크가 전송됩니다.`);
+            
+            closeForgotPassword();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('forgotPasswordModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeForgotPassword();
             }
         });
     </script>
