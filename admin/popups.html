@@ -810,13 +810,24 @@
 
         // Initialize
         if (checkAuth()) {
-            loadPopups();
-            
-            // Load from localStorage if exists
+            // Load from localStorage FIRST (priority)
             const savedPopups = localStorage.getItem('popups');
             if (savedPopups) {
-                popups = JSON.parse(savedPopups);
-                renderPopups();
+                try {
+                    popups = JSON.parse(savedPopups);
+                    console.log('✅ Loaded', popups.length, 'popups from localStorage');
+                } catch (error) {
+                    console.error('Error parsing saved popups:', error);
+                    popups = [];
+                }
+            }
+            
+            // Render immediately with localStorage data
+            renderPopups();
+            
+            // Then try to load from JSON file (fallback only if localStorage is empty)
+            if (popups.length === 0) {
+                loadPopups();
             }
         }
     </script>

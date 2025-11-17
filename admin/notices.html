@@ -712,13 +712,24 @@
             console.log('🚀 Initializing event listeners...');
             initializeEventListeners();
             
-            loadNotices();
-            
-            // Load from localStorage if exists
+            // Load from localStorage FIRST (priority)
             const savedNotices = localStorage.getItem('notices');
             if (savedNotices) {
-                notices = JSON.parse(savedNotices);
-                renderNotices();
+                try {
+                    notices = JSON.parse(savedNotices);
+                    console.log('✅ Loaded', notices.length, 'notices from localStorage');
+                } catch (error) {
+                    console.error('Error parsing saved notices:', error);
+                    notices = [];
+                }
+            }
+            
+            // Render immediately with localStorage data
+            renderNotices();
+            
+            // Then try to load from JSON file (fallback only if localStorage is empty)
+            if (notices.length === 0) {
+                loadNotices();
             }
         }
     </script>
