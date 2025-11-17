@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Upload Test - CASHiQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-video text-red-600 mr-2"></i>
+                동영상 업로드 테스트
+            </h1>
+            
+            <div class="space-y-6">
+                <!-- Test Status -->
+                <div id="testStatus" class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h2 class="font-bold text-blue-800 mb-2">
+                        <i class="fas fa-info-circle mr-2"></i>테스트 상태
+                    </h2>
+                    <div id="statusMessages" class="space-y-1 text-sm text-gray-700">
+                        <p>✓ 페이지 로드 완료</p>
+                    </div>
+                </div>
+
+                <!-- Video File Input Test -->
+                <div class="border border-gray-300 rounded-lg p-4">
+                    <h2 class="font-bold text-gray-800 mb-3">
+                        <i class="fas fa-upload mr-2"></i>파일 업로드 테스트
+                    </h2>
+                    
+                    <input type="file" id="videoFile" accept="video/*" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 
+                                  file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 
+                                  file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 
+                                  hover:file:bg-red-100">
+                    <p class="mt-2 text-xs text-gray-500">MP4, WebM, AVI 형식 지원 (최대 10MB)</p>
+                    
+                    <div id="fileInfo" class="mt-4 hidden bg-green-50 border border-green-200 rounded p-3">
+                        <h3 class="font-semibold text-green-800 mb-2">선택된 파일:</h3>
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            <li><strong>파일명:</strong> <span id="fileName"></span></li>
+                            <li><strong>크기:</strong> <span id="fileSize"></span></li>
+                            <li><strong>타입:</strong> <span id="fileType"></span></li>
+                        </ul>
+                    </div>
+
+                    <div id="videoPreview" class="mt-4 hidden">
+                        <h3 class="font-semibold text-gray-800 mb-2">미리보기:</h3>
+                        <video id="previewVideo" class="max-w-md rounded-lg shadow-md" controls>
+                            <source id="videoSource" type="video/mp4">
+                            브라우저가 동영상을 지원하지 않습니다.
+                        </video>
+                    </div>
+                </div>
+
+                <!-- Console Log Display -->
+                <div class="border border-gray-300 rounded-lg p-4">
+                    <h2 class="font-bold text-gray-800 mb-3">
+                        <i class="fas fa-terminal mr-2"></i>콘솔 로그
+                    </h2>
+                    <div id="consoleLog" class="bg-gray-900 text-green-400 font-mono text-xs p-3 rounded max-h-60 overflow-y-auto">
+                        <p>> Test page loaded successfully</p>
+                    </div>
+                </div>
+
+                <!-- Test Instructions -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <h2 class="font-bold text-yellow-800 mb-2">
+                        <i class="fas fa-clipboard-list mr-2"></i>테스트 방법
+                    </h2>
+                    <ol class="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                        <li>위의 파일 선택 버튼을 클릭합니다</li>
+                        <li>10MB 이하의 동영상 파일을 선택합니다 (권장: 1-5MB)</li>
+                        <li>파일 정보가 표시되는지 확인합니다</li>
+                        <li>동영상 미리보기가 작동하는지 확인합니다</li>
+                        <li>콘솔 로그에서 오류가 없는지 확인합니다</li>
+                    </ol>
+                </div>
+
+                <!-- Browser Info -->
+                <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                    <h2 class="font-bold text-purple-800 mb-2">
+                        <i class="fas fa-browser mr-2"></i>브라우저 정보
+                    </h2>
+                    <div class="text-sm text-gray-700 space-y-1">
+                        <p><strong>User Agent:</strong> <span id="userAgent" class="text-xs break-all"></span></p>
+                        <p><strong>Platform:</strong> <span id="platform"></span></p>
+                        <p><strong>Language:</strong> <span id="language"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logging function
+        function log(message, type = 'info') {
+            const consoleLog = document.getElementById('consoleLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const icon = type === 'error' ? '❌' : type === 'success' ? '✅' : '📝';
+            const color = type === 'error' ? 'text-red-400' : type === 'success' ? 'text-green-400' : 'text-blue-400';
+            
+            const line = document.createElement('p');
+            line.className = color;
+            line.textContent = `[${timestamp}] ${icon} ${message}`;
+            consoleLog.appendChild(line);
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+            
+            console.log(message);
+        }
+
+        // Status update function
+        function updateStatus(message) {
+            const statusMessages = document.getElementById('statusMessages');
+            const p = document.createElement('p');
+            p.textContent = message;
+            statusMessages.appendChild(p);
+        }
+
+        // Initialize
+        log('Initializing test page...');
+        
+        // Display browser info
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('platform').textContent = navigator.platform;
+        document.getElementById('language').textContent = navigator.language;
+        
+        log('Browser info loaded', 'success');
+
+        // Check if video element is supported
+        const video = document.createElement('video');
+        const canPlayMP4 = video.canPlayType('video/mp4');
+        const canPlayWebM = video.canPlayType('video/webm');
+        
+        log(`Video support - MP4: ${canPlayMP4}, WebM: ${canPlayWebM}`, 'info');
+        updateStatus(`✓ 동영상 지원: MP4 (${canPlayMP4}), WebM (${canPlayWebM})`);
+
+        // Check FileReader API
+        if (window.FileReader) {
+            log('FileReader API available', 'success');
+            updateStatus('✓ FileReader API 지원');
+        } else {
+            log('FileReader API NOT available', 'error');
+            updateStatus('✗ FileReader API 미지원');
+        }
+
+        // Video file input handler
+        const videoFileInput = document.getElementById('videoFile');
+        
+        if (videoFileInput) {
+            log('Video file input element found', 'success');
+            updateStatus('✓ 파일 입력 요소 발견');
+            
+            videoFileInput.addEventListener('change', function(e) {
+                log('File input change event triggered', 'success');
+                
+                const file = e.target.files[0];
+                if (file) {
+                    log(`File selected: ${file.name}`, 'success');
+                    
+                    // Display file info
+                    document.getElementById('fileName').textContent = file.name;
+                    document.getElementById('fileSize').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+                    document.getElementById('fileType').textContent = file.type;
+                    document.getElementById('fileInfo').classList.remove('hidden');
+                    
+                    updateStatus(`✓ 파일 선택: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`);
+                    
+                    // Check file size
+                    const maxSize = 10 * 1024 * 1024; // 10MB
+                    if (file.size > maxSize) {
+                        log(`File too large: ${(file.size / 1024 / 1024).toFixed(2)} MB (max 10MB)`, 'error');
+                        alert('파일 크기가 10MB를 초과합니다.');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    // Read and preview video
+                    log('Reading file...', 'info');
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        log('File read successfully', 'success');
+                        updateStatus('✓ 파일 읽기 완료');
+                        
+                        try {
+                            const videoUrl = event.target.result;
+                            const videoSize = videoUrl.length;
+                            
+                            log(`Base64 size: ${(videoSize / 1024 / 1024).toFixed(2)} MB`, 'info');
+                            
+                            // Show preview
+                            const videoSource = document.getElementById('videoSource');
+                            const previewVideo = document.getElementById('previewVideo');
+                            
+                            videoSource.src = videoUrl;
+                            videoSource.type = file.type;
+                            previewVideo.load();
+                            
+                            document.getElementById('videoPreview').classList.remove('hidden');
+                            
+                            log('Video preview loaded', 'success');
+                            updateStatus('✓ 동영상 미리보기 준비 완료');
+                            
+                            // Test localStorage
+                            try {
+                                const testKey = '_video_upload_test_' + Date.now();
+                                localStorage.setItem(testKey, videoUrl);
+                                localStorage.removeItem(testKey);
+                                log('localStorage test passed', 'success');
+                                updateStatus('✓ localStorage 저장 테스트 성공');
+                            } catch (storageError) {
+                                log('localStorage test FAILED: ' + storageError.message, 'error');
+                                updateStatus('✗ localStorage 저장 실패 (용량 부족 가능성)');
+                            }
+                            
+                        } catch (error) {
+                            log('Error processing video: ' + error.message, 'error');
+                            updateStatus('✗ 동영상 처리 오류');
+                        }
+                    };
+                    
+                    reader.onerror = function(error) {
+                        log('FileReader error: ' + error, 'error');
+                        updateStatus('✗ 파일 읽기 오류');
+                    };
+                    
+                    reader.readAsDataURL(file);
+                    
+                } else {
+                    log('No file selected', 'info');
+                }
+            });
+            
+            log('Event listener attached successfully', 'success');
+            updateStatus('✓ 이벤트 리스너 연결 완료');
+            
+        } else {
+            log('Video file input element NOT found', 'error');
+            updateStatus('✗ 파일 입력 요소 미발견 (오류!)');
+        }
+
+        log('Test page initialization complete', 'success');
+        updateStatus('✓ 테스트 페이지 초기화 완료');
+    </script>
+</body>
+</html>
