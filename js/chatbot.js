@@ -246,6 +246,34 @@
                 font-size: 12px;
                 font-weight: bold;
                 border: 2px solid white;
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0%, 100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.1);
+                    opacity: 0.8;
+                }
+            }
+
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% {
+                    transform: translateY(0);
+                }
+                40% {
+                    transform: translateY(-10px);
+                }
+                60% {
+                    transform: translateY(-5px);
+                }
+            }
+
+            .chatbot-button.bounce {
+                animation: bounce 2s ease infinite;
             }
 
             /* 챗봇 메뉴 */
@@ -844,6 +872,19 @@
     function init() {
         addChatbotStyles();
         createChatbotHTML();
+        
+        // 챗봇 버튼 애니메이션 시작
+        setTimeout(() => {
+            const chatbotButton = document.getElementById('chatbot-button');
+            if (chatbotButton) {
+                chatbotButton.classList.add('bounce');
+                
+                // 3초 후 바운스 애니메이션 제거
+                setTimeout(() => {
+                    chatbotButton.classList.remove('bounce');
+                }, 6000);
+            }
+        }, 1000);
     }
 
     // 페이지 로드 시 초기화
