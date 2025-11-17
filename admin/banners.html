@@ -31,10 +31,16 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Add Banner Form -->
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">
-                <i class="fas fa-plus-circle text-purple-600 mr-2"></i>
-                <span id="formTitle">배너 등록</span>
-            </h2>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-plus-circle text-purple-600 mr-2"></i>
+                    <span id="formTitle">배너 등록</span>
+                </h2>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600">현재 배너 수</p>
+                    <p class="text-2xl font-bold text-purple-600"><span id="currentBannerCount">0</span>/30</p>
+                </div>
+            </div>
             
             <form id="bannerForm" class="space-y-4">
                 <input type="hidden" id="bannerId">
@@ -198,6 +204,24 @@
         function renderBanners() {
             const tbody = document.getElementById('bannerTableBody');
             
+            // Update count display
+            const countElement = document.getElementById('currentBannerCount');
+            if (countElement) {
+                countElement.textContent = banners.length;
+                // Change color based on usage
+                const percentage = (banners.length / 30) * 100;
+                if (percentage >= 90) {
+                    countElement.classList.add('text-red-600');
+                    countElement.classList.remove('text-purple-600', 'text-yellow-600');
+                } else if (percentage >= 70) {
+                    countElement.classList.add('text-yellow-600');
+                    countElement.classList.remove('text-purple-600', 'text-red-600');
+                } else {
+                    countElement.classList.add('text-purple-600');
+                    countElement.classList.remove('text-yellow-600', 'text-red-600');
+                }
+            }
+            
             if (banners.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">등록된 배너가 없습니다.</td></tr>';
                 return;
@@ -292,14 +316,19 @@
                 const index = banners.findIndex(b => b.id === parseInt(bannerId));
                 banners[index] = banner;
             } else {
-                // Add new
+                // Add new - Check maximum limit (30 banners)
+                const MAX_BANNERS = 30;
+                if (banners.length >= MAX_BANNERS) {
+                    alert(`⚠️ 배너광고는 최대 ${MAX_BANNERS}개까지만 등록할 수 있습니다.\n\n현재 배너 수: ${banners.length}개\n\n오래된 배너를 삭제한 후 다시 시도해주세요.`);
+                    return;
+                }
                 banners.push(banner);
             }
 
             // Save to localStorage (simulating backend)
             localStorage.setItem('banners', JSON.stringify(banners));
             
-            alert('배너가 저장되었습니다.');
+            alert(`✅ 배너가 저장되었습니다.\n\n현재 배너 수: ${banners.length}/${30}개`);
             resetForm();
             renderBanners();
         });

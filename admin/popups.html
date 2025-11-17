@@ -31,10 +31,16 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Add Popup Form -->
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">
-                <i class="fas fa-plus-circle text-green-600 mr-2"></i>
-                <span id="formTitle">팝업 등록</span>
-            </h2>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-plus-circle text-green-600 mr-2"></i>
+                    <span id="formTitle">팝업 등록</span>
+                </h2>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600">현재 팝업 수</p>
+                    <p class="text-2xl font-bold text-green-600"><span id="currentPopupCount">0</span>/3</p>
+                </div>
+            </div>
             
             <form id="popupForm" class="space-y-4">
                 <input type="hidden" id="popupId">
@@ -330,6 +336,23 @@
         function renderPopups() {
             const tbody = document.getElementById('popupTableBody');
             
+            // Update count display
+            const countElement = document.getElementById('currentPopupCount');
+            if (countElement) {
+                countElement.textContent = popups.length;
+                // Change color based on usage
+                if (popups.length >= 3) {
+                    countElement.classList.add('text-red-600');
+                    countElement.classList.remove('text-green-600', 'text-yellow-600');
+                } else if (popups.length >= 2) {
+                    countElement.classList.add('text-yellow-600');
+                    countElement.classList.remove('text-green-600', 'text-red-600');
+                } else {
+                    countElement.classList.add('text-green-600');
+                    countElement.classList.remove('text-yellow-600', 'text-red-600');
+                }
+            }
+            
             if (popups.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">등록된 팝업이 없습니다.</td></tr>';
                 return;
@@ -509,14 +532,19 @@
                 const index = popups.findIndex(p => p.id === parseInt(popupId));
                 popups[index] = popup;
             } else {
-                // Add new
+                // Add new - Check maximum limit (3 popups)
+                const MAX_POPUPS = 3;
+                if (popups.length >= MAX_POPUPS) {
+                    alert(`⚠️ 팝업은 최대 ${MAX_POPUPS}개까지만 등록할 수 있습니다.\n\n현재 팝업 수: ${popups.length}개\n\n기존 팝업을 삭제하거나 비활성화한 후 다시 시도해주세요.`);
+                    return;
+                }
                 popups.push(popup);
             }
 
             // Save to localStorage (simulating backend)
             localStorage.setItem('popups', JSON.stringify(popups));
             
-            alert('팝업이 저장되었습니다.');
+            alert(`✅ 팝업이 저장되었습니다.\n\n현재 팝업 수: ${popups.length}/${3}개`);
             resetForm();
             renderPopups();
         });

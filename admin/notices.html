@@ -31,10 +31,16 @@
     <div class="container mx-auto px-4 py-8">
         <!-- Add Notice Form -->
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">
-                <i class="fas fa-plus-circle text-blue-600 mr-2"></i>
-                <span id="formTitle">공지 등록</span>
-            </h2>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-plus-circle text-blue-600 mr-2"></i>
+                    <span id="formTitle">공지 등록</span>
+                </h2>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600">현재 공지 수</p>
+                    <p class="text-2xl font-bold text-blue-600"><span id="currentNoticeCount">0</span>/50</p>
+                </div>
+            </div>
             
             <form id="noticeForm" class="space-y-4">
                 <input type="hidden" id="noticeId">
@@ -250,6 +256,24 @@
         // Render notices table
         function renderNotices() {
             const tbody = document.getElementById('noticeTableBody');
+            
+            // Update count display
+            const countElement = document.getElementById('currentNoticeCount');
+            if (countElement) {
+                countElement.textContent = notices.length;
+                // Change color based on usage
+                const percentage = (notices.length / 50) * 100;
+                if (percentage >= 90) {
+                    countElement.classList.add('text-red-600');
+                    countElement.classList.remove('text-blue-600', 'text-yellow-600');
+                } else if (percentage >= 70) {
+                    countElement.classList.add('text-yellow-600');
+                    countElement.classList.remove('text-blue-600', 'text-red-600');
+                } else {
+                    countElement.classList.add('text-blue-600');
+                    countElement.classList.remove('text-yellow-600', 'text-red-600');
+                }
+            }
             
             if (notices.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" class="px-4 py-8 text-center text-gray-500">등록된 공지가 없습니다.</td></tr>';
@@ -535,14 +559,19 @@
                         notices[index] = notice;
                     }
                 } else {
-                    // Add new
+                    // Add new - Check maximum limit (50 notices)
+                    const MAX_NOTICES = 50;
+                    if (notices.length >= MAX_NOTICES) {
+                        alert(`⚠️ 공지는 최대 ${MAX_NOTICES}개까지만 등록할 수 있습니다.\n\n현재 공지 수: ${notices.length}개\n\n오래된 공지를 삭제한 후 다시 시도해주세요.`);
+                        return;
+                    }
                     notices.push(notice);
                 }
 
                 // Save to localStorage with error handling
                 try {
                     localStorage.setItem('notices', JSON.stringify(notices));
-                    alert('공지가 저장되었습니다.');
+                    alert(`✅ 공지가 저장되었습니다.\n\n현재 공지 수: ${notices.length}/${50}개`);
                     resetForm();
                     renderNotices();
                 } catch (storageError) {
