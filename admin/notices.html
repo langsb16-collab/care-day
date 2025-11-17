@@ -413,18 +413,31 @@
         document.getElementById('videoFile').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // Check file size (max 100MB)
-                const maxSize = 100 * 1024 * 1024; // 100MB in bytes
+                // Check file size (max 10MB recommended for localStorage)
+                const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+                const warningSize = 5 * 1024 * 1024; // 5MB warning
+                
                 if (file.size > maxSize) {
-                    alert('동영상 파일 크기는 100MB를 초과할 수 없습니다.');
+                    alert('⚠️ 동영상 파일 크기는 10MB를 초과할 수 없습니다.\n\n현재 파일: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB\n\n💡 권장: YouTube에 업로드 후 URL로 등록하세요.');
                     this.value = '';
                     return;
+                }
+                
+                if (file.size > warningSize) {
+                    if (!confirm('⚠️ 파일 크기가 큽니다 (' + (file.size / 1024 / 1024).toFixed(2) + 'MB)\n\n저장 시 오류가 발생할 수 있습니다.\n계속하시겠습니까?\n\n💡 권장: YouTube URL 사용')) {
+                        this.value = '';
+                        return;
+                    }
                 }
                 
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     try {
                         const videoUrl = event.target.result;
+                        const videoSize = videoUrl.length;
+                        
+                        console.log('Video size:', (videoSize / 1024 / 1024).toFixed(2) + 'MB');
+                        
                         document.getElementById('videoFileUrl').value = videoUrl;
                         
                         // Show preview
@@ -436,14 +449,19 @@
                         previewVideo.load();
                         
                         document.getElementById('videoFilePreview').classList.remove('hidden');
+                        
+                        // Show size info
+                        console.log('✅ Video uploaded successfully');
                     } catch (error) {
                         console.error('Video upload error:', error);
-                        alert('동영상 업로드 중 오류가 발생했습니다.');
+                        alert('동영상 업로드 중 오류가 발생했습니다.\n\n오류: ' + error.message);
+                        e.target.value = '';
                     }
                 };
                 reader.onerror = function(error) {
                     console.error('FileReader error:', error);
-                    alert('파일을 읽는 중 오류가 발생했습니다.');
+                    alert('파일을 읽는 중 오류가 발생했습니다.\n\n다시 시도해주세요.');
+                    e.target.value = '';
                 };
                 reader.readAsDataURL(file);
             }
@@ -461,58 +479,89 @@
         }
 
         // Save notice
-        document.getElementById('noticeForm').addEventListener('submit', async function(e) {
+        document.getElementById('noticeForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const noticeId = document.getElementById('noticeId').value;
-            
-            // Get video URL (either from file or URL input)
-            const videoFileUrl = document.getElementById('videoFileUrl').value;
-            const videoUrlInput = document.getElementById('videoUrl').value;
-            const finalVideoUrl = videoFileUrl || videoUrlInput;
-            
-            // Find existing notice if updating
-            let existingNotice = null;
-            if (noticeId) {
-                existingNotice = notices.find(n => n.id === parseInt(noticeId));
-            }
-
-            const notice = {
-                id: noticeId ? parseInt(noticeId) : Date.now(),
-                title: document.getElementById('title').value,
-                category: document.getElementById('category').value,
-                lang: document.getElementById('lang').value,
-                importance: document.getElementById('importance').value,
-                summary: document.getElementById('summary').value,
-                content: document.getElementById('content').value,
-                imageUrl: document.getElementById('imageUrl').value,
-                videoUrl: finalVideoUrl || '',
-                videoType: videoFileUrl ? 'file' : (videoUrlInput ? 'url' : ''),
-                startDate: document.getElementById('startDate').value,
-                endDate: document.getElementById('endDate').value,
-                pinned: document.getElementById('pinned').checked,
-                active: document.getElementById('active').checked,
-                createdAt: existingNotice ? existingNotice.createdAt : new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-
-            if (noticeId && existingNotice) {
-                // Update existing
-                const index = notices.findIndex(n => n.id === parseInt(noticeId));
-                if (index !== -1) {
-                    notices[index] = notice;
+            try {
+                const noticeId = document.getElementById('noticeId').value;
+                
+                // Get video URL (either from file or URL input)
+                const videoFileUrl = document.getElementById('videoFileUrl').value;
+                const videoUrlInput = document.getElementById('videoUrl').value;
+                const finalVideoUrl = videoFileUrl || videoUrlInput;
+                
+                // Check localStorage space before saving large video
+                if (finalVideoUrl && finalVideoUrl.length > 5000000) { // 5MB in base64
+                    if (!confirm('동영상 파일이 큽니다 (5MB 이상). 계속 진행하시겠습니까?\n\n대용량 파일은 YouTube URL 사용을 권장합니다.')) {
+                        return;
+                    }
                 }
-            } else {
-                // Add new
-                notices.push(notice);
-            }
+                
+                // Find existing notice if updating
+                let existingNotice = null;
+                if (noticeId) {
+                    existingNotice = notices.find(n => n.id === parseInt(noticeId));
+                }
 
-            // Save to localStorage (simulating backend)
-            localStorage.setItem('notices', JSON.stringify(notices));
-            
-            alert('공지가 저장되었습니다.');
-            resetForm();
-            renderNotices();
+                const notice = {
+                    id: noticeId ? parseInt(noticeId) : Date.now(),
+                    title: document.getElementById('title').value,
+                    category: document.getElementById('category').value,
+                    lang: document.getElementById('lang').value,
+                    importance: document.getElementById('importance').value,
+                    summary: document.getElementById('summary').value,
+                    content: document.getElementById('content').value,
+                    imageUrl: document.getElementById('imageUrl').value,
+                    videoUrl: finalVideoUrl || '',
+                    videoType: videoFileUrl ? 'file' : (videoUrlInput ? 'url' : ''),
+                    startDate: document.getElementById('startDate').value,
+                    endDate: document.getElementById('endDate').value,
+                    pinned: document.getElementById('pinned').checked,
+                    active: document.getElementById('active').checked,
+                    createdAt: existingNotice ? existingNotice.createdAt : new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                if (noticeId && existingNotice) {
+                    // Update existing
+                    const index = notices.findIndex(n => n.id === parseInt(noticeId));
+                    if (index !== -1) {
+                        notices[index] = notice;
+                    }
+                } else {
+                    // Add new
+                    notices.push(notice);
+                }
+
+                // Save to localStorage with error handling
+                try {
+                    localStorage.setItem('notices', JSON.stringify(notices));
+                    alert('공지가 저장되었습니다.');
+                    resetForm();
+                    renderNotices();
+                } catch (storageError) {
+                    console.error('localStorage error:', storageError);
+                    
+                    // Rollback if save failed
+                    if (!noticeId) {
+                        notices.pop();
+                    } else if (existingNotice) {
+                        const index = notices.findIndex(n => n.id === parseInt(noticeId));
+                        if (index !== -1) {
+                            notices[index] = existingNotice;
+                        }
+                    }
+                    
+                    if (storageError.name === 'QuotaExceededError') {
+                        alert('저장 공간이 부족합니다.\n\n해결 방법:\n1. 작은 용량의 동영상 사용\n2. YouTube URL로 동영상 등록\n3. 기존 공지 중 일부 삭제');
+                    } else {
+                        alert('저장 중 오류가 발생했습니다.\n\n오류: ' + storageError.message);
+                    }
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert('공지 등록 중 오류가 발생했습니다.\n\n오류 내용: ' + error.message + '\n\n페이지를 새로고침하고 다시 시도해주세요.');
+            }
         });
 
         // Edit notice
