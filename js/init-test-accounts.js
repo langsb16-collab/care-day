@@ -30,7 +30,7 @@
                 id: 2,
                 username: 'guest1',
                 email: 'guest1@cashiq.org',
-                password: 'guest1',
+                password: 'guest',
                 name: '게스트1',
                 phone: '010-0000-0002',
                 type: 'paid',
