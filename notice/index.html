@@ -127,8 +127,30 @@
                         console.log('✅ Loaded notices from JSON:', allNotices.length);
                         console.log('📋 All notices:', allNotices);
                     } catch (e) {
-                        console.log('⚠️ No notices.json file found');
-                        allNotices = [];
+                        console.log('⚠️ No notices.json file found, creating default notices');
+                        // Create default notices
+                        allNotices = [
+                            {
+                                id: Date.now(),
+                                title: '🎉 CASHiQ 플랫폼 오픈 안내',
+                                category: 'service',
+                                lang: 'ko',
+                                importance: 'important',
+                                summary: '뇌질환 환자와 가족을 위한 종합 케어 플랫폼 CASHiQ가 정식 오픈했습니다.',
+                                content: 'CASHiQ 플랫폼이 정식 오픈했습니다.\n\n병원 찾기, 간병인 구인구직, 재활운동, 커뮤니티 등 다양한 서비스를 이용하실 수 있습니다.',
+                                imageUrl: '',
+                                videoUrl: '',
+                                startDate: '',
+                                endDate: '',
+                                pinned: true,
+                                active: true,
+                                createdAt: new Date().toISOString(),
+                                updatedAt: new Date().toISOString()
+                            }
+                        ];
+                        // Save to localStorage
+                        localStorage.setItem('notices', JSON.stringify(allNotices));
+                        console.log('✅ Created and saved default notices');
                     }
                 }
                 
