@@ -132,7 +132,7 @@
                     <!-- File Upload Tab -->
                     <div id="videoFileTab">
                         <input type="file" id="videoFile" accept="video/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
-                        <p class="mt-1 text-xs text-gray-500">MP4, WebM, AVI 형식 지원 (최대 100MB)</p>
+                        <p class="mt-1 text-xs text-gray-500">MP4, WebM, AVI 형식 지원 (최대 10MB)</p>
                         <input type="hidden" id="videoFileUrl">
                         <div id="videoFilePreview" class="mt-2 hidden">
                             <video id="previewVideo" class="max-w-md rounded-lg shadow-md" controls>
@@ -361,23 +361,6 @@
             });
         }
 
-        // Image file upload handler
-        document.getElementById('imageFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    // Save base64 data to hidden input
-                    document.getElementById('imageUrl').value = event.target.result;
-                    
-                    // Show preview
-                    document.getElementById('previewImg').src = event.target.result;
-                    document.getElementById('imagePreview').classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
         // Remove image
         function removeImage() {
             document.getElementById('imageFile').value = '';
@@ -409,8 +392,36 @@
             }
         }
 
-        // Video file upload handler
-        document.getElementById('videoFile').addEventListener('change', function(e) {
+        // Initialize event listeners after DOM is ready
+        function initializeEventListeners() {
+            // Image file upload handler
+            const imageFileInput = document.getElementById('imageFile');
+            if (imageFileInput) {
+                console.log('✅ Image file input found, attaching listener');
+                imageFileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            // Save base64 data to hidden input
+                            document.getElementById('imageUrl').value = event.target.result;
+                            
+                            // Show preview
+                            document.getElementById('previewImg').src = event.target.result;
+                            document.getElementById('imagePreview').classList.remove('hidden');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            } else {
+                console.error('❌ Image file input not found!');
+            }
+
+            // Video file upload handler
+            const videoFileInput = document.getElementById('videoFile');
+            if (videoFileInput) {
+                console.log('✅ Video file input found, attaching listener');
+                videoFileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 // Check file size (max 10MB recommended for localStorage)
@@ -465,21 +476,16 @@
                 };
                 reader.readAsDataURL(file);
             }
-        });
+                });
+            } else {
+                console.error('❌ Video file input not found!');
+            }
 
-        // Remove video
-        function removeVideo() {
-            document.getElementById('videoFile').value = '';
-            document.getElementById('videoFileUrl').value = '';
-            document.getElementById('videoFilePreview').classList.add('hidden');
-            
-            const previewVideo = document.getElementById('previewVideo');
-            previewVideo.pause();
-            previewVideo.src = '';
-        }
-
-        // Save notice
-        document.getElementById('noticeForm').addEventListener('submit', function(e) {
+            // Form submit handler
+            const noticeForm = document.getElementById('noticeForm');
+            if (noticeForm) {
+                console.log('✅ Notice form found, attaching submit listener');
+                noticeForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
             try {
@@ -562,7 +568,22 @@
                 console.error('Form submission error:', error);
                 alert('공지 등록 중 오류가 발생했습니다.\n\n오류 내용: ' + error.message + '\n\n페이지를 새로고침하고 다시 시도해주세요.');
             }
-        });
+                });
+            } else {
+                console.error('❌ Notice form not found!');
+            }
+        }
+
+        // Remove video
+        function removeVideo() {
+            document.getElementById('videoFile').value = '';
+            document.getElementById('videoFileUrl').value = '';
+            document.getElementById('videoFilePreview').classList.add('hidden');
+            
+            const previewVideo = document.getElementById('previewVideo');
+            previewVideo.pause();
+            previewVideo.src = '';
+        }
 
         // Edit notice
         function editNotice(id) {
@@ -658,6 +679,10 @@
 
         // Initialize
         if (checkAuth()) {
+            // Initialize event listeners first
+            console.log('🚀 Initializing event listeners...');
+            initializeEventListeners();
+            
             loadNotices();
             
             // Load from localStorage if exists
