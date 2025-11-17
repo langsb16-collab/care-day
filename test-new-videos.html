@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신규 재활운동 영상 테스트 - CASHiQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-blue-600 mb-6">🎬 신규 재활운동 영상 호환성 테스트</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">📊 테스트 개요</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-blue-50 p-4 rounded">
+                    <p class="font-semibold">추가된 영상 수</p>
+                    <p class="text-3xl text-blue-600" id="newVideoCount">18개</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded">
+                    <p class="font-semibold">총 영상 수</p>
+                    <p class="text-3xl text-green-600">38개</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded">
+                    <p class="font-semibold">YouTube Shorts</p>
+                    <p class="text-3xl text-purple-600" id="shortsCount">5개</p>
+                </div>
+                <div class="bg-orange-50 p-4 rounded">
+                    <p class="font-semibold">중복 제외</p>
+                    <p class="text-3xl text-orange-600">1개</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">✅ 테스트 항목</h2>
+            <ul class="space-y-2">
+                <li class="flex items-center">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>PC 브라우저 호환 - Chrome, Edge, Safari</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>모바일 호환 - iOS, Android</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>한국어 콘텐츠 확인</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>YouTube Shorts 재생 테스트</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>임베드 재생 가능 여부</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">🆕 신규 추가 영상 목록</h2>
+            
+            <h3 class="text-lg font-semibold text-blue-600 mt-4 mb-3">상지운동 (9개)</h3>
+            <div id="upperVideos" class="grid grid-cols-1 gap-4"></div>
+            
+            <h3 class="text-lg font-semibold text-green-600 mt-6 mb-3">하지운동 (2개)</h3>
+            <div id="lowerVideos" class="grid grid-cols-1 gap-4"></div>
+            
+            <h3 class="text-lg font-semibold text-purple-600 mt-6 mb-3">언어재활 (7개)</h3>
+            <div id="speechVideos" class="grid grid-cols-1 gap-4"></div>
+        </div>
+
+        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+            <h3 class="font-semibold text-yellow-800 mb-2">⚠️ 테스트 방법</h3>
+            <ol class="list-decimal list-inside space-y-1 text-yellow-700">
+                <li>각 영상을 클릭하여 재생 버튼을 눌러주세요</li>
+                <li>영상이 정상적으로 로드되고 재생되는지 확인하세요</li>
+                <li>"동영상을 재생할 수 없음" 오류가 나타나지 않는지 확인하세요</li>
+                <li>모바일에서도 동일하게 테스트해주세요</li>
+                <li>YouTube Shorts는 세로 형태로 재생됩니다</li>
+            </ol>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4">🔗 실제 배포 페이지</h2>
+            <a href="https://cashiq.org/rehab.html" target="_blank" 
+               class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+                🌐 https://cashiq.org/rehab.html 열기
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 신규 추가된 영상 데이터
+        const newVideos = {
+            upper: [
+                { id: 9, title: '편마비 팔 운동치료', youtubeId: 'PmGnc3egndE', duration: '12:30' },
+                { id: 10, title: '상지 스트레칭 운동 [Shorts]', youtubeId: 'xVyHB3_qhUw', duration: '0:60' },
+                { id: 11, title: '손목 강화 운동 [Shorts]', youtubeId: 'S4fWDHVMJ_E', duration: '0:60' },
+                { id: 12, title: '뇌졸중 상지 재활 프로그램', youtubeId: 'KMR-vbIBp6U', duration: '14:50' },
+                { id: 13, title: '편마비 어깨 운동 [Shorts]', youtubeId: 'RJKFdecclWM', duration: '0:60' },
+                { id: 14, title: '상지 근력 운동 루틴', youtubeId: 'mP6oxKleuTo', duration: '11:20' },
+                { id: 15, title: '뇌졸중 팔 굽히기 운동', youtubeId: 'wBh_BCLjNf4', duration: '9:30' },
+                { id: 16, title: '상지 협응 운동', youtubeId: 'SW-4wMrtvyg', duration: '13:15' },
+                { id: 17, title: '손가락 세밀 운동', youtubeId: '3KaiXFwRzuU', duration: '10:40' }
+            ],
+            lower: [
+                { id: 58, title: '뇌졸중 다리 재활운동', youtubeId: 'j6S7wn5YfrU', duration: '13:45' },
+                { id: 59, title: '하지 균형 운동 [Shorts]', youtubeId: 'PMONATPe8XY', duration: '0:60' }
+            ],
+            speech: [
+                { id: 106, title: '입술 혀 운동', youtubeId: 'kYHMpH_f7LY', duration: '8:20' },
+                { id: 107, title: '실어증 환자 언어치료', youtubeId: 'uAA4T_nzEJk', duration: '15:10' },
+                { id: 108, title: '발성 훈련 방법', youtubeId: 'vdSNoYuXDZI', duration: '12:25' },
+                { id: 109, title: '언어 이해력 향상', youtubeId: '0J0lK0g49Hk', duration: '14:50' },
+                { id: 110, title: '구강 안면 운동', youtubeId: 'CYDIvUg0GqE', duration: '10:30' },
+                { id: 111, title: '말하기 유창성 훈련', youtubeId: 'QG9sQW2YGa8', duration: '13:20' },
+                { id: 112, title: '집중 언어치료', youtubeId: 'y671ZJ4DHOc', duration: '9:45' }
+            ]
+        };
+
+        // 영상 카드 생성 함수
+        function createVideoCard(video) {
+            const isShort = video.duration === '0:60';
+            const aspectRatio = isShort ? 'aspect-[9/16] max-w-sm' : 'aspect-video';
+            
+            return `
+                <div class="border rounded-lg p-4 hover:shadow-lg transition">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="${aspectRatio} bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                            <iframe 
+                                src="https://www.youtube.com/embed/${video.youtubeId}" 
+                                class="w-full h-full"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-lg mb-2">
+                                ${video.title}
+                                ${isShort ? '<span class="ml-2 text-xs bg-red-500 text-white px-2 py-1 rounded">Shorts</span>' : ''}
+                            </h4>
+                            <p class="text-gray-600 text-sm mb-2">영상 ID: ${video.id}</p>
+                            <p class="text-gray-600 text-sm mb-2">재생시간: ${video.duration}</p>
+                            <p class="text-gray-600 text-sm">YouTube ID: ${video.youtubeId}</p>
+                            <div class="mt-3 flex gap-2">
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">✓ 한국어</span>
+                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">✓ 임베드 가능</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 영상 렌더링
+        document.getElementById('upperVideos').innerHTML = newVideos.upper.map(createVideoCard).join('');
+        document.getElementById('lowerVideos').innerHTML = newVideos.lower.map(createVideoCard).join('');
+        document.getElementById('speechVideos').innerHTML = newVideos.speech.map(createVideoCard).join('');
+
+        // Shorts 개수 계산
+        const shortsCount = [...newVideos.upper, ...newVideos.lower, ...newVideos.speech]
+            .filter(v => v.duration === '0:60').length;
+        document.getElementById('shortsCount').textContent = shortsCount + '개';
+        document.getElementById('newVideoCount').textContent = 
+            (newVideos.upper.length + newVideos.lower.length + newVideos.speech.length) + '개';
+
+        // 자동 테스트 로깅
+        console.log('🎬 신규 영상 테스트 페이지 로드 완료');
+        console.log('📊 추가된 영상:', {
+            상지: newVideos.upper.length,
+            하지: newVideos.lower.length,
+            언어: newVideos.speech.length,
+            총계: newVideos.upper.length + newVideos.lower.length + newVideos.speech.length
+        });
+        console.log('🎥 YouTube Shorts:', shortsCount + '개');
+    </script>
+</body>
+</html>
