@@ -63,6 +63,24 @@
             question: "이용 중 문제가 생기거나 문의하고 싶을 때는 어떻게 하나요?",
             answer: "사이트 내 '문의', '고객센터', '지원' 등의 메뉴를 통해 이메일, 전화번호 또는 온라인 채팅 등의 방법으로 문의할 수 있습니다.\n\n그 외 '유료회원 1대1 답변' 대화창을 사용하시면 기능·문제점·요구사항을 반영해 드립니다.\n\n💎 유료회원께서는 1대1 전문 상담을 이용하실 수 있습니다.",
             keywords: ["문의", "문제", "고객센터", "상담", "도움"]
+        },
+        {
+            id: 11,
+            question: "타사 앱과 차이점은?",
+            answer: "일단 타사 앱·플랫폼은 예약 기능 정도만 제공합니다.\n\n❌ 타사: 단순 예약 기능\n✅ CASHiQ: 종합 서비스 제공\n\n저희는 병원 검색부터 간병인 매칭, 재활운동, 간병일지, 지원정책까지 모든 케어 서비스를 통합적으로 제공합니다.\n\n💡 직접 비교해보세요! 차이를 느끼실 수 있습니다.",
+            keywords: ["타사", "차이", "비교", "다른", "앱"]
+        },
+        {
+            id: 12,
+            question: "장점은? 구체적으로 알려주세요",
+            answer: "🏥 **병원 검색**\n• 국내 3,500곳 병원 등록\n• 지역별·병원별 예약·접수 현황 확인\n• 가까운 전문 병원 빠른 검색\n\n👨‍⚕️ **간병인 찾기**\n• 1,200명 DB 보유\n• 자격증 보유 전문가 별도 표시\n• 구인·구직 조건 등록으로 맞춤형 매칭\n\n📝 **간병일지**\n• 환자 상태·일일 기록 실시간 작성\n• 가족·간병인 간 공유 기능\n• 앱·플랫폼에서 바로 확인\n\n🎥 **재활운동 영상**\n• 100여개 이상 콘텐츠 제공\n• 집에서도 체계적 재활 가능\n• 매월 업데이트\n\n🏛️ **정부 지원정책**\n• 복잡한 행정·지원 정보 정리\n• 한눈에 보기 쉽게 안내",
+            keywords: ["장점", "장점은", "특징", "좋은점", "뭐가"]
+        },
+        {
+            id: 13,
+            question: "그 외 차이점은 무엇인지?",
+            answer: "🌏 **동북아시아 최초! 특별하고 유일한 기능**\n\n🗣️ **다국어 간병일지**\n• 간병인 80%가 중국인, 소통 문제 해결!\n• 중국어 음성녹음 → 한국어 자동 번역\n• 투여 약·식사·몸상태 한국어로 전송\n\n🔬 **메디컬 렌즈 기능**\n• 환자에게 투여된 약·수액 궁금하신가요?\n• 휴대폰 카메라로 라벨 사진 촬영\n• 성분 자동 분석 후 보호자에게 전송\n• 간병일지에 자동 저장\n\n⭐ **병원 평가 시스템**\n• 무기명 병원 평가 가능\n• 수준 낮은 서비스·무시하는 태도 개선\n• 더 이상 참지 마세요!\n\n🏛️ **국가기관 민원 제기**\n• 보건복지부, 국민신문고 등 연계\n• 의료분쟁조정중재원, 국가인권위원회\n• 공익 목적으로 사실적시 명예훼손 해당 없음\n• 환자·보호자의 권리 보호\n\n💪 환자 당사자의 가슴 조리는 심정으로 기획·개발된 플랫폼입니다!",
+            keywords: ["차이", "특별", "유일", "독특", "다른", "기능"]
         }
     ];
 
@@ -492,7 +510,33 @@
                 }
             }
 
-            /* 모바일 반응형 */
+            /* 태블릿 반응형 (768px ~ 1024px) */
+            @media (min-width: 641px) and (max-width: 1024px) {
+                .chatbot-window {
+                    width: 450px;
+                    height: 650px;
+                }
+
+                .chatbot-button {
+                    width: 64px;
+                    height: 64px;
+                }
+
+                .chatbot-button i {
+                    font-size: 30px;
+                }
+
+                .chatbot-menu {
+                    min-width: 280px;
+                }
+
+                .chatbot-faq-btn {
+                    font-size: 14px;
+                    padding: 14px 18px;
+                }
+            }
+
+            /* 모바일 반응형 (~ 640px) */
             @media (max-width: 640px) {
                 .chatbot-window {
                     bottom: 0;
@@ -507,6 +551,12 @@
                 .chatbot-button {
                     bottom: 20px;
                     right: 20px;
+                    width: 56px;
+                    height: 56px;
+                }
+
+                .chatbot-button i {
+                    font-size: 26px;
                 }
 
                 .chatbot-menu {
@@ -514,6 +564,50 @@
                     right: 20px;
                     left: 20px;
                     min-width: auto;
+                }
+
+                .chatbot-title {
+                    font-size: 16px;
+                }
+
+                .chatbot-subtitle {
+                    font-size: 11px;
+                }
+
+                .chatbot-faq-btn {
+                    font-size: 12px;
+                    padding: 10px 14px;
+                }
+
+                .chatbot-message-content {
+                    font-size: 14px;
+                }
+
+                .chatbot-footer input {
+                    font-size: 14px;
+                    padding: 10px 14px;
+                }
+
+                .chatbot-send-btn {
+                    width: 44px;
+                    height: 44px;
+                }
+            }
+
+            /* 큰 화면 (1920px 이상) */
+            @media (min-width: 1920px) {
+                .chatbot-window {
+                    width: 480px;
+                    height: 700px;
+                }
+
+                .chatbot-button {
+                    width: 70px;
+                    height: 70px;
+                }
+
+                .chatbot-button i {
+                    font-size: 32px;
                 }
             }
         `;
