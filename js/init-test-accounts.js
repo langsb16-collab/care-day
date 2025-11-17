@@ -7,39 +7,90 @@
         // 기존 회원 데이터 가져오기
         let members = JSON.parse(localStorage.getItem('members') || '[]');
         
-        // 테스트 계정 1: guest
-        const testAccount1 = {
-            username: 'guest',
-            email: 'guest@cashiq.org',
-            password: '12345',
-            name: '게스트',
-            phone: '010-0000-0001',
-            membershipPlan: '2year', // 프리미엄 2년
-            createdAt: new Date().toISOString(),
-            expiresAt: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString() // 2년 후
-        };
-        
-        // 테스트 계정 2: locks88@naver.com
-        const testAccount2 = {
-            username: 'locks88@naver.com',
-            email: 'locks88@naver.com',
-            password: '12345',
-            name: '관리자',
-            phone: '010-0000-0002',
-            membershipPlan: '2year', // 프리미엄 2년
-            createdAt: new Date().toISOString(),
-            expiresAt: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString() // 2년 후
-        };
+        // 테스트 계정들 정의
+        const testAccounts = [
+            {
+                id: 1,
+                username: 'guest',
+                email: 'guest@cashiq.org',
+                password: 'guest',
+                name: '게스트',
+                phone: '010-0000-0001',
+                type: 'paid',
+                plan: '2년 프리미엄',
+                joinDate: '2024-01-01',
+                expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                status: 'active',
+                searchCount: 0,
+                lastLogin: null,
+                visitCount: 0,
+                lastIP: null
+            },
+            {
+                id: 2,
+                username: 'guest1',
+                email: 'guest1@cashiq.org',
+                password: 'guest1',
+                name: '게스트1',
+                phone: '010-0000-0002',
+                type: 'paid',
+                plan: '2년 프리미엄',
+                joinDate: '2024-01-01',
+                expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                status: 'active',
+                searchCount: 0,
+                lastLogin: null,
+                visitCount: 0,
+                lastIP: null
+            },
+            {
+                id: 3,
+                username: 'guest2',
+                email: 'guest2@cashiq.org',
+                password: 'guest2',
+                name: '게스트2',
+                phone: '010-0000-0003',
+                type: 'paid',
+                plan: '2년 프리미엄',
+                joinDate: '2024-01-01',
+                expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                status: 'active',
+                searchCount: 0,
+                lastLogin: null,
+                visitCount: 0,
+                lastIP: null
+            },
+            {
+                id: 4,
+                username: 'guest3',
+                email: 'guest3@cashiq.org',
+                password: 'guest3',
+                name: '게스트3',
+                phone: '010-0000-0004',
+                type: 'paid',
+                plan: '2년 프리미엄',
+                joinDate: '2024-01-01',
+                expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                status: 'active',
+                searchCount: 0,
+                lastLogin: null,
+                visitCount: 0,
+                lastIP: null
+            }
+        ];
         
         // 기존 테스트 계정 제거 (중복 방지)
         members = members.filter(m => 
             m.username !== 'guest' && 
-            m.username !== 'locks88@naver.com'
+            m.username !== 'guest1' &&
+            m.username !== 'guest2' &&
+            m.username !== 'guest3'
         );
         
         // 테스트 계정 추가
-        members.push(testAccount1);
-        members.push(testAccount2);
+        testAccounts.forEach(account => {
+            members.push(account);
+        });
         
         // localStorage에 저장
         localStorage.setItem('members', JSON.stringify(members));
