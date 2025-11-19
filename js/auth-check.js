@@ -2,6 +2,55 @@
 (function() {
     'use strict';
 
+    // 현재 언어 가져오기
+    function getCurrentLanguage() {
+        return localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+    }
+
+    // 번역된 메시지 가져오기
+    function getTranslatedMessage(key) {
+        const lang = getCurrentLanguage();
+        const messages = {
+            ko: {
+                premiumOnly: '프리미엄 회원 전용 기능입니다.\n회원가입 후 이용하실 수 있습니다.',
+                searchLimit: '무료 회원은 하루 3회까지 병원 검색이 가능합니다.\n프리미엄 회원으로 업그레이드하시면 무제한으로 이용하실 수 있습니다.',
+                upgradPrompt: '프리미엄 회원가입 페이지로 이동하시겠습니까?',
+                freeMember: '무료 회원',
+                remainingSearches: '오늘 남은 검색 횟수',
+                times: '회',
+                unlimitedUse: '무제한 사용 →'
+            },
+            en: {
+                premiumOnly: 'This is a premium member only feature.\nPlease sign up to use this service.',
+                searchLimit: 'Free members can search hospitals up to 3 times per day.\nUpgrade to premium membership for unlimited access.',
+                upgradPrompt: 'Would you like to go to the premium membership page?',
+                freeMember: 'Free Member',
+                remainingSearches: 'Remaining searches today',
+                times: 'times',
+                unlimitedUse: 'Unlimited Use →'
+            },
+            zh: {
+                premiumOnly: '这是高级会员专用功能。\n注册后即可使用。',
+                searchLimit: '免费会员每天最多可搜索3次医院。\n升级为高级会员可无限使用。',
+                upgradPrompt: '是否前往高级会员注册页面？',
+                freeMember: '免费会员',
+                remainingSearches: '今日剩余搜索次数',
+                times: '次',
+                unlimitedUse: '无限使用 →'
+            },
+            ja: {
+                premiumOnly: 'プレミアム会員専用機能です。\n会員登録後にご利用いただけます。',
+                searchLimit: '無料会員は1日3回まで病院検索が可能です。\nプレミアム会員にアップグレードすると無制限でご利用いただけます。',
+                upgradPrompt: 'プレミアム会員登録ページに移動しますか？',
+                freeMember: '無料会員',
+                remainingSearches: '本日の残り検索回数',
+                times: '回',
+                unlimitedUse: '無制限使用 →'
+            }
+        };
+        return messages[lang] || messages['ko'];
+    }
+
     // 현재 로그인된 사용자 정보 가져오기
     function getCurrentUser() {
         const userStr = sessionStorage.getItem('currentUser');
@@ -43,7 +92,8 @@
         // 무료 회원이고 제한된 페이지에 접근하려는 경우
         if (membershipPlan === 'free' && !isFreePage) {
             // 회원가입 페이지로 리다이렉트
-            alert('프리미엄 회원 전용 기능입니다.\n회원가입 후 이용하실 수 있습니다.');
+            const msg = getTranslatedMessage();
+            alert(msg.premiumOnly);
             window.location.href = '/auth/signup.html';
             return false;
         }
@@ -72,8 +122,9 @@
         
         // 검색 횟수 체크
         if (searchData.count >= 3) {
-            alert('무료 회원은 하루 3회까지 병원 검색이 가능합니다.\n프리미엄 회원으로 업그레이드하시면 무제한으로 이용하실 수 있습니다.');
-            if (confirm('프리미엄 회원가입 페이지로 이동하시겠습니까?')) {
+            const msg = getTranslatedMessage();
+            alert(msg.searchLimit);
+            if (confirm(msg.upgradPrompt)) {
                 window.location.href = '/auth/signup.html';
             }
             return false;
@@ -124,7 +175,8 @@
                     const membershipPlan = getMembershipPlan();
                     if (membershipPlan === 'free') {
                         e.preventDefault();
-                        alert('프리미엄 회원 전용 기능입니다.\n회원가입 후 이용하실 수 있습니다.');
+                        const msg = getTranslatedMessage();
+                        alert(msg.premiumOnly);
                         window.location.href = '/auth/signup.html';
                     }
                 });
@@ -150,6 +202,7 @@
             // 검색 제한 안내 메시지 표시
             const searchContainer = document.querySelector('.search-container, #searchContainer, form');
             if (searchContainer && remaining >= 0) {
+                const msg = getTranslatedMessage();
                 const limitMessage = document.createElement('div');
                 limitMessage.className = 'bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4 text-sm';
                 limitMessage.innerHTML = `
@@ -157,11 +210,11 @@
                         <div class="flex items-center">
                             <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
                             <span class="text-yellow-800">
-                                <strong>무료 회원</strong>: 오늘 남은 검색 횟수 <strong>${remaining}회</strong>
+                                <strong>${msg.freeMember}</strong>: ${msg.remainingSearches} <strong>${remaining}${msg.times}</strong>
                             </span>
                         </div>
                         <a href="/auth/signup.html" class="text-blue-600 hover:text-blue-800 font-semibold">
-                            무제한 사용 →
+                            ${msg.unlimitedUse}
                         </a>
                     </div>
                 `;

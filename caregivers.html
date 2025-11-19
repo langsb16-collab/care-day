@@ -1140,7 +1140,16 @@
             posts.unshift(newPost);
             renderPosts();
             closePostModal();
-            alert('게시물이 등록되었습니다!');
+            
+            // 다국어 알림 메시지
+            const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+            const messages = {
+                ko: '게시물이 등록되었습니다!',
+                en: 'Post has been registered!',
+                zh: '帖子已发布！',
+                ja: '投稿が登録されました！'
+            };
+            alert(messages[currentLang] || messages['ko']);
         }
 
         // 모달 외부 클릭 시 닫기

@@ -599,7 +599,14 @@
             const privacyAgree = document.getElementById('privacyAgree').checked;
             
             if (!privacyAgree) {
-                alert('개인정보 수집 및 이용에 동의해주세요.');
+                const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+                const messages = {
+                    ko: '개인정보 수집 및 이용에 동의해주세요.',
+                    en: 'Please agree to the collection and use of personal information.',
+                    zh: '请同意个人信息的收集和使用。',
+                    ja: '個人情報の収集と利用に同意してください。'
+                };
+                alert(messages[currentLang] || messages['ko']);
                 return;
             }
             
@@ -613,12 +620,14 @@
             });
             
             if (hasForbidden) {
-                const confirmSubmit = confirm(
-                    '⚠️ 경고\n\n' +
-                    '제목이나 내용에 병원, 의사 등의 단어가 포함되어 있습니다.\n' +
-                    '실명이나 특정 가능한 표현은 명예훼손의 위험이 있습니다.\n\n' +
-                    '그래도 제출하시겠습니까?'
-                );
+                const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+                const warnings = {
+                    ko: '⚠️ 경고\n\n제목이나 내용에 병원, 의사 등의 단어가 포함되어 있습니다.\n실명이나 특정 가능한 표현은 명예훼손의 위험이 있습니다.\n\n그래도 제출하시겠습니까?',
+                    en: '⚠️ Warning\n\nYour title or content contains words like hospital, doctor, etc.\nReal names or identifiable expressions may risk defamation.\n\nDo you still want to submit?',
+                    zh: '⚠️ 警告\n\n标题或内容中包含医院、医生等词汇。\n真实姓名或可识别的表达可能有诽谤风险。\n\n仍要提交吗？',
+                    ja: '⚠️ 警告\n\nタイトルまたは内容に病院、医師などの言葉が含まれています。\n実名または特定可能な表現は名誉毀損のリスクがあります。\n\nそれでも提出しますか？'
+                };
+                const confirmSubmit = confirm(warnings[currentLang] || warnings['ko']);
                 
                 if (!confirmSubmit) {
                     return;
@@ -642,19 +651,27 @@
                 // 시뮬레이션
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 
-                alert(
-                    `✅ 민원이 성공적으로 접수되었습니다!\n\n` +
-                    `접수 기관: ${agency}\n` +
-                    `제목: ${title}\n\n` +
-                    `해당 기관에서 민원을 검토하여 처리할 예정입니다.\n` +
-                    `연락처를 입력하신 경우 처리 결과를 안내받으실 수 있습니다.`
-                );
+                const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+                const successMsgs = {
+                    ko: `✅ 민원이 성공적으로 접수되었습니다!\n\n접수 기관: ${agency}\n제목: ${title}\n\n해당 기관에서 민원을 검토하여 처리할 예정입니다.\n연락처를 입력하신 경우 처리 결과를 안내받으실 수 있습니다.`,
+                    en: `✅ Complaint submitted successfully!\n\nAgency: ${agency}\nTitle: ${title}\n\nThe agency will review and process your complaint.\nYou will be notified of the result if you provided contact information.`,
+                    zh: `✅ 投诉已成功提交！\n\n受理机构: ${agency}\n标题: ${title}\n\n该机构将审查并处理您的投诉。\n如果您提供了联系方式，将通知您处理结果。`,
+                    ja: `✅ 苦情が正常に受理されました！\n\n受付機関: ${agency}\nタイトル: ${title}\n\n該当機関で苦情を検討して処理する予定です。\n連絡先を入力された場合、処理結果をお知らせします。`
+                };
+                alert(successMsgs[currentLang] || successMsgs['ko']);
                 
                 closeModal();
                 
             } catch (error) {
                 console.error('민원 접수 오류:', error);
-                alert('❌ 민원 접수 중 오류가 발생했습니다.\n\n다시 시도해주세요.');
+                const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+                const errorMsgs = {
+                    ko: '❌ 민원 접수 중 오류가 발생했습니다.\n\n다시 시도해주세요.',
+                    en: '❌ An error occurred while submitting the complaint.\n\nPlease try again.',
+                    zh: '❌ 提交投诉时发生错误。\n\n请重试。',
+                    ja: '❌ 苦情受付中にエラーが発生しました。\n\nもう一度お試しください。'
+                };
+                alert(errorMsgs[currentLang] || errorMsgs['ko']);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
@@ -667,8 +684,16 @@
             const maxSize = 10 * 1024 * 1024; // 10MB
             const maxFiles = 5;
             
+            const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+            
             if (files.length > maxFiles) {
-                alert(`최대 ${maxFiles}개 파일까지만 첨부할 수 있습니다.`);
+                const fileLimitMsgs = {
+                    ko: `최대 ${maxFiles}개 파일까지만 첨부할 수 있습니다.`,
+                    en: `You can attach up to ${maxFiles} files only.`,
+                    zh: `最多只能附加 ${maxFiles} 个文件。`,
+                    ja: `最大 ${maxFiles} 個のファイルまで添付できます。`
+                };
+                alert(fileLimitMsgs[currentLang] || fileLimitMsgs['ko']);
                 e.target.value = '';
                 return;
             }
@@ -681,7 +706,13 @@
             });
             
             if (oversized) {
-                alert('파일 크기는 각각 10MB 이하여야 합니다.');
+                const sizeLimitMsgs = {
+                    ko: '파일 크기는 각각 10MB 이하여야 합니다.',
+                    en: 'Each file size must be 10MB or less.',
+                    zh: '每个文件大小必须在10MB以下。',
+                    ja: 'ファイルサイズはそれぞれ10MB以下である必要があります。'
+                };
+                alert(sizeLimitMsgs[currentLang] || sizeLimitMsgs['ko']);
                 e.target.value = '';
             }
         });
