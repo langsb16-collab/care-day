@@ -62,7 +62,12 @@ function performSearch() {
             // Redirect to hospital search page with query
             window.location.href = `hospital.html?search=${encodeURIComponent(query)}`;
         } else {
-            alert('검색어를 입력해주세요.');
+            // Get translated alert message
+            const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+            const alertMsg = translations && translations[currentLang] && translations[currentLang].alerts 
+                ? translations[currentLang].alerts.searchEmpty 
+                : '검색어를 입력해주세요.';
+            alert(alertMsg);
         }
     }
 }
@@ -130,13 +135,18 @@ if (window.location.pathname.includes('hospital.html')) {
 
 // Loading animation
 function showLoading() {
+    const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+    const loadingMsg = translations && translations[currentLang] && translations[currentLang].alerts 
+        ? translations[currentLang].alerts.loading 
+        : '로딩 중...';
+    
     const loader = document.createElement('div');
     loader.id = 'loading-overlay';
     loader.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     loader.innerHTML = `
         <div class="bg-white rounded-lg p-8 text-center">
             <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-4"></div>
-            <p class="text-gray-600">로딩 중...</p>
+            <p class="text-gray-600">${loadingMsg}</p>
         </div>
     `;
     document.body.appendChild(loader);
@@ -200,7 +210,11 @@ function validateForm(formId) {
     });
     
     if (!isValid) {
-        showNotification('필수 항목을 모두 입력해주세요.', 'warning');
+        const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+        const warningMsg = translations && translations[currentLang] && translations[currentLang].alerts 
+            ? translations[currentLang].alerts.requiredFields 
+            : '필수 항목을 모두 입력해주세요.';
+        showNotification(warningMsg, 'warning');
     }
     
     return isValid;
@@ -213,22 +227,27 @@ function printPage() {
 
 // Share functionality
 function sharePage() {
+    const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+    const alerts = translations && translations[currentLang] && translations[currentLang].alerts 
+        ? translations[currentLang].alerts 
+        : { shared: '공유되었습니다!', linkCopied: '링크가 클립보드에 복사되었습니다!', copyFailed: '링크 복사에 실패했습니다.' };
+    
     if (navigator.share) {
         navigator.share({
             title: document.title,
             url: window.location.href
         }).then(() => {
-            showNotification('공유되었습니다!', 'success');
+            showNotification(alerts.shared, 'success');
         }).catch(err => {
             console.error('Share failed:', err);
         });
     } else {
         // Fallback: Copy to clipboard
         navigator.clipboard.writeText(window.location.href).then(() => {
-            showNotification('링크가 클립보드에 복사되었습니다!', 'success');
+            showNotification(alerts.linkCopied, 'success');
         }).catch(err => {
             console.error('Copy failed:', err);
-            showNotification('링크 복사에 실패했습니다.', 'error');
+            showNotification(alerts.copyFailed, 'error');
         });
     }
 }

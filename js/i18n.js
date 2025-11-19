@@ -42,10 +42,53 @@ const translations = {
         sections: {
             title: '주요 서비스'
         },
+        serviceCards: {
+            hospital: {
+                title: '병원 검색',
+                desc: '2,500+ 병원',
+                action: '보기 →'
+            },
+            caregivers: {
+                title: '간병인 찾기',
+                desc: '전문 간병인',
+                action: '보기 →'
+            },
+            careDiary: {
+                title: '간병일지',
+                desc: '기록 & 공유',
+                action: '보기 →'
+            },
+            rehab: {
+                title: '재활운동',
+                desc: '30+ 영상',
+                action: '보기 →'
+            },
+            support: {
+                title: '지원정책',
+                desc: '정부 지원',
+                action: '보기 →'
+            },
+            community: {
+                title: '커뮤니티',
+                desc: '소통 공간',
+                action: '보기 →'
+            }
+        },
         emergency: {
             title: '응급 상황이신가요?',
             subtitle: '즉시 119에 연락하거나 가까운 응급실로 가세요',
             guide: '응급 가이드'
+        },
+        alerts: {
+            searchEmpty: '검색어를 입력해주세요.',
+            comingSoon: '준비 중입니다.',
+            membershipRequired: '회원제 서비스입니다. 로그인이 필요합니다.',
+            loginRequired: '로그인이 필요한 서비스입니다.',
+            loading: '로딩 중...',
+            requiredFields: '필수 항목을 모두 입력해주세요.',
+            shared: '공유되었습니다!',
+            linkCopied: '링크가 클립보드에 복사되었습니다!',
+            copyFailed: '링크 복사에 실패했습니다.'
         },
         footer: {
             about: '서비스 소개',
@@ -426,10 +469,53 @@ const translations = {
         sections: {
             title: 'Main Services'
         },
+        serviceCards: {
+            hospital: {
+                title: 'Hospital Search',
+                desc: '2,500+ Hospitals',
+                action: 'View →'
+            },
+            caregivers: {
+                title: 'Find Caregivers',
+                desc: 'Professional Care',
+                action: 'View →'
+            },
+            careDiary: {
+                title: 'Care Diary',
+                desc: 'Record & Share',
+                action: 'View →'
+            },
+            rehab: {
+                title: 'Rehabilitation',
+                desc: '30+ Videos',
+                action: 'View →'
+            },
+            support: {
+                title: 'Support Policies',
+                desc: 'Government Support',
+                action: 'View →'
+            },
+            community: {
+                title: 'Community',
+                desc: 'Communication Space',
+                action: 'View →'
+            }
+        },
         emergency: {
             title: 'Is this an emergency?',
             subtitle: 'Call 119 immediately or go to the nearest emergency room',
             guide: 'Emergency Guide'
+        },
+        alerts: {
+            searchEmpty: 'Please enter a search term.',
+            comingSoon: 'Coming soon.',
+            membershipRequired: 'This is a membership service. Login is required.',
+            loginRequired: 'Login is required for this service.',
+            loading: 'Loading...',
+            requiredFields: 'Please fill in all required fields.',
+            shared: 'Shared successfully!',
+            linkCopied: 'Link copied to clipboard!',
+            copyFailed: 'Failed to copy link.'
         },
         footer: {
             about: 'About',
@@ -749,10 +835,53 @@ const translations = {
         sections: {
             title: '主要服务'
         },
+        serviceCards: {
+            hospital: {
+                title: '医院搜索',
+                desc: '2,500+ 医院',
+                action: '查看 →'
+            },
+            caregivers: {
+                title: '寻找护理员',
+                desc: '专业护理员',
+                action: '查看 →'
+            },
+            careDiary: {
+                title: '护理日记',
+                desc: '记录与分享',
+                action: '查看 →'
+            },
+            rehab: {
+                title: '康复运动',
+                desc: '30+ 视频',
+                action: '查看 →'
+            },
+            support: {
+                title: '支持政策',
+                desc: '政府支持',
+                action: '查看 →'
+            },
+            community: {
+                title: '社区',
+                desc: '交流空间',
+                action: '查看 →'
+            }
+        },
         emergency: {
             title: '这是紧急情况吗？',
             subtitle: '请立即拨打119或前往最近的急诊室',
             guide: '急救指南'
+        },
+        alerts: {
+            searchEmpty: '请输入搜索词。',
+            comingSoon: '即将推出。',
+            membershipRequired: '这是会员服务，需要登录。',
+            loginRequired: '此服务需要登录。',
+            loading: '加载中...',
+            requiredFields: '请填写所有必填项。',
+            shared: '分享成功！',
+            linkCopied: '链接已复制到剪贴板！',
+            copyFailed: '复制链接失败。'
         },
         footer: {
             about: '服务介绍',
@@ -1072,10 +1201,53 @@ const translations = {
         sections: {
             title: '主なサービス'
         },
+        serviceCards: {
+            hospital: {
+                title: '病院検索',
+                desc: '2,500+ 病院',
+                action: '見る →'
+            },
+            caregivers: {
+                title: '介護士を探す',
+                desc: '専門介護士',
+                action: '見る →'
+            },
+            careDiary: {
+                title: '介護日記',
+                desc: '記録＆共有',
+                action: '見る →'
+            },
+            rehab: {
+                title: 'リハビリ運動',
+                desc: '30+ 動画',
+                action: '見る →'
+            },
+            support: {
+                title: '支援政策',
+                desc: '政府支援',
+                action: '見る →'
+            },
+            community: {
+                title: 'コミュニティ',
+                desc: '交流スペース',
+                action: '見る →'
+            }
+        },
         emergency: {
             title: '緊急事態ですか？',
             subtitle: 'すぐに119に連絡するか、最寄りの救急室に行ってください',
             guide: '緊急ガイド'
+        },
+        alerts: {
+            searchEmpty: '検索キーワードを入力してください。',
+            comingSoon: '準備中です。',
+            membershipRequired: '会員制サービスです。ログインが必要です。',
+            loginRequired: 'このサービスはログインが必要です。',
+            loading: '読み込み中...',
+            requiredFields: '必須項目をすべて入力してください。',
+            shared: '共有しました！',
+            linkCopied: 'リンクをクリップボードにコピーしました！',
+            copyFailed: 'リンクのコピーに失敗しました。'
         },
         footer: {
             about: 'サービス紹介',
