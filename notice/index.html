@@ -110,6 +110,13 @@
     <script>
         let allNotices = [];
         let currentFilter = 'all';
+        let currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+
+        // Listen for language changes
+        window.addEventListener('languageChanged', (e) => {
+            currentLang = e.detail.lang;
+            renderNotices();
+        });
 
         // Load notices
         async function loadNotices() {
@@ -237,11 +244,16 @@
             const emptyState = document.getElementById('emptyState');
             
             let filtered = allNotices;
+            
+            // Filter by language first (show all languages if not specified, or show matching language)
+            filtered = filtered.filter(n => !n.lang || n.lang === currentLang || n.lang === 'all');
+            
+            // Then filter by category
             if (currentFilter !== 'all') {
                 if (currentFilter === 'emergency' || currentFilter === 'important') {
-                    filtered = allNotices.filter(n => n.importance === currentFilter);
+                    filtered = filtered.filter(n => n.importance === currentFilter);
                 } else {
-                    filtered = allNotices.filter(n => n.category === currentFilter);
+                    filtered = filtered.filter(n => n.category === currentFilter);
                 }
             }
             

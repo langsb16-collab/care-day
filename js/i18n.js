@@ -1362,8 +1362,14 @@ let currentLang = localStorage.getItem('language') || 'ko';
 function switchLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('language', lang);
+    localStorage.setItem('currentLanguage', lang); // For chatbot compatibility
     updatePageLanguage();
     updateActiveLanguageButton();
+    
+    // Dispatch custom event for other components (like chatbot)
+    window.dispatchEvent(new CustomEvent('languageChanged', {
+        detail: { lang: lang }
+    }));
 }
 
 // 페이지 언어 업데이트

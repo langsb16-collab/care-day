@@ -227,11 +227,307 @@
     </div>
 
     <script>
+        // Multilingual translations
+        const translations = {
+            ko: {
+                backToHome: '홈으로 돌아가기',
+                membershipTitle: '회원 등급 선택',
+                signupTitle: '회원가입',
+                signupSubtitle: 'CASHiQ와 함께 건강한 케어를 시작하세요',
+                freeMember: '무료 회원',
+                freeMemberSubtitle: 'Free Membership',
+                freePrice: '₩0',
+                freeDuration: '영구 무료',
+                freeFeature1: '하루 병원 검색 3회',
+                freeFeature2: '공지사항 열람',
+                freeButton: '무료로 시작하기',
+                premium1Year: '프리미엄 1년',
+                premium1YearSubtitle: 'Premium 1 Year',
+                premium1YearPrice: '₩68,000',
+                premium1YearDuration: '약 ₩5,666/월',
+                premium2Year: '프리미엄 2년',
+                premium2YearSubtitle: 'Premium 2 Years',
+                premium2YearBadge: '32% 할인!',
+                premium2YearPrice: '₩100,000',
+                premium2YearDuration: '약 ₩4,166/월',
+                feature1: '플랫폼 모든 메뉴 사용',
+                feature2: '모든 하위 메뉴 접근',
+                feature3: '무제한 병원 검색',
+                feature4: '커뮤니티 전체 이용',
+                feature5: '병원 리뷰 & 평가',
+                feature6: '필터링 & 지도 검색',
+                feature7: '제휴 병원 할인',
+                feature8: '우선 고객 지원',
+                feature2Year1: '1년 플랜의 모든 혜택',
+                feature2Year2: '플랫폼 모든 기능 사용',
+                feature2Year3: '₩36,000 추가 절약',
+                feature2Year4: '프리미엄 간병 가이드',
+                feature2Year5: 'VIP 전용 혜택',
+                nameLabel: '이름',
+                namePlaceholder: '홍길동',
+                emailLabel: '이메일',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: '전화번호',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: '비밀번호',
+                passwordPlaceholder: '8자 이상',
+                passwordConfirmLabel: '비밀번호 확인',
+                passwordConfirmPlaceholder: '비밀번호 재입력',
+                termsLabel: '이용약관 및 개인정보처리방침에 동의합니다',
+                marketingLabel: '마케팅 정보 수신에 동의합니다 (선택)',
+                selectedPlan: '선택한 플랜:',
+                freePlan: '무료 회원',
+                signupButton: '회원가입',
+                alreadyMember: '이미 회원이신가요?',
+                loginLink: '로그인',
+                required: '*',
+                errorPasswordMismatch: '비밀번호가 일치하지 않습니다.',
+                errorPasswordLength: '비밀번호는 8자 이상이어야 합니다.',
+                errorTerms: '이용약관에 동의해주세요.',
+                errorEmailExists: '이미 가입된 이메일입니다.',
+                successSignup: '회원가입이 완료되었습니다!',
+                successPayment: '회원가입이 완료되었습니다!\n결제 페이지로 이동합니다.'
+            },
+            en: {
+                backToHome: 'Back to Home',
+                membershipTitle: 'Select Membership',
+                signupTitle: 'Sign Up',
+                signupSubtitle: 'Start healthy care with CASHiQ',
+                freeMember: 'Free Member',
+                freeMemberSubtitle: 'Free Membership',
+                freePrice: '$0',
+                freeDuration: 'Forever Free',
+                freeFeature1: '3 hospital searches per day',
+                freeFeature2: 'View announcements',
+                freeButton: 'Start for Free',
+                premium1Year: 'Premium 1 Year',
+                premium1YearSubtitle: 'Premium 1 Year',
+                premium1YearPrice: '$68',
+                premium1YearDuration: 'About $5.67/month',
+                premium2Year: 'Premium 2 Years',
+                premium2YearSubtitle: 'Premium 2 Years',
+                premium2YearBadge: '32% OFF!',
+                premium2YearPrice: '$100',
+                premium2YearDuration: 'About $4.17/month',
+                feature1: 'Use all platform menus',
+                feature2: 'Access all sub-menus',
+                feature3: 'Unlimited hospital search',
+                feature4: 'Full community access',
+                feature5: 'Hospital reviews & ratings',
+                feature6: 'Filtering & map search',
+                feature7: 'Partner hospital discounts',
+                feature8: 'Priority customer support',
+                feature2Year1: 'All benefits of 1-year plan',
+                feature2Year2: 'Use all platform features',
+                feature2Year3: 'Save additional $36',
+                feature2Year4: 'Premium care guide',
+                feature2Year5: 'VIP exclusive benefits',
+                nameLabel: 'Name',
+                namePlaceholder: 'John Doe',
+                emailLabel: 'Email',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: 'Phone',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: 'Password',
+                passwordPlaceholder: '8 characters minimum',
+                passwordConfirmLabel: 'Confirm Password',
+                passwordConfirmPlaceholder: 'Re-enter password',
+                termsLabel: 'I agree to the Terms of Service and Privacy Policy',
+                marketingLabel: 'I agree to receive marketing information (optional)',
+                selectedPlan: 'Selected Plan:',
+                freePlan: 'Free Member',
+                signupButton: 'Sign Up',
+                alreadyMember: 'Already a member?',
+                loginLink: 'Login',
+                required: '*',
+                errorPasswordMismatch: 'Passwords do not match.',
+                errorPasswordLength: 'Password must be at least 8 characters.',
+                errorTerms: 'Please agree to the terms.',
+                errorEmailExists: 'Email already registered.',
+                successSignup: 'Sign up completed!',
+                successPayment: 'Sign up completed!\nRedirecting to payment page.'
+            },
+            zh: {
+                backToHome: '返回主页',
+                membershipTitle: '选择会员等级',
+                signupTitle: '会员注册',
+                signupSubtitle: '与CASHiQ一起开始健康护理',
+                freeMember: '免费会员',
+                freeMemberSubtitle: 'Free Membership',
+                freePrice: '￥0',
+                freeDuration: '永久免费',
+                freeFeature1: '每天3次医院搜索',
+                freeFeature2: '查看公告',
+                freeButton: '免费开始',
+                premium1Year: '高级会员1年',
+                premium1YearSubtitle: 'Premium 1 Year',
+                premium1YearPrice: '￥68,000',
+                premium1YearDuration: '约￥5,666/月',
+                premium2Year: '高级会员2年',
+                premium2YearSubtitle: 'Premium 2 Years',
+                premium2YearBadge: '优惠32%！',
+                premium2YearPrice: '￥100,000',
+                premium2YearDuration: '约￥4,166/月',
+                feature1: '使用平台所有菜单',
+                feature2: '访问所有子菜单',
+                feature3: '无限医院搜索',
+                feature4: '全面使用社区',
+                feature5: '医院评论和评分',
+                feature6: '筛选和地图搜索',
+                feature7: '合作医院折扣',
+                feature8: '优先客户支持',
+                feature2Year1: '1年计划的所有福利',
+                feature2Year2: '使用平台所有功能',
+                feature2Year3: '额外节省￥36,000',
+                feature2Year4: '高级护理指南',
+                feature2Year5: 'VIP专属福利',
+                nameLabel: '姓名',
+                namePlaceholder: '张三',
+                emailLabel: '邮箱',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: '电话号码',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: '密码',
+                passwordPlaceholder: '至少8个字符',
+                passwordConfirmLabel: '确认密码',
+                passwordConfirmPlaceholder: '重新输入密码',
+                termsLabel: '我同意服务条款和隐私政策',
+                marketingLabel: '我同意接收营销信息（可选）',
+                selectedPlan: '选择的计划：',
+                freePlan: '免费会员',
+                signupButton: '注册',
+                alreadyMember: '已经是会员？',
+                loginLink: '登录',
+                required: '*',
+                errorPasswordMismatch: '密码不匹配。',
+                errorPasswordLength: '密码必须至少8个字符。',
+                errorTerms: '请同意条款。',
+                errorEmailExists: '邮箱已注册。',
+                successSignup: '注册完成！',
+                successPayment: '注册完成！\n跳转到支付页面。'
+            },
+            ja: {
+                backToHome: 'ホームに戻る',
+                membershipTitle: '会員レベル選択',
+                signupTitle: '会員登録',
+                signupSubtitle: 'CASHiQと一緒に健康なケアを始めましょう',
+                freeMember: '無料会員',
+                freeMemberSubtitle: 'Free Membership',
+                freePrice: '¥0',
+                freeDuration: '永久無料',
+                freeFeature1: '1日3回病院検索',
+                freeFeature2: 'お知らせ閲覧',
+                freeButton: '無料で始める',
+                premium1Year: 'プレミアム1年',
+                premium1YearSubtitle: 'Premium 1 Year',
+                premium1YearPrice: '¥68,000',
+                premium1YearDuration: '約¥5,666/月',
+                premium2Year: 'プレミアム2年',
+                premium2YearSubtitle: 'Premium 2 Years',
+                premium2YearBadge: '32%割引！',
+                premium2YearPrice: '¥100,000',
+                premium2YearDuration: '約¥4,166/月',
+                feature1: 'プラットフォームすべてのメニュー使用',
+                feature2: 'すべてのサブメニューアクセス',
+                feature3: '無制限の病院検索',
+                feature4: 'コミュニティ全体利用',
+                feature5: '病院レビュー&評価',
+                feature6: 'フィルタリング&マップ検索',
+                feature7: '提携病院割引',
+                feature8: '優先カスタマーサポート',
+                feature2Year1: '1年プランのすべての特典',
+                feature2Year2: 'プラットフォームすべての機能使用',
+                feature2Year3: '¥36,000追加節約',
+                feature2Year4: 'プレミアム介護ガイド',
+                feature2Year5: 'VIP専用特典',
+                nameLabel: '名前',
+                namePlaceholder: '山田太郎',
+                emailLabel: 'メール',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: '電話番号',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: 'パスワード',
+                passwordPlaceholder: '8文字以上',
+                passwordConfirmLabel: 'パスワード確認',
+                passwordConfirmPlaceholder: 'パスワード再入力',
+                termsLabel: '利用規約およびプライバシーポリシーに同意します',
+                marketingLabel: 'マーケティング情報の受信に同意します（任意）',
+                selectedPlan: '選択したプラン：',
+                freePlan: '無料会員',
+                signupButton: '会員登録',
+                alreadyMember: 'すでに会員ですか？',
+                loginLink: 'ログイン',
+                required: '*',
+                errorPasswordMismatch: 'パスワードが一致しません。',
+                errorPasswordLength: 'パスワードは8文字以上である必要があります。',
+                errorTerms: '利用規約に同意してください。',
+                errorEmailExists: 'すでに登録されているメールアドレスです。',
+                successSignup: '会員登録が完了しました！',
+                successPayment: '会員登録が完了しました！\n決済ページに移動します。'
+            }
+        };
+
+        let currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+
+        // Update page content based on language
+        function updateLanguage() {
+            const t = translations[currentLang];
+            
+            // Update static text
+            document.querySelector('a[href="../index.html"]').innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${t.backToHome}`;
+            document.querySelector('.bg-gradient-to-br h2').textContent = t.membershipTitle;
+            document.querySelectorAll('h2')[1].textContent = t.signupTitle;
+            document.querySelectorAll('p')[1].textContent = t.signupSubtitle;
+            
+            // Update free plan
+            const freePlanElements = document.querySelectorAll('.bg-white.bg-opacity-10 h3');
+            if (freePlanElements[0]) {
+                freePlanElements[0].textContent = t.freeMember;
+                freePlanElements[0].nextElementSibling.textContent = t.freeMemberSubtitle;
+            }
+            
+            // Update form labels
+            const labels = document.querySelectorAll('form label');
+            if (labels.length >= 7) {
+                labels[0].innerHTML = `${t.nameLabel} <span class="text-red-500">${t.required}</span>`;
+                labels[1].innerHTML = `${t.emailLabel} <span class="text-red-500">${t.required}</span>`;
+                labels[2].innerHTML = `${t.phoneLabel} <span class="text-red-500">${t.required}</span>`;
+                labels[3].innerHTML = `${t.passwordLabel} <span class="text-red-500">${t.required}</span>`;
+                labels[4].innerHTML = `${t.passwordConfirmLabel} <span class="text-red-500">${t.required}</span>`;
+            }
+            
+            // Update inputs
+            document.getElementById('name').placeholder = t.namePlaceholder;
+            document.getElementById('email').placeholder = t.emailPlaceholder;
+            document.getElementById('phone').placeholder = t.phonePlaceholder;
+            document.getElementById('password').placeholder = t.passwordPlaceholder;
+            document.getElementById('passwordConfirm').placeholder = t.passwordConfirmPlaceholder;
+            
+            // Update selected plan display
+            document.querySelector('#selectedPlanDisplay p').innerHTML = `${t.selectedPlan} <span id="planName" class="text-primary">${t.freePlan}</span>`;
+            
+            // Update submit button
+            document.querySelector('button[type="submit"]').innerHTML = `<i class="fas fa-user-plus mr-2"></i>${t.signupButton}`;
+            
+            // Update login link
+            document.querySelector('p.text-center.text-xs').innerHTML = `${t.alreadyMember} <a href="login.html" class="text-primary hover:underline font-medium">${t.loginLink}</a>`;
+        }
+
+        // Listen for language changes
+        window.addEventListener('languageChanged', (e) => {
+            currentLang = e.detail.lang;
+            updateLanguage();
+        });
+
+        // Initialize language on load
+        window.addEventListener('DOMContentLoaded', updateLanguage);
+
         function selectPlan(plan) {
+            const t = translations[currentLang];
             const planNames = {
-                'free': '무료 회원',
-                '1year': '프리미엄 1년 (₩68,000)',
-                '2year': '프리미엄 2년 (₩100,000)'
+                'free': t.freePlan,
+                '1year': `${t.premium1Year} (${t.premium1YearPrice})`,
+                '2year': `${t.premium2Year} (${t.premium2YearPrice})`
             };
 
             document.getElementById('membershipPlan').value = plan;
@@ -249,19 +545,20 @@
 
             const password = document.getElementById('password').value;
             const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const t = translations[currentLang];
 
             if (password !== passwordConfirm) {
-                alert('비밀번호가 일치하지 않습니다.');
+                alert(t.errorPasswordMismatch);
                 return;
             }
 
             if (password.length < 8) {
-                alert('비밀번호는 8자 이상이어야 합니다.');
+                alert(t.errorPasswordLength);
                 return;
             }
 
             if (!document.getElementById('termsAgree').checked) {
-                alert('이용약관에 동의해주세요.');
+                alert(t.errorTerms);
                 return;
             }
 
@@ -289,7 +586,7 @@
             
             // Check if email already exists
             if (members.some(m => m.email === memberData.email)) {
-                alert('이미 가입된 이메일입니다.');
+                alert(t.errorEmailExists);
                 return;
             }
 
@@ -301,13 +598,14 @@
 
             // If paid plan, redirect to payment
             if (memberData.type === 'paid') {
-                alert('회원가입이 완료되었습니다!\n결제 페이지로 이동합니다.');
+                alert(t.successPayment);
                 window.location.href = 'payment.html?plan=' + document.getElementById('membershipPlan').value;
             } else {
-                alert('회원가입이 완료되었습니다!');
+                alert(t.successSignup);
                 window.location.href = '../index.html';
             }
         });
     </script>
+    <script src="../js/i18n.js"></script>
 </body>
 </html>

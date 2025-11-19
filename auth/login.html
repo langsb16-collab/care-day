@@ -188,6 +188,206 @@
     </div>
 
     <script>
+        // Multilingual translations
+        const translations = {
+            ko: {
+                backToHome: '홈으로 돌아가기',
+                login: '로그인',
+                welcome: 'CASHiQ 뇌질환케어에 오신 것을 환영합니다',
+                emailLabel: '이메일 또는 아이디',
+                emailPlaceholder: 'guest 또는 guest1',
+                passwordLabel: '비밀번호',
+                passwordPlaceholder: '비밀번호',
+                rememberMe: '로그인 유지',
+                forgotPassword: '비밀번호 찾기',
+                loginButton: '로그인',
+                or: '또는',
+                googleLogin: '구글로 시작하기',
+                kakaoLogin: '카카오로 시작하기',
+                naverLogin: '네이버로 시작하기',
+                notMember: '아직 회원이 아니신가요?',
+                signup: '회원가입',
+                testAccount: '테스트 계정 (2년 프리미엄)',
+                account1: '계정 1: guest / 12345',
+                account2: '계정 2: guest1 / 67890',
+                canUseAll: '※ 모든 기능을 자유롭게 사용할 수 있습니다',
+                adminLogin: '관리자 로그인',
+                forgotPasswordTitle: '비밀번호 찾기',
+                forgotPasswordDesc: '등록된 이메일 주소를 입력해주세요',
+                emailInput: '이메일',
+                testAccountInfo: '테스트 계정 정보',
+                cancel: '취소',
+                send: '전송',
+                errorNotRegistered: '등록되지 않은 이메일 또는 아이디입니다.',
+                errorPassword: '비밀번호가 일치하지 않습니다.',
+                welcomeUser: '환영합니다, {name}님!',
+                membershipExpired: '유료 회원 기간이 만료되었습니다. 무료 회원으로 전환됩니다.'
+            },
+            en: {
+                backToHome: 'Back to Home',
+                login: 'Login',
+                welcome: 'Welcome to CASHiQ Brain Disease Care',
+                emailLabel: 'Email or Username',
+                emailPlaceholder: 'guest or guest1',
+                passwordLabel: 'Password',
+                passwordPlaceholder: 'Password',
+                rememberMe: 'Remember me',
+                forgotPassword: 'Forgot password',
+                loginButton: 'Login',
+                or: 'or',
+                googleLogin: 'Continue with Google',
+                kakaoLogin: 'Continue with Kakao',
+                naverLogin: 'Continue with Naver',
+                notMember: 'Not a member yet?',
+                signup: 'Sign up',
+                testAccount: 'Test Account (2-year Premium)',
+                account1: 'Account 1: guest / 12345',
+                account2: 'Account 2: guest1 / 67890',
+                canUseAll: '※ You can use all features freely',
+                adminLogin: 'Admin Login',
+                forgotPasswordTitle: 'Forgot Password',
+                forgotPasswordDesc: 'Please enter your registered email address',
+                emailInput: 'Email',
+                testAccountInfo: 'Test Account Information',
+                cancel: 'Cancel',
+                send: 'Send',
+                errorNotRegistered: 'Email or username not registered.',
+                errorPassword: 'Password does not match.',
+                welcomeUser: 'Welcome, {name}!',
+                membershipExpired: 'Premium membership has expired. Converting to free membership.'
+            },
+            zh: {
+                backToHome: '返回主页',
+                login: '登录',
+                welcome: '欢迎来到CASHiQ脑疾病护理',
+                emailLabel: '邮箱或用户名',
+                emailPlaceholder: 'guest 或 guest1',
+                passwordLabel: '密码',
+                passwordPlaceholder: '密码',
+                rememberMe: '保持登录',
+                forgotPassword: '找回密码',
+                loginButton: '登录',
+                or: '或',
+                googleLogin: '使用Google登录',
+                kakaoLogin: '使用Kakao登录',
+                naverLogin: '使用Naver登录',
+                notMember: '还不是会员？',
+                signup: '注册',
+                testAccount: '测试账号（2年高级会员）',
+                account1: '账号1：guest / 12345',
+                account2: '账号2：guest1 / 67890',
+                canUseAll: '※ 可以自由使用所有功能',
+                adminLogin: '管理员登录',
+                forgotPasswordTitle: '找回密码',
+                forgotPasswordDesc: '请输入注册的邮箱地址',
+                emailInput: '邮箱',
+                testAccountInfo: '测试账号信息',
+                cancel: '取消',
+                send: '发送',
+                errorNotRegistered: '邮箱或用户名未注册。',
+                errorPassword: '密码不匹配。',
+                welcomeUser: '欢迎，{name}！',
+                membershipExpired: '高级会员已过期。转换为免费会员。'
+            },
+            ja: {
+                backToHome: 'ホームに戻る',
+                login: 'ログイン',
+                welcome: 'CASHiQ脳疾患ケアへようこそ',
+                emailLabel: 'メールアドレスまたはユーザー名',
+                emailPlaceholder: 'guest または guest1',
+                passwordLabel: 'パスワード',
+                passwordPlaceholder: 'パスワード',
+                rememberMe: 'ログイン状態を保持',
+                forgotPassword: 'パスワードを忘れた',
+                loginButton: 'ログイン',
+                or: 'または',
+                googleLogin: 'Googleで続ける',
+                kakaoLogin: 'Kakaoで続ける',
+                naverLogin: 'Naverで続ける',
+                notMember: 'まだ会員ではありませんか？',
+                signup: '会員登録',
+                testAccount: 'テストアカウント（2年プレミアム）',
+                account1: 'アカウント1：guest / 12345',
+                account2: 'アカウント2：guest1 / 67890',
+                canUseAll: '※ すべての機能を自由に使用できます',
+                adminLogin: '管理者ログイン',
+                forgotPasswordTitle: 'パスワードを忘れた',
+                forgotPasswordDesc: '登録されたメールアドレスを入力してください',
+                emailInput: 'メール',
+                testAccountInfo: 'テストアカウント情報',
+                cancel: 'キャンセル',
+                send: '送信',
+                errorNotRegistered: 'メールアドレスまたはユーザー名が登録されていません。',
+                errorPassword: 'パスワードが一致しません。',
+                welcomeUser: 'ようこそ、{name}さん！',
+                membershipExpired: 'プレミアム会員期間が終了しました。無料会員に変換されます。'
+            }
+        };
+
+        let currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+
+        // Update page content based on language
+        function updateLanguage() {
+            const t = translations[currentLang];
+            
+            // Update static text elements
+            document.querySelector('a[href="../index.html"]').innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${t.backToHome}`;
+            document.querySelector('h1').textContent = t.login;
+            document.querySelector('p.text-gray-600').textContent = t.welcome;
+            
+            // Update labels
+            document.querySelectorAll('label')[0].innerHTML = `<i class="fas fa-user mr-2 text-primary"></i>${t.emailLabel}`;
+            document.querySelectorAll('label')[1].innerHTML = `<i class="fas fa-lock mr-2 text-primary"></i>${t.passwordLabel}`;
+            
+            // Update placeholders
+            document.getElementById('email').placeholder = t.emailPlaceholder;
+            document.getElementById('password').placeholder = t.passwordPlaceholder;
+            
+            // Update checkbox and links
+            document.querySelector('label[for="remember"] span').textContent = t.rememberMe;
+            document.querySelector('a[onclick*="forgotPassword"]').textContent = t.forgotPassword;
+            
+            // Update buttons
+            document.getElementById('loginButton').innerHTML = `<i class="fas fa-sign-in-alt mr-2"></i>${t.loginButton}`;
+            document.querySelector('.relative .px-4').textContent = t.or;
+            
+            // Update social login buttons
+            const socialButtons = document.querySelectorAll('button[onclick*="socialLogin"]');
+            socialButtons[0].querySelector('span').textContent = t.googleLogin;
+            socialButtons[1].querySelector('span').textContent = t.kakaoLogin;
+            socialButtons[2].querySelector('span').textContent = t.naverLogin;
+            
+            // Update signup link
+            document.querySelector('p.text-center.text-sm').innerHTML = `${t.notMember} <a href="signup.html" class="text-primary hover:underline font-medium">${t.signup}</a>`;
+            
+            // Update test account box
+            document.querySelector('.bg-green-50 h4').innerHTML = `<i class="fas fa-key mr-2"></i>${t.testAccount}`;
+            const testAccountTexts = document.querySelectorAll('.bg-green-50 .text-xs p');
+            testAccountTexts[0].innerHTML = `<strong>${t.account1.split(':')[0]}:</strong> ${t.account1.split(':')[1]}`;
+            testAccountTexts[1].innerHTML = `<strong>${t.account2.split(':')[0]}:</strong> ${t.account2.split(':')[1]}`;
+            testAccountTexts[2].textContent = t.canUseAll;
+            
+            // Update admin link
+            document.querySelector('p.text-center.text-xs a').textContent = t.adminLogin;
+            
+            // Update forgot password modal
+            document.querySelector('#forgotPasswordModal h2').textContent = t.forgotPasswordTitle;
+            document.querySelector('#forgotPasswordModal p.text-sm').textContent = t.forgotPasswordDesc;
+            document.querySelector('label[for="forgotEmail"]').innerHTML = `<i class="fas fa-envelope mr-2 text-primary"></i>${t.emailInput}`;
+            document.querySelector('.bg-blue-50 h4').innerHTML = `<i class="fas fa-info-circle mr-2"></i>${t.testAccountInfo}`;
+            document.querySelector('button[onclick="closeForgotPassword()"]').textContent = t.cancel;
+            document.querySelector('button[onclick="sendResetEmail()"]').innerHTML = `<i class="fas fa-paper-plane mr-2"></i>${t.send}`;
+        }
+
+        // Listen for language changes
+        window.addEventListener('languageChanged', (e) => {
+            currentLang = e.detail.lang;
+            updateLanguage();
+        });
+
+        // Initialize language on load
+        window.addEventListener('DOMContentLoaded', updateLanguage);
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -204,13 +404,13 @@
             );
 
             if (!user) {
-                showError('등록되지 않은 이메일 또는 아이디입니다.');
+                showError(translations[currentLang].errorNotRegistered);
                 return;
             }
 
             // Check password
             if (user.password !== password) {
-                showError('비밀번호가 일치하지 않습니다.');
+                showError(translations[currentLang].errorPassword);
                 return;
             }
 
@@ -232,7 +432,7 @@
                 const expireDate = new Date(user.expiresAt);
                 const now = new Date();
                 if (expireDate < now) {
-                    alert('유료 회원 기간이 만료되었습니다. 무료 회원으로 전환됩니다.');
+                    alert(translations[currentLang].membershipExpired);
                     user.membershipPlan = 'free';
                     localStorage.setItem('members', JSON.stringify(members));
                 }
@@ -243,14 +443,14 @@
                 const expireDate = new Date(user.expireDate);
                 const now = new Date();
                 if (expireDate < now) {
-                    alert('유료 회원 기간이 만료되었습니다. 무료 회원으로 전환됩니다.');
+                    alert(translations[currentLang].membershipExpired);
                     user.type = 'free';
                     user.plan = '무료';
                     localStorage.setItem('members', JSON.stringify(members));
                 }
             }
 
-            alert(`환영합니다, ${user.name}님!`);
+            alert(translations[currentLang].welcomeUser.replace('{name}', user.name));
             window.location.href = '../index.html';
         });
 
@@ -402,6 +602,7 @@
             window.location.href = '../index.html';
         }
     </script>
+    <script src="../js/i18n.js"></script>
     <script src="../js/init-test-accounts.js"></script>
 </body>
 </html>
