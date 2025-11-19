@@ -456,7 +456,8 @@ class CASHiQChatbot {
 
 // 페이지 로드 시 챗봇 초기화
 let chatbot;
-document.addEventListener('DOMContentLoaded', function() {
+
+function initChatbot() {
     // CSS 파일 로드
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -468,4 +469,13 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbot = new CASHiQChatbot();
         console.log('✅ CASHiQ Multilingual Chatbot initialized');
     }, 500);
-});
+}
+
+// DOM이 이미 로드되었는지 확인
+if (document.readyState === 'loading') {
+    // 아직 로드 중이면 이벤트 리스너 추가
+    document.addEventListener('DOMContentLoaded', initChatbot);
+} else {
+    // 이미 로드되었으면 바로 실행
+    initChatbot();
+}
