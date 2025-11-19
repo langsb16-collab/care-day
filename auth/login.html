@@ -330,53 +330,92 @@
         function updateLanguage() {
             const t = translations[currentLang];
             
-            // Update static text elements
-            document.querySelector('a[href="../index.html"]').innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${t.backToHome}`;
-            document.querySelector('h1').textContent = t.login;
-            document.querySelector('p.text-gray-600').textContent = t.welcome;
+            // Update static text elements - with null checks
+            const backLink = document.querySelector('a[href="../index.html"]');
+            if (backLink) backLink.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${t.backToHome}`;
             
-            // Update labels
-            document.querySelectorAll('label')[0].innerHTML = `<i class="fas fa-user mr-2 text-primary"></i>${t.emailLabel}`;
-            document.querySelectorAll('label')[1].innerHTML = `<i class="fas fa-lock mr-2 text-primary"></i>${t.passwordLabel}`;
+            const h1 = document.querySelector('h1');
+            if (h1) h1.textContent = t.login;
             
-            // Update placeholders
-            document.getElementById('email').placeholder = t.emailPlaceholder;
-            document.getElementById('password').placeholder = t.passwordPlaceholder;
+            const welcome = document.querySelector('p.text-gray-600');
+            if (welcome) welcome.textContent = t.welcome;
             
-            // Update checkbox and links
-            document.querySelector('label[for="remember"] span').textContent = t.rememberMe;
-            document.querySelector('a[onclick*="forgotPassword"]').textContent = t.forgotPassword;
+            // Update labels - with null checks
+            const labels = document.querySelectorAll('label');
+            if (labels[0]) labels[0].innerHTML = `<i class="fas fa-user mr-2 text-primary"></i>${t.emailLabel}`;
+            if (labels[1]) labels[1].innerHTML = `<i class="fas fa-lock mr-2 text-primary"></i>${t.passwordLabel}`;
             
-            // Update buttons
-            document.getElementById('loginButton').innerHTML = `<i class="fas fa-sign-in-alt mr-2"></i>${t.loginButton}`;
-            document.querySelector('.relative .px-4').textContent = t.or;
+            // Update placeholders - with null checks
+            const emailInput = document.getElementById('email');
+            if (emailInput) emailInput.placeholder = t.emailPlaceholder;
             
-            // Update social login buttons
+            const passwordInput = document.getElementById('password');
+            if (passwordInput) passwordInput.placeholder = t.passwordPlaceholder;
+            
+            // Update checkbox and links - with null checks
+            const rememberSpan = document.querySelector('label[for="remember"] span');
+            if (rememberSpan) rememberSpan.textContent = t.rememberMe;
+            
+            const forgotLink = document.querySelector('a[onclick*="forgotPassword"]');
+            if (forgotLink) forgotLink.textContent = t.forgotPassword;
+            
+            // Update buttons - with null checks
+            const loginBtn = document.getElementById('loginButton');
+            if (loginBtn) loginBtn.innerHTML = `<i class="fas fa-sign-in-alt mr-2"></i>${t.loginButton}`;
+            
+            const orText = document.querySelector('.relative .px-4');
+            if (orText) orText.textContent = t.or;
+            
+            // Update social login buttons - with null checks
             const socialButtons = document.querySelectorAll('button[onclick*="socialLogin"]');
-            socialButtons[0].querySelector('span').textContent = t.googleLogin;
-            socialButtons[1].querySelector('span').textContent = t.kakaoLogin;
-            socialButtons[2].querySelector('span').textContent = t.naverLogin;
+            if (socialButtons[0]) {
+                const span0 = socialButtons[0].querySelector('span');
+                if (span0) span0.textContent = t.googleLogin;
+            }
+            if (socialButtons[1]) {
+                const span1 = socialButtons[1].querySelector('span');
+                if (span1) span1.textContent = t.kakaoLogin;
+            }
+            if (socialButtons[2]) {
+                const span2 = socialButtons[2].querySelector('span');
+                if (span2) span2.textContent = t.naverLogin;
+            }
             
-            // Update signup link
-            document.querySelector('p.text-center.text-sm').innerHTML = `${t.notMember} <a href="signup.html" class="text-primary hover:underline font-medium">${t.signup}</a>`;
+            // Update signup link - with null check
+            const signupLink = document.querySelector('p.text-center.text-sm');
+            if (signupLink) signupLink.innerHTML = `${t.notMember} <a href="signup.html" class="text-primary hover:underline font-medium">${t.signup}</a>`;
             
-            // Update test account box
-            document.querySelector('.bg-green-50 h4').innerHTML = `<i class="fas fa-key mr-2"></i>${t.testAccount}`;
+            // Update test account box - with null checks
+            const testAccountH4 = document.querySelector('.bg-green-50 h4');
+            if (testAccountH4) testAccountH4.innerHTML = `<i class="fas fa-key mr-2"></i>${t.testAccount}`;
+            
             const testAccountTexts = document.querySelectorAll('.bg-green-50 .text-xs p');
-            testAccountTexts[0].innerHTML = `<strong>${t.account1.split(':')[0]}:</strong> ${t.account1.split(':')[1]}`;
-            testAccountTexts[1].innerHTML = `<strong>${t.account2.split(':')[0]}:</strong> ${t.account2.split(':')[1]}`;
-            testAccountTexts[2].textContent = t.canUseAll;
+            if (testAccountTexts[0]) testAccountTexts[0].innerHTML = `<strong>${t.account1.split(':')[0]}:</strong> ${t.account1.split(':')[1]}`;
+            if (testAccountTexts[1]) testAccountTexts[1].innerHTML = `<strong>${t.account2.split(':')[0]}:</strong> ${t.account2.split(':')[1]}`;
+            if (testAccountTexts[2]) testAccountTexts[2].textContent = t.canUseAll;
             
-            // Update admin link
-            document.querySelector('p.text-center.text-xs a').textContent = t.adminLogin;
+            // Update admin link - with null check
+            const adminLink = document.querySelector('p.text-center.text-xs a');
+            if (adminLink) adminLink.textContent = t.adminLogin;
             
-            // Update forgot password modal
-            document.querySelector('#forgotPasswordModal h2').textContent = t.forgotPasswordTitle;
-            document.querySelector('#forgotPasswordModal p.text-sm').textContent = t.forgotPasswordDesc;
-            document.querySelector('label[for="forgotEmail"]').innerHTML = `<i class="fas fa-envelope mr-2 text-primary"></i>${t.emailInput}`;
-            document.querySelector('.bg-blue-50 h4').innerHTML = `<i class="fas fa-info-circle mr-2"></i>${t.testAccountInfo}`;
-            document.querySelector('button[onclick="closeForgotPassword()"]').textContent = t.cancel;
-            document.querySelector('button[onclick="sendResetEmail()"]').innerHTML = `<i class="fas fa-paper-plane mr-2"></i>${t.send}`;
+            // Update forgot password modal - with null checks
+            const modalH2 = document.querySelector('#forgotPasswordModal h2');
+            if (modalH2) modalH2.textContent = t.forgotPasswordTitle;
+            
+            const modalDesc = document.querySelector('#forgotPasswordModal p.text-sm');
+            if (modalDesc) modalDesc.textContent = t.forgotPasswordDesc;
+            
+            const forgotEmailLabel = document.querySelector('label[for="forgotEmail"]');
+            if (forgotEmailLabel) forgotEmailLabel.innerHTML = `<i class="fas fa-envelope mr-2 text-primary"></i>${t.emailInput}`;
+            
+            const testInfoH4 = document.querySelector('.bg-blue-50 h4');
+            if (testInfoH4) testInfoH4.innerHTML = `<i class="fas fa-info-circle mr-2"></i>${t.testAccountInfo}`;
+            
+            const cancelBtn = document.querySelector('button[onclick="closeForgotPassword()"]');
+            if (cancelBtn) cancelBtn.textContent = t.cancel;
+            
+            const sendBtn = document.querySelector('button[onclick="sendResetEmail()"]');
+            if (sendBtn) sendBtn.innerHTML = `<i class="fas fa-paper-plane mr-2"></i>${t.send}`;
         }
 
         // Listen for language changes

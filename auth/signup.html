@@ -473,11 +473,18 @@
         function updateLanguage() {
             const t = translations[currentLang];
             
-            // Update static text
-            document.querySelector('a[href="../index.html"]').innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${t.backToHome}`;
-            document.querySelector('.bg-gradient-to-br h2').textContent = t.membershipTitle;
-            document.querySelectorAll('h2')[1].textContent = t.signupTitle;
-            document.querySelectorAll('p')[1].textContent = t.signupSubtitle;
+            // Update static text - with null checks
+            const backLink = document.querySelector('a[href="../index.html"]');
+            if (backLink) backLink.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${t.backToHome}`;
+            
+            const membershipTitle = document.querySelector('.bg-gradient-to-br h2');
+            if (membershipTitle) membershipTitle.textContent = t.membershipTitle;
+            
+            const h2Elements = document.querySelectorAll('h2');
+            if (h2Elements[1]) h2Elements[1].textContent = t.signupTitle;
+            
+            const pElements = document.querySelectorAll('p');
+            if (pElements[1]) pElements[1].textContent = t.signupSubtitle;
             
             // Update free plan
             const freePlanElements = document.querySelectorAll('.bg-white.bg-opacity-10 h3');
@@ -486,31 +493,43 @@
                 freePlanElements[0].nextElementSibling.textContent = t.freeMemberSubtitle;
             }
             
-            // Update form labels
+            // Update form labels - with null checks
             const labels = document.querySelectorAll('form label');
             if (labels.length >= 7) {
-                labels[0].innerHTML = `${t.nameLabel} <span class="text-red-500">${t.required}</span>`;
-                labels[1].innerHTML = `${t.emailLabel} <span class="text-red-500">${t.required}</span>`;
-                labels[2].innerHTML = `${t.phoneLabel} <span class="text-red-500">${t.required}</span>`;
-                labels[3].innerHTML = `${t.passwordLabel} <span class="text-red-500">${t.required}</span>`;
-                labels[4].innerHTML = `${t.passwordConfirmLabel} <span class="text-red-500">${t.required}</span>`;
+                if (labels[0]) labels[0].innerHTML = `${t.nameLabel} <span class="text-red-500">${t.required}</span>`;
+                if (labels[1]) labels[1].innerHTML = `${t.emailLabel} <span class="text-red-500">${t.required}</span>`;
+                if (labels[2]) labels[2].innerHTML = `${t.phoneLabel} <span class="text-red-500">${t.required}</span>`;
+                if (labels[3]) labels[3].innerHTML = `${t.passwordLabel} <span class="text-red-500">${t.required}</span>`;
+                if (labels[4]) labels[4].innerHTML = `${t.passwordConfirmLabel} <span class="text-red-500">${t.required}</span>`;
             }
             
-            // Update inputs
-            document.getElementById('name').placeholder = t.namePlaceholder;
-            document.getElementById('email').placeholder = t.emailPlaceholder;
-            document.getElementById('phone').placeholder = t.phonePlaceholder;
-            document.getElementById('password').placeholder = t.passwordPlaceholder;
-            document.getElementById('passwordConfirm').placeholder = t.passwordConfirmPlaceholder;
+            // Update inputs - with null checks
+            const nameInput = document.getElementById('name');
+            if (nameInput) nameInput.placeholder = t.namePlaceholder;
             
-            // Update selected plan display
-            document.querySelector('#selectedPlanDisplay p').innerHTML = `${t.selectedPlan} <span id="planName" class="text-primary">${t.freePlan}</span>`;
+            const emailInput = document.getElementById('email');
+            if (emailInput) emailInput.placeholder = t.emailPlaceholder;
             
-            // Update submit button
-            document.querySelector('button[type="submit"]').innerHTML = `<i class="fas fa-user-plus mr-2"></i>${t.signupButton}`;
+            const phoneInput = document.getElementById('phone');
+            if (phoneInput) phoneInput.placeholder = t.phonePlaceholder;
             
-            // Update login link
-            document.querySelector('p.text-center.text-xs').innerHTML = `${t.alreadyMember} <a href="login.html" class="text-primary hover:underline font-medium">${t.loginLink}</a>`;
+            const passwordInput = document.getElementById('password');
+            if (passwordInput) passwordInput.placeholder = t.passwordPlaceholder;
+            
+            const passwordConfirmInput = document.getElementById('passwordConfirm');
+            if (passwordConfirmInput) passwordConfirmInput.placeholder = t.passwordConfirmPlaceholder;
+            
+            // Update selected plan display - with null check
+            const planDisplay = document.querySelector('#selectedPlanDisplay p');
+            if (planDisplay) planDisplay.innerHTML = `${t.selectedPlan} <span id="planName" class="text-primary">${t.freePlan}</span>`;
+            
+            // Update submit button - with null check
+            const submitBtn = document.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.innerHTML = `<i class="fas fa-user-plus mr-2"></i>${t.signupButton}`;
+            
+            // Update login link - with null check
+            const loginLink = document.querySelector('p.text-center.text-xs');
+            if (loginLink) loginLink.innerHTML = `${t.alreadyMember} <a href="login.html" class="text-primary hover:underline font-medium">${t.loginLink}</a>`;
         }
 
         // Listen for language changes
