@@ -1778,8 +1778,14 @@ function updateActiveLanguageButton() {
     document.querySelectorAll('.lang-btn').forEach(btn => {
         const lang = btn.getAttribute('data-lang');
         if (lang === currentLang) {
-            btn.classList.add('bg-blue-100', 'text-primary', 'font-semibold');
+            // 'active' 클래스가 있으면 사용 (signup 페이지용)
+            // 없으면 기본 스타일 적용 (다른 페이지용)
+            if (btn.classList.contains('lang-btn')) {
+                btn.classList.add('active');
+                btn.classList.add('bg-blue-100', 'text-primary', 'font-semibold');
+            }
         } else {
+            btn.classList.remove('active');
             btn.classList.remove('bg-blue-100', 'text-primary', 'font-semibold');
         }
     });

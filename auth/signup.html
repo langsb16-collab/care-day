@@ -8,6 +8,41 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 언어 버튼 스타일 개선 */
+        .lang-btn {
+            position: relative;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .lang-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* 모바일 최적화 */
+        @media (max-width: 640px) {
+            .lang-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        /* 로딩 애니메이션 */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body class="font-sans bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen flex items-center justify-center p-4">
     
@@ -19,24 +54,24 @@
             </a>
             
             <!-- Language Switcher -->
-            <div class="flex items-center space-x-1">
-                <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="ko">
+            <div class="flex items-center space-x-1" id="languageSwitcher">
+                <button onclick="switchLanguage('ko')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ko">
                     🇰🇷 <span class="hidden sm:inline">한국어</span>
                 </button>
-                <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="en">
+                <button onclick="switchLanguage('en')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="en">
                     🇺🇸 <span class="hidden sm:inline">English</span>
                 </button>
-                <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="zh">
+                <button onclick="switchLanguage('zh')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="zh">
                     🇨🇳 <span class="hidden sm:inline">中文</span>
                 </button>
-                <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="ja">
+                <button onclick="switchLanguage('ja')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ja">
                     🇯🇵 <span class="hidden sm:inline">日本語</span>
                 </button>
             </div>
         </div>
 
         <!-- Main Container -->
-        <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div class="bg-white rounded-xl shadow-2xl overflow-hidden fade-in">
             <div class="grid md:grid-cols-2 gap-0 text-sm">
                 <!-- Left Side - Membership Plans -->
                 <div class="bg-gradient-to-br from-blue-600 to-purple-600 p-5 md:p-8 text-white">
@@ -298,16 +333,54 @@
             }
         }
 
+        // 현재 선택된 언어 버튼 강조
+        function updateActiveLanguageButton() {
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(btn => {
+                const lang = btn.getAttribute('data-lang');
+                if (lang === currentLang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
         // Listen for language changes
         window.addEventListener('languageChanged', (e) => {
             currentLang = e.detail.lang;
             updateLanguage();
+            updateActiveLanguageButton();
+            
+            // 페이드인 애니메이션 추가
+            const mainContainer = document.querySelector('.bg-white.rounded-xl');
+            if (mainContainer) {
+                mainContainer.classList.remove('fade-in');
+                void mainContainer.offsetWidth; // 리플로우 강제
+                mainContainer.classList.add('fade-in');
+            }
         });
 
         // Initialize language on load
         document.addEventListener('DOMContentLoaded', function() {
             // Small delay to ensure i18n.js is fully loaded
-            setTimeout(updateLanguage, 100);
+            setTimeout(() => {
+                updateLanguage();
+                updateActiveLanguageButton();
+            }, 100);
+            
+            // 모바일 터치 최적화: 언어 버튼에 터치 이벤트 추가
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                // 터치스타트 시 즉시 반응
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.95)';
+                }, { passive: true });
+                
+                btn.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                }, { passive: true });
+            });
         });
 
         function selectPlan(plan) {
