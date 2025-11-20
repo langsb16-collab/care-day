@@ -519,9 +519,9 @@
         <div class="container mx-auto px-4">
         <div class="search-header">
             <h1 data-i18n="hospitalSearch.mainTitle">🏥 뇌질환 전문 병원 검색</h1>
-            <p class="search-stats">7개 분류 • 2,500+ 병원 데이터베이스</p>
+            <p class="search-stats" data-i18n="hospitalSearch.searchStats">7개 분류 • 2,500+ 병원 데이터베이스</p>
         </div><div class="search-section">
-            <h3 style="color: #2c5aa0; margin-bottom: 1rem;">🔍 병원 이름 또는 지역으로 검색</h3>
+            <h3 style="color: #2c5aa0; margin-bottom: 1rem;" data-i18n="hospitalSearch.searchTitle">🔍 병원 이름 또는 지역으로 검색</h3>
             <div class="search-box">
                 <input type="text" id="searchInput" class="search-input" data-i18n-placeholder="hospitalSearch.searchPlaceholder" placeholder="병원 이름, 지역명을 입력하세요 (예: 서울대병원, 강남구)">
                 <button class="search-btn" onclick="searchHospitals()" data-i18n="hospitalSearch.searchButton">검색</button>
@@ -567,14 +567,14 @@
             <a href="hospital-reservation.html" 
                class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-500 to-blue-600 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300">
                 <i class="fas fa-calendar-check text-2xl mr-3"></i>
-                <span>뇌질환 예약 진료 가능 병원 보기</span>
+                <span data-i18n="hospitalSearch.reservationButton">뇌질환 예약 진료 가능 병원 보기</span>
                 <i class="fas fa-arrow-right ml-3"></i>
             </a>
-            <p class="text-sm text-gray-600 mt-3">온라인 진료예약 가능한 전국 뇌질환 전문병원 안내</p>
+            <p class="text-sm text-gray-600 mt-3" data-i18n="hospitalSearch.reservationSubtext">온라인 진료예약 가능한 전국 뇌질환 전문병원 안내</p>
         </div>
 
         <div class="results-count">
-            <p>검색 결과: <span id="resultCount">3500</span>개</p>
+            <p><span data-i18n="hospitalSearch.resultCount">검색 결과:</span> <span id="resultCount">3500</span><span data-i18n="hospitalSearch.resultUnit">개</span></p>
         </div><div id="hospitalGrid" class="hospital-grid">
             <div class="hospital-card" data-category="상급종합" data-region="강원" data-name="전남대학교병원1">
                 <div class="hospital-header">
