@@ -633,9 +633,9 @@ class CASHiQChatbot {
         const t = this.translations[this.currentLang];
         const qnaList = this.qnaData[this.currentLang] || [];
         
-        // 스타일 복원
-        container.style.maxHeight = '450px';
-        container.style.overflow = 'auto';
+        // 스타일 복원 - maxHeight 제거하여 flex: 1이 제대로 작동하도록
+        container.style.maxHeight = '';
+        container.style.overflow = '';
         
         // 메시지 영역 초기화
         const messagesContainer = document.getElementById('chatbot-messages');
@@ -643,7 +643,7 @@ class CASHiQChatbot {
         messagesContainer.innerHTML = '';
         this.messages = [];
         
-        // 모든 질문을 표시 (4개 제한 없음)
+        // 모든 질문을 표시 (제한 없음)
         container.innerHTML = `
             <div class="chatbot-quick-title">${t.quickQuestions}</div>
             <div class="chatbot-questions-list">
@@ -655,6 +655,8 @@ class CASHiQChatbot {
                 `).join('')}
             </div>
         `;
+        
+        console.log(`✅ Displaying ${qnaList.length} questions in ${this.currentLang}`);
     }
 
     // 빠른 질문 클릭 처리
@@ -704,8 +706,9 @@ class CASHiQChatbot {
     // 질문 리스트 다시 보기
     showFullQuestionList() {
         const quickQuestionsContainer = document.getElementById('chatbot-quick-questions');
-        quickQuestionsContainer.style.maxHeight = '450px';
-        quickQuestionsContainer.style.overflow = 'auto';
+        // maxHeight 제거하여 flex: 1이 제대로 작동하도록
+        quickQuestionsContainer.style.maxHeight = '';
+        quickQuestionsContainer.style.overflow = '';
         
         // 메시지 영역 초기화
         const messagesContainer = document.getElementById('chatbot-messages');
