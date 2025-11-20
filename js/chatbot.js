@@ -544,14 +544,51 @@ class CASHiQChatbot {
         
         // 질문 버튼 터치 최적화는 동적으로 생성되므로 이벤트 위임 사용
         document.addEventListener('touchstart', (e) => {
-            if (e.target.closest('.chatbot-quick-btn')) {
-                e.target.closest('.chatbot-quick-btn').style.transform = 'translateX(4px) scale(0.98)';
+            const quickBtn = e.target.closest('.chatbot-quick-btn');
+            const backBtn = e.target.closest('.chatbot-back-to-list-btn');
+            const sendButton = e.target.closest('#chatbot-send');
+            
+            if (quickBtn) {
+                quickBtn.style.transform = 'translateX(4px) scale(0.98)';
+            }
+            if (backBtn) {
+                backBtn.style.transform = 'translateY(2px) scale(0.98)';
+            }
+            if (sendButton) {
+                sendButton.style.transform = 'scale(0.9)';
             }
         }, { passive: true });
         
         document.addEventListener('touchend', (e) => {
-            if (e.target.closest('.chatbot-quick-btn')) {
-                e.target.closest('.chatbot-quick-btn').style.transform = 'translateX(0) scale(1)';
+            const quickBtn = e.target.closest('.chatbot-quick-btn');
+            const backBtn = e.target.closest('.chatbot-back-to-list-btn');
+            const sendButton = e.target.closest('#chatbot-send');
+            
+            if (quickBtn) {
+                quickBtn.style.transform = 'translateX(0) scale(1)';
+            }
+            if (backBtn) {
+                backBtn.style.transform = 'translateY(0) scale(1)';
+            }
+            if (sendButton) {
+                sendButton.style.transform = 'scale(1)';
+            }
+        }, { passive: true });
+        
+        // 터치 취소 시에도 원래 상태로 복귀
+        document.addEventListener('touchcancel', (e) => {
+            const quickBtn = e.target.closest('.chatbot-quick-btn');
+            const backBtn = e.target.closest('.chatbot-back-to-list-btn');
+            const sendButton = e.target.closest('#chatbot-send');
+            
+            if (quickBtn) {
+                quickBtn.style.transform = 'translateX(0) scale(1)';
+            }
+            if (backBtn) {
+                backBtn.style.transform = 'translateY(0) scale(1)';
+            }
+            if (sendButton) {
+                sendButton.style.transform = 'scale(1)';
             }
         }, { passive: true });
     }
