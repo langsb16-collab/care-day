@@ -489,26 +489,13 @@
         function updateLanguage() {
             const t = translations[currentLang];
             
-            // Update static text - with null checks
-            const backLink = document.querySelector('a[href="../index.html"]');
-            if (backLink) backLink.innerHTML = `<i class="fas fa-arrow-left mr-2"></i>${t.backToHome}`;
-            
-            const membershipTitle = document.querySelector('.bg-gradient-to-br h2');
-            if (membershipTitle) membershipTitle.textContent = t.membershipTitle;
-            
-            const h2Elements = document.querySelectorAll('h2');
-            if (h2Elements[1]) h2Elements[1].textContent = t.signupTitle;
-            
-            const pElements = document.querySelectorAll('p');
-            if (pElements[1]) pElements[1].textContent = t.signupSubtitle;
-            
-            // Update free plan
-            const freePlanElements = document.querySelectorAll('.bg-white.bg-opacity-10 h3');
-            if (freePlanElements[0]) {
-                freePlanElements[0].textContent = t.freeMember;
-                freePlanElements[0].nextElementSibling.textContent = t.freeMemberSubtitle;
+            // First, call global updatePageLanguage if available (from i18n.js)
+            // This updates all elements with data-i18n attributes
+            if (typeof window.updatePageLanguage === 'function') {
+                window.updatePageLanguage();
             }
             
+            // Then update form-specific elements not covered by data-i18n
             // Update form labels - with null checks
             const labels = document.querySelectorAll('form label');
             if (labels.length >= 7) {

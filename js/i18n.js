@@ -1733,20 +1733,6 @@ const translations = {
 // 현재 언어 (기본값: 한국어)
 let currentLang = localStorage.getItem('language') || 'ko';
 
-// 언어 전환 함수
-function switchLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('language', lang);
-    localStorage.setItem('currentLanguage', lang); // For chatbot compatibility
-    updatePageLanguage();
-    updateActiveLanguageButton();
-    
-    // Dispatch custom event for other components (like chatbot)
-    window.dispatchEvent(new CustomEvent('languageChanged', {
-        detail: { lang: lang }
-    }));
-}
-
 // 페이지 언어 업데이트
 function updatePageLanguage() {
     // data-i18n 속성을 가진 모든 요소 업데이트
@@ -1798,6 +1784,24 @@ function updateActiveLanguageButton() {
         }
     });
 }
+
+// 언어 전환 함수
+function switchLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('language', lang);
+    localStorage.setItem('currentLanguage', lang); // For chatbot compatibility
+    updatePageLanguage();
+    updateActiveLanguageButton();
+    
+    // Dispatch custom event for other components (like chatbot)
+    window.dispatchEvent(new CustomEvent('languageChanged', {
+        detail: { lang: lang }
+    }));
+}
+
+// Expose functions to window for global access
+window.updatePageLanguage = updatePageLanguage;
+window.switchLanguage = switchLanguage;
 
 // 페이지 로드 시 언어 초기화
 document.addEventListener('DOMContentLoaded', function() {
