@@ -561,37 +561,39 @@ class CASHiQChatbot {
         button.classList.remove('active');
     }
 
-    // 환영 메시지 추가
+    // 환영 메시지 추가 (전체 질문 리스트로 대체)
     addWelcomeMessage() {
-        const t = this.translations[this.currentLang];
-        const welcomeMsg = {
-            type: 'bot',
-            text: t.welcome,
-            timestamp: new Date()
-        };
-        this.messages.push(welcomeMsg);
-        this.renderMessage(welcomeMsg);
+        // 환영 메시지 없이 바로 전체 질문 리스트 표시
+        this.showQuickQuestions();
     }
 
-    // 빠른 질문 표시
+    // 전체 질문 리스트 표시
     showQuickQuestions() {
         const container = document.getElementById('chatbot-quick-questions');
         const t = this.translations[this.currentLang];
         const qnaList = this.qnaData[this.currentLang] || [];
         
-        // 카테고리별로 1개씩 추출
-        const categories = [...new Set(qnaList.map(q => q.category))];
-        const quickQuestions = categories.slice(0, 4).map(cat => {
-            return qnaList.find(q => q.category === cat);
-        }).filter(q => q);
-
+        // 스타일 복원
+        container.style.maxHeight = '450px';
+        container.style.overflow = 'auto';
+        
+        // 메시지 영역 초기화
+        const messagesContainer = document.getElementById('chatbot-messages');
+        messagesContainer.classList.remove('has-messages');
+        messagesContainer.innerHTML = '';
+        this.messages = [];
+        
+        // 모든 질문을 표시 (4개 제한 없음)
         container.innerHTML = `
             <div class="chatbot-quick-title">${t.quickQuestions}</div>
-            ${quickQuestions.map(q => `
-                <button class="chatbot-quick-btn" onclick="chatbot.handleQuickQuestion(${q.id})">
-                    ${q.question}
-                </button>
-            `).join('')}
+            <div class="chatbot-questions-list">
+                ${qnaList.map(q => `
+                    <button class="chatbot-quick-btn" onclick="chatbot.handleQuickQuestion(${q.id})">
+                        <span class="question-number">${q.id}.</span>
+                        <span class="question-text">${q.question}</span>
+                    </button>
+                `).join('')}
+            </div>
         `;
     }
 
@@ -600,11 +602,56 @@ class CASHiQChatbot {
         const qnaList = this.qnaData[this.currentLang] || [];
         const qna = qnaList.find(q => q.id === id);
         if (qna) {
+            // 질문 리스트 영역 축소
+            const quickQuestionsContainer = document.getElementById('chatbot-quick-questions');
+            quickQuestionsContainer.style.maxHeight = '80px';
+            quickQuestionsContainer.style.overflow = 'hidden';
+            
             this.addMessage('user', qna.question);
             setTimeout(() => {
                 this.addMessage('bot', qna.answer);
+                
+                // "목록으로 돌아가기" 버튼 추가
+                this.addBackToListButton();
             }, 500);
         }
+    }
+    
+    // 목록으로 돌아가기 버튼 추가
+    addBackToListButton() {
+        const messagesContainer = document.getElementById('chatbot-messages');
+        const t = this.translations[this.currentLang];
+        
+        const backButtonText = {
+            ko: '📋 질문 목록으로 돌아가기',
+            en: '📋 Back to Question List',
+            zh: '📋 返回问题列表',
+            ja: '📋 質問リストに戻る'
+        };
+        
+        const buttonHTML = `
+            <div class="chatbot-message bot">
+                <button class="chatbot-back-to-list-btn" onclick="chatbot.showQuickQuestions(); this.parentElement.remove();">
+                    ${backButtonText[this.currentLang]}
+                </button>
+            </div>
+        `;
+        
+        messagesContainer.insertAdjacentHTML('beforeend', buttonHTML);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    // 질문 리스트 다시 보기
+    showFullQuestionList() {
+        const quickQuestionsContainer = document.getElementById('chatbot-quick-questions');
+        quickQuestionsContainer.style.maxHeight = '450px';
+        quickQuestionsContainer.style.overflow = 'auto';
+        
+        // 메시지 영역 초기화
+        const messagesContainer = document.getElementById('chatbot-messages');
+        messagesContainer.classList.remove('has-messages');
+        messagesContainer.innerHTML = '';
+        this.messages = [];
     }
 
     // 메시지 전송
@@ -686,6 +733,12 @@ class CASHiQChatbot {
         `;
 
         messagesContainer.insertAdjacentHTML('beforeend', messageHTML);
+        
+        // 메시지가 있으면 has-messages 클래스 추가
+        messagesContainer.classList.add('has-messages');
+        
+        // 스크롤을 최하단으로
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
     // 배지 숫자 지우기
