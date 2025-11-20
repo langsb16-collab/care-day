@@ -408,11 +408,24 @@ class CASHiQChatbot {
 
         try {
             const savedQnA = localStorage.getItem('chatbotQnA_multilang');
-            if (savedQnA) {
+            const savedVersion = localStorage.getItem('chatbotQnA_version');
+            const currentVersion = '202511200332'; // 버전 번호
+            
+            // 버전이 일치하고 데이터가 있으면 사용
+            if (savedQnA && savedVersion === currentVersion) {
                 const parsed = JSON.parse(savedQnA);
-                console.log('✅ Loaded multilang Q&A from localStorage');
-                return parsed;
+                const koQuestionsCount = parsed.ko ? parsed.ko.length : 0;
+                console.log(`✅ Loaded Q&A v${currentVersion} (${koQuestionsCount} questions)`);
+                
+                // 12개 질문이 있는지 확인
+                if (koQuestionsCount === 12) {
+                    return parsed;
+                }
             }
+            
+            // 버전이 다르거나 데이터가 없으면 새로 저장
+            console.log('🔄 Loading new Q&A data (version update)');
+            localStorage.setItem('chatbotQnA_version', currentVersion);
         } catch (error) {
             console.error('Error loading chatbot Q&A:', error);
         }
