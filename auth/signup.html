@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입 - CASHiQ 뇌질환케어</title>
+    <title data-i18n="signup.pageTitle">회원가입 - CASHiQ 뇌질환케어</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,7 +15,7 @@
         <!-- Back Button -->
         <div class="mb-6">
             <a href="../index.html" class="inline-flex items-center text-primary hover:text-blue-700 font-medium">
-                <i class="fas fa-arrow-left mr-2"></i>홈으로 돌아가기
+                <i class="fas fa-arrow-left mr-2"></i><span data-i18n="signup.backToHome">홈으로 돌아가기</span>
             </a>
         </div>
 
@@ -24,31 +24,31 @@
             <div class="grid md:grid-cols-2 gap-0 text-sm">
                 <!-- Left Side - Membership Plans -->
                 <div class="bg-gradient-to-br from-blue-600 to-purple-600 p-5 md:p-8 text-white">
-                    <h2 class="text-2xl font-bold mb-4">회원 등급 선택</h2>
+                    <h2 class="text-2xl font-bold mb-4" data-i18n="signup.membershipTitle">회원 등급 선택</h2>
                     
                     <!-- Free Plan -->
                     <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-lg p-4 mb-4 hover:bg-opacity-20 transition cursor-pointer border-2 border-transparent hover:border-white" onclick="selectPlan('free')">
                         <div class="flex items-start justify-between mb-3">
                             <div>
-                                <h3 class="text-xl font-bold">무료 회원</h3>
-                                <p class="text-blue-100 text-xs mt-1">Free Membership</p>
+                                <h3 class="text-xl font-bold" data-i18n="signup.free.title">무료 회원</h3>
+                                <p class="text-blue-100 text-xs mt-1" data-i18n="signup.free.subtitle">Free Membership</p>
                             </div>
                             <div class="text-right">
-                                <div class="text-2xl font-bold">₩0</div>
-                                <div class="text-xs text-blue-100">영구 무료</div>
+                                <div class="text-2xl font-bold" data-i18n="signup.free.price">₩0</div>
+                                <div class="text-xs text-blue-100" data-i18n="signup.free.duration">영구 무료</div>
                             </div>
                         </div>
                         <div class="space-y-1.5 text-xs">
                             <div class="flex items-center">
                                 <i class="fas fa-check-circle mr-2 text-green-300"></i>
-                                <span>하루 병원 검색 3회</span>
+                                <span data-i18n="signup.free.feature1">하루 병원 검색 3회</span>
                             </div>
                             <div class="flex items-center">
                                 <i class="fas fa-check-circle mr-2 text-green-300"></i>
-                                <span>공지사항 열람</span>
+                                <span data-i18n="signup.free.feature2">공지사항 열람</span>
                             </div>
                         </div>
-                        <button type="button" class="w-full mt-3 bg-white text-blue-600 py-1.5 rounded-lg font-semibold text-sm hover:bg-blue-50 transition">
+                        <button type="button" class="w-full mt-3 bg-white text-blue-600 py-1.5 rounded-lg font-semibold text-sm hover:bg-blue-50 transition" data-i18n="signup.free.button">
                             무료로 시작하기
                         </button>
                     </div>
@@ -58,46 +58,46 @@
                         <div class="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl p-6 hover:shadow-2xl transition cursor-pointer border-2 border-transparent hover:border-yellow-300" onclick="selectPlan('1year')">
                             <div class="flex items-start justify-between mb-3">
                                 <div>
-                                    <h3 class="text-xl font-bold text-white">프리미엄 1년</h3>
-                                    <p class="text-orange-100 text-sm mt-1">Premium 1 Year</p>
+                                    <h3 class="text-xl font-bold text-white" data-i18n="signup.premium1Year.title">프리미엄 1년</h3>
+                                    <p class="text-orange-100 text-sm mt-1" data-i18n="signup.premium1Year.subtitle">Premium 1 Year</p>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-2xl font-bold text-white">₩68,000</div>
-                                    <div class="text-xs text-orange-100">약 ₩5,666/월</div>
+                                    <div class="text-2xl font-bold text-white" data-i18n="signup.premium1Year.price">₩68,000</div>
+                                    <div class="text-xs text-orange-100" data-i18n="signup.premium1Year.duration">약 ₩5,666/월</div>
                                 </div>
                             </div>
                             <div class="space-y-1.5 text-xs text-white">
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>플랫폼 모든 메뉴 사용</span>
+                                    <span data-i18n="signup.premium1Year.feature1">플랫폼 모든 메뉴 사용</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>모든 하위 메뉴 접근</span>
+                                    <span data-i18n="signup.premium1Year.feature2">모든 하위 메뉴 접근</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>무제한 병원 검색</span>
+                                    <span data-i18n="signup.premium1Year.feature3">무제한 병원 검색</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>커뮤니티 전체 이용</span>
+                                    <span data-i18n="signup.premium1Year.feature4">커뮤니티 전체 이용</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>병원 리뷰 & 평가</span>
+                                    <span data-i18n="signup.premium1Year.feature5">병원 리뷰 & 평가</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>필터링 & 지도 검색</span>
+                                    <span data-i18n="signup.premium1Year.feature6">필터링 & 지도 검색</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>제휴 병원 할인</span>
+                                    <span data-i18n="signup.premium1Year.feature7">제휴 병원 할인</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-crown mr-2 text-yellow-200"></i>
-                                    <span>우선 고객 지원</span>
+                                    <span data-i18n="signup.premium1Year.feature8">우선 고객 지원</span>
                                 </div>
                             </div>
                         </div>
@@ -105,35 +105,35 @@
                         <div class="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-6 hover:shadow-2xl transition cursor-pointer border-2 border-transparent hover:border-purple-300" onclick="selectPlan('2year')">
                             <div class="flex items-start justify-between mb-3">
                                 <div>
-                                    <h3 class="text-lg font-bold text-white">프리미엄 2년</h3>
-                                    <p class="text-purple-100 text-xs mt-1">Premium 2 Years</p>
-                                    <span class="inline-block bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full mt-1">32% 할인!</span>
+                                    <h3 class="text-lg font-bold text-white" data-i18n="signup.premium2Year.title">프리미엄 2년</h3>
+                                    <p class="text-purple-100 text-xs mt-1" data-i18n="signup.premium2Year.subtitle">Premium 2 Years</p>
+                                    <span class="inline-block bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full mt-1" data-i18n="signup.premium2Year.badge">32% 할인!</span>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-xl font-bold text-white">₩100,000</div>
-                                    <div class="text-xs text-purple-100">약 ₩4,166/월</div>
+                                    <div class="text-xl font-bold text-white" data-i18n="signup.premium2Year.price">₩100,000</div>
+                                    <div class="text-xs text-purple-100" data-i18n="signup.premium2Year.duration">약 ₩4,166/월</div>
                                 </div>
                             </div>
                             <div class="space-y-1.5 text-xs text-white">
                                 <div class="flex items-center">
                                     <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span>1년 플랜의 모든 혜택</span>
+                                    <span data-i18n="signup.premium2Year.feature1">1년 플랜의 모든 혜택</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span>플랫폼 모든 기능 사용</span>
+                                    <span data-i18n="signup.premium2Year.feature2">플랫폼 모든 기능 사용</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span>₩36,000 추가 절약</span>
+                                    <span data-i18n="signup.premium2Year.feature3">₩36,000 추가 절약</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span>프리미엄 간병 가이드</span>
+                                    <span data-i18n="signup.premium2Year.feature4">프리미엄 간병 가이드</span>
                                 </div>
                                 <div class="flex items-center">
                                     <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span>VIP 전용 혜택</span>
+                                    <span data-i18n="signup.premium2Year.feature5">VIP 전용 혜택</span>
                                 </div>
                             </div>
                         </div>
@@ -142,8 +142,8 @@
 
                 <!-- Right Side - Signup Form -->
                 <div class="p-5 md:p-8">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-2">회원가입</h2>
-                    <p class="text-gray-600 mb-4 text-sm">CASHiQ와 함께 건강한 케어를 시작하세요</p>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2" data-i18n="signup.signupTitle">회원가입</h2>
+                    <p class="text-gray-600 mb-4 text-sm" data-i18n="signup.signupSubtitle">CASHiQ와 함께 건강한 케어를 시작하세요</p>
 
                     <form id="signupForm" class="space-y-3">
                         <input type="hidden" id="membershipPlan" value="free">
@@ -151,25 +151,25 @@
                         <!-- Name -->
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-1.5">
-                                이름 <span class="text-red-500">*</span>
+                                <span data-i18n="signup.form.nameLabel">이름</span> <span class="text-red-500" data-i18n="signup.form.required">*</span>
                             </label>
-                            <input type="text" id="name" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="홍길동">
+                            <input type="text" id="name" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" data-i18n-placeholder="signup.form.namePlaceholder" placeholder="홍길동">
                         </div>
 
                         <!-- Email -->
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-1.5">
-                                이메일 <span class="text-red-500">*</span>
+                                <span data-i18n="signup.form.emailLabel">이메일</span> <span class="text-red-500" data-i18n="signup.form.required">*</span>
                             </label>
-                            <input type="email" id="email" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="email@example.com">
+                            <input type="email" id="email" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" data-i18n-placeholder="signup.form.emailPlaceholder" placeholder="email@example.com">
                         </div>
 
                         <!-- Phone -->
                         <div>
                             <label class="block text-xs font-medium text-gray-700 mb-1.5">
-                                전화번호 <span class="text-red-500">*</span>
+                                <span data-i18n="signup.form.phoneLabel">전화번호</span> <span class="text-red-500" data-i18n="signup.form.required">*</span>
                             </label>
-                            <input type="tel" id="phone" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="010-1234-5678">
+                            <input type="tel" id="phone" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" data-i18n-placeholder="signup.form.phonePlaceholder" placeholder="010-1234-5678">
                         </div>
 
                         <!-- Password -->

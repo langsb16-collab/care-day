@@ -791,6 +791,67 @@ const translations = {
             info2Text: 'Automatically recognizes drug name, ingredients, and efficacy',
             info3Title: 'Real-time Sharing',
             info3Text: 'Instantly sent to guardians'
+        },
+        signup: {
+            pageTitle: 'Sign Up - CASHiQ Brain Disease Care',
+            backToHome: 'Back to Home',
+            membershipTitle: 'Select Membership Level',
+            signupTitle: 'Sign Up',
+            signupSubtitle: 'Start healthy care with CASHiQ',
+            free: {
+                title: 'Free Member',
+                subtitle: 'Free Membership',
+                price: '₩0',
+                duration: 'Forever Free',
+                feature1: '3 hospital searches per day',
+                feature2: 'View announcements',
+                button: 'Start for Free'
+            },
+            premium1Year: {
+                title: 'Premium 1 Year',
+                subtitle: 'Premium 1 Year',
+                price: '₩68,000',
+                duration: 'About ₩5,666/month',
+                feature1: 'Use all platform menus',
+                feature2: 'Access all submenus',
+                feature3: 'Unlimited hospital searches',
+                feature4: 'Full community access',
+                feature5: 'Hospital reviews & ratings',
+                feature6: 'Filtering & map search',
+                feature7: 'Partner hospital discounts',
+                feature8: 'Priority customer support'
+            },
+            premium2Year: {
+                title: 'Premium 2 Years',
+                subtitle: 'Premium 2 Years',
+                badge: '32% OFF!',
+                price: '₩100,000',
+                duration: 'About ₩4,166/month',
+                feature1: 'All benefits of 1-year plan',
+                feature2: 'Use all platform features',
+                feature3: 'Save ₩36,000 extra',
+                feature4: 'Premium care guide',
+                feature5: 'VIP exclusive benefits'
+            },
+            form: {
+                nameLabel: 'Name',
+                namePlaceholder: 'John Doe',
+                emailLabel: 'Email',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: 'Phone Number',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: 'Password',
+                passwordPlaceholder: '8+ characters',
+                passwordConfirmLabel: 'Confirm Password',
+                passwordConfirmPlaceholder: 'Re-enter password',
+                termsLabel: 'I agree to the Terms of Service and Privacy Policy',
+                marketingLabel: 'I agree to receive marketing information (optional)',
+                selectedPlan: 'Selected Plan:',
+                submitButton: 'Sign Up',
+                loginText: 'Already have an account?',
+                loginLink: 'Login',
+                required: '*'
+            }
         }
     },
     zh: {
@@ -1157,6 +1218,67 @@ const translations = {
             info2Text: '自动识别药名、成分和功效',
             info3Title: '实时共享',
             info3Text: '立即发送给监护人'
+        },
+        signup: {
+            pageTitle: '会员注册 - CASHiQ 脑疾病护理',
+            backToHome: '返回主页',
+            membershipTitle: '选择会员等级',
+            signupTitle: '会员注册',
+            signupSubtitle: 'CASHiQ与 您一起开始健康护理',
+            free: {
+                title: '免费会员',
+                subtitle: 'Free Membership',
+                price: '₩0',
+                duration: '永久免费',
+                feature1: '每天病院搜索3次',
+                feature2: '公告阅览',
+                button: '免费开始'
+            },
+            premium1Year: {
+                title: '高级 1年',
+                subtitle: 'Premium 1 Year',
+                price: '₩68,000',
+                duration: '约 ₩5,666/月',
+                feature1: '使用平台所有菜单',
+                feature2: '访问所有子菜单',
+                feature3: '无限病院搜索',
+                feature4: '完全社区访问',
+                feature5: '病院评论和评分',
+                feature6: '筛选和地图搜索',
+                feature7: '合作病院折扣',
+                feature8: '优先客户支持'
+            },
+            premium2Year: {
+                title: '高级 2年',
+                subtitle: 'Premium 2 Years',
+                badge: '32% 折扣!',
+                price: '₩100,000',
+                duration: '约 ₩4,166/月',
+                feature1: '1年计划的所有优惠',
+                feature2: '使用平台所有功能',
+                feature3: '额外节省 ₩36,000',
+                feature4: '高级护理指南',
+                feature5: 'VIP专属福利'
+            },
+            form: {
+                nameLabel: '姓名',
+                namePlaceholder: '张三',
+                emailLabel: '邮箱',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: '电话号码',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: '密码',
+                passwordPlaceholder: '8个字符以上',
+                passwordConfirmLabel: '确认密码',
+                passwordConfirmPlaceholder: '重新输入密码',
+                termsLabel: '我同意服务条款和隐私政策',
+                marketingLabel: '我同意接收营销信息（可选）',
+                selectedPlan: '选择的订阅：',
+                submitButton: '会员注册',
+                loginText: '已经是会员？',
+                loginLink: '登录',
+                required: '*'
+            }
         }
     },
     ja: {
@@ -1523,6 +1645,67 @@ const translations = {
             info2Text: '薬名、成分、効能を自動認識',
             info3Title: 'リアルタイム共有',
             info3Text: '保護者に即座に送信'
+        },
+        signup: {
+            pageTitle: '会員登録 - CASHiQ 脳疾患ケア',
+            backToHome: 'ホームに戻る',
+            membershipTitle: '会員レベルを選択',
+            signupTitle: '会員登録',
+            signupSubtitle: 'CASHiQと一緒に健康なケアを始めましょう',
+            free: {
+                title: '無料会員',
+                subtitle: 'Free Membership',
+                price: '₩0',
+                duration: '永久無料',
+                feature1: '1日病院検索3回',
+                feature2: 'お知らせ閲覧',
+                button: '無料で始める'
+            },
+            premium1Year: {
+                title: 'プレミアム 1年',
+                subtitle: 'Premium 1 Year',
+                price: '₩68,000',
+                duration: '約 ₩5,666/月',
+                feature1: 'プラットフォーム全メニュー使用',
+                feature2: '全サブメニューアクセス',
+                feature3: '無制限病院検索',
+                feature4: 'コミュニティ全体利用',
+                feature5: '病院レビュー＆評価',
+                feature6: 'フィルタリング＆地図検索',
+                feature7: '提携病院割引',
+                feature8: '優先顧客サポート'
+            },
+            premium2Year: {
+                title: 'プレミアム 2年',
+                subtitle: 'Premium 2 Years',
+                badge: '32% 割引!',
+                price: '₩100,000',
+                duration: '約 ₩4,166/月',
+                feature1: '1年プランのすべての特典',
+                feature2: 'プラットフォーム全機能使用',
+                feature3: '₩36,000 追加節約',
+                feature4: 'プレミアム介護ガイド',
+                feature5: 'VIP専用特典'
+            },
+            form: {
+                nameLabel: '名前',
+                namePlaceholder: '山田太郎',
+                emailLabel: 'メール',
+                emailPlaceholder: 'email@example.com',
+                phoneLabel: '電話番号',
+                phonePlaceholder: '010-1234-5678',
+                passwordLabel: 'パスワード',
+                passwordPlaceholder: '8文字以上',
+                passwordConfirmLabel: 'パスワード確認',
+                passwordConfirmPlaceholder: 'パスワード再入力',
+                termsLabel: '利用規約とプライバシーポリシーに同意します',
+                marketingLabel: 'マーケティング情報の受信に同意します（任意）',
+                selectedPlan: '選択したプラン：',
+                submitButton: '会員登録',
+                loginText: 'すでに会員ですか？',
+                loginLink: 'ログイン',
+                required: '*'
+            }
         }
     }
 };
