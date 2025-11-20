@@ -650,6 +650,12 @@ class CASHiQChatbot {
         container.style.maxHeight = '';
         container.style.overflow = '';
         
+        // 입력 영역 다시 표시
+        const inputArea = document.querySelector('.chatbot-input-area');
+        if (inputArea) {
+            inputArea.style.display = 'flex';
+        }
+        
         // 메시지 영역 초기화
         const messagesContainer = document.getElementById('chatbot-messages');
         messagesContainer.classList.remove('has-messages');
@@ -681,6 +687,12 @@ class CASHiQChatbot {
             const quickQuestionsContainer = document.getElementById('chatbot-quick-questions');
             quickQuestionsContainer.style.maxHeight = '80px';
             quickQuestionsContainer.style.overflow = 'hidden';
+            
+            // 입력 영역 숨김 (모바일에서 공간 확보)
+            const inputArea = document.querySelector('.chatbot-input-area');
+            if (inputArea) {
+                inputArea.style.display = 'none';
+            }
             
             this.addMessage('user', qna.question);
             setTimeout(() => {
