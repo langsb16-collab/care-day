@@ -12,11 +12,27 @@
 <body class="font-sans bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen flex items-center justify-center p-4">
     
     <div class="w-full max-w-3xl">
-        <!-- Back Button -->
-        <div class="mb-6">
+        <!-- Back Button & Language Switcher -->
+        <div class="mb-6 flex items-center justify-between flex-wrap gap-3">
             <a href="../index.html" class="inline-flex items-center text-primary hover:text-blue-700 font-medium">
                 <i class="fas fa-arrow-left mr-2"></i><span data-i18n="signup.backToHome">홈으로 돌아가기</span>
             </a>
+            
+            <!-- Language Switcher -->
+            <div class="flex items-center space-x-1">
+                <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="ko">
+                    🇰🇷 <span class="hidden sm:inline">한국어</span>
+                </button>
+                <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="en">
+                    🇺🇸 <span class="hidden sm:inline">English</span>
+                </button>
+                <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="zh">
+                    🇨🇳 <span class="hidden sm:inline">中文</span>
+                </button>
+                <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg bg-white hover:bg-gray-100 active:bg-gray-200 transition text-sm" data-lang="ja">
+                    🇯🇵 <span class="hidden sm:inline">日本語</span>
+                </button>
+            </div>
         </div>
 
         <!-- Main Container -->
