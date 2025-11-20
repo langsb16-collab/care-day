@@ -525,12 +525,35 @@ class CASHiQChatbot {
         const sendBtn = document.getElementById('chatbot-send');
         const input = document.getElementById('chatbot-input');
 
+        // 클릭 이벤트
         button.addEventListener('click', () => this.toggleChatbot());
         closeBtn.addEventListener('click', () => this.closeChatbot());
         sendBtn.addEventListener('click', () => this.sendMessage());
         input.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.sendMessage();
         });
+        
+        // 터치 이벤트 최적화 (모바일)
+        button.addEventListener('touchstart', (e) => {
+            e.currentTarget.style.transform = 'scale(0.95)';
+        }, { passive: true });
+        
+        button.addEventListener('touchend', (e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+        }, { passive: true });
+        
+        // 질문 버튼 터치 최적화는 동적으로 생성되므로 이벤트 위임 사용
+        document.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.chatbot-quick-btn')) {
+                e.target.closest('.chatbot-quick-btn').style.transform = 'translateX(4px) scale(0.98)';
+            }
+        }, { passive: true });
+        
+        document.addEventListener('touchend', (e) => {
+            if (e.target.closest('.chatbot-quick-btn')) {
+                e.target.closest('.chatbot-quick-btn').style.transform = 'translateX(0) scale(1)';
+            }
+        }, { passive: true });
     }
 
     // 챗봇 열기/닫기
