@@ -476,7 +476,6 @@ class CASHiQChatbot {
             <!-- 챗봇 버튼 -->
             <div id="chatbot-button" class="chatbot-button">
                 <i class="fas fa-comments"></i>
-                <span class="chatbot-badge" id="chatbot-badge">1</span>
             </div>
 
             <!-- 챗봇 윈도우 -->
