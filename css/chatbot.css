@@ -3,6 +3,96 @@
  * 모든 페이지에서 사용 가능한 공통 챗봇 디자인
  */
 
+/* 챗봇 안내 말풍선 */
+.chatbot-tooltip {
+    position: fixed;
+    bottom: 160px;
+    right: 35px;
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9997;
+    max-width: 140px;
+    animation: tooltipBounce 2s ease-in-out infinite;
+}
+
+.chatbot-tooltip-text {
+    font-size: 11px;
+    line-height: 1.4;
+    color: #1e293b;
+    font-weight: 600;
+    text-align: center;
+    white-space: pre-line;
+}
+
+/* 말풍선 꼬리 */
+.chatbot-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 40px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+}
+
+.chatbot-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: -13px;
+    right: 38px;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid #667eea;
+}
+
+@keyframes tooltipBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* AI 뱃지 */
+.chatbot-ai-badge {
+    position: fixed;
+    bottom: 130px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    z-index: 9999;
+    animation: aiPulse 2s infinite;
+    border: 3px solid white;
+}
+
+@keyframes aiPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+    }
+}
+
 /* 챗봇 버튼 */
 .chatbot-button {
     position: fixed;
@@ -395,6 +485,43 @@
 
 /* 모바일 반응형 */
 @media (max-width: 768px) {
+    .chatbot-tooltip {
+        bottom: 110px;
+        right: 15px;
+        max-width: 120px;
+        padding: 8px 12px;
+    }
+    
+    .chatbot-tooltip-text {
+        font-size: 10px;
+        line-height: 1.3;
+    }
+    
+    .chatbot-tooltip::after {
+        right: 30px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid white;
+        bottom: -8px;
+    }
+    
+    .chatbot-tooltip::before {
+        right: 28px;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #667eea;
+        bottom: -11px;
+    }
+    
+    .chatbot-ai-badge {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+        bottom: 90px;
+        right: 10px;
+        border: 2px solid white;
+    }
+    
     .chatbot-window {
         width: calc(100vw - 20px);
         height: calc(100vh - 90px);
@@ -513,6 +640,25 @@
 
 /* 작은 모바일 (iPhone SE 등) */
 @media (max-width: 375px) {
+    .chatbot-tooltip {
+        bottom: 95px;
+        right: 12px;
+        max-width: 110px;
+        padding: 7px 10px;
+    }
+    
+    .chatbot-tooltip-text {
+        font-size: 9px;
+    }
+    
+    .chatbot-ai-badge {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+        bottom: 80px;
+        right: 8px;
+    }
+    
     .chatbot-window {
         width: calc(100vw - 16px);
         height: calc(100vh - 80px);
