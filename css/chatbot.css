@@ -14,7 +14,7 @@
     padding: 10px 14px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 9997;
-    max-width: 140px;
+    max-width: 160px;
     animation: tooltipBounce 2s ease-in-out infinite;
 }
 
@@ -64,8 +64,8 @@
 /* AI 뱃지 */
 .chatbot-ai-badge {
     position: fixed;
-    bottom: 130px;
-    right: 20px;
+    bottom: 165px;
+    right: 25px;
     width: 36px;
     height: 36px;
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
@@ -488,7 +488,7 @@
     .chatbot-tooltip {
         bottom: 110px;
         right: 15px;
-        max-width: 120px;
+        max-width: 140px;
         padding: 8px 12px;
     }
     
@@ -517,8 +517,8 @@
         width: 32px;
         height: 32px;
         font-size: 12px;
-        bottom: 90px;
-        right: 10px;
+        bottom: 120px;
+        right: 15px;
         border: 2px solid white;
     }
     
