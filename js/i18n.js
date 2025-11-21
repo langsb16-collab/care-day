@@ -96,7 +96,24 @@ const translations = {
             quick: '빠른 링크',
             contact: '연락처',
             languages: 'Languages',
-            rights: 'All rights reserved.'
+            rights: 'All rights reserved.',
+            platformInquiry: '플랫폼 개발 문의',
+            scanQR: 'QR코드를 스캔하여 문의하세요',
+            developerContact: '개발자 문의',
+            copyright: 'CASHiQ.org - 뇌질환케어. All rights reserved.',
+            disclaimer: '본 사이트의 정보는 참고용이며, 전문의와 상담이 필요합니다.',
+            quickLinks: {
+                diseaseInfo: '뇌질환 정보',
+                hospitalSearch: '병원 검색',
+                careDiary: '간병일기',
+                support: '지원정책',
+                community: '커뮤니티',
+                emergency: '응급정보'
+            }
+        },
+        auth: {
+            login: '로그인',
+            signup: '회원가입'
         },
         backToHome: '메인화면 돌아가기',
         service: {
@@ -528,7 +545,24 @@ const translations = {
             quick: 'Quick Links',
             contact: 'Contact',
             languages: 'Languages',
-            rights: 'All rights reserved.'
+            rights: 'All rights reserved.',
+            platformInquiry: 'Platform Development Inquiry',
+            scanQR: 'Scan QR code to contact us',
+            developerContact: 'Developer Contact',
+            copyright: 'CASHiQ.org - Brain Disease Care. All rights reserved.',
+            disclaimer: 'Information on this site is for reference only. Consult with a specialist.',
+            quickLinks: {
+                diseaseInfo: 'Disease Information',
+                hospitalSearch: 'Hospital Search',
+                careDiary: 'Care Diary',
+                support: 'Support Policies',
+                community: 'Community',
+                emergency: 'Emergency Info'
+            }
+        },
+        auth: {
+            login: 'Login',
+            signup: 'Sign Up'
         },
         backToHome: 'Back to Home',
         service: {
@@ -960,7 +994,24 @@ const translations = {
             quick: '快速链接',
             contact: '联系方式',
             languages: '语言',
-            rights: '版权所有。'
+            rights: '版权所有。',
+            platformInquiry: '平台开发咨询',
+            scanQR: '扫描二维码联系我们',
+            developerContact: '开发者联系',
+            copyright: 'CASHiQ.org - 脑疾病护理。版权所有。',
+            disclaimer: '本网站信息仅供参考，需咨询专业医生。',
+            quickLinks: {
+                diseaseInfo: '疾病信息',
+                hospitalSearch: '医院搜索',
+                careDiary: '护理日记',
+                support: '支持政策',
+                community: '社区',
+                emergency: '急救信息'
+            }
+        },
+        auth: {
+            login: '登录',
+            signup: '注册'
         },
         backToHome: '返回主页',
         service: {
@@ -1392,7 +1443,24 @@ const translations = {
             quick: 'クイックリンク',
             contact: 'お問い合わせ',
             languages: '言語',
-            rights: 'すべての権利を保有。'
+            rights: 'すべての権利を保有。',
+            platformInquiry: 'プラットフォーム開発のお問い合わせ',
+            scanQR: 'QRコードをスキャンしてお問い合わせください',
+            developerContact: '開発者連絡先',
+            copyright: 'CASHiQ.org - 脳疾患ケア。無断転載を禁じます。',
+            disclaimer: '本サイトの情報は参考用です。専門医との相談が必要です。',
+            quickLinks: {
+                diseaseInfo: '脳疾患情報',
+                hospitalSearch: '病院検索',
+                careDiary: '介護日記',
+                support: '支援政策',
+                community: 'コミュニティ',
+                emergency: '緊急情報'
+            }
+        },
+        auth: {
+            login: 'ログイン',
+            signup: '会員登録'
         },
         backToHome: 'ホームに戻る',
         service: {
