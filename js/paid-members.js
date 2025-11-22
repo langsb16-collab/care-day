@@ -272,9 +272,14 @@ function renderInquiries() {
                     <p class="text-sm text-gray-600"><i class="fas fa-user mr-1"></i>${inquiry.memberName} (${inquiry.memberEmail})</p>
                     <p class="text-sm text-gray-500"><i class="fas fa-clock mr-1"></i>${inquiry.date}</p>
                 </div>
-                <button onclick="viewInquiry(${inquiry.id})" class="px-4 py-2 ${inquiry.status === 'unanswered' ? 'bg-blue-600' : 'bg-gray-600'} text-white rounded-lg hover:opacity-90 transition">
-                    ${inquiry.status === 'unanswered' ? '<i class="fas fa-reply mr-1"></i>답변하기' : '<i class="fas fa-eye mr-1"></i>보기'}
-                </button>
+                <div class="flex gap-2">
+                    <button onclick="viewInquiry(${inquiry.id})" class="px-4 py-2 ${inquiry.status === 'unanswered' ? 'bg-blue-600' : 'bg-gray-600'} text-white rounded-lg hover:opacity-90 transition">
+                        ${inquiry.status === 'unanswered' ? '<i class="fas fa-reply mr-1"></i>답변하기' : '<i class="fas fa-eye mr-1"></i>보기'}
+                    </button>
+                    <button onclick="deleteInquiry(${inquiry.id})" class="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition" title="삭제">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             </div>
             <p class="text-gray-700 mb-3">${inquiry.message}</p>
             ${inquiry.status === 'answered' ? `
@@ -680,4 +685,21 @@ function deleteMember(id) {
     renderPaidMembers();
     renderInquiries();
     alert('유료회원과 관련 문의가 삭제되었습니다.');
+}
+
+// Delete inquiry
+function deleteInquiry(id) {
+    if (!confirm('이 문의를 삭제하시겠습니까?')) {
+        return;
+    }
+    
+    const index = inquiries.findIndex(i => i.id === id);
+    if (index !== -1) {
+        inquiries.splice(index, 1);
+        localStorage.setItem('inquiries', JSON.stringify(inquiries));
+        
+        updateStats();
+        renderInquiries();
+        alert('문의가 삭제되었습니다.');
+    }
 }
