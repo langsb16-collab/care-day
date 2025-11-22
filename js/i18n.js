@@ -267,7 +267,7 @@ const translations = {
         hospitalSearch: {
             pageTitle: '병원 검색 - 뇌질환케어',
             mainTitle: '뇌질환 전문 병원 검색',
-            searchStats: '7개 분류 • 2,500+ 병원 데이터베이스',
+            searchStats: '7단계 병원 단계별/지역별 분류 • 3,500+ 병원 검색 데이터베이스',
             searchTitle: '🔍 병원 이름 또는 지역으로 검색',
             searchPlaceholder: '병원 이름, 지역명을 입력하세요 (예: 서울대병원, 강남구)',
             searchButton: '검색',
@@ -716,7 +716,7 @@ const translations = {
         hospitalSearch: {
             pageTitle: 'Hospital Search - Brain Disease Care',
             mainTitle: 'Brain Disease Specialized Hospital Search',
-            searchStats: '7 Categories • 2,500+ Hospital Database',
+            searchStats: '7-Level Hospital Classification by Type/Region • 3,500+ Hospital Search Database',
             searchTitle: '🔍 Search by Hospital Name or Region',
             searchPlaceholder: 'Enter hospital name or region (e.g., Seoul National University Hospital, Gangnam)',
             searchButton: 'Search',
@@ -1165,7 +1165,7 @@ const translations = {
         hospitalSearch: {
             pageTitle: '医院搜索 - 脑疾病护理',
             mainTitle: '脑疾病专门医院搜索',
-            searchStats: '7个分类 • 2,500+ 医院数据库',
+            searchStats: '7级医院分类（类型/地区） • 3,500+ 医院搜索数据库',
             searchTitle: '🔍 按医院名称或地区搜索',
             searchPlaceholder: '输入医院名称或地区（例：首尔大学医院、江南区）',
             searchButton: '搜索',
@@ -1614,7 +1614,7 @@ const translations = {
         hospitalSearch: {
             pageTitle: '病院検索 - 脳疾患ケア',
             mainTitle: '脳疾患専門病院検索',
-            searchStats: '7つのカテゴリー • 2,500+ 病院データベース',
+            searchStats: '7段階病院分類（種類/地域別） • 3,500+ 病院検索データベース',
             searchTitle: '🔍 病院名または地域で検索',
             searchPlaceholder: '病院名または地域を入力してください（例：ソウル大学病院、江南区）',
             searchButton: '検索',
