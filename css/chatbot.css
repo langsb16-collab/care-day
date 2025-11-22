@@ -852,37 +852,7 @@
     }
 }
 
-/* 1:1 문의 버튼 */
-.inquiry-button {
-    position: fixed;
-    bottom: 170px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-    transition: all 0.3s ease;
-    z-index: 9998;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-}
-
-.inquiry-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.6);
-}
-
-.inquiry-button:active {
-    transform: scale(0.95);
-}
+/* 1:1 문의 버튼 스타일 제거됨 - 배너의 문의하기 버튼 사용 */
 
 /* 1:1 문의 버튼 위 텍스트 */
 .inquiry-tooltip {
@@ -1075,31 +1045,4 @@
     transform: translateY(0);
 }
 
-@media (max-width: 768px) {
-    .inquiry-button {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        bottom: 150px;
-        right: 20px;
-    }
-    
-    .inquiry-tooltip {
-        bottom: 210px;
-        right: -15px;
-        padding: 6px 10px;
-        max-width: 120px;
-    }
-    
-    .inquiry-tooltip-text {
-        font-size: 9px;
-    }
-    
-    .inquiry-tooltip::after {
-        right: 40px;
-    }
-    
-    .inquiry-tooltip::before {
-        right: 38px;
-    }
-}
+/* 모바일용 inquiry-button 스타일 제거됨 - 배너의 문의하기 버튼만 사용 */
