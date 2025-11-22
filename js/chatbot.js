@@ -478,6 +478,15 @@ class CASHiQChatbot {
                 <i class="fas fa-comments"></i>
             </div>
             
+            <!-- 1:1 문의 버튼 툴팁 -->
+            <div id="inquiry-tooltip" class="inquiry-tooltip">
+                <div class="inquiry-tooltip-text">
+                    <span class="inquiry-tooltip-line" data-i18n="premium.line1">이용료납부 통지</span>
+                    <span class="inquiry-tooltip-line" data-i18n="premium.line2">유료 회원 문의</span>
+                    <span class="inquiry-tooltip-line" data-i18n="premium.line3">1시간 이내 답변</span>
+                </div>
+            </div>
+            
             <!-- 1:1 문의 버튼 -->
             <div id="inquiry-button" class="inquiry-button" title="1:1 문의하기">
                 <i class="fas fa-envelope"></i>
