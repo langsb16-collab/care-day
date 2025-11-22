@@ -953,12 +953,7 @@ class InquirySystem {
     }
 
     attachInquiryListeners() {
-        const inquiryButton = document.getElementById('inquiry-button');
         const inquiryModal = document.getElementById('inquiry-modal');
-        
-        if (inquiryButton) {
-            inquiryButton.addEventListener('click', () => this.openModal());
-        }
         
         if (inquiryModal) {
             inquiryModal.addEventListener('click', (e) => {
