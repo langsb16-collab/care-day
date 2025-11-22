@@ -477,6 +477,11 @@ class CASHiQChatbot {
             <div id="chatbot-button" class="chatbot-button">
                 <i class="fas fa-comments"></i>
             </div>
+            
+            <!-- 1:1 문의 버튼 -->
+            <div id="inquiry-button" class="inquiry-button" title="1:1 문의하기">
+                <i class="fas fa-envelope"></i>
+            </div>
 
             <!-- 챗봇 윈도우 -->
             <div id="chatbot-window" class="chatbot-window">
@@ -899,4 +904,129 @@ if (document.readyState === 'loading') {
 } else {
     // 이미 로드되었으면 바로 실행
     initChatbot();
+}
+
+// 1:1 Inquiry System
+class InquirySystem {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.createInquiryModal();
+        this.attachInquiryListeners();
+    }
+
+    createInquiryModal() {
+        const modalHTML = `
+            <div id="inquiry-modal" class="inquiry-modal">
+                <div class="inquiry-modal-content">
+                    <div class="inquiry-modal-header">
+                        <h3><i class="fas fa-envelope mr-2"></i>1:1 문의하기</h3>
+                        <button class="inquiry-modal-close" onclick="inquirySystem.closeModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="inquiry-modal-body">
+                        <form id="inquiry-form" onsubmit="inquirySystem.submitInquiry(event)">
+                            <div class="inquiry-form-group">
+                                <label for="inquiry-name">이름 *</label>
+                                <input type="text" id="inquiry-name" required placeholder="이름을 입력하세요">
+                            </div>
+                            <div class="inquiry-form-group">
+                                <label for="inquiry-email">이메일 *</label>
+                                <input type="email" id="inquiry-email" required placeholder="이메일을 입력하세요">
+                            </div>
+                            <div class="inquiry-form-group">
+                                <label for="inquiry-subject">제목 *</label>
+                                <input type="text" id="inquiry-subject" required placeholder="문의 제목을 입력하세요">
+                            </div>
+                            <div class="inquiry-form-group">
+                                <label for="inquiry-message">문의 내용 *</label>
+                                <textarea id="inquiry-message" required placeholder="문의하실 내용을 입력하세요"></textarea>
+                            </div>
+                            <button type="submit" class="inquiry-submit-btn">
+                                <i class="fas fa-paper-plane mr-2"></i>문의 제출
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    attachInquiryListeners() {
+        const inquiryButton = document.getElementById('inquiry-button');
+        const inquiryModal = document.getElementById('inquiry-modal');
+        
+        if (inquiryButton) {
+            inquiryButton.addEventListener('click', () => this.openModal());
+        }
+        
+        if (inquiryModal) {
+            inquiryModal.addEventListener('click', (e) => {
+                if (e.target === inquiryModal) {
+                    this.closeModal();
+                }
+            });
+        }
+    }
+
+    openModal() {
+        const modal = document.getElementById('inquiry-modal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+    }
+
+    closeModal() {
+        const modal = document.getElementById('inquiry-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.getElementById('inquiry-form').reset();
+        }
+    }
+
+    submitInquiry(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('inquiry-name').value;
+        const email = document.getElementById('inquiry-email').value;
+        const subject = document.getElementById('inquiry-subject').value;
+        const message = document.getElementById('inquiry-message').value;
+        
+        const inquiry = {
+            id: Date.now(),
+            memberName: name,
+            memberEmail: email,
+            subject: subject,
+            message: message,
+            date: new Date().toLocaleString('ko-KR'),
+            status: 'unanswered',
+            answer: null,
+            answeredBy: null,
+            answeredDate: null
+        };
+        
+        // Save to localStorage
+        const inquiries = JSON.parse(localStorage.getItem('inquiries') || '[]');
+        inquiries.push(inquiry);
+        localStorage.setItem('inquiries', JSON.stringify(inquiries));
+        
+        // Show success message
+        alert('문의가 접수되었습니다.\n빠른 시일 내에 답변 드리겠습니다.\n\n등록하신 이메일로 답변이 발송됩니다.');
+        
+        this.closeModal();
+    }
+}
+
+// Initialize inquiry system when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.inquirySystem = new InquirySystem();
+    });
+} else {
+    window.inquirySystem = new InquirySystem();
 }

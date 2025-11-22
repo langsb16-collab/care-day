@@ -6,6 +6,42 @@
     <title>회원 관리 - CASHiQ Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tab-button {
+            transition: all 0.3s;
+        }
+        .tab-button.active {
+            background: linear-gradient(to right, #7c3aed, #2563eb);
+            color: white;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        .status-badge {
+            transition: all 0.2s;
+        }
+        .status-badge:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
     <!-- Header -->
@@ -29,101 +65,529 @@
     </nav>
 
     <div class="container mx-auto px-4 py-8">
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-600 text-sm mb-1">전체 회원</p>
-                        <p class="text-3xl font-bold text-gray-800" id="totalMembers">0</p>
+        <!-- Tab Navigation -->
+        <div class="bg-white rounded-xl shadow-lg p-2 mb-8">
+            <div class="flex flex-wrap gap-2">
+                <button onclick="switchTab('all-members')" class="tab-button active flex-1 md:flex-none px-6 py-3 rounded-lg font-semibold" id="tab-all-members">
+                    <i class="fas fa-users mr-2"></i>전체 회원
+                </button>
+                <button onclick="switchTab('paid-members')" class="tab-button flex-1 md:flex-none px-6 py-3 rounded-lg font-semibold relative" id="tab-paid-members">
+                    <i class="fas fa-crown mr-2"></i>유료회원 관리
+                    <span class="notification-badge" id="paid-notification" style="display: none;">0</span>
+                </button>
+                <button onclick="switchTab('payment-check')" class="tab-button flex-1 md:flex-none px-6 py-3 rounded-lg font-semibold relative" id="tab-payment-check">
+                    <i class="fas fa-money-check-alt mr-2"></i>입금내역 확인
+                    <span class="notification-badge" id="payment-notification" style="display: none;">0</span>
+                </button>
+                <button onclick="switchTab('statistics')" class="tab-button flex-1 md:flex-none px-6 py-3 rounded-lg font-semibold" id="tab-statistics">
+                    <i class="fas fa-chart-bar mr-2"></i>통계 대시보드
+                </button>
+                <button onclick="switchTab('settings')" class="tab-button flex-1 md:flex-none px-6 py-3 rounded-lg font-semibold" id="tab-settings">
+                    <i class="fas fa-cog mr-2"></i>설정
+                </button>
+            </div>
+        </div>
+
+        <!-- All Members Section -->
+        <div id="section-all-members" class="tab-section">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">전체 회원</p>
+                            <p class="text-3xl font-bold text-gray-800" id="totalMembers">0</p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-lg">
+                            <i class="fas fa-users text-blue-600 text-2xl"></i>
+                        </div>
                     </div>
-                    <div class="bg-blue-100 p-3 rounded-lg">
-                        <i class="fas fa-users text-blue-600 text-2xl"></i>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">무료 회원</p>
+                            <p class="text-3xl font-bold text-gray-800" id="freeMembers">0</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-user text-green-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">유료 회원</p>
+                            <p class="text-3xl font-bold text-gray-800" id="paidMembers">0</p>
+                        </div>
+                        <div class="bg-orange-100 p-3 rounded-lg">
+                            <i class="fas fa-crown text-orange-600 text-2xl"></i>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-600 text-sm mb-1">무료 회원</p>
-                        <p class="text-3xl font-bold text-gray-800" id="freeMembers">0</p>
+            <!-- Search and Filter -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="이름, 이메일, 전화번호로 검색..." 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                        >
                     </div>
-                    <div class="bg-green-100 p-3 rounded-lg">
-                        <i class="fas fa-user text-green-600 text-2xl"></i>
+                    <div>
+                        <select id="memberTypeFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="all">전체 회원</option>
+                            <option value="free">무료 회원</option>
+                            <option value="paid">유료 회원</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button onclick="exportMembers()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-download mr-2"></i>내보내기
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-600 text-sm mb-1">유료 회원</p>
-                        <p class="text-3xl font-bold text-gray-800" id="paidMembers">0</p>
+            <!-- Members Table -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-list text-orange-600 mr-2"></i>회원 목록
+                </h2>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">이름</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">이메일</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">전화번호</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">회원 등급</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">방문횟수</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">접속IP</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">상태</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody" class="divide-y divide-gray-200">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paid Members Section -->
+        <div id="section-paid-members" class="tab-section hidden">
+            <!-- Paid Members Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">총 유료회원</p>
+                            <p class="text-3xl font-bold text-gray-800" id="totalPaidMembers">0</p>
+                        </div>
+                        <div class="bg-purple-100 p-3 rounded-lg">
+                            <i class="fas fa-crown text-purple-600 text-2xl"></i>
+                        </div>
                     </div>
-                    <div class="bg-orange-100 p-3 rounded-lg">
-                        <i class="fas fa-crown text-orange-600 text-2xl"></i>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">입금 대기</p>
+                            <p class="text-3xl font-bold text-gray-800" id="pendingPayments">0</p>
+                        </div>
+                        <div class="bg-yellow-100 p-3 rounded-lg">
+                            <i class="fas fa-clock text-yellow-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">권한 활성</p>
+                            <p class="text-3xl font-bold text-gray-800" id="activePermissions">0</p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">권한 만료</p>
+                            <p class="text-3xl font-bold text-gray-800" id="expiredPermissions">0</p>
+                        </div>
+                        <div class="bg-red-100 p-3 rounded-lg">
+                            <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter for Paid Members -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <input 
+                            type="text" 
+                            id="searchPaidInput" 
+                            placeholder="이름, 이메일, 전화번호로 검색..." 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                        >
+                    </div>
+                    <div>
+                        <select id="paymentStatusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                            <option value="all">전체 상태</option>
+                            <option value="pending">미입금</option>
+                            <option value="waiting">입금대기</option>
+                            <option value="confirmed">입금확인</option>
+                            <option value="active">권한부여됨</option>
+                            <option value="expired">권한만료</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button onclick="exportPaidMembers()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-download mr-2"></i>내보내기
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paid Members Table -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-crown text-orange-600 mr-2"></i>유료회원 목록
+                </h2>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">신청자명</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">연락처</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">신청일</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">결제금액</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">결제상태</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">시작일</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">종료일</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">권한구분</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paidMembersTableBody" class="divide-y divide-gray-200">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Check Section -->
+        <div id="section-payment-check" class="tab-section hidden">
+            <!-- Payment Upload -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-upload text-blue-600 mr-2"></i>입금증빙 업로드
+                </h2>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                    <input type="file" id="paymentFileUpload" accept="image/*,.pdf" class="hidden" onchange="handlePaymentUpload(event)">
+                    <label for="paymentFileUpload" class="cursor-pointer">
+                        <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
+                        <p class="text-gray-600 mb-2">입금 스크린샷 또는 영수증을 업로드하세요</p>
+                        <p class="text-sm text-gray-400">PNG, JPG, PDF 파일 지원</p>
+                        <button type="button" class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                            파일 선택
+                        </button>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Payment Records -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-money-check-alt text-green-600 mr-2"></i>입금내역
+                </h2>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">입금자명</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">금액</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">송금일시</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">제출파일</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">매칭여부</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">확인담당자</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">확인일자</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody" class="divide-y divide-gray-200">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div id="section-statistics" class="tab-section hidden">
+            <!-- Statistics Dashboard -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">유료회원 가입수</p>
+                            <p class="text-3xl font-bold text-gray-800" id="statsPaidSignups">0</p>
+                            <p class="text-sm text-green-600 mt-2">
+                                <i class="fas fa-arrow-up"></i> +12% (이번 달)
+                            </p>
+                        </div>
+                        <div class="bg-blue-100 p-3 rounded-lg">
+                            <i class="fas fa-user-plus text-blue-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">입금완료율</p>
+                            <p class="text-3xl font-bold text-gray-800" id="statsPaymentRate">0%</p>
+                            <p class="text-sm text-green-600 mt-2">
+                                <i class="fas fa-arrow-up"></i> +5% (이번 달)
+                            </p>
+                        </div>
+                        <div class="bg-green-100 p-3 rounded-lg">
+                            <i class="fas fa-percentage text-green-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">권한활성율</p>
+                            <p class="text-3xl font-bold text-gray-800" id="statsActiveRate">0%</p>
+                            <p class="text-sm text-green-600 mt-2">
+                                <i class="fas fa-arrow-up"></i> +8% (이번 달)
+                            </p>
+                        </div>
+                        <div class="bg-purple-100 p-3 rounded-lg">
+                            <i class="fas fa-check-double text-purple-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-orange-500">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">탈퇴율</p>
+                            <p class="text-3xl font-bold text-gray-800" id="statsChurnRate">0%</p>
+                            <p class="text-sm text-red-600 mt-2">
+                                <i class="fas fa-arrow-down"></i> -3% (이번 달)
+                            </p>
+                        </div>
+                        <div class="bg-orange-100 p-3 rounded-lg">
+                            <i class="fas fa-user-minus text-orange-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts would go here -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-chart-line text-blue-600 mr-2"></i>월별 가입 추이
+                    </h3>
+                    <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+                        <p class="text-gray-400">차트 영역 (Chart.js 등으로 구현 가능)</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-chart-pie text-purple-600 mr-2"></i>결제 상태 분포
+                    </h3>
+                    <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+                        <p class="text-gray-400">차트 영역 (Chart.js 등으로 구현 가능)</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Search and Filter -->
-        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <div class="flex flex-col md:flex-row gap-4">
-                <div class="flex-1">
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        placeholder="이름, 이메일, 전화번호로 검색..." 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
-                    >
-                </div>
-                <div>
-                    <select id="memberTypeFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                        <option value="all">전체 회원</option>
-                        <option value="free">무료 회원</option>
-                        <option value="paid">유료 회원</option>
-                    </select>
-                </div>
-                <div>
-                    <button onclick="exportMembers()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
-                        <i class="fas fa-download mr-2"></i>내보내기
-                    </button>
+        <!-- Settings Section -->
+        <div id="section-settings" class="tab-section hidden">
+            <!-- Notification Settings -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-bell text-yellow-600 mr-2"></i>자동통지 설정
+                </h2>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="enableNotifications" class="w-5 h-5 text-purple-600" checked>
+                            <span class="font-semibold">자동 알림 활성화</span>
+                        </label>
+                    </div>
+
+                    <div class="border-t pt-6">
+                        <h3 class="font-semibold mb-4">알림 채널 선택</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" id="notifyEmail" class="w-5 h-5 text-purple-600" checked>
+                                <i class="fas fa-envelope text-blue-600"></i>
+                                <span>이메일</span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" id="notifyKakao" class="w-5 h-5 text-purple-600">
+                                <i class="fab fa-kickstarter text-yellow-500"></i>
+                                <span>카카오톡</span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" id="notifyTelegram" class="w-5 h-5 text-purple-600">
+                                <i class="fab fa-telegram text-blue-500"></i>
+                                <span>텔레그램</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="border-t pt-6">
+                        <h3 class="font-semibold mb-4">알림 메시지 템플릿</h3>
+                        <textarea 
+                            id="notificationTemplate" 
+                            rows="4" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                            placeholder="안녕하세요 [회원명]님, 유료회원 권한이 활성화되었습니다..."
+                        >안녕하세요 [회원명]님,
+
+CASHiQ 유료회원 권한이 활성화되었습니다.
+이제 프리미엄 콘텐츠와 1:1 챗봇, 전용 톡방을 이용하실 수 있습니다.
+
+감사합니다.</textarea>
+                    </div>
+
+                    <div class="border-t pt-6">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="autoGrantPermission" class="w-5 h-5 text-purple-600">
+                            <span class="font-semibold">입금 확인 시 자동 권한 부여</span>
+                        </label>
+                        <p class="text-sm text-gray-500 mt-2 ml-8">
+                            입금이 확인되면 자동으로 유료회원 권한을 활성화하고 알림을 전송합니다.
+                        </p>
+                    </div>
+
+                    <div class="border-t pt-6">
+                        <h3 class="font-semibold mb-4">입금 알림음</h3>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox" id="enablePaymentSound" class="w-5 h-5 text-purple-600" checked>
+                            <span>입금 시 소리 알림 활성화</span>
+                        </label>
+                        <button onclick="testPaymentSound()" class="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                            <i class="fas fa-volume-up mr-2"></i>테스트 재생
+                        </button>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button onclick="saveSettings()" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                            <i class="fas fa-save mr-2"></i>설정 저장
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Members Table -->
-        <div class="bg-white rounded-xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">
-                <i class="fas fa-list text-orange-600 mr-2"></i>회원 목록
-            </h2>
+            <!-- Content Access Settings -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-lock text-red-600 mr-2"></i>콘텐츠 접근 권한 설정
+                </h2>
 
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">이름</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">이메일</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">전화번호</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">회원 등급</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">방문횟수</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">접속IP</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">상태</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
-                        </tr>
-                    </thead>
-                    <tbody id="membersTableBody" class="divide-y divide-gray-200">
-                        <!-- Will be populated by JavaScript -->
-                    </tbody>
-                </table>
+                <div class="space-y-4">
+                    <div class="border rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-semibold">프리미엄 콘텐츠</h3>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">유료 전용</span>
+                        </div>
+                        <p class="text-sm text-gray-600">고급 뇌질환 정보, 전문의 인터뷰, 심화 케어 가이드</p>
+                    </div>
+
+                    <div class="border rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-semibold">1:1 AI 챗봇</h3>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">유료 전용</span>
+                        </div>
+                        <p class="text-sm text-gray-600">개인화된 AI 상담 및 케어 조언</p>
+                    </div>
+
+                    <div class="border rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-semibold">전용 커뮤니티 톡방</h3>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">유료 전용</span>
+                        </div>
+                        <p class="text-sm text-gray-600">유료회원 전용 네트워킹 및 정보 공유</p>
+                    </div>
+
+                    <div class="border rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-semibold">기본 콘텐츠</h3>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">전체 공개</span>
+                        </div>
+                        <p class="text-sm text-gray-600">병원 검색, 기본 뇌질환 정보, 응급정보</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Member Detail Modal -->
+    <!-- Paid Member Detail Modal -->
+    <div id="paidMemberModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">유료회원 상세 정보</h3>
+                    <button onclick="closePaidMemberModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+
+                <div id="paidMemberDetails" class="space-y-6">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <div class="mt-6 flex gap-4">
+                    <button onclick="confirmPayment()" class="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
+                        <i class="fas fa-check mr-2"></i>입금확인 → 권한부여
+                    </button>
+                    <button onclick="suspendPermission()" class="flex-1 bg-yellow-600 text-white py-3 rounded-lg hover:bg-yellow-700 transition">
+                        <i class="fas fa-pause mr-2"></i>권한 중지
+                    </button>
+                    <button onclick="expirePermission()" class="flex-1 bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition">
+                        <i class="fas fa-times mr-2"></i>권한 만료
+                    </button>
+                    <button onclick="closePaidMemberModal()" class="px-6 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member Detail Modal (Original) -->
     <div id="memberModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6">
@@ -156,6 +620,11 @@
         </div>
     </div>
 
+    <!-- Audio for payment notification -->
+    <audio id="paymentSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGG0fHPgjEHHm7A7+OZSA8OVqzn77BdGAo+ltryym8lBSx+zPLaizsIGGS57OihUBELTKXh8bllHAU2jdXyzn0vBSV1xe/glEILElyx6OyrWBMLQ5zd8sFuJAUve8rx3Y0+CRpnvO3nnFMPDVWs6O+zYBoJPZPY8sp0KAUneMjw2o4+CRVcsOjurWEcCz+Y2/LHcygEK3rL8d+RPQgWYLLo7KlYEwtCm9vwwHImBCx6yvLekD4HGGm/7+ifUxANUrHo7rFeGgg+l9vyx3MoBCx7yvLfkT0IFmCy6OupWBMLQpvb8L9yJgQse8rx35E+BxdovO/ooVMRDVGx6O2wXhoIPZfa8sh0KAQse8rx35E+CBVgsejuqVgTC0Ka2/C/ciYELHvK8d+RPgcXaLzv6KFTDw1RsOjtsF0aCDyW2vLHdSgEK3vK8d+RPggVYLHo7qlaEwtCmtvwv3ImBC17y/HekT4HFme77+ifUw4NULDO7a9eGgg7lNjxx3UoBCt7yvHfjz4HFV+w6O6pWhMKQJjZ8L5yJQQtfMvx35E+Bxdnv+/noVMPDU+vzu2vXxkIPJTY8sl0JwQrfMrx3pA+Bxdfsejuq1sTC0CY2fC+ciUELX3M8d+RPgcWZ77v6KFSDw1Pr87tr14ZCDyT1vHIdCcEK3zK8d6PPhcUX6/o7qpbEwtBmNnwvnImBC19y/HfkT4HFmW87+mhUg8NT6/O7a9eGQg8k9bxyHQnBCt8yvHejz4XFF6v6O+rWhIKPpjZ8L5yJgQufcvx35I+BRVkvO/poVIPDU6uzu2wXhkIPJPW8ch0JwQrfMrx3o8+FxNfr+juq1oSCj6Y2fC+ciYELn3L8d+SPgUVZLzv6aFSDw1Nrs7tsF4ZCDuT1vHJdCcEK33K8N2OPxcTX67o7qpbEgo+mNnwvnInBC19y/HfkT4FFmW97+ifUg8NS67O7bBeGAg7k9bxyHUoBCt9yvHejT4XE1+v6O+rWxIKPZfY8L5yJgQtfcvx35E+BRVlu+/pn1IOCU+uzu2wXhkIOJTW8ch1KAQqfsvx3Y4+FxNfr+jvq1oSCjyX2O++ciYELX3L8d+RPgUUZb3w6J9SDglOrs7tsF4YCDqU1vHIdSgEKn7K8d2OPxcTXq/o76tbEgo8l9jvvXImBC1+y/HfkT4FFmS87+mfUw4JTq3N7bBfGgg5lNbxx3UoBCp+yvHdjj4XE16w6O+rWxIJPJfY772yJwQtfsvx35E+BRZkvO/pn1MOCU2tze2wXxoHOJPW8cd1KAQrfsrx3Y4+FxNesOjvq1sRCTuY2fC9sygEK37L8d+RPgUVZL3v6Z9TDglNrc3tsF8aBziT1vHHdSgEK37K8d2NPhgTXrDo76tbEQk7mNnwvbMoBCt+y/HfkT4FFmS97+mfUw4JTa3N7bBfGgc4k9bxx3UoBCt+yvHejT4YE16w6O+rWxEJO5jZ8LyzKAQrfsvx35E+BRVkve/poVMOCU2tze2vXxoIOJPW8Md1KQQqfsvx3o0+GBNesOjvq1sSCTuX2fC8sycELX7K8d+RPgUWZL3v6aFTDglNrs3tsF8aBziU1vHHdSkEKn7K8d6NPhgTXrDo76tbEgk7l9nwvLInBC1+yvHfkT4FFmS97+mhUw4JTa7N7bBfGgc4lNXxx3UqBCp+yvHejT4XE16w6O+rWxIJO5fY8LyzJwQtfsvx35E+BRVkve/poVMOCU2tze2wXxoHOJTV8cd1KgQpf8rx3o0+GBNesOjvqlsSCTuX2fC8sicELX7K8N+SPgUVZL3v6aFTDglNrc3tsF8aBziU1vHHdSoEKX/K8d6NPhgTXrDo76pbEwk6l9nwvLMnBC1+yvDfkj4FFmS97+mhUw4JTa3N7bBfGgc5lNXxx3UqBCp/yvHejT4XE16w6O+qWxIJOpfZ8LyzJwQtfcrw35I+BRVkvO/ooVMOCU2tze2wXxkHOZPW8cd1KgQqfsvx3o0+FxRfsOjvqlsSCTqX2fC8sycELX3K8d+SPgUVZLzu6aJSDQlNrc3tr18ZBzmT1vHHdSoEKn7L8d2NPhcUX7Do76pbEgk6l9jwvLMmBC19yvLfkT4FFmS87umhUg0JTK3N7a9fGQc5k9bxx3UqBCp+y/Hdjj4XFF+w6O+qWxIJOpfY8LyzJgQtfcvw35I+BRVjvO7poVIOCUys==" type="audio/wav">
+    </audio>
+
     <script>
         // Check authentication
         function checkAuth() {
@@ -173,7 +642,37 @@
         }
 
         let members = [];
+        let paidMembers = [];
+        let payments = [];
         let currentMemberId = null;
+        let currentPaidMemberId = null;
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.tab-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById('section-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // Load data if needed
+            if (tabName === 'paid-members') {
+                renderPaidMembers();
+                updatePaidStats();
+            } else if (tabName === 'payment-check') {
+                renderPayments();
+            } else if (tabName === 'statistics') {
+                updateStatistics();
+            }
+        }
 
         // Load members
         async function loadMembers() {
@@ -200,6 +699,33 @@
                 updateStats();
                 renderMembers();
             }
+        }
+
+        // Load paid members
+        function loadPaidMembers() {
+            const saved = localStorage.getItem('paidMembers');
+            if (saved) {
+                paidMembers = JSON.parse(saved);
+            } else {
+                paidMembers = generateSamplePaidMembers();
+                localStorage.setItem('paidMembers', JSON.stringify(paidMembers));
+            }
+            
+            updatePaidStats();
+            renderPaidMembers();
+        }
+
+        // Load payments
+        function loadPayments() {
+            const saved = localStorage.getItem('payments');
+            if (saved) {
+                payments = JSON.parse(saved);
+            } else {
+                payments = generateSamplePayments();
+                localStorage.setItem('payments', JSON.stringify(payments));
+            }
+            
+            renderPayments();
         }
 
         // Generate sample members for demo
@@ -241,6 +767,96 @@
             return sampleMembers;
         }
 
+        // Generate sample paid members
+        function generateSamplePaidMembers() {
+            return [
+                {
+                    id: 1,
+                    name: '김철수',
+                    email: 'kim@example.com',
+                    phone: '010-1234-5678',
+                    applyDate: '2025-01-15',
+                    amount: 50000,
+                    paymentStatus: 'waiting',
+                    startDate: null,
+                    endDate: null,
+                    permissions: ['프리미엄콘텐츠', '1:1챗봇'],
+                    depositorName: '김철수',
+                    receiptFile: null,
+                    adminMemo: '',
+                    logs: [
+                        { date: '2025-01-15 14:30', action: '유료회원 신청', admin: '시스템' }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: '이영희',
+                    email: 'lee@example.com',
+                    phone: '010-2345-6789',
+                    applyDate: '2025-01-10',
+                    amount: 50000,
+                    paymentStatus: 'active',
+                    startDate: '2025-01-11',
+                    endDate: '2026-01-11',
+                    permissions: ['프리미엄콘텐츠', '1:1챗봇', '전용톡방'],
+                    depositorName: '이영희',
+                    receiptFile: 'receipt_lee.jpg',
+                    adminMemo: '정상 처리됨',
+                    logs: [
+                        { date: '2025-01-10 10:20', action: '유료회원 신청', admin: '시스템' },
+                        { date: '2025-01-10 15:45', action: '입금 확인', admin: '관리자' },
+                        { date: '2025-01-11 09:00', action: '권한 부여', admin: '관리자' }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: '박민수',
+                    email: 'park@example.com',
+                    phone: '010-3456-7890',
+                    applyDate: '2025-01-20',
+                    amount: 50000,
+                    paymentStatus: 'pending',
+                    startDate: null,
+                    endDate: null,
+                    permissions: ['프리미엄콘텐츠'],
+                    depositorName: '박민수',
+                    receiptFile: null,
+                    adminMemo: '입금 대기 중',
+                    logs: [
+                        { date: '2025-01-20 16:10', action: '유료회원 신청', admin: '시스템' }
+                    ]
+                }
+            ];
+        }
+
+        // Generate sample payments
+        function generateSamplePayments() {
+            return [
+                {
+                    id: 1,
+                    depositorName: '김철수',
+                    amount: 50000,
+                    transferDate: '2025-01-15 14:25',
+                    receiptFile: 'receipt_kim.jpg',
+                    matched: false,
+                    confirmedBy: null,
+                    confirmedDate: null,
+                    status: 'pending'
+                },
+                {
+                    id: 2,
+                    depositorName: '이영희',
+                    amount: 50000,
+                    transferDate: '2025-01-10 15:30',
+                    receiptFile: 'receipt_lee.jpg',
+                    matched: true,
+                    confirmedBy: '관리자',
+                    confirmedDate: '2025-01-10 15:45',
+                    status: 'confirmed'
+                }
+            ];
+        }
+
         // Update statistics
         function updateStats() {
             const total = members.length;
@@ -250,6 +866,50 @@
             document.getElementById('totalMembers').textContent = total;
             document.getElementById('freeMembers').textContent = free;
             document.getElementById('paidMembers').textContent = paid;
+        }
+
+        // Update paid members statistics
+        function updatePaidStats() {
+            const total = paidMembers.length;
+            const pending = paidMembers.filter(m => m.paymentStatus === 'pending').length;
+            const waiting = paidMembers.filter(m => m.paymentStatus === 'waiting').length;
+            const active = paidMembers.filter(m => m.paymentStatus === 'active').length;
+            const expired = paidMembers.filter(m => m.paymentStatus === 'expired').length;
+
+            document.getElementById('totalPaidMembers').textContent = total;
+            document.getElementById('pendingPayments').textContent = pending + waiting;
+            document.getElementById('activePermissions').textContent = active;
+            document.getElementById('expiredPermissions').textContent = expired;
+
+            // Update notification badges
+            const pendingCount = pending + waiting;
+            const paymentPendingCount = payments.filter(p => p.status === 'pending').length;
+            
+            if (pendingCount > 0) {
+                document.getElementById('paid-notification').style.display = 'flex';
+                document.getElementById('paid-notification').textContent = pendingCount;
+            } else {
+                document.getElementById('paid-notification').style.display = 'none';
+            }
+
+            if (paymentPendingCount > 0) {
+                document.getElementById('payment-notification').style.display = 'flex';
+                document.getElementById('payment-notification').textContent = paymentPendingCount;
+            } else {
+                document.getElementById('payment-notification').style.display = 'none';
+            }
+        }
+
+        // Update statistics dashboard
+        function updateStatistics() {
+            const total = paidMembers.length;
+            const confirmed = paidMembers.filter(m => m.paymentStatus === 'confirmed' || m.paymentStatus === 'active').length;
+            const active = paidMembers.filter(m => m.paymentStatus === 'active').length;
+            
+            document.getElementById('statsPaidSignups').textContent = total;
+            document.getElementById('statsPaymentRate').textContent = total > 0 ? Math.round((confirmed / total) * 100) + '%' : '0%';
+            document.getElementById('statsActiveRate').textContent = total > 0 ? Math.round((active / total) * 100) + '%' : '0%';
+            document.getElementById('statsChurnRate').textContent = '2.5%'; // Sample data
         }
 
         // Render members table
@@ -275,7 +935,7 @@
             }
             
             if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" class="px-4 py-8 text-center text-gray-500">회원이 없습니다.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-gray-500">회원이 없습니다.</td></tr>';
                 return;
             }
 
@@ -286,7 +946,7 @@
                     <td class="px-4 py-3 text-sm">${member.email}</td>
                     <td class="px-4 py-3 text-sm">${member.phone}</td>
                     <td class="px-4 py-3">
-                        <span class="px-3 py-1 text-xs rounded-full ${member.type === 'paid' ? 'bg-orange-100 text-orange-800' : 'bg-gray-100 text-gray-800'}">
+                        <span class="px-3 py-1 text-xs rounded-full status-badge ${member.type === 'paid' ? 'bg-orange-100 text-orange-800' : 'bg-gray-100 text-gray-800'}">
                             ${member.type === 'paid' ? '유료 회원' : '무료 회원'}
                         </span>
                     </td>
@@ -298,7 +958,7 @@
                     </td>
                     <td class="px-4 py-3 text-xs font-mono text-gray-600">${member.lastIP || '-'}</td>
                     <td class="px-4 py-3">
-                        <span class="px-3 py-1 text-xs rounded-full ${member.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                        <span class="px-3 py-1 text-xs rounded-full status-badge ${member.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
                             ${member.status === 'active' ? '활성' : '정지'}
                         </span>
                     </td>
@@ -309,6 +969,113 @@
                         <button onclick="deleteMember(${member.id})" class="text-red-600 hover:text-red-800" title="삭제">
                             <i class="fas fa-trash"></i>
                         </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render paid members table
+        function renderPaidMembers() {
+            const tbody = document.getElementById('paidMembersTableBody');
+            const searchTerm = document.getElementById('searchPaidInput').value.toLowerCase();
+            const statusFilter = document.getElementById('paymentStatusFilter').value;
+            
+            let filtered = paidMembers;
+            
+            // Apply search filter
+            if (searchTerm) {
+                filtered = filtered.filter(m => 
+                    m.name.toLowerCase().includes(searchTerm) ||
+                    m.email.toLowerCase().includes(searchTerm) ||
+                    m.phone.includes(searchTerm)
+                );
+            }
+            
+            // Apply status filter
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(m => m.paymentStatus === statusFilter);
+            }
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-gray-500">유료회원이 없습니다.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(member => {
+                const statusColors = {
+                    'pending': 'bg-gray-100 text-gray-800',
+                    'waiting': 'bg-yellow-100 text-yellow-800',
+                    'confirmed': 'bg-blue-100 text-blue-800',
+                    'active': 'bg-green-100 text-green-800',
+                    'expired': 'bg-red-100 text-red-800'
+                };
+                
+                const statusLabels = {
+                    'pending': '미입금',
+                    'waiting': '입금대기',
+                    'confirmed': '입금확인',
+                    'active': '권한부여됨',
+                    'expired': '권한만료'
+                };
+
+                return `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-medium">${member.name}</td>
+                        <td class="px-4 py-3 text-sm">${member.phone}</td>
+                        <td class="px-4 py-3 text-sm">${member.applyDate}</td>
+                        <td class="px-4 py-3 font-semibold">${member.amount.toLocaleString()}원</td>
+                        <td class="px-4 py-3">
+                            <span class="px-3 py-1 text-xs rounded-full status-badge ${statusColors[member.paymentStatus]}">
+                                ${statusLabels[member.paymentStatus]}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-sm">${member.startDate || '-'}</td>
+                        <td class="px-4 py-3 text-sm">${member.endDate || '-'}</td>
+                        <td class="px-4 py-3 text-xs">
+                            ${member.permissions.map(p => `<span class="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded-full mb-1 mr-1">${p}</span>`).join('')}
+                        </td>
+                        <td class="px-4 py-3">
+                            <button onclick="viewPaidMember(${member.id})" class="text-blue-600 hover:text-blue-800" title="상세 보기">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Render payments table
+        function renderPayments() {
+            const tbody = document.getElementById('paymentsTableBody');
+            
+            if (payments.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="px-4 py-8 text-center text-gray-500">입금 내역이 없습니다.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = payments.map(payment => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium">${payment.depositorName}</td>
+                    <td class="px-4 py-3 font-semibold">${payment.amount.toLocaleString()}원</td>
+                    <td class="px-4 py-3 text-sm">${payment.transferDate}</td>
+                    <td class="px-4 py-3">
+                        ${payment.receiptFile ? '<i class="fas fa-file-image text-blue-600"></i>' : '-'}
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="px-3 py-1 text-xs rounded-full status-badge ${payment.matched ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                            ${payment.matched ? '매칭됨' : '미매칭'}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3 text-sm">${payment.confirmedBy || '-'}</td>
+                    <td class="px-4 py-3 text-sm">${payment.confirmedDate || '-'}</td>
+                    <td class="px-4 py-3">
+                        ${payment.status === 'pending' ? `
+                            <button onclick="confirmPaymentRecord(${payment.id})" class="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition">
+                                <i class="fas fa-check mr-1"></i>확인
+                            </button>
+                        ` : `
+                            <span class="text-green-600"><i class="fas fa-check-circle"></i></span>
+                        `}
                     </td>
                 </tr>
             `).join('');
@@ -386,10 +1153,343 @@
             document.getElementById('memberModal').classList.remove('hidden');
         }
 
-        // Close modal
+        // View paid member details
+        function viewPaidMember(id) {
+            const member = paidMembers.find(m => m.id === id);
+            if (!member) return;
+
+            currentPaidMemberId = id;
+
+            const details = document.getElementById('paidMemberDetails');
+            
+            const statusColors = {
+                'pending': 'bg-gray-100 text-gray-800',
+                'waiting': 'bg-yellow-100 text-yellow-800',
+                'confirmed': 'bg-blue-100 text-blue-800',
+                'active': 'bg-green-100 text-green-800',
+                'expired': 'bg-red-100 text-red-800'
+            };
+            
+            const statusLabels = {
+                'pending': '미입금',
+                'waiting': '입금대기',
+                'confirmed': '입금확인',
+                'active': '권한부여됨',
+                'expired': '권한만료'
+            };
+
+            details.innerHTML = `
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <p class="text-sm text-gray-600">신청자명</p>
+                        <p class="font-semibold">${member.name}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">회원 ID</p>
+                        <p class="font-semibold">#${member.id}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">이메일</p>
+                        <p class="font-semibold">${member.email}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">전화번호</p>
+                        <p class="font-semibold">${member.phone}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">신청일</p>
+                        <p class="font-semibold">${member.applyDate}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">결제 예정금액</p>
+                        <p class="font-semibold text-blue-600">${member.amount.toLocaleString()}원</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">결제 상태</p>
+                        <p><span class="px-3 py-1 text-xs rounded-full ${statusColors[member.paymentStatus]}">${statusLabels[member.paymentStatus]}</span></p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">입금자명</p>
+                        <p class="font-semibold">${member.depositorName}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">권한 시작일</p>
+                        <p class="font-semibold">${member.startDate || '-'}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">권한 종료일</p>
+                        <p class="font-semibold">${member.endDate || '-'}</p>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4 mb-6">
+                    <p class="text-sm text-gray-600 mb-2">권한 구분</p>
+                    <div class="flex flex-wrap gap-2">
+                        ${member.permissions.map(p => `<span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">${p}</span>`).join('')}
+                    </div>
+                </div>
+
+                <div class="border-t pt-4 mb-6">
+                    <p class="text-sm text-gray-600 mb-2">송금 정보</p>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm"><strong>입금자명:</strong> ${member.depositorName}</p>
+                        <p class="text-sm"><strong>제출 파일:</strong> ${member.receiptFile ? `<i class="fas fa-file-image text-blue-600"></i> ${member.receiptFile}` : '미제출'}</p>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4 mb-6">
+                    <p class="text-sm text-gray-600 mb-2">관리자 메모</p>
+                    <textarea id="adminMemoInput" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="3">${member.adminMemo}</textarea>
+                    <button onclick="saveMemo()" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">
+                        <i class="fas fa-save mr-1"></i>메모 저장
+                    </button>
+                </div>
+
+                <div class="border-t pt-4">
+                    <p class="text-sm text-gray-600 mb-2">권한 변경 로그</p>
+                    <div class="bg-gray-50 p-4 rounded-lg max-h-40 overflow-y-auto">
+                        ${member.logs.map(log => `
+                            <div class="text-sm mb-2 pb-2 border-b last:border-b-0">
+                                <span class="text-gray-600">${log.date}</span> - 
+                                <span class="font-semibold">${log.action}</span>
+                                <span class="text-gray-500">(담당: ${log.admin})</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('paidMemberModal').classList.remove('hidden');
+        }
+
+        // Close modals
         function closeModal() {
             document.getElementById('memberModal').classList.add('hidden');
             currentMemberId = null;
+        }
+
+        function closePaidMemberModal() {
+            document.getElementById('paidMemberModal').classList.add('hidden');
+            currentPaidMemberId = null;
+        }
+
+        // Save admin memo
+        function saveMemo() {
+            if (!currentPaidMemberId) return;
+            
+            const member = paidMembers.find(m => m.id === currentPaidMemberId);
+            if (!member) return;
+
+            const memo = document.getElementById('adminMemoInput').value;
+            member.adminMemo = memo;
+            
+            // Add log entry
+            member.logs.push({
+                date: new Date().toLocaleString('ko-KR'),
+                action: '메모 수정',
+                admin: '관리자'
+            });
+
+            localStorage.setItem('paidMembers', JSON.stringify(paidMembers));
+            alert('메모가 저장되었습니다.');
+        }
+
+        // Confirm payment and grant permission
+        function confirmPayment() {
+            if (!currentPaidMemberId) return;
+            
+            const member = paidMembers.find(m => m.id === currentPaidMemberId);
+            if (!member) return;
+
+            if (confirm(`${member.name}님의 입금을 확인하고 권한을 부여하시겠습니까?`)) {
+                member.paymentStatus = 'active';
+                const now = new Date();
+                member.startDate = now.toISOString().split('T')[0];
+                const endDate = new Date(now);
+                endDate.setFullYear(endDate.getFullYear() + 1);
+                member.endDate = endDate.toISOString().split('T')[0];
+                
+                // Add log entry
+                member.logs.push({
+                    date: new Date().toLocaleString('ko-KR'),
+                    action: '입금확인 → 권한부여',
+                    admin: '관리자'
+                });
+
+                localStorage.setItem('paidMembers', JSON.stringify(paidMembers));
+                
+                // Send notification (if enabled)
+                if (document.getElementById('enableNotifications')?.checked) {
+                    sendNotification(member);
+                }
+                
+                alert('권한이 부여되었습니다.');
+                updatePaidStats();
+                renderPaidMembers();
+                closePaidMemberModal();
+            }
+        }
+
+        // Suspend permission
+        function suspendPermission() {
+            if (!currentPaidMemberId) return;
+            
+            const member = paidMembers.find(m => m.id === currentPaidMemberId);
+            if (!member) return;
+
+            if (confirm(`${member.name}님의 권한을 중지하시겠습니까?`)) {
+                member.paymentStatus = 'suspended';
+                
+                // Add log entry
+                member.logs.push({
+                    date: new Date().toLocaleString('ko-KR'),
+                    action: '권한 중지',
+                    admin: '관리자'
+                });
+
+                localStorage.setItem('paidMembers', JSON.stringify(paidMembers));
+                alert('권한이 중지되었습니다.');
+                updatePaidStats();
+                renderPaidMembers();
+                closePaidMemberModal();
+            }
+        }
+
+        // Expire permission
+        function expirePermission() {
+            if (!currentPaidMemberId) return;
+            
+            const member = paidMembers.find(m => m.id === currentPaidMemberId);
+            if (!member) return;
+
+            if (confirm(`${member.name}님의 권한을 만료 처리하시겠습니까?`)) {
+                member.paymentStatus = 'expired';
+                
+                // Add log entry
+                member.logs.push({
+                    date: new Date().toLocaleString('ko-KR'),
+                    action: '권한 만료',
+                    admin: '관리자'
+                });
+
+                localStorage.setItem('paidMembers', JSON.stringify(paidMembers));
+                alert('권한이 만료되었습니다.');
+                updatePaidStats();
+                renderPaidMembers();
+                closePaidMemberModal();
+            }
+        }
+
+        // Confirm payment record
+        function confirmPaymentRecord(id) {
+            const payment = payments.find(p => p.id === id);
+            if (!payment) return;
+
+            if (confirm(`${payment.depositorName}님의 입금(${payment.amount.toLocaleString()}원)을 확인하시겠습니까?`)) {
+                payment.status = 'confirmed';
+                payment.confirmedBy = '관리자';
+                payment.confirmedDate = new Date().toLocaleString('ko-KR');
+                payment.matched = true;
+
+                localStorage.setItem('payments', JSON.stringify(payments));
+                
+                // Play sound notification
+                if (document.getElementById('enablePaymentSound')?.checked) {
+                    playPaymentSound();
+                }
+                
+                alert('입금이 확인되었습니다.');
+                renderPayments();
+                updatePaidStats();
+            }
+        }
+
+        // Handle payment file upload
+        function handlePaymentUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // In a real application, this would upload to a server
+            alert(`파일 "${file.name}"이 업로드되었습니다.`);
+            
+            // Add to payments list
+            const newPayment = {
+                id: payments.length + 1,
+                depositorName: '신규입금',
+                amount: 50000,
+                transferDate: new Date().toLocaleString('ko-KR'),
+                receiptFile: file.name,
+                matched: false,
+                confirmedBy: null,
+                confirmedDate: null,
+                status: 'pending'
+            };
+            
+            payments.push(newPayment);
+            localStorage.setItem('payments', JSON.stringify(payments));
+            
+            // Play sound notification
+            if (document.getElementById('enablePaymentSound')?.checked) {
+                playPaymentSound();
+            }
+            
+            renderPayments();
+            updatePaidStats();
+        }
+
+        // Play payment notification sound
+        function playPaymentSound() {
+            const audio = document.getElementById('paymentSound');
+            audio.play().catch(e => console.log('Audio play failed:', e));
+        }
+
+        // Test payment sound
+        function testPaymentSound() {
+            playPaymentSound();
+        }
+
+        // Send notification
+        function sendNotification(member) {
+            // In a real application, this would send actual notifications
+            const channels = [];
+            if (document.getElementById('notifyEmail')?.checked) channels.push('이메일');
+            if (document.getElementById('notifyKakao')?.checked) channels.push('카카오톡');
+            if (document.getElementById('notifyTelegram')?.checked) channels.push('텔레그램');
+            
+            if (channels.length > 0) {
+                console.log(`알림 전송: ${channels.join(', ')} → ${member.name}님`);
+            }
+        }
+
+        // Save settings
+        function saveSettings() {
+            const settings = {
+                enableNotifications: document.getElementById('enableNotifications').checked,
+                notifyEmail: document.getElementById('notifyEmail').checked,
+                notifyKakao: document.getElementById('notifyKakao').checked,
+                notifyTelegram: document.getElementById('notifyTelegram').checked,
+                notificationTemplate: document.getElementById('notificationTemplate').value,
+                autoGrantPermission: document.getElementById('autoGrantPermission').checked,
+                enablePaymentSound: document.getElementById('enablePaymentSound').checked
+            };
+            
+            localStorage.setItem('adminSettings', JSON.stringify(settings));
+            alert('설정이 저장되었습니다.');
+        }
+
+        // Load settings
+        function loadSettings() {
+            const saved = localStorage.getItem('adminSettings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('enableNotifications').checked = settings.enableNotifications ?? true;
+                document.getElementById('notifyEmail').checked = settings.notifyEmail ?? true;
+                document.getElementById('notifyKakao').checked = settings.notifyKakao ?? false;
+                document.getElementById('notifyTelegram').checked = settings.notifyTelegram ?? false;
+                document.getElementById('notificationTemplate').value = settings.notificationTemplate || '';
+                document.getElementById('autoGrantPermission').checked = settings.autoGrantPermission ?? false;
+                document.getElementById('enablePaymentSound').checked = settings.enablePaymentSound ?? true;
+            }
         }
 
         // Upgrade to paid member
@@ -492,16 +1592,55 @@
             link.click();
         }
 
+        // Export paid members to CSV
+        function exportPaidMembers() {
+            const statusLabels = {
+                'pending': '미입금',
+                'waiting': '입금대기',
+                'confirmed': '입금확인',
+                'active': '권한부여됨',
+                'expired': '권한만료'
+            };
+
+            const csv = [
+                ['ID', '이름', '이메일', '전화번호', '신청일', '결제금액', '결제상태', '시작일', '종료일', '권한구분'],
+                ...paidMembers.map(m => [
+                    m.id,
+                    m.name,
+                    m.email,
+                    m.phone,
+                    m.applyDate,
+                    m.amount,
+                    statusLabels[m.paymentStatus],
+                    m.startDate || '',
+                    m.endDate || '',
+                    m.permissions.join(', ')
+                ])
+            ].map(row => row.join(',')).join('\n');
+
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `paid_members_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', renderMembers);
         document.getElementById('memberTypeFilter').addEventListener('change', renderMembers);
+        document.getElementById('searchPaidInput').addEventListener('input', renderPaidMembers);
+        document.getElementById('paymentStatusFilter').addEventListener('change', renderPaidMembers);
 
         // Initialize
         if (checkAuth()) {
             loadMembers();
+            loadPaidMembers();
+            loadPayments();
+            loadSettings();
         }
     </script>
-        <!-- CASHiQ Storage Manager -->
+    
+    <!-- CASHiQ Storage Manager -->
     <script src="/js/storage-manager.js"></script>
 
     <!-- CASHiQ Chatbot -->
