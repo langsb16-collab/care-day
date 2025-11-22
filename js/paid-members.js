@@ -225,8 +225,11 @@ function renderPaidMembers() {
                     </div>
                 </td>
                 <td class="px-4 py-3">
-                    <button onclick="viewMember(${member.id})" class="text-blue-600 hover:text-blue-800" title="상세 보기">
+                    <button onclick="viewMember(${member.id})" class="text-blue-600 hover:text-blue-800 mr-3" title="상세 보기">
                         <i class="fas fa-eye"></i>
+                    </button>
+                    <button onclick="deleteMember(${member.id})" class="text-red-600 hover:text-red-800" title="삭제">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </td>
             </tr>
@@ -654,4 +657,27 @@ function checkNewInquiries() {
 function playNotificationSound() {
     const audio = new Audio('data:audio/wav;base64,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');
     audio.play().catch(e => console.log('Audio play failed:', e));
+}
+
+// Delete member
+function deleteMember(id) {
+    if (!confirm('이 유료회원을 삭제하시겠습니까?\n관련된 문의 내역도 함께 삭제됩니다.')) {
+        return;
+    }
+    
+    // Delete member
+    const index = paidMembers.findIndex(m => m.id === id);
+    if (index !== -1) {
+        paidMembers.splice(index, 1);
+        localStorage.setItem('paidMembers', JSON.stringify(paidMembers));
+    }
+    
+    // Delete related inquiries
+    inquiries = inquiries.filter(i => i.memberId !== id);
+    localStorage.setItem('inquiries', JSON.stringify(inquiries));
+    
+    updateStats();
+    renderPaidMembers();
+    renderInquiries();
+    alert('유료회원과 관련 문의가 삭제되었습니다.');
 }

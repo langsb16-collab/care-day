@@ -177,10 +177,13 @@ function renderPayments() {
                     <i class="fas fa-eye"></i>
                 </button>
                 ${payment.status === 'pending' ? `
-                    <button onclick="quickConfirm(${payment.id})" class="text-green-600 hover:text-green-800" title="빠른확인">
+                    <button onclick="quickConfirm(${payment.id})" class="text-green-600 hover:text-green-800 mr-3" title="빠른확인">
                         <i class="fas fa-check-circle"></i>
                     </button>
                 ` : ''}
+                <button onclick="deletePayment(${payment.id})" class="text-red-600 hover:text-red-800" title="삭제">
+                    <i class="fas fa-trash"></i>
+                </button>
             </td>
         </tr>
     `).join('');
@@ -533,5 +536,21 @@ function playNotificationSound() {
     if (document.getElementById('soundToggle').checked) {
         const audio = document.getElementById('notificationSound');
         audio.play().catch(e => console.log('Audio play failed:', e));
+    }
+}
+
+// Delete payment
+function deletePayment(id) {
+    if (!confirm('이 입금내역을 삭제하시겠습니까?')) {
+        return;
+    }
+    
+    const index = payments.findIndex(p => p.id === id);
+    if (index !== -1) {
+        payments.splice(index, 1);
+        localStorage.setItem('payments', JSON.stringify(payments));
+        updateStats();
+        renderPayments();
+        alert('입금내역이 삭제되었습니다.');
     }
 }
