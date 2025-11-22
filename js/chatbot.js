@@ -917,7 +917,7 @@ class InquirySystem {
             <div id="inquiry-modal" class="inquiry-modal">
                 <div class="inquiry-modal-content">
                     <div class="inquiry-modal-header">
-                        <h3><i class="fas fa-envelope mr-2"></i>1:1 문의하기</h3>
+                        <h3><i class="fas fa-envelope mr-2"></i><span data-i18n="inquiry.modalTitle">1:1 문의하기</span></h3>
                         <button class="inquiry-modal-close" onclick="inquirySystem.closeModal()">
                             <i class="fas fa-times"></i>
                         </button>
@@ -925,23 +925,23 @@ class InquirySystem {
                     <div class="inquiry-modal-body">
                         <form id="inquiry-form" onsubmit="inquirySystem.submitInquiry(event)">
                             <div class="inquiry-form-group">
-                                <label for="inquiry-name">이름 *</label>
-                                <input type="text" id="inquiry-name" required placeholder="이름을 입력하세요">
+                                <label for="inquiry-name" data-i18n="inquiry.nameLabel">회원 ID *</label>
+                                <input type="text" id="inquiry-name" required data-i18n-placeholder="inquiry.namePlaceholder" placeholder="회원 ID를 입력하세요">
                             </div>
                             <div class="inquiry-form-group">
-                                <label for="inquiry-email">이메일 *</label>
-                                <input type="email" id="inquiry-email" required placeholder="이메일을 입력하세요">
+                                <label for="inquiry-email" data-i18n="inquiry.emailLabel">이메일 *</label>
+                                <input type="email" id="inquiry-email" required data-i18n-placeholder="inquiry.emailPlaceholder" placeholder="이메일을 입력하세요">
                             </div>
                             <div class="inquiry-form-group">
-                                <label for="inquiry-subject">제목 *</label>
-                                <input type="text" id="inquiry-subject" required placeholder="문의 제목을 입력하세요">
+                                <label for="inquiry-subject" data-i18n="inquiry.subjectLabel">제목 *</label>
+                                <input type="text" id="inquiry-subject" required data-i18n-placeholder="inquiry.subjectPlaceholder" placeholder="문의 제목을 입력하세요">
                             </div>
                             <div class="inquiry-form-group">
-                                <label for="inquiry-message">문의 내용 *</label>
-                                <textarea id="inquiry-message" required placeholder="문의하실 내용을 입력하세요"></textarea>
+                                <label for="inquiry-message" data-i18n="inquiry.messageLabel">문의 내용 *</label>
+                                <textarea id="inquiry-message" required data-i18n-placeholder="inquiry.messagePlaceholder" placeholder="문의하실 내용을 입력하세요"></textarea>
                             </div>
                             <button type="submit" class="inquiry-submit-btn">
-                                <i class="fas fa-paper-plane mr-2"></i>문의 제출
+                                <i class="fas fa-paper-plane mr-2"></i><span data-i18n="inquiry.submitButton">문의 제출</span>
                             </button>
                         </form>
                     </div>
@@ -973,6 +973,43 @@ class InquirySystem {
         const modal = document.getElementById('inquiry-modal');
         if (modal) {
             modal.classList.add('active');
+            // Apply translations when modal opens
+            this.applyTranslations();
+        }
+    }
+    
+    applyTranslations() {
+        const currentLang = localStorage.getItem('currentLanguage') || 'ko';
+        if (typeof translations !== 'undefined' && translations[currentLang]) {
+            const t = translations[currentLang];
+            
+            // Update all elements with data-i18n attributes
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const keys = key.split('.');
+                let value = t;
+                for (let k of keys) {
+                    value = value[k];
+                    if (!value) break;
+                }
+                if (value) {
+                    el.textContent = value;
+                }
+            });
+            
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const keys = key.split('.');
+                let value = t;
+                for (let k of keys) {
+                    value = value[k];
+                    if (!value) break;
+                }
+                if (value) {
+                    el.placeholder = value;
+                }
+            });
         }
     }
 
@@ -1011,7 +1048,11 @@ class InquirySystem {
         localStorage.setItem('inquiries', JSON.stringify(inquiries));
         
         // Show success message
-        alert('문의가 접수되었습니다.\n빠른 시일 내에 답변 드리겠습니다.\n\n등록하신 이메일로 답변이 발송됩니다.');
+        const currentLang = localStorage.getItem('currentLanguage') || 'ko';
+        const successMsg = translations && translations[currentLang] && translations[currentLang].inquiry
+            ? translations[currentLang].inquiry.successMessage
+            : '문의가 접수되었습니다.\n빠른 시일 내에 답변 드리겠습니다.\n\n등록하신 이메일로 답변이 발송됩니다.';
+        alert(successMsg);
         
         this.closeModal();
     }

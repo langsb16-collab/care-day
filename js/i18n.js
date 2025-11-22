@@ -81,6 +81,19 @@ const translations = {
             line3: '1시간 이내 답변',
             button: '문의하기'
         },
+        inquiry: {
+            modalTitle: '1:1 문의하기',
+            nameLabel: '회원 ID *',
+            namePlaceholder: '회원 ID를 입력하세요',
+            emailLabel: '이메일 *',
+            emailPlaceholder: '이메일을 입력하세요',
+            subjectLabel: '제목 *',
+            subjectPlaceholder: '문의 제목을 입력하세요',
+            messageLabel: '문의 내용 *',
+            messagePlaceholder: '문의하실 내용을 입력하세요',
+            submitButton: '문의 제출',
+            successMessage: '문의가 접수되었습니다.\n빠른 시일 내에 답변 드리겠습니다.\n\n등록하신 이메일로 답변이 발송됩니다.'
+        },
         emergency: {
             title: '응급 상황이신가요?',
             subtitle: '즉시 119에 연락하거나 가까운 응급실로 가세요',
@@ -536,6 +549,19 @@ const translations = {
             line2: 'Premium Member Inquiry',
             line3: 'Response within 1 hour',
             button: 'Contact Us'
+        },
+        inquiry: {
+            modalTitle: '1:1 Inquiry',
+            nameLabel: 'Member ID *',
+            namePlaceholder: 'Enter your member ID',
+            emailLabel: 'Email *',
+            emailPlaceholder: 'Enter your email',
+            subjectLabel: 'Subject *',
+            subjectPlaceholder: 'Enter inquiry subject',
+            messageLabel: 'Message *',
+            messagePlaceholder: 'Enter your inquiry',
+            submitButton: 'Submit Inquiry',
+            successMessage: 'Your inquiry has been submitted.\nWe will respond as soon as possible.\n\nA reply will be sent to your registered email.'
         },
         emergency: {
             title: 'Is this an emergency?',
@@ -993,6 +1019,19 @@ const translations = {
             line3: '1小时内回复',
             button: '立即咨询'
         },
+        inquiry: {
+            modalTitle: '1:1 咨询',
+            nameLabel: '会员 ID *',
+            namePlaceholder: '请输入您的会员 ID',
+            emailLabel: '电子邮件 *',
+            emailPlaceholder: '请输入您的电子邮件',
+            subjectLabel: '主题 *',
+            subjectPlaceholder: '请输入咨询主题',
+            messageLabel: '咨询内容 *',
+            messagePlaceholder: '请输入您的咨询内容',
+            submitButton: '提交咨询',
+            successMessage: '您的咨询已提交。\n我们将尽快回复。\n\n回复将发送至您注册的电子邮件。'
+        },
         emergency: {
             title: '这是紧急情况吗？',
             subtitle: '请立即拨打119或前往最近的急诊室',
@@ -1448,6 +1487,19 @@ const translations = {
             line2: '有料会員お問い合わせ',
             line3: '1時間以内に返信',
             button: 'お問い合わせ'
+        },
+        inquiry: {
+            modalTitle: '1:1 お問い合わせ',
+            nameLabel: '会員 ID *',
+            namePlaceholder: '会員 IDを入力してください',
+            emailLabel: 'メールアドレス *',
+            emailPlaceholder: 'メールアドレスを入力してください',
+            subjectLabel: '件名 *',
+            subjectPlaceholder: 'お問い合わせ件名を入力してください',
+            messageLabel: 'お問い合わせ内容 *',
+            messagePlaceholder: 'お問い合わせ内容を入力してください',
+            submitButton: 'お問い合わせ送信',
+            successMessage: 'お問い合わせを受け付けました。\nできるだけ早く回答いたします。\n\nご登録のメールアドレスに返信が送信されます。'
         },
         emergency: {
             title: '緊急事態ですか？',
