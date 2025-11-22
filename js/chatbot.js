@@ -910,6 +910,11 @@ class InquirySystem {
     init() {
         this.createInquiryModal();
         this.attachInquiryListeners();
+        
+        // Listen for language changes
+        window.addEventListener('languageChanged', (e) => {
+            this.applyTranslations();
+        });
     }
 
     createInquiryModal() {
