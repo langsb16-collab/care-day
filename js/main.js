@@ -252,4 +252,45 @@ function sharePage() {
     }
 }
 
+// Open Inquiry Modal Function
+function openInquiryModal() {
+    // Wait a bit if the chatbot hasn't loaded yet
+    const attemptOpen = () => {
+        // Try method 1: Use inquiry system if available
+        if (window.inquirySystem && typeof window.inquirySystem.openModal === 'function') {
+            window.inquirySystem.openModal();
+            return true;
+        }
+        
+        // Try method 2: Find the inquiry button and trigger click
+        const inquiryButton = document.getElementById('inquiry-button');
+        if (inquiryButton) {
+            inquiryButton.click();
+            return true;
+        }
+        
+        // Try method 3: Open modal directly
+        const inquiryModal = document.getElementById('inquiry-modal');
+        if (inquiryModal) {
+            inquiryModal.classList.add('active');
+            return true;
+        }
+        
+        return false;
+    };
+    
+    // Try immediately
+    if (attemptOpen()) {
+        return;
+    }
+    
+    // If failed, wait a bit and try again (chatbot might still be loading)
+    setTimeout(() => {
+        if (!attemptOpen()) {
+            console.error('Failed to open inquiry modal - please try again in a moment');
+            alert('문의 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
+        }
+    }, 500);
+}
+
 // Website loaded successfully

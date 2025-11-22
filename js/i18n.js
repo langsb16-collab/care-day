@@ -74,6 +74,13 @@ const translations = {
                 action: '보기 →'
             }
         },
+        premium: {
+            title: '유료회원 서비스 안내',
+            line1: '이용료납부 통지',
+            line2: '유료 회원 문의',
+            line3: '1시간 이내 답변',
+            button: '문의하기'
+        },
         emergency: {
             title: '응급 상황이신가요?',
             subtitle: '즉시 119에 연락하거나 가까운 응급실로 가세요',
@@ -522,6 +529,13 @@ const translations = {
                 desc: 'Communication Space',
                 action: 'View →'
             }
+        },
+        premium: {
+            title: 'Premium Member Service',
+            line1: 'Payment Notification',
+            line2: 'Premium Member Inquiry',
+            line3: 'Response within 1 hour',
+            button: 'Contact Us'
         },
         emergency: {
             title: 'Is this an emergency?',
@@ -972,6 +986,13 @@ const translations = {
                 action: '查看 →'
             }
         },
+        premium: {
+            title: '付费会员服务指南',
+            line1: '使用费缴纳通知',
+            line2: '付费会员咨询',
+            line3: '1小时内回复',
+            button: '立即咨询'
+        },
         emergency: {
             title: '这是紧急情况吗？',
             subtitle: '请立即拨打119或前往最近的急诊室',
@@ -1420,6 +1441,13 @@ const translations = {
                 desc: '交流スペース',
                 action: '見る →'
             }
+        },
+        premium: {
+            title: '有料会員サービスのご案内',
+            line1: '利用料金お支払い通知',
+            line2: '有料会員お問い合わせ',
+            line3: '1時間以内に返信',
+            button: 'お問い合わせ'
         },
         emergency: {
             title: '緊急事態ですか？',
