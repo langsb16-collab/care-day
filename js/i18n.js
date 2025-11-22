@@ -95,7 +95,7 @@ const translations = {
             successMessage: '문의가 접수되었습니다.\n빠른 시일 내에 답변 드리겠습니다.\n\n등록하신 이메일로 답변이 발송됩니다.'
         },
         chatbotTooltip: {
-            line1: '궁금한 질문은',
+            line1: '궁금하신 질문은',
             line2: '자동 응답 봇에',
             line3: '문의하세요'
         },

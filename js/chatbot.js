@@ -460,7 +460,7 @@ class CASHiQChatbot {
             <!-- 챗봇 안내 말풍선 -->
             <div id="chatbot-tooltip" class="chatbot-tooltip">
                 <div class="chatbot-tooltip-text">
-                    <span class="chatbot-tooltip-line" data-i18n="chatbotTooltip.line1">궁금한 질문은</span>
+                    <span class="chatbot-tooltip-line" data-i18n="chatbotTooltip.line1">궁금하신 질문은</span>
                     <span class="chatbot-tooltip-line" data-i18n="chatbotTooltip.line2">자동 응답 봇에</span>
                     <span class="chatbot-tooltip-line" data-i18n="chatbotTooltip.line3">문의하세요</span>
                 </div>
