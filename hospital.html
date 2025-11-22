@@ -17,14 +17,14 @@
         .search-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 3rem;
+            padding: 2.1rem;
             border-radius: 12px;
             margin-bottom: 2rem;
             text-align: center;
         }
 
         .search-header h1 {
-            font-size: 1.8rem;
+            font-size: 1.26rem;
             margin-bottom: 1rem;
             color: white;
         }
@@ -33,6 +33,17 @@
             font-size: 1rem;
             opacity: 0.95;
             font-weight: 600;
+        }
+        
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .search-header {
+                padding: 1.5rem;
+            }
+            
+            .search-header h1 {
+                font-size: 1.1rem;
+            }
         }
 
         .demo-notice {
