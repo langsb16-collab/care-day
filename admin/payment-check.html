@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입금내역 확인 - CASHiQ Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .upload-area {
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            border-color: #7c3aed;
+            background: #f5f3ff;
+        }
+        .upload-area.drag-over {
+            border-color: #7c3aed;
+            background: #ede9fe;
+            transform: scale(1.02);
+        }
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <nav class="bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-white hover:text-gray-200">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </a>
+                    <div>
+                        <h1 class="text-xl font-bold">입금내역 확인</h1>
+                        <p class="text-sm opacity-90">Payment Check</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" id="soundToggle" class="mr-2" checked>
+                        <i class="fas fa-volume-up mr-1"></i>
+                        <span class="text-sm">알림음</span>
+                    </label>
+                    <button onclick="logout()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition">
+                        <i class="fas fa-sign-out-alt mr-1"></i>로그아웃
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">총 입금내역</p>
+                        <p class="text-3xl font-bold text-gray-800" id="totalPayments">0</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <i class="fas fa-money-bill-wave text-blue-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-yellow-500 cursor-pointer" onclick="filterByStatus('pending')">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">확인 대기</p>
+                        <p class="text-3xl font-bold text-gray-800 pulse-animation" id="pendingPayments">0</p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg">
+                        <i class="fas fa-clock text-yellow-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">확인 완료</p>
+                        <p class="text-3xl font-bold text-gray-800" id="confirmedPayments">0</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg">
+                        <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-600 text-sm mb-1">미매칭</p>
+                        <p class="text-3xl font-bold text-gray-800" id="unmatchedPayments">0</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-lg">
+                        <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-cloud-upload-alt text-blue-600 mr-2"></i>입금증빙 업로드
+            </h2>
+            <div class="upload-area border-2 border-dashed border-gray-300 rounded-lg p-8 text-center" id="uploadArea">
+                <input type="file" id="fileInput" accept="image/*,.pdf" class="hidden" multiple>
+                <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600 mb-2">입금 스크린샷 또는 영수증을 업로드하세요</p>
+                <p class="text-sm text-gray-400 mb-4">PNG, JPG, PDF 파일 지원 (드래그 앤 드롭 또는 클릭)</p>
+                <button onclick="document.getElementById('fileInput').click()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    <i class="fas fa-file-upload mr-2"></i>파일 선택
+                </button>
+            </div>
+            <div id="uploadedFiles" class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Uploaded files will appear here -->
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="입금자명, 금액으로 검색..." 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                        oninput="renderPayments()"
+                    >
+                </div>
+                <div>
+                    <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" onchange="renderPayments()">
+                        <option value="all">전체 상태</option>
+                        <option value="pending">확인 대기</option>
+                        <option value="confirmed">확인 완료</option>
+                        <option value="unmatched">미매칭</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="dateFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500" onchange="renderPayments()">
+                        <option value="all">전체 기간</option>
+                        <option value="today">오늘</option>
+                        <option value="week">최근 7일</option>
+                        <option value="month">최근 30일</option>
+                    </select>
+                </div>
+                <div>
+                    <button onclick="exportPayments()" class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                        <i class="fas fa-download mr-2"></i>내보내기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payments Table -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-list text-green-600 mr-2"></i>입금내역 목록
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">입금자명</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">금액</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">송금일시</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">제출파일</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">매칭여부</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">상태</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">확인담당자</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">확인일자</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">관리</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTableBody" class="divide-y divide-gray-200">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Detail Modal -->
+    <div id="paymentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">입금 상세 정보</h3>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+
+                <div id="paymentDetails" class="space-y-4">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <div class="mt-6 flex gap-4">
+                    <button onclick="confirmPaymentAndMatch()" class="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition">
+                        <i class="fas fa-check-double mr-2"></i>확인 및 자동매칭
+                    </button>
+                    <button onclick="confirmPayment()" class="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-check mr-2"></i>확인만
+                    </button>
+                    <button onclick="flagUnmatched()" class="flex-1 bg-yellow-600 text-white py-3 rounded-lg hover:bg-yellow-700 transition">
+                        <i class="fas fa-flag mr-2"></i>미매칭 표시
+                    </button>
+                    <button onclick="closeModal()" class="px-6 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio for payment notification -->
+    <audio id="notificationSound" preload="auto">
+        <source src="data:audio/wav;base64,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" type="audio/wav">
+    </audio>
+
+    <script src="/js/payment-check.js"></script>
+    <script src="/js/storage-manager.js"></script>
+    <script src="/js/chatbot.js"></script>
+</body>
+</html>
