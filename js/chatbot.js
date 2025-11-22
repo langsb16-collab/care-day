@@ -456,18 +456,14 @@ class CASHiQChatbot {
     createChatbotHTML() {
         const t = this.translations[this.currentLang];
         
-        // 말풍선 텍스트 (다국어)
-        const tooltipText = {
-            ko: "궁금하신 질문은\n자동응답봇에 문의하세요",
-            en: "Have questions?\nAsk our chatbot",
-            zh: "有疑问吗？\n请询问聊天机器人",
-            ja: "質問がありますか？\nチャットボットに聞く"
-        };
-        
         const chatbotHTML = `
             <!-- 챗봇 안내 말풍선 -->
             <div id="chatbot-tooltip" class="chatbot-tooltip">
-                <div class="chatbot-tooltip-text">${tooltipText[this.currentLang]}</div>
+                <div class="chatbot-tooltip-text">
+                    <span class="chatbot-tooltip-line" data-i18n="chatbotTooltip.line1">궁금한 질문은</span>
+                    <span class="chatbot-tooltip-line" data-i18n="chatbotTooltip.line2">자동 응답 봇에</span>
+                    <span class="chatbot-tooltip-line" data-i18n="chatbotTooltip.line3">문의하세요</span>
+                </div>
             </div>
             
             <!-- AI 뱃지 -->
@@ -540,16 +536,9 @@ class CASHiQChatbot {
             input.placeholder = t.placeholder;
         }
         
-        // 말풍선 텍스트 업데이트
-        const tooltipText = {
-            ko: "궁금하신 질문은\n자동응답봇에 문의하세요",
-            en: "Have questions?\nAsk our chatbot",
-            zh: "有疑问吗？\n请询问聊天机器人",
-            ja: "質問がありますか？\nチャットボットに聞く"
-        };
-        const tooltip = document.querySelector('.chatbot-tooltip-text');
-        if (tooltip) {
-            tooltip.textContent = tooltipText[this.currentLang];
+        // 말풍선 텍스트 업데이트 (data-i18n attributes)
+        if (typeof window.updatePageLanguage === 'function') {
+            window.updatePageLanguage();
         }
         
         // 메시지 클리어 및 환영 메시지 재표시

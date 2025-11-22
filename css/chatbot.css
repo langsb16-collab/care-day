@@ -24,7 +24,13 @@
     color: #1e293b;
     font-weight: 600;
     text-align: center;
-    white-space: pre-line;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.chatbot-tooltip-line {
+    display: block;
 }
 
 /* 말풍선 꼬리 */
@@ -495,6 +501,7 @@
     .chatbot-tooltip-text {
         font-size: 10px;
         line-height: 1.3;
+        gap: 1px;
     }
     
     .chatbot-tooltip::after {
@@ -649,6 +656,7 @@
     
     .chatbot-tooltip-text {
         font-size: 9px;
+        gap: 1px;
     }
     
     .chatbot-ai-badge {

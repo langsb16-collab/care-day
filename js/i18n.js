@@ -94,6 +94,11 @@ const translations = {
             submitButton: '문의 제출',
             successMessage: '문의가 접수되었습니다.\n빠른 시일 내에 답변 드리겠습니다.\n\n등록하신 이메일로 답변이 발송됩니다.'
         },
+        chatbotTooltip: {
+            line1: '궁금한 질문은',
+            line2: '자동 응답 봇에',
+            line3: '문의하세요'
+        },
         emergency: {
             title: '응급 상황이신가요?',
             subtitle: '즉시 119에 연락하거나 가까운 응급실로 가세요',
@@ -562,6 +567,11 @@ const translations = {
             messagePlaceholder: 'Enter your inquiry',
             submitButton: 'Submit Inquiry',
             successMessage: 'Your inquiry has been submitted.\nWe will respond as soon as possible.\n\nA reply will be sent to your registered email.'
+        },
+        chatbotTooltip: {
+            line1: 'Have questions?',
+            line2: 'Ask our',
+            line3: 'chatbot'
         },
         emergency: {
             title: 'Is this an emergency?',
@@ -1032,6 +1042,11 @@ const translations = {
             submitButton: '提交咨询',
             successMessage: '您的咨询已提交。\n我们将尽快回复。\n\n回复将发送至您注册的电子邮件。'
         },
+        chatbotTooltip: {
+            line1: '有疑问吗？',
+            line2: '请询问',
+            line3: '聊天机器人'
+        },
         emergency: {
             title: '这是紧急情况吗？',
             subtitle: '请立即拨打119或前往最近的急诊室',
@@ -1500,6 +1515,11 @@ const translations = {
             messagePlaceholder: 'お問い合わせ内容を入力してください',
             submitButton: 'お問い合わせ送信',
             successMessage: 'お問い合わせを受け付けました。\nできるだけ早く回答いたします。\n\nご登録のメールアドレスに返信が送信されます。'
+        },
+        chatbotTooltip: {
+            line1: '質問がありますか？',
+            line2: 'チャットボットに',
+            line3: '聞いてください'
         },
         emergency: {
             title: '緊急事態ですか？',
