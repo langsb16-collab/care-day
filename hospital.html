@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/chatbot.css?v=20251121174701">
+    <link rel="stylesheet" href="css/chatbot.css?v=20251123104556">
     <style>
         .search-header {
             background: linear-gradient(to right, #10b981, #2563eb);
@@ -56930,6 +56930,15 @@
             addRatingButtonsToAllCards();
             restoreRatings();
         }
+        
+        // 언어 변경 이벤트 리스너 추가
+        window.addEventListener('languageChanged', function(e) {
+            console.log('Language changed to:', e.detail.lang);
+            // 번역 즉시 적용
+            if (typeof updatePageLanguage === 'function') {
+                updatePageLanguage();
+            }
+        });
     </script>
 
 
@@ -57070,9 +57079,9 @@
 </footer>
 
 
-    <script src="js/i18n.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/i18n.js?v=20251123104556"></script>
+    <script src="js/main.js?v=20251123104556"></script>
     <script src="js/back-to-home.js"></script>
-    <script src="js/chatbot.js?v=20251121175259"></script>
+    <script src="js/chatbot.js?v=20251123104556"></script>
 </body>
 </html><!-- Cache-busting comment: 1763598076 -->
