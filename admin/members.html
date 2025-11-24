@@ -1035,8 +1035,11 @@ CASHiQ 유료회원 권한이 활성화되었습니다.
                             ${member.permissions.map(p => `<span class="inline-block bg-purple-100 text-purple-800 px-2 py-1 rounded-full mb-1 mr-1">${p}</span>`).join('')}
                         </td>
                         <td class="px-4 py-3">
-                            <button onclick="viewPaidMember(${member.id})" class="text-blue-600 hover:text-blue-800" title="상세 보기">
+                            <button onclick="viewPaidMember(${member.id})" class="text-blue-600 hover:text-blue-800 mr-3" title="상세 보기">
                                 <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="deletePaidMember(${member.id})" class="text-red-600 hover:text-red-800" title="삭제">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     </tr>
@@ -1563,6 +1566,21 @@ CASHiQ 유료회원 권한이 활성화되었습니다.
                 updateStats();
                 renderMembers();
                 closeModal();
+            }
+        }
+
+        // Delete paid member
+        function deletePaidMember(id) {
+            const member = paidMembers.find(m => m.id === id);
+            if (!member) return;
+
+            if (confirm(`${member.name}님의 유료회원 정보를 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없습니다.`)) {
+                paidMembers = paidMembers.filter(m => m.id !== id);
+                localStorage.setItem('paidMembers', JSON.stringify(paidMembers));
+                alert('유료회원이 삭제되었습니다.');
+                
+                updateStats();
+                renderPaidMembers();
             }
         }
 
