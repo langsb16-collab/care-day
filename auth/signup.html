@@ -543,29 +543,7 @@
                 updateActiveLanguageButton();
             }, 100);
             
-            // 언어 전환 버튼에 이벤트 리스너 추가
-            const langButtons = document.querySelectorAll('.lang-btn');
-            langButtons.forEach(btn => {
-                // Click event for language switching
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const lang = this.getAttribute('data-lang');
-                    if (typeof window.switchLanguage === 'function') {
-                        window.switchLanguage(lang);
-                    } else {
-                        console.error('switchLanguage function not found');
-                    }
-                });
-                
-                // 터치스타트 시 즉시 반응
-                btn.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.95)';
-                }, { passive: true });
-                
-                btn.addEventListener('touchend', function() {
-                    this.style.transform = 'scale(1)';
-                }, { passive: true });
-            });
+            // 언어 전환 버튼은 i18n.js의 DOMContentLoaded에서 처리됨
 
             // 회원가입 버튼이 항상 보이도록 보장
             const submitBtn = document.getElementById('signupSubmitBtn');
