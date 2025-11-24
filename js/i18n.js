@@ -2208,8 +2208,28 @@ window.switchLanguage = switchLanguage;
 console.log('✅ i18n.js loaded successfully');
 console.log('✅ switchLanguage function available:', typeof window.switchLanguage);
 
-// 페이지 로드 시 언어 초기화
+// 페이지 로드 시 언어 초기화 및 버튼 이벤트 연결
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 DOMContentLoaded - 언어 시스템 초기화');
+    
+    // 언어 버튼에 클릭 이벤트 연결
+    const langButtons = document.querySelectorAll('.lang-btn[data-lang]');
+    console.log('📍 언어 버튼 개수:', langButtons.length);
+    
+    langButtons.forEach(function(button) {
+        const lang = button.getAttribute('data-lang');
+        console.log('🔗 버튼 연결:', lang);
+        
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🖱️ 버튼 클릭:', lang);
+            switchLanguage(lang);
+        });
+    });
+    
+    // 초기 언어 적용
     updatePageLanguage();
     updateActiveLanguageButton();
+    console.log('✅ 언어 시스템 초기화 완료');
 });
