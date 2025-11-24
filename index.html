@@ -64,17 +64,17 @@
                 </div>
                 
                 <!-- Language Switcher & Auth -->
-                <div class="flex items-center space-x-1">
-                    <button onclick="switchLanguage('ko')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko">
+                <div class="flex items-center space-x-1" id="languageSwitcher">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko">
                         🇰🇷 <span class="hidden sm:inline">한국어</span>
                     </button>
-                    <button onclick="switchLanguage('en')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="en">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="en">
                         🇺🇸 <span class="hidden sm:inline">English</span>
                     </button>
-                    <button onclick="switchLanguage('zh')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="zh">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="zh">
                         🇨🇳 <span class="hidden sm:inline">中文</span>
                     </button>
-                    <button onclick="switchLanguage('ja')" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ja">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ja">
                         🇯🇵 <span class="hidden sm:inline">日本語</span>
                     </button>
                     
@@ -329,29 +329,29 @@
                 <h3 class="text-lg font-bold mb-4 text-center text-blue-400">
                     <i class="fas fa-building mr-2"></i>사업자 등록 정보
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3 text-sm">
                     <div class="flex items-start">
-                        <span class="text-gray-400 font-medium min-w-[100px]">상호:</span>
+                        <span class="text-gray-400 font-medium min-w-[90px]">상호:</span>
                         <span class="text-white">아이큐 허브 (IQ HERB)</span>
                     </div>
                     <div class="flex items-start">
-                        <span class="text-gray-400 font-medium min-w-[100px]">사업자번호:</span>
+                        <span class="text-gray-400 font-medium min-w-[90px]">사업자번호:</span>
                         <span class="text-white">534-64-00747</span>
                     </div>
                     <div class="flex items-start">
-                        <span class="text-gray-400 font-medium min-w-[100px]">대표자:</span>
+                        <span class="text-gray-400 font-medium min-w-[90px]">대표자:</span>
                         <span class="text-white">정천명</span>
                     </div>
                     <div class="flex items-start">
-                        <span class="text-gray-400 font-medium min-w-[100px]">업종:</span>
-                        <span class="text-white">정보통신업</span>
-                    </div>
-                    <div class="flex items-start md:col-span-2">
-                        <span class="text-gray-400 font-medium min-w-[100px]">사업장:</span>
+                        <span class="text-gray-400 font-medium min-w-[90px]">사업장:</span>
                         <span class="text-white">서울특별시 광진구 뚝섬로 31길 59 (자양동)</span>
                     </div>
-                    <div class="flex items-start md:col-span-2">
-                        <span class="text-gray-400 font-medium min-w-[100px]">종목:</span>
+                    <div class="flex items-start">
+                        <span class="text-gray-400 font-medium min-w-[90px]">업종:</span>
+                        <span class="text-white">정보통신업</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-gray-400 font-medium min-w-[90px]">종목:</span>
                         <span class="text-white">응용 소프트웨어 개발 및 공급업</span>
                     </div>
                 </div>
@@ -377,6 +377,20 @@
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Mobile menu toggle is handled by main.js
+            
+            // Language switcher event listeners
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    if (typeof window.switchLanguage === 'function') {
+                        window.switchLanguage(lang);
+                    } else {
+                        console.error('switchLanguage function not found');
+                    }
+                });
+            });
             
             // Quick search function
             const quickSearchInput = document.getElementById('quick-search');
