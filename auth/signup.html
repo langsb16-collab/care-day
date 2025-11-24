@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load i18n.js in head for immediate availability -->
+    <script src="../js/i18n.js"></script>
     <style>
         /* 언어 버튼 스타일 개선 */
         .lang-btn {
@@ -106,16 +108,16 @@
             
             <!-- Language Switcher -->
             <div class="flex items-center space-x-1" id="languageSwitcher">
-                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ko">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ko" onclick="window.switchLanguage('ko')">
                     🇰🇷 <span class="hidden sm:inline">한국어</span>
                 </button>
-                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="en">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="en" onclick="window.switchLanguage('en')">
                     🇺🇸 <span class="hidden sm:inline">English</span>
                 </button>
-                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="zh">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="zh" onclick="window.switchLanguage('zh')">
                     🇨🇳 <span class="hidden sm:inline">中文</span>
                 </button>
-                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ja">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ja" onclick="window.switchLanguage('ja')">
                     🇯🇵 <span class="hidden sm:inline">日本語</span>
                 </button>
             </div>
@@ -424,8 +426,7 @@
         </div>
     </div>
 
-    <!-- Load i18n.js first for translations -->
-    <script src="../js/i18n.js"></script>
+    <!-- i18n.js already loaded in head -->
     <script>
         // Refund Policy Modal Functions
         function openRefundPolicyModal() {
@@ -535,39 +536,8 @@
             }
         });
 
-        // Language switcher - Wait for i18n.js to load with retry logic
-        function initLanguageSwitcher() {
-            const langButtons = document.querySelectorAll('.lang-btn');
-            langButtons.forEach(btn => {
-                // Click event for language switching
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const lang = this.getAttribute('data-lang');
-                    console.log('Language button clicked:', lang);
-                    if (typeof window.switchLanguage === 'function') {
-                        window.switchLanguage(lang);
-                    } else {
-                        console.error('switchLanguage function not found, retrying...');
-                        setTimeout(() => {
-                            if (typeof window.switchLanguage === 'function') {
-                                window.switchLanguage(lang);
-                            }
-                        }, 100);
-                    }
-                });
-                
-                // 터치스타트 시 즉시 반응
-                btn.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.95)';
-                }, { passive: true });
-                
-                btn.addEventListener('touchend', function() {
-                    this.style.transform = 'scale(1)';
-                }, { passive: true });
-            });
-        }
-
+        // Language switcher now uses onclick directly on buttons
+        
         // Initialize language on load
         document.addEventListener('DOMContentLoaded', function() {
             // Small delay to ensure i18n.js is fully loaded
@@ -575,9 +545,6 @@
                 updateLanguage();
                 updateActiveLanguageButton();
             }, 100);
-            
-            // Initialize language switcher with delay to ensure i18n.js is loaded
-            setTimeout(initLanguageSwitcher, 200);
 
             // 회원가입 버튼이 항상 보이도록 보장
             const submitBtn = document.getElementById('signupSubmitBtn');

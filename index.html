@@ -21,6 +21,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Load i18n.js in head for immediate availability -->
+    <script src="js/i18n.js"></script>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css?v=20251122144647">
     <link rel="stylesheet" href="css/chatbot.css?v=20251122144647">
@@ -65,16 +68,16 @@
                 
                 <!-- Language Switcher & Auth -->
                 <div class="flex items-center space-x-1" id="languageSwitcher">
-                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ko" onclick="window.switchLanguage('ko')">
                         🇰🇷 <span class="hidden sm:inline">한국어</span>
                     </button>
-                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="en">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="en" onclick="window.switchLanguage('en')">
                         🇺🇸 <span class="hidden sm:inline">English</span>
                     </button>
-                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="zh">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="zh" onclick="window.switchLanguage('zh')">
                         🇨🇳 <span class="hidden sm:inline">中文</span>
                     </button>
-                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ja">
+                    <button type="button" class="lang-btn px-2 py-1 rounded-lg bg-transparent hover:bg-gray-100 active:bg-gray-200 transition" data-lang="ja" onclick="window.switchLanguage('ja')">
                         🇯🇵 <span class="hidden sm:inline">日本語</span>
                     </button>
                     
@@ -368,41 +371,16 @@
 
 
     <!-- Scripts -->
-    <script src="js/i18n.js?v=20251122144647"></script>
+    <!-- i18n.js already loaded in head -->
     <script src="js/main.js?v=20251122144647"></script>
     <script src="js/banner-display.js"></script>
     <script src="js/popup-display.js"></script>
     <script src="js/init-test-accounts.js"></script>
     <script>
-        // Language switcher - Wait for i18n.js to load
-        function initLanguageSwitcher() {
-            const langButtons = document.querySelectorAll('.lang-btn');
-            langButtons.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const lang = this.getAttribute('data-lang');
-                    console.log('Language button clicked:', lang);
-                    if (typeof window.switchLanguage === 'function') {
-                        window.switchLanguage(lang);
-                    } else {
-                        console.error('switchLanguage function not found, retrying...');
-                        // Retry after a short delay
-                        setTimeout(() => {
-                            if (typeof window.switchLanguage === 'function') {
-                                window.switchLanguage(lang);
-                            }
-                        }, 100);
-                    }
-                });
-            });
-        }
-
+        // Language switcher now uses onclick directly on buttons
+        
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize language switcher with delay to ensure i18n.js is loaded
-            setTimeout(initLanguageSwitcher, 200);
-            
             // Quick search function
             const quickSearchInput = document.getElementById('quick-search');
             if (quickSearchInput) {
@@ -429,8 +407,6 @@
                 }
             }
         }
-
-        // switchLanguage 함수는 i18n.js에서 정의됨
     </script>
 
     <!-- 챗봇 스크립트 -->
