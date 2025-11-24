@@ -203,42 +203,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-6 hover:shadow-2xl transition cursor-pointer border-2 border-transparent hover:border-purple-300" onclick="selectPlan('2year')">
-                            <div class="flex items-start justify-between mb-3">
-                                <div>
-                                    <h3 class="text-lg font-bold text-white" data-i18n="signup.premium2Year.title">프리미엄 2년</h3>
-                                    <p class="text-purple-100 text-xs mt-1" data-i18n="signup.premium2Year.subtitle">Premium 2 Years</p>
-                                    <span class="inline-block bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full mt-1" data-i18n="signup.premium2Year.badge">32% 할인!</span>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-xl font-bold text-white" data-i18n="signup.premium2Year.price">₩100,000</div>
-                                    <div class="text-xs text-purple-100" data-i18n="signup.premium2Year.duration">약 ₩4,166/월</div>
-                                </div>
-                            </div>
-                            <div class="space-y-1.5 text-xs text-white">
-                                <div class="flex items-center">
-                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span data-i18n="signup.premium2Year.feature1">1년 플랜의 모든 혜택</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span data-i18n="signup.premium2Year.feature2">플랫폼 모든 기능 사용</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span data-i18n="signup.premium2Year.feature3">₩36,000 추가 절약</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span data-i18n="signup.premium2Year.feature4">프리미엄 간병 가이드</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star mr-2 text-yellow-300"></i>
-                                    <span data-i18n="signup.premium2Year.feature5">VIP 전용 혜택</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -321,8 +285,8 @@
                         </div>
 
                         <!-- Submit Button - Always Visible -->
-                        <div>
-                            <button type="submit" class="w-full bg-primary text-white py-2.5 rounded-lg font-semibold text-base hover:bg-blue-700 transition transform hover:scale-105">
+                        <div class="mt-4">
+                            <button type="submit" id="signupSubmitBtn" class="w-full bg-primary text-white py-3 rounded-lg font-bold text-base hover:bg-blue-700 transition-colors duration-200 shadow-lg">
                                 <i class="fas fa-user-plus mr-2"></i><span data-i18n="signup.form.submitButton">회원가입</span>
                             </button>
                         </div>
@@ -600,8 +564,7 @@
             
             const planNames = {
                 'free': t.signup.free.title,
-                '1year': `${t.signup.premium1Year.title} (${t.signup.premium1Year.price})`,
-                '2year': `${t.signup.premium2Year.title} (${t.signup.premium2Year.price})`
+                '1year': `${t.signup.premium1Year.title} (${t.signup.premium1Year.price})`
             };
 
             document.getElementById('membershipPlan').value = plan;
@@ -694,13 +657,10 @@
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 type: document.getElementById('membershipPlan').value === 'free' ? 'free' : 'paid',
-                plan: document.getElementById('membershipPlan').value === 'free' ? '무료' : 
-                      document.getElementById('membershipPlan').value === '1year' ? '1년 프리미엄' : '2년 프리미엄',
+                plan: document.getElementById('membershipPlan').value === 'free' ? '무료' : '1년 프리미엄',
                 joinDate: new Date().toISOString().split('T')[0],
                 expireDate: document.getElementById('membershipPlan').value === 'free' ? null :
-                           document.getElementById('membershipPlan').value === '1year' ? 
-                           new Date(Date.now() + 365*24*60*60*1000).toISOString().split('T')[0] :
-                           new Date(Date.now() + 730*24*60*60*1000).toISOString().split('T')[0],
+                           new Date(Date.now() + 365*24*60*60*1000).toISOString().split('T')[0],
                 status: 'active',
                 searchCount: 0,
                 lastLogin: new Date().toISOString(),
