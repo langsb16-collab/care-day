@@ -52,7 +52,7 @@
 <body class="font-sans bg-gray-50">
     
     <!-- Load i18n.js FIRST in body for immediate availability -->
-    <script src="js/i18n.js?v=1763982958"></script>
+    <script src="js/i18n.js?v=1763983335"></script>
     
     <!-- 언어 전환 긴급 패치: 즉시 실행 -->
     <script>
@@ -423,7 +423,52 @@
     <script src="js/popup-display.js"></script>
     <script src="js/init-test-accounts.js"></script>
     <script>
-        // Language switcher now uses onclick directly on buttons
+        // === 긴급 폴백: 언어 전환 시스템 ===
+        (function() {
+            console.log('🆘 폴백 언어 시스템 활성화');
+            
+            function connectLanguageButtons() {
+                const buttons = document.querySelectorAll('.lang-btn[data-lang]');
+                if (buttons.length === 0) {
+                    console.log('⏳ 버튼을 아직 찾을 수 없음, 재시도...');
+                    return false;
+                }
+                
+                console.log(`✅ ${buttons.length}개 언어 버튼 발견!`);
+                
+                buttons.forEach(function(btn) {
+                    const lang = btn.getAttribute('data-lang');
+                    
+                    btn.onclick = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log(`🌍 [폴백] 언어 변경: ${lang}`);
+                        
+                        if (typeof window.switchLanguage === 'function') {
+                            window.switchLanguage(lang);
+                            return;
+                        }
+                        
+                        console.log('⚠️ switchLanguage 없음, 수동 처리');
+                        localStorage.setItem('language', lang);
+                        localStorage.setItem('currentLanguage', lang);
+                        location.reload();
+                    };
+                    
+                    console.log(`🔗 [폴백] ${lang} 버튼 연결 완료`);
+                });
+                
+                return true;
+            }
+            
+            if (!connectLanguageButtons()) {
+                setTimeout(function() {
+                    if (!connectLanguageButtons()) {
+                        document.addEventListener('DOMContentLoaded', connectLanguageButtons);
+                    }
+                }, 100);
+            }
+        })();
         
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
