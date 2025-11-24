@@ -529,7 +529,6 @@ const translations = {
             },
             closeButton: '닫기'
         }
-    }
     },
     en: {
         site: {
@@ -2124,17 +2123,20 @@ const translations = {
 };
 
 // 현재 언어 (기본값: 한국어)
-let currentLang = localStorage.getItem('language') || 'ko';
+let currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
 
 // 페이지 언어 업데이트
 function updatePageLanguage() {
-    console.log('🔄 updatePageLanguage 시작');
-    console.log('현재 언어:', currentLang);
-    console.log('번역 데이터 존재:', typeof translations !== 'undefined');
+    console.log('🔄 updatePageLanguage 시작 - 현재 언어:', currentLang);
+    
+    if (!translations || !translations[currentLang]) {
+        console.error('❌ 번역 데이터를 찾을 수 없습니다:', currentLang);
+        return;
+    }
     
     // data-i18n 속성을 가진 모든 요소 업데이트
     const elements = document.querySelectorAll('[data-i18n]');
-    console.log('번역할 요소 개수:', elements.length);
+    console.log('✅ 번역할 요소 개수:', elements.length);
     
     let count = 0;
     elements.forEach(element => {
@@ -2144,23 +2146,26 @@ function updatePageLanguage() {
             element.innerHTML = translation;
             count++;
         } else {
-            console.warn('번역 없음:', key);
+            console.warn('⚠️ 번역 없음:', key);
         }
     });
     
-    console.log('번역 완료:', count, '개');
+    console.log('✅ 번역 완료:', count, '개');
 
     // placeholder 업데이트
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+    const placeholderElements = document.querySelectorAll('[data-i18n-placeholder]');
+    placeholderElements.forEach(element => {
         const key = element.getAttribute('data-i18n-placeholder');
         const translation = getNestedTranslation(key);
         if (translation) {
             element.placeholder = translation;
         }
     });
+    console.log('✅ placeholder 업데이트:', placeholderElements.length, '개');
 
     // HTML lang 속성 업데이트
     document.documentElement.lang = currentLang;
+    console.log('✅ 페이지 언어 전환 완료:', currentLang);
 }
 
 // 중첩된 번역 키 가져오기
@@ -2200,53 +2205,98 @@ function updateActiveLanguageButton() {
 // 언어 전환 함수
 function switchLanguage(lang) {
     console.log('🌍 switchLanguage 호출됨:', lang);
-    console.log('이전 언어:', currentLang);
+    console.log('📍 이전 언어:', currentLang);
     
+    if (!lang || !translations[lang]) {
+        console.error('❌ 잘못된 언어 코드:', lang);
+        return;
+    }
+    
+    // 현재 언어 업데이트
     currentLang = lang;
+    
+    // localStorage에 양쪽 키로 모두 저장 (호환성)
     localStorage.setItem('language', lang);
-    localStorage.setItem('currentLanguage', lang); // For chatbot compatibility
+    localStorage.setItem('currentLanguage', lang);
     
-    console.log('현재 언어 변경됨:', currentLang);
-    console.log('updatePageLanguage 호출 중...');
+    console.log('✅ 현재 언어 변경됨:', currentLang);
+    console.log('🔄 페이지 업데이트 시작...');
     
+    // 페이지 언어 업데이트
     updatePageLanguage();
+    
+    // 활성 버튼 업데이트
     updateActiveLanguageButton();
     
     console.log('✅ 언어 전환 완료:', lang);
     
-    // Dispatch custom event for other components (like chatbot)
+    // Dispatch custom event for other components (like chatbot, signup form)
     window.dispatchEvent(new CustomEvent('languageChanged', {
         detail: { lang: lang }
     }));
 }
 
-// Expose functions to window for global access
+// Expose functions and data to window for global access
 window.updatePageLanguage = updatePageLanguage;
 window.switchLanguage = switchLanguage;
+window.translations = translations;
+
+// currentLang를 getter/setter로 노출하여 항상 최신 값 반환
+Object.defineProperty(window, 'currentLang', {
+    get: function() { return currentLang; },
+    set: function(value) { currentLang = value; }
+});
+
+// i18n 시스템이 로드되었음을 표시
+window.i18nLoaded = true;
+
+console.log('✅ i18n.js 모듈 로드 완료 - window.switchLanguage 사용 가능');
+console.log('📦 노출된 함수들:', Object.keys({
+    updatePageLanguage: window.updatePageLanguage,
+    switchLanguage: window.switchLanguage,
+    translations: window.translations
+}));
 
 // 페이지 로드 시 언어 초기화
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 i18n.js DOMContentLoaded 시작');
+    console.log('🚀 i18n.js DOMContentLoaded 이벤트 시작');
+    console.log('📍 현재 설정된 언어:', currentLang);
     
     // 언어 버튼에 클릭 이벤트 연결
     const langButtons = document.querySelectorAll('.lang-btn[data-lang]');
-    console.log('발견된 언어 버튼:', langButtons.length);
+    console.log('🔍 발견된 언어 버튼:', langButtons.length, '개');
+    
+    if (langButtons.length === 0) {
+        console.warn('⚠️ 언어 버튼을 찾을 수 없습니다. .lang-btn[data-lang] 선택자를 확인하세요.');
+    }
     
     langButtons.forEach(function(button) {
         const lang = button.getAttribute('data-lang');
-        console.log('버튼 연결:', lang);
+        console.log('🔗 언어 버튼 연결:', lang, button);
         
-        button.addEventListener('click', function(e) {
+        // 기존 이벤트 리스너 제거 (중복 방지)
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        // 새로운 이벤트 리스너 추가
+        newButton.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ 버튼 클릭됨:', lang);
+            console.log('🖱️ 언어 버튼 클릭됨:', lang);
             switchLanguage(lang);
         });
     });
     
     // 초기 언어 적용
-    console.log('초기 언어 적용 중...');
+    console.log('🔄 초기 언어 적용 시작...');
     updatePageLanguage();
     updateActiveLanguageButton();
-    console.log('✅ i18n.js 초기화 완료');
+    console.log('✅ i18n.js 초기화 완료 - 현재 언어:', currentLang);
+    
+    // 다른 스크립트에 i18n 초기화 완료 알림
+    window.dispatchEvent(new CustomEvent('i18nReady', {
+        detail: { lang: currentLang }
+    }));
+    
+    console.log('📢 i18nReady 이벤트 발송 완료');
 });

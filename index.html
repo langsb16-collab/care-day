@@ -368,7 +368,7 @@
 
 
     <!-- Scripts -->
-    <script src="js/i18n.js?v=1763985927"></script>
+    <script src="js/i18n.js?v=1763986722"></script>
     <script src="js/main.js?v=20251122144647"></script>
     <script src="js/banner-display.js"></script>
     <script src="js/popup-display.js"></script>
@@ -377,20 +377,6 @@
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Mobile menu toggle is handled by main.js
-            
-            // Language switcher event listeners
-            const langButtons = document.querySelectorAll('.lang-btn');
-            langButtons.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const lang = this.getAttribute('data-lang');
-                    if (typeof window.switchLanguage === 'function') {
-                        window.switchLanguage(lang);
-                    } else {
-                        console.error('switchLanguage function not found');
-                    }
-                });
-            });
             
             // Quick search function
             const quickSearchInput = document.getElementById('quick-search');
@@ -401,6 +387,9 @@
                     }
                 });
             }
+            
+            // Note: Language switcher is now handled by i18n.js
+            // This avoids race conditions and ensures proper initialization
         });
 
         function performSearch() {

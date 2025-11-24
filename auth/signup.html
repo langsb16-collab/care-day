@@ -425,7 +425,7 @@
     </div>
 
     <!-- Load i18n.js first for translations -->
-    <script src="../js/i18n.js?v=1763985927"></script>
+    <script src="../js/i18n.js?v=1763986722"></script>
     <script>
         // Refund Policy Modal Functions
         function openRefundPolicyModal() {
@@ -454,18 +454,23 @@
             }
         });
 
-        // Wait for i18n.js to load and define translations
-        let currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+        // Get current language from localStorage or use default
+        function getCurrentLanguage() {
+            return localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+        }
 
         // Update page content based on language - using global translations from i18n.js
         function updateLanguage() {
-            // Use global translations object from i18n.js
-            if (typeof translations === 'undefined') {
-                console.error('Translations not loaded from i18n.js');
+            // Wait for translations to be loaded
+            if (typeof window.translations === 'undefined' || !window.i18nLoaded) {
+                console.log('⏳ Waiting for i18n to load...');
+                setTimeout(updateLanguage, 50);
                 return;
             }
             
-            const t = translations[currentLang];
+            const currentLang = localStorage.getItem('currentLanguage') || localStorage.getItem('language') || 'ko';
+            const t = window.translations[currentLang];
+            
             if (!t || !t.signup) {
                 console.error('Signup translations not found for language:', currentLang);
                 return;
@@ -495,20 +500,21 @@
             }
             
             // Update submit button - with null check
-            const submitBtn = document.querySelector('button[type="submit"]');
+            const submitBtn = document.querySelector('button[type="submit"] span');
             if (submitBtn && t.signup.form) {
-                submitBtn.innerHTML = `<i class="fas fa-user-plus mr-2"></i>${t.signup.form.submitButton}`;
+                submitBtn.textContent = t.signup.form.submitButton;
             }
             
             // Update login link - with null check
-            const loginLink = document.querySelector('p.text-center.text-xs');
-            if (loginLink && t.signup.form) {
-                loginLink.innerHTML = `${t.signup.form.loginText} <a href="login.html" class="text-primary hover:underline font-medium">${t.signup.form.loginLink}</a>`;
+            const loginText = document.querySelector('p.text-center.text-xs');
+            if (loginText && t.signup.form) {
+                loginText.innerHTML = `${t.signup.form.loginText} <a href="login.html" class="text-primary hover:underline font-medium">${t.signup.form.loginLink}</a>`;
             }
         }
 
         // 현재 선택된 언어 버튼 강조
         function updateActiveLanguageButton() {
+            const currentLang = getCurrentLanguage();
             const buttons = document.querySelectorAll('.lang-btn');
             buttons.forEach(btn => {
                 const lang = btn.getAttribute('data-lang');
