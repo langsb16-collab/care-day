@@ -106,16 +106,16 @@
             
             <!-- Language Switcher -->
             <div class="flex items-center space-x-1" id="languageSwitcher">
-                <button onclick="switchLanguage('ko')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ko">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ko">
                     🇰🇷 <span class="hidden sm:inline">한국어</span>
                 </button>
-                <button onclick="switchLanguage('en')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="en">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="en">
                     🇺🇸 <span class="hidden sm:inline">English</span>
                 </button>
-                <button onclick="switchLanguage('zh')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="zh">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="zh">
                     🇨🇳 <span class="hidden sm:inline">中文</span>
                 </button>
-                <button onclick="switchLanguage('ja')" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ja">
+                <button type="button" class="lang-btn px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition text-sm font-medium" data-lang="ja">
                     🇯🇵 <span class="hidden sm:inline">日本語</span>
                 </button>
             </div>
@@ -285,8 +285,8 @@
                         </div>
 
                         <!-- Submit Button - Always Visible -->
-                        <div class="mt-4">
-                            <button type="submit" id="signupSubmitBtn" class="w-full bg-primary text-white py-3 rounded-lg font-bold text-base hover:bg-blue-700 transition-colors duration-200 shadow-lg">
+                        <div class="mt-4" style="display: block !important; visibility: visible !important;">
+                            <button type="submit" id="signupSubmitBtn" class="w-full bg-primary text-white py-3 rounded-lg font-bold text-base hover:bg-blue-700 transition-colors duration-200 shadow-lg" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
                                 <i class="fas fa-user-plus mr-2"></i><span data-i18n="signup.form.submitButton">회원가입</span>
                             </button>
                         </div>
@@ -543,9 +543,20 @@
                 updateActiveLanguageButton();
             }, 100);
             
-            // 모바일 터치 최적화: 언어 버튼에 터치 이벤트 추가
+            // 언어 전환 버튼에 이벤트 리스너 추가
             const langButtons = document.querySelectorAll('.lang-btn');
             langButtons.forEach(btn => {
+                // Click event for language switching
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    if (typeof window.switchLanguage === 'function') {
+                        window.switchLanguage(lang);
+                    } else {
+                        console.error('switchLanguage function not found');
+                    }
+                });
+                
                 // 터치스타트 시 즉시 반응
                 btn.addEventListener('touchstart', function() {
                     this.style.transform = 'scale(0.95)';
@@ -555,6 +566,14 @@
                     this.style.transform = 'scale(1)';
                 }, { passive: true });
             });
+
+            // 회원가입 버튼이 항상 보이도록 보장
+            const submitBtn = document.getElementById('signupSubmitBtn');
+            if (submitBtn) {
+                submitBtn.style.display = 'block';
+                submitBtn.style.visibility = 'visible';
+                submitBtn.style.opacity = '1';
+            }
         });
 
         function selectPlan(plan) {
