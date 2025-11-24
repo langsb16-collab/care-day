@@ -2186,6 +2186,7 @@ function updateActiveLanguageButton() {
 
 // 언어 전환 함수
 function switchLanguage(lang) {
+    console.log('🌍 switchLanguage called with:', lang);
     currentLang = lang;
     localStorage.setItem('language', lang);
     localStorage.setItem('currentLanguage', lang); // For chatbot compatibility
@@ -2196,11 +2197,16 @@ function switchLanguage(lang) {
     window.dispatchEvent(new CustomEvent('languageChanged', {
         detail: { lang: lang }
     }));
+    console.log('✅ Language switched to:', lang);
 }
 
 // Expose functions to window for global access
 window.updatePageLanguage = updatePageLanguage;
 window.switchLanguage = switchLanguage;
+
+// Debug: Confirm i18n.js is loaded
+console.log('✅ i18n.js loaded successfully');
+console.log('✅ switchLanguage function available:', typeof window.switchLanguage);
 
 // 페이지 로드 시 언어 초기화
 document.addEventListener('DOMContentLoaded', function() {
