@@ -93,6 +93,23 @@
         #refundPolicyModal > div::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+
+        /* 회원가입 버튼 항상 표시 - 최우선 적용 */
+        #signupSubmitBtn,
+        button[type="submit"],
+        form button[type="submit"] {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+        
+        /* 버튼 컨테이너도 항상 표시 */
+        #signupSubmitBtn:hover {
+            opacity: 0.9 !important;
+        }
     </style>
 </head>
 <body class="font-sans bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen flex items-center justify-center p-4">
@@ -285,8 +302,8 @@
                         </div>
 
                         <!-- Submit Button - Always Visible -->
-                        <div class="mt-4" style="display: block !important; visibility: visible !important;">
-                            <button type="submit" id="signupSubmitBtn" class="w-full bg-primary text-white py-3 rounded-lg font-bold text-base hover:bg-blue-700 transition-colors duration-200 shadow-lg" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
+                        <div class="mt-4" style="display: block !important; visibility: visible !important; opacity: 1 !important; position: relative !important; z-index: 10 !important;">
+                            <button type="submit" id="signupSubmitBtn" class="w-full bg-primary text-white py-3 rounded-lg font-bold text-base hover:bg-blue-700 transition-colors duration-200 shadow-lg" style="display: block !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; position: relative !important; z-index: 10 !important;">
                                 <i class="fas fa-user-plus mr-2"></i><span data-i18n="signup.form.submitButton">회원가입</span>
                             </button>
                         </div>
@@ -526,11 +543,38 @@
             });
         }
 
+        // 회원가입 버튼 강제 표시 함수
+        function ensureSubmitButtonVisible() {
+            const submitBtn = document.getElementById('signupSubmitBtn');
+            if (submitBtn) {
+                submitBtn.style.display = 'block';
+                submitBtn.style.visibility = 'visible';
+                submitBtn.style.opacity = '1';
+                submitBtn.style.pointerEvents = 'auto';
+                submitBtn.style.position = 'relative';
+                submitBtn.style.zIndex = '10';
+                console.log('✅ 회원가입 버튼 표시 강제 적용');
+            }
+            
+            // 버튼의 부모 div도 확인
+            const submitBtnParent = submitBtn?.parentElement;
+            if (submitBtnParent) {
+                submitBtnParent.style.display = 'block';
+                submitBtnParent.style.visibility = 'visible';
+                submitBtnParent.style.opacity = '1';
+            }
+        }
+
         // Listen for language changes
         window.addEventListener('languageChanged', (e) => {
             currentLang = e.detail.lang;
             updateLanguage();
             updateActiveLanguageButton();
+            
+            // 언어 변경 후 버튼 표시 강제
+            setTimeout(() => {
+                ensureSubmitButtonVisible();
+            }, 50);
             
             // 페이드인 애니메이션 추가
             const mainContainer = document.querySelector('.bg-white.rounded-xl');
@@ -543,21 +587,30 @@
 
         // Initialize language on load
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Signup page DOMContentLoaded');
+            
+            // 회원가입 버튼이 항상 보이도록 즉시 보장
+            ensureSubmitButtonVisible();
+            
             // Small delay to ensure i18n.js is fully loaded
             setTimeout(() => {
                 updateLanguage();
                 updateActiveLanguageButton();
+                ensureSubmitButtonVisible(); // 언어 업데이트 후에도 다시 확인
             }, 100);
             
             // 언어 전환 버튼은 i18n.js의 DOMContentLoaded에서 처리됨
-
-            // 회원가입 버튼이 항상 보이도록 보장
-            const submitBtn = document.getElementById('signupSubmitBtn');
-            if (submitBtn) {
-                submitBtn.style.display = 'block';
-                submitBtn.style.visibility = 'visible';
-                submitBtn.style.opacity = '1';
-            }
+            
+            // 주기적으로 버튼 표시 확인 (처음 3초간)
+            let checkCount = 0;
+            const checkInterval = setInterval(() => {
+                ensureSubmitButtonVisible();
+                checkCount++;
+                if (checkCount >= 10) { // 10번 체크 후 중지 (3초)
+                    clearInterval(checkInterval);
+                    console.log('✅ 버튼 표시 확인 완료');
+                }
+            }, 300);
         });
 
         function selectPlan(plan) {
