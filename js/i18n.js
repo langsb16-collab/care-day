@@ -2128,14 +2128,30 @@ let currentLang = localStorage.getItem('language') || 'ko';
 
 // 페이지 언어 업데이트
 function updatePageLanguage() {
+    console.log('🔄 updatePageLanguage 시작 - 현재 언어:', currentLang);
+    console.log('📚 번역 데이터 존재 여부:', typeof translations !== 'undefined');
+    console.log('🌐 현재 언어 번역 데이터:', translations[currentLang] ? '있음' : '없음');
+    
     // data-i18n 속성을 가진 모든 요소 업데이트
-    document.querySelectorAll('[data-i18n]').forEach(element => {
+    const elements = document.querySelectorAll('[data-i18n]');
+    console.log('🔍 발견된 번역 요소 개수:', elements.length);
+    
+    let successCount = 0;
+    let failCount = 0;
+    
+    elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         const translation = getNestedTranslation(key);
         if (translation) {
             element.innerHTML = translation;
+            successCount++;
+        } else {
+            failCount++;
+            console.warn('❌ 번역 없음:', key, '언어:', currentLang);
         }
     });
+    
+    console.log(`✅ 번역 성공: ${successCount}개, ❌ 실패: ${failCount}개`);
 
     // placeholder 업데이트
     document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
