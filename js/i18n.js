@@ -2128,14 +2128,27 @@ let currentLang = localStorage.getItem('language') || 'ko';
 
 // 페이지 언어 업데이트
 function updatePageLanguage() {
+    console.log('🔄 updatePageLanguage 시작');
+    console.log('현재 언어:', currentLang);
+    console.log('번역 데이터 존재:', typeof translations !== 'undefined');
+    
     // data-i18n 속성을 가진 모든 요소 업데이트
-    document.querySelectorAll('[data-i18n]').forEach(element => {
+    const elements = document.querySelectorAll('[data-i18n]');
+    console.log('번역할 요소 개수:', elements.length);
+    
+    let count = 0;
+    elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
         const translation = getNestedTranslation(key);
         if (translation) {
             element.innerHTML = translation;
+            count++;
+        } else {
+            console.warn('번역 없음:', key);
         }
     });
+    
+    console.log('번역 완료:', count, '개');
 
     // placeholder 업데이트
     document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
@@ -2186,11 +2199,20 @@ function updateActiveLanguageButton() {
 
 // 언어 전환 함수
 function switchLanguage(lang) {
+    console.log('🌍 switchLanguage 호출됨:', lang);
+    console.log('이전 언어:', currentLang);
+    
     currentLang = lang;
     localStorage.setItem('language', lang);
     localStorage.setItem('currentLanguage', lang); // For chatbot compatibility
+    
+    console.log('현재 언어 변경됨:', currentLang);
+    console.log('updatePageLanguage 호출 중...');
+    
     updatePageLanguage();
     updateActiveLanguageButton();
+    
+    console.log('✅ 언어 전환 완료:', lang);
     
     // Dispatch custom event for other components (like chatbot)
     window.dispatchEvent(new CustomEvent('languageChanged', {
@@ -2204,18 +2226,27 @@ window.switchLanguage = switchLanguage;
 
 // 페이지 로드 시 언어 초기화
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 i18n.js DOMContentLoaded 시작');
+    
     // 언어 버튼에 클릭 이벤트 연결
     const langButtons = document.querySelectorAll('.lang-btn[data-lang]');
+    console.log('발견된 언어 버튼:', langButtons.length);
+    
     langButtons.forEach(function(button) {
         const lang = button.getAttribute('data-lang');
+        console.log('버튼 연결:', lang);
+        
         button.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            console.log('🖱️ 버튼 클릭됨:', lang);
             switchLanguage(lang);
         });
     });
     
     // 초기 언어 적용
+    console.log('초기 언어 적용 중...');
     updatePageLanguage();
     updateActiveLanguageButton();
+    console.log('✅ i18n.js 초기화 완료');
 });
