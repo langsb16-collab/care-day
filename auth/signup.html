@@ -535,25 +535,25 @@
             }
         });
 
-        // Initialize language on load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Small delay to ensure i18n.js is fully loaded
-            setTimeout(() => {
-                updateLanguage();
-                updateActiveLanguageButton();
-            }, 100);
-            
-            // 언어 전환 버튼에 이벤트 리스너 추가
+        // Language switcher - Wait for i18n.js to load with retry logic
+        function initLanguageSwitcher() {
             const langButtons = document.querySelectorAll('.lang-btn');
             langButtons.forEach(btn => {
                 // Click event for language switching
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     const lang = this.getAttribute('data-lang');
+                    console.log('Language button clicked:', lang);
                     if (typeof window.switchLanguage === 'function') {
                         window.switchLanguage(lang);
                     } else {
-                        console.error('switchLanguage function not found');
+                        console.error('switchLanguage function not found, retrying...');
+                        setTimeout(() => {
+                            if (typeof window.switchLanguage === 'function') {
+                                window.switchLanguage(lang);
+                            }
+                        }, 100);
                     }
                 });
                 
@@ -566,6 +566,18 @@
                     this.style.transform = 'scale(1)';
                 }, { passive: true });
             });
+        }
+
+        // Initialize language on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Small delay to ensure i18n.js is fully loaded
+            setTimeout(() => {
+                updateLanguage();
+                updateActiveLanguageButton();
+            }, 100);
+            
+            // Initialize language switcher with delay to ensure i18n.js is loaded
+            setTimeout(initLanguageSwitcher, 200);
 
             // 회원가입 버튼이 항상 보이도록 보장
             const submitBtn = document.getElementById('signupSubmitBtn');

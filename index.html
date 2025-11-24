@@ -374,23 +374,34 @@
     <script src="js/popup-display.js"></script>
     <script src="js/init-test-accounts.js"></script>
     <script>
-        // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle is handled by main.js
-            
-            // Language switcher event listeners
+        // Language switcher - Wait for i18n.js to load
+        function initLanguageSwitcher() {
             const langButtons = document.querySelectorAll('.lang-btn');
             langButtons.forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
                     const lang = this.getAttribute('data-lang');
+                    console.log('Language button clicked:', lang);
                     if (typeof window.switchLanguage === 'function') {
                         window.switchLanguage(lang);
                     } else {
-                        console.error('switchLanguage function not found');
+                        console.error('switchLanguage function not found, retrying...');
+                        // Retry after a short delay
+                        setTimeout(() => {
+                            if (typeof window.switchLanguage === 'function') {
+                                window.switchLanguage(lang);
+                            }
+                        }, 100);
                     }
                 });
             });
+        }
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize language switcher with delay to ensure i18n.js is loaded
+            setTimeout(initLanguageSwitcher, 200);
             
             // Quick search function
             const quickSearchInput = document.getElementById('quick-search');
