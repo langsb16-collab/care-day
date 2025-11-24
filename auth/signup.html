@@ -297,8 +297,8 @@
                         </div>
 
                         <!-- Selected Plan Display -->
-                        <div id="selectedPlanDisplay" class="bg-blue-50 border-l-4 border-primary p-3 rounded">
-                            <p class="text-xs font-medium text-gray-700"><span data-i18n="signup.form.selectedPlan">선택한 플랜:</span> <span id="planName" class="text-primary" data-i18n="signup.free.title">무료 회원</span></p>
+                        <div id="selectedPlanDisplay" class="bg-blue-50 border-l-4 border-primary p-3 rounded text-center">
+                            <p class="text-xs font-medium text-gray-700"><span data-i18n="signup.form.selectedPlan">회원가입은 마우스를 내리면 표시 ↓</span></p>
                         </div>
 
                         <!-- Submit Button - Always Visible -->
@@ -513,7 +513,7 @@
             // Update selected plan display - with null check
             const planDisplay = document.querySelector('#selectedPlanDisplay p');
             if (planDisplay && t.signup.form) {
-                planDisplay.innerHTML = `${t.signup.form.selectedPlan} <span id="planName" class="text-primary">${t.signup.free.title}</span>`;
+                planDisplay.innerHTML = `<span data-i18n="signup.form.selectedPlan">${t.signup.form.selectedPlan}</span>`;
             }
             
             // Update submit button - with null check
@@ -614,18 +614,8 @@
         });
 
         function selectPlan(plan) {
-            // Use global translations from i18n.js
-            const t = translations[currentLang];
-            if (!t || !t.signup) return;
-            
-            const planNames = {
-                'free': t.signup.free.title,
-                '1year': `${t.signup.premium1Year.title} (${t.signup.premium1Year.price})`
-            };
-
+            // Set membership plan value
             document.getElementById('membershipPlan').value = plan;
-            const planNameEl = document.getElementById('planName');
-            if (planNameEl) planNameEl.textContent = planNames[plan];
 
             // Visual feedback
             document.querySelectorAll('[onclick*="selectPlan"]').forEach(el => {
