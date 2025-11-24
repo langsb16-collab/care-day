@@ -51,55 +51,6 @@
 </head>
 <body class="font-sans bg-gray-50">
     
-    <!-- Load i18n.js FIRST in body for immediate availability -->
-    <script src="js/i18n.js?v=1763984640"></script>
-    
-    <!-- 언어 전환 긴급 패치: 즉시 실행 -->
-    <script>
-    (function() {
-        console.log('🔧 언어 전환 긴급 패치 시작');
-        
-        // i18n.js가 로드될 때까지 대기
-        let checkCount = 0;
-        const maxChecks = 50; // 5초 대기
-        
-        const initLangButtons = setInterval(function() {
-            checkCount++;
-            
-            if (typeof window.switchLanguage === 'function' && typeof translations !== 'undefined') {
-                console.log('✅ switchLanguage 함수 발견! 버튼 연결 시작');
-                clearInterval(initLangButtons);
-                
-                // 언어 버튼 찾기
-                const buttons = document.querySelectorAll('.lang-btn[data-lang]');
-                console.log('📍 발견된 버튼:', buttons.length);
-                
-                buttons.forEach(function(btn) {
-                    const lang = btn.getAttribute('data-lang');
-                    console.log('🔗 버튼 연결:', lang);
-                    
-                    // 기존 리스너 제거
-                    const newBtn = btn.cloneNode(true);
-                    btn.parentNode.replaceChild(newBtn, btn);
-                    
-                    // 새 리스너 추가
-                    newBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('🖱️ 클릭:', lang);
-                        window.switchLanguage(lang);
-                    });
-                });
-                
-                console.log('✅ 모든 버튼 연결 완료!');
-            } else if (checkCount >= maxChecks) {
-                console.error('❌ switchLanguage 함수를 찾을 수 없습니다');
-                clearInterval(initLangButtons);
-            }
-        }, 100); // 100ms마다 체크
-    })();
-    </script>
-    
     <!-- Navigation -->
     <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
         <div class="container mx-auto px-4">
@@ -417,61 +368,30 @@
 
 
     <!-- Scripts -->
-    <!-- i18n.js already loaded in head -->
+    <script src="js/i18n.js?v=1763985307"></script>
     <script src="js/main.js?v=20251122144647"></script>
     <script src="js/banner-display.js"></script>
     <script src="js/popup-display.js"></script>
     <script src="js/init-test-accounts.js"></script>
     <script>
-        // === 긴급 폴백: 언어 전환 시스템 ===
-        (function() {
-            console.log('🆘 폴백 언어 시스템 활성화');
-            
-            function connectLanguageButtons() {
-                const buttons = document.querySelectorAll('.lang-btn[data-lang]');
-                if (buttons.length === 0) {
-                    console.log('⏳ 버튼을 아직 찾을 수 없음, 재시도...');
-                    return false;
-                }
-                
-                console.log(`✅ ${buttons.length}개 언어 버튼 발견!`);
-                
-                buttons.forEach(function(btn) {
-                    const lang = btn.getAttribute('data-lang');
-                    
-                    btn.onclick = function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log(`🌍 [폴백] 언어 변경: ${lang}`);
-                        
-                        if (typeof window.switchLanguage === 'function') {
-                            window.switchLanguage(lang);
-                            return;
-                        }
-                        
-                        console.log('⚠️ switchLanguage 없음, 수동 처리');
-                        localStorage.setItem('language', lang);
-                        localStorage.setItem('currentLanguage', lang);
-                        location.reload();
-                    };
-                    
-                    console.log(`🔗 [폴백] ${lang} 버튼 연결 완료`);
-                });
-                
-                return true;
-            }
-            
-            if (!connectLanguageButtons()) {
-                setTimeout(function() {
-                    if (!connectLanguageButtons()) {
-                        document.addEventListener('DOMContentLoaded', connectLanguageButtons);
-                    }
-                }, 100);
-            }
-        })();
-        
         // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle is handled by main.js
+            
+            // Language switcher event listeners
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const lang = this.getAttribute('data-lang');
+                    if (typeof window.switchLanguage === 'function') {
+                        window.switchLanguage(lang);
+                    } else {
+                        console.error('switchLanguage function not found');
+                    }
+                });
+            });
+            
             // Quick search function
             const quickSearchInput = document.getElementById('quick-search');
             if (quickSearchInput) {
@@ -498,6 +418,8 @@
                 }
             }
         }
+
+        // switchLanguage 함수는 i18n.js에서 정의됨
     </script>
 
     <!-- 챗봇 스크립트 -->
