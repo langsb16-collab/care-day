@@ -470,9 +470,66 @@ const translations = {
                 submitButton: '회원가입',
                 loginText: '이미 회원이신가요?',
                 loginLink: '로그인',
-                required: '*'
+                required: '*',
+                refundPolicy: '환불규정'
             }
+        },
+        refundPolicy: {
+            title: '환불 규정 (구독 서비스 환불 및 취소 규정)',
+            section1: {
+                title: '1. 적용 범위',
+                content: '본 규정은 당사가 제공하는 모든 인터넷 기반 유료 구독서비스(이하 "서비스")에 적용됩니다.'
+            },
+            section2: {
+                title: '2. 구독 결제 및 갱신',
+                item1: '서비스는 월간/연간 단위로 자동 결제됩니다.',
+                item2: '사용자는 결제일 이전에 마이페이지 또는 고객센터를 통해 자동 갱신을 해지할 수 있습니다.',
+                item3: '자동 갱신 해지 시, 이미 결제된 기간의 서비스는 만료일까지 정상 제공됩니다.'
+            },
+            section3: {
+                title: '3. 환불 규정',
+                subtitle1: '3-1. 단순 변심 환불',
+                monthly: '월간 구독(30일 기준)',
+                monthlyItem1: '결제일로부터 7일 이내이면서 서비스 이용량이 전체의 10% 이하일 경우: 전액 환불',
+                monthlyItem2: '결제일로부터 7일 초과 시: 환불 불가',
+                yearly: '연간 구독(365일 기준)',
+                yearlyItem1: '결제일로부터 14일 이내이며 서비스 이용량이 전체의 10% 이하일 경우: 전액 환불',
+                yearlyItem2: '결제일로부터 14일 초과 시: 남은 기간 기준 부분 환불',
+                formula: '부분 환불 금액 = 결제금액 – 사용된 개월 수 × 월 요율 – 위약금(총액의 10% 이내)',
+                subtitle2: '3-2. 서비스 장애·오류로 인한 환불',
+                errorItem1: '24시간 이상 지속되는 서비스 중단 또는 기능 불능이 발생할 경우 이용자는 환불 또는 기간 연장을 요청할 수 있습니다.',
+                errorItem2: '중단 기간이 72시간을 초과할 경우 미사용 일수에 대해 비례 환불합니다.',
+                subtitle3: '3-3. 불가항력 사유',
+                forceContent: '천재지변, 전쟁, 국가 비상사태 등 외부 요인으로 인한 서비스 중단은 환불 대상에서 제외될 수 있습니다.'
+            },
+            section4: {
+                title: '4. 해지 규정',
+                item1: '해지 요청 즉시 다음 결제일부터 자동 결제가 중단됩니다.',
+                item2: '해지 시점과 관계없이 이미 결제된 금액은 환불 규정에 따라 처리됩니다.'
+            },
+            section5: {
+                title: '5. 환불 신청 방법',
+                subtitle: '고객센터 또는 이메일로 아래 정보를 제출해야 합니다.',
+                item1: '가입 이메일',
+                item2: '결제 내역(결제일·금액)',
+                item3: '환불 사유',
+                process1: '당사는 접수 후 5영업일 이내 환불 가능 여부를 회신합니다.',
+                process2: '환불 승인 시 결제 수단 기준 최대 7영업일 이내 환불이 처리됩니다.'
+            },
+            section6: {
+                title: '6. 부정 이용 환불 불가',
+                intro: '다음의 경우 환불이 제한될 수 있습니다.',
+                item1: '계정 공유, 시스템 악용 등 약관 위반',
+                item2: '환불 반복 요청 등 비정상 이용 패턴',
+                item3: '제3자의 결제수단을 무단 사용한 경우'
+            },
+            section7: {
+                title: '7. 규정 변경',
+                content: '본 환불 및 취소 규정은 법령 개정 또는 서비스 정책에 따라 변경될 수 있으며, 변경 시 최소 7일 전에 공지합니다.'
+            },
+            closeButton: '닫기'
         }
+    }
     },
     en: {
         site: {
@@ -944,8 +1001,64 @@ const translations = {
                 submitButton: 'Sign Up',
                 loginText: 'Already have an account?',
                 loginLink: 'Login',
-                required: '*'
+                required: '*',
+                refundPolicy: 'Refund Policy'
             }
+        },
+        refundPolicy: {
+            title: 'Refund Policy (Subscription Service Refund and Cancellation Terms)',
+            section1: {
+                title: '1. Scope of Application',
+                content: 'This policy applies to all internet-based paid subscription services (hereinafter referred to as "Services") provided by our company.'
+            },
+            section2: {
+                title: '2. Subscription Billing and Renewal',
+                item1: 'Services are automatically charged on a monthly/annual basis.',
+                item2: 'Users may cancel automatic renewal through My Page or Customer Center before the payment date.',
+                item3: 'When automatic renewal is canceled, services for the already paid period will be provided normally until the expiration date.'
+            },
+            section3: {
+                title: '3. Refund Policy',
+                subtitle1: '3-1. Simple Change of Mind Refund',
+                monthly: 'Monthly Subscription (30-day basis)',
+                monthlyItem1: 'Within 7 days from payment date and service usage is less than 10% of total: Full refund',
+                monthlyItem2: 'After 7 days from payment date: No refund',
+                yearly: 'Annual Subscription (365-day basis)',
+                yearlyItem1: 'Within 14 days from payment date and service usage is less than 10% of total: Full refund',
+                yearlyItem2: 'After 14 days from payment date: Partial refund based on remaining period',
+                formula: 'Partial refund amount = Payment amount – Used months × Monthly rate – Penalty (up to 10% of total amount)',
+                subtitle2: '3-2. Refund for Service Failure or Error',
+                errorItem1: 'Users may request a refund or period extension if service interruption or malfunction lasting more than 24 hours occurs.',
+                errorItem2: 'If interruption exceeds 72 hours, proportional refund will be provided for unused days.',
+                subtitle3: '3-3. Force Majeure',
+                forceContent: 'Service interruptions due to natural disasters, war, national emergencies, or other external factors may be excluded from refund eligibility.'
+            },
+            section4: {
+                title: '4. Cancellation Policy',
+                item1: 'Automatic billing will be stopped from the next payment date immediately upon cancellation request.',
+                item2: 'Regardless of cancellation timing, already paid amounts will be processed according to the refund policy.'
+            },
+            section5: {
+                title: '5. Refund Application Process',
+                subtitle: 'The following information must be submitted to Customer Center or via email:',
+                item1: 'Registered email',
+                item2: 'Payment details (payment date and amount)',
+                item3: 'Reason for refund',
+                process1: 'We will respond regarding refund eligibility within 5 business days of receipt.',
+                process2: 'Upon refund approval, refunds will be processed within up to 7 business days based on the payment method.'
+            },
+            section6: {
+                title: '6. Non-refundable for Fraudulent Use',
+                intro: 'Refunds may be restricted in the following cases:',
+                item1: 'Violation of terms such as account sharing, system abuse, etc.',
+                item2: 'Abnormal usage patterns such as repeated refund requests',
+                item3: 'Unauthorized use of third-party payment methods'
+            },
+            section7: {
+                title: '7. Policy Changes',
+                content: 'This refund and cancellation policy may be changed according to legal amendments or service policies, and changes will be announced at least 7 days in advance.'
+            },
+            closeButton: 'Close'
         }
     },
     zh: {
@@ -1418,8 +1531,64 @@ const translations = {
                 submitButton: '会员注册',
                 loginText: '已经是会员？',
                 loginLink: '登录',
-                required: '*'
+                required: '*',
+                refundPolicy: '退款规定'
             }
+        },
+        refundPolicy: {
+            title: '退款规定（订阅服务退款和取消条款）',
+            section1: {
+                title: '1. 适用范围',
+                content: '本规定适用于我公司提供的所有基于互联网的付费订阅服务（以下简称"服务"）。'
+            },
+            section2: {
+                title: '2. 订阅计费和续订',
+                item1: '服务按月/年自动计费。',
+                item2: '用户可以在付款日期之前通过"我的页面"或客户中心取消自动续订。',
+                item3: '取消自动续订时，已付费期间的服务将正常提供至到期日。'
+            },
+            section3: {
+                title: '3. 退款政策',
+                subtitle1: '3-1. 单纯变心退款',
+                monthly: '月订阅（30天基础）',
+                monthlyItem1: '付款日起7天内且服务使用量低于总量10%：全额退款',
+                monthlyItem2: '付款日起超过7天：不可退款',
+                yearly: '年订阅（365天基础）',
+                yearlyItem1: '付款日起14天内且服务使用量低于总量10%：全额退款',
+                yearlyItem2: '付款日起超过14天：根据剩余期间部分退款',
+                formula: '部分退款金额 = 付款金额 – 已使用月数 × 月费率 – 违约金（总额的10%以内）',
+                subtitle2: '3-2. 服务故障或错误退款',
+                errorItem1: '如发生持续24小时以上的服务中断或功能失效，用户可申请退款或延期。',
+                errorItem2: '如中断时间超过72小时，将按未使用天数比例退款。',
+                subtitle3: '3-3. 不可抗力事由',
+                forceContent: '由于自然灾害、战争、国家紧急状态等外部因素导致的服务中断可能不予退款。'
+            },
+            section4: {
+                title: '4. 取消规定',
+                item1: '取消请求后，自下次付款日起立即停止自动计费。',
+                item2: '无论取消时间如何，已付款金额将根据退款规定处理。'
+            },
+            section5: {
+                title: '5. 退款申请方法',
+                subtitle: '必须向客户中心或通过电子邮件提交以下信息：',
+                item1: '注册邮箱',
+                item2: '付款详情（付款日期和金额）',
+                item3: '退款原因',
+                process1: '我公司将在受理后5个工作日内回复退款是否可行。',
+                process2: '退款批准后，将在最多7个工作日内根据付款方式处理退款。'
+            },
+            section6: {
+                title: '6. 欺诈使用不可退款',
+                intro: '以下情况可能限制退款：',
+                item1: '违反条款，如账户共享、系统滥用等',
+                item2: '异常使用模式，如重复退款请求',
+                item3: '未经授权使用第三方付款方式'
+            },
+            section7: {
+                title: '7. 规定变更',
+                content: '本退款和取消规定可能根据法律修订或服务政策而变更，变更时将至少提前7天公布。'
+            },
+            closeButton: '关闭'
         }
     },
     ja: {
@@ -1892,8 +2061,64 @@ const translations = {
                 submitButton: '会員登録',
                 loginText: 'すでに会員ですか？',
                 loginLink: 'ログイン',
-                required: '*'
+                required: '*',
+                refundPolicy: '返金規定'
             }
+        },
+        refundPolicy: {
+            title: '返金規定（サブスクリプションサービスの返金およびキャンセル規定）',
+            section1: {
+                title: '1. 適用範囲',
+                content: '本規定は、当社が提供するすべてのインターネットベースの有料サブスクリプションサービス（以下「サービス」）に適用されます。'
+            },
+            section2: {
+                title: '2. サブスクリプション決済と更新',
+                item1: 'サービスは月間/年間単位で自動決済されます。',
+                item2: 'ユーザーは、決済日前にマイページまたはカスタマーセンターを通じて自動更新を解除できます。',
+                item3: '自動更新を解除した場合、既に決済された期間のサービスは有効期限まで正常に提供されます。'
+            },
+            section3: {
+                title: '3. 返金ポリシー',
+                subtitle1: '3-1. 単純な気持ちの変更による返金',
+                monthly: '月間サブスクリプション（30日基準）',
+                monthlyItem1: '決済日から7日以内でサービス利用量が全体の10%未満の場合：全額返金',
+                monthlyItem2: '決済日から7日超過時：返金不可',
+                yearly: '年間サブスクリプション（365日基準）',
+                yearlyItem1: '決済日から14日以内でサービス利用量が全体の10%未満の場合：全額返金',
+                yearlyItem2: '決済日から14日超過時：残り期間基準で部分返金',
+                formula: '部分返金額 = 決済金額 – 使用された月数 × 月額料金 – 違約金（総額の10%以内）',
+                subtitle2: '3-2. サービス障害・エラーによる返金',
+                errorItem1: '24時間以上継続するサービス中断または機能不能が発生した場合、利用者は返金または期間延長を要求できます。',
+                errorItem2: '中断期間が72時間を超える場合、未使用日数に対して比例返金します。',
+                subtitle3: '3-3. 不可抗力事由',
+                forceContent: '天災地変、戦争、国家非常事態など外部要因によるサービス中断は、返金対象から除外される場合があります。'
+            },
+            section4: {
+                title: '4. 解約規定',
+                item1: '解約要請後、次回決済日から自動決済が即座に中断されます。',
+                item2: '解約時期に関わらず、既に決済された金額は返金規定に従って処理されます。'
+            },
+            section5: {
+                title: '5. 返金申請方法',
+                subtitle: 'カスタマーセンターまたはメールで以下の情報を提出する必要があります：',
+                item1: '登録メール',
+                item2: '決済内訳（決済日・金額）',
+                item3: '返金理由',
+                process1: '当社は受付後5営業日以内に返金可否を回答します。',
+                process2: '返金承認時、決済手段基準で最大7営業日以内に返金が処理されます。'
+            },
+            section6: {
+                title: '6. 不正利用による返金不可',
+                intro: '以下の場合、返金が制限される場合があります：',
+                item1: 'アカウント共有、システム悪用などの約款違反',
+                item2: '返金の繰り返し要求など異常な利用パターン',
+                item3: '第三者の決済手段を無断使用した場合'
+            },
+            section7: {
+                title: '7. 規定変更',
+                content: '本返金およびキャンセル規定は、法令改正またはサービスポリシーに応じて変更される可能性があり、変更時には最低7日前に告知します。'
+            },
+            closeButton: '閉じる'
         }
     }
 };
