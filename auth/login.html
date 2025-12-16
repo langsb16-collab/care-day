@@ -340,10 +340,10 @@
             const welcome = document.querySelector('p.text-gray-600');
             if (welcome) welcome.textContent = t.welcome;
             
-            // Update labels - with null checks
-            const labels = document.querySelectorAll('label');
-            if (labels[0]) labels[0].innerHTML = `<i class="fas fa-user mr-2 text-primary"></i>${t.emailLabel}`;
-            if (labels[1]) labels[1].innerHTML = `<i class="fas fa-lock mr-2 text-primary"></i>${t.passwordLabel}`;
+            // Update labels - with null checks (only form labels)
+            const formLabels = document.querySelectorAll('#loginForm label');
+            if (formLabels[0]) formLabels[0].innerHTML = `<i class="fas fa-user mr-2 text-primary"></i>${t.emailLabel}`;
+            if (formLabels[1]) formLabels[1].innerHTML = `<i class="fas fa-lock mr-2 text-primary"></i>${t.passwordLabel}`;
             
             // Update placeholders - with null checks
             const emailInput = document.getElementById('email');
