@@ -586,8 +586,30 @@
             
             const providerName = providerNames[provider];
             
+            // Multilingual messages for social login
+            const socialLoginMessages = {
+                ko: {
+                    confirm: `${providerName} 계정으로 로그인하시겠습니까?\n\n무료 회원으로 자동 가입됩니다.`,
+                    success: `${providerName} 로그인 성공!\n환영합니다, ${providerName} 사용자님!\n\n무료 회원으로 가입되었습니다.\n목록 조회는 가능하나 세부 기능 이용을 위해서는\n프리미엄 회원가입이 필요합니다.`
+                },
+                en: {
+                    confirm: `Login with ${providerName} account?\n\nYou will be automatically registered as a free member.`,
+                    success: `${providerName} login successful!\nWelcome, ${providerName} User!\n\nRegistered as a free member.\nYou can view lists, but premium membership\nis required for detailed features.`
+                },
+                zh: {
+                    confirm: `使用${providerName}账号登录？\n\n将自动注册为免费会员。`,
+                    success: `${providerName}登录成功！\n欢迎，${providerName}用户！\n\n已注册为免费会员。\n可以查看列表，但使用详细功能\n需要高级会员资格。`
+                },
+                ja: {
+                    confirm: `${providerName}アカウントでログインしますか？\n\n無料会員として自動登録されます。`,
+                    success: `${providerName}ログイン成功！\nようこそ、${providerName}ユーザー様！\n\n無料会員として登録されました。\nリスト表示は可能ですが、詳細機能の利用には\nプレミアム会員登録が必要です。`
+                }
+            };
+            
+            const messages = socialLoginMessages[currentLang] || socialLoginMessages['ko'];
+            
             // Simulate OAuth flow
-            const confirmLogin = confirm(`${providerName} 계정으로 로그인하시겠습니까?\n\n자동으로 회원가입 및 로그인됩니다.`);
+            const confirmLogin = confirm(messages.confirm);
             
             if (!confirmLogin) return;
 
@@ -602,7 +624,7 @@
             let socialUser = members.find(m => m.socialProvider === provider && m.socialId);
             
             if (!socialUser) {
-                // Create new social user
+                // Create new social user (Free membership - view list only, no detailed features)
                 const maxId = members.length > 0 ? Math.max(...members.map(m => m.id || 0)) : 0;
                 socialUser = {
                     id: maxId + 1,
@@ -611,10 +633,11 @@
                     password: Math.random().toString(36).slice(-8), // Random password
                     name: `${providerName} 사용자`,
                     phone: '010-0000-0000',
-                    type: 'paid',
-                    plan: '2년 프리미엄',
+                    type: 'free',
+                    plan: '무료',
+                    membershipPlan: 'free',
                     joinDate: new Date().toISOString().split('T')[0],
-                    expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    expireDate: null,
                     status: 'active',
                     searchCount: 0,
                     lastLogin: new Date().toISOString(),
@@ -637,7 +660,7 @@
             // Save session
             sessionStorage.setItem('currentUser', JSON.stringify(socialUser));
             
-            alert(`${providerName} 로그인 성공!\n환영합니다, ${socialUser.name}님!`);
+            alert(messages.success);
             window.location.href = '../index.html';
         }
     </script>
