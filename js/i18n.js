@@ -456,7 +456,7 @@ const translations = {
             form: {
                 nameLabel: '이름',
                 namePlaceholder: '홍길동',
-                emailLabel: '비밀번호----아이디',
+                emailLabel: '아이디',
                 emailPlaceholder: 'guest7',
                 phoneLabel: '전화번호',
                 phonePlaceholder: '010-1234-5678',
@@ -986,7 +986,7 @@ const translations = {
             form: {
                 nameLabel: 'Name',
                 namePlaceholder: 'John Doe',
-                emailLabel: 'Password----ID',
+                emailLabel: 'ID',
                 emailPlaceholder: 'guest7',
                 phoneLabel: 'Phone Number',
                 phonePlaceholder: '010-1234-5678',
@@ -1516,7 +1516,7 @@ const translations = {
             form: {
                 nameLabel: '姓名',
                 namePlaceholder: '张三',
-                emailLabel: '密码----身份证',
+                emailLabel: '身份证',
                 emailPlaceholder: 'guest7',
                 phoneLabel: '电话号码',
                 phonePlaceholder: '010-1234-5678',
@@ -2046,7 +2046,7 @@ const translations = {
             form: {
                 nameLabel: '名前',
                 namePlaceholder: '山田太郎',
-                emailLabel: 'パスワード----アイディ',
+                emailLabel: 'アイディ',
                 emailPlaceholder: 'guest7',
                 phoneLabel: '電話番号',
                 phonePlaceholder: '010-1234-5678',
