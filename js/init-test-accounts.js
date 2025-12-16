@@ -76,6 +76,40 @@
                 lastLogin: null,
                 visitCount: 0,
                 lastIP: null
+            },
+            {
+                id: 5,
+                username: 'guest7',
+                email: 'guest7@cashiq.org',
+                password: 'guest4321',
+                name: '홍보용7',
+                phone: '010-0000-0007',
+                type: 'paid',
+                plan: '2년 프리미엄',
+                joinDate: '2024-01-01',
+                expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                status: 'active',
+                searchCount: 0,
+                lastLogin: null,
+                visitCount: 0,
+                lastIP: null
+            },
+            {
+                id: 6,
+                username: 'guest8',
+                email: 'guest8@cashiq.org',
+                password: 'guest4321',
+                name: '홍보용8',
+                phone: '010-0000-0008',
+                type: 'paid',
+                plan: '2년 프리미엄',
+                joinDate: '2024-01-01',
+                expireDate: new Date(Date.now() + 730 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                status: 'active',
+                searchCount: 0,
+                lastLogin: null,
+                visitCount: 0,
+                lastIP: null
             }
         ];
         
@@ -84,7 +118,9 @@
             m.username !== 'guest' && 
             m.username !== 'guest1' &&
             m.username !== 'guest2' &&
-            m.username !== 'guest3'
+            m.username !== 'guest3' &&
+            m.username !== 'guest7' &&
+            m.username !== 'guest8'
         );
         
         // 테스트 계정 추가
