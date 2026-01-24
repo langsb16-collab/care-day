@@ -41,12 +41,27 @@ body {
 
 /* Hero Section Styles */
 .hero-section {
-    padding-top: 60px;
+    padding-top: 88px !important;  /* 모바일: 헤더 56px + 안전여백 32px */
     padding-bottom: 50px;
     min-height: auto !important;
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
+}
+
+@media (min-width: 769px) {
+    .hero-section {
+        padding-top: 96px !important;  /* PC: 헤더 64px + 안전여백 32px */
+    }
+}
+
+/* iOS Safe Area 보정 */
+@supports (padding-top: env(safe-area-inset-top)) {
+    @media (max-width: 768px) {
+        .hero-section {
+            padding-top: calc(56px + env(safe-area-inset-top) + 32px) !important;
+        }
+    }
 }
 
 .hero-title {
