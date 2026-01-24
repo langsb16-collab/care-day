@@ -1,5 +1,18 @@
 /* Custom Styles for Brain Disease Care Website */
 
+/* HERO TEXT CLIP FIX - FINAL (전역 강제 적용) */
+body,
+#app,
+main,
+section,
+.hero,
+.hero-section,
+.container {
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+
 /* Font Families */
 body {
     font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
@@ -11,17 +24,19 @@ body {
     padding-bottom: 50px;
     min-height: auto !important;
     height: auto !important;
+    max-height: none !important;
     overflow: visible !important;
 }
 
 .hero-title {
     font-size: 30px;
-    line-height: 1.35;
+    line-height: 1.4 !important;
     text-align: center;
-    word-break: keep-all;
+    word-break: keep-all !important;
     white-space: normal !important;
     display: block;
     overflow: visible !important;
+    max-height: none !important;
 }
 
 .hero-search {
@@ -40,6 +55,7 @@ body {
         padding-bottom: 32px !important;
         min-height: auto !important;
         height: auto !important;
+        max-height: none !important;
         overflow: visible !important;
     }
     
@@ -52,6 +68,7 @@ body {
         white-space: normal !important;
         overflow: visible !important;
         max-width: 100% !important;
+        max-height: none !important;
     }
     
     .hero-search {
