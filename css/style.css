@@ -1,16 +1,37 @@
 /* Custom Styles for Brain Disease Care Website */
 
-/* HERO TEXT CLIP FIX - FINAL (전역 강제 적용) */
+/* ===== HERO TEXT CLIP FINAL FIX ===== */
+/* 모든 조상 컨테이너 개방 */
+html,
 body,
 #app,
+#root,
 main,
-section,
+section {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: unset !important;
+}
+
+/* hero 계층 완전 해제 */
 .hero,
 .hero-section,
-.container {
+.hero-wrapper {
     overflow: visible !important;
-    overflow-x: visible !important;
-    overflow-y: visible !important;
+    height: auto !important;
+    min-height: unset !important;
+    max-height: none !important;
+}
+
+/* 텍스트 자체 보호 */
+.hero-title,
+.hero h1,
+.hero h2 {
+    white-space: normal !important;
+    word-break: keep-all !important;
+    line-height: 1.4 !important;
+    overflow: visible !important;
 }
 
 /* Font Families */
