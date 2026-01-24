@@ -26,7 +26,7 @@ const translations = {
             notice: '공지'
         },
         hero: {
-            title: '뇌출혈·뇌경색 환자와 가족을 위한<br>종합 케어 플랫폼',
+            title: '뇌출혈·뇌경색, 치매, 파킨슨병까지<br>막막한 재활의 길, 전문 가이드',
             subtitle: '병원 찾기부터 재활, 간병, 보험, 지원정책까지<br>모든 정보를 한 곳에서'
         },
         search: {
@@ -556,7 +556,7 @@ const translations = {
             notice: 'Notice'
         },
         hero: {
-            title: 'Comprehensive Care Platform<br>for Stroke Patients and Families',
+            title: 'Stroke, Dementia, Parkinson\'s Disease<br>Professional Guide for Difficult Rehabilitation',
             subtitle: 'From hospital search to rehabilitation, caregiving, insurance, and support policies<br>All information in one place'
         },
         search: {
@@ -1086,7 +1086,7 @@ const translations = {
             notice: '公告'
         },
         hero: {
-            title: '为脑出血和脑梗塞患者及家属<br>提供的综合护理平台',
+            title: '从脑出血·脑梗塞到痴呆和帕金森病<br>茫茫康复之路，专业指南',
             subtitle: '从医院搜索到康复、护理、保险、支持政策<br>所有信息一站式服务'
         },
         search: {
@@ -1616,7 +1616,7 @@ const translations = {
             notice: 'お知らせ'
         },
         hero: {
-            title: '脳出血・脳梗塞患者とご家族のための<br>総合ケアプラットフォーム',
+            title: '脳出血・脳梗塞、認知症、パーキンソン病まで<br>困難なリハビリの道、専門ガイド',
             subtitle: '病院検索からリハビリ、介護、保険、支援政策まで<br>すべての情報を一か所で'
         },
         search: {

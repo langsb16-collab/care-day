@@ -5,6 +5,61 @@ body {
     font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans JP', sans-serif;
 }
 
+/* Hero Section Styles */
+.hero-section {
+    padding-top: 60px;
+    padding-bottom: 50px;
+}
+
+.hero-title {
+    font-size: 30px;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.hero-search {
+    margin-bottom: 24px;
+}
+
+.stats-section {
+    margin-top: 24px;
+    margin-bottom: 32px;
+}
+
+/* Mobile Hero Section Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        padding-top: 36px !important;
+        padding-bottom: 32px !important;
+    }
+    
+    .hero-title {
+        font-size: 21px !important;
+        line-height: 1.35 !important;
+    }
+    
+    .hero-search {
+        margin-bottom: 16px !important;
+    }
+    
+    .stats-section {
+        margin-top: 16px !important;
+        margin-bottom: 24px !important;
+    }
+}
+
+/* PC Container Optimization */
+.container {
+    max-width: 1280px;
+    padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px !important;
+    }
+}
+
 /* Smooth Scrolling */
 html {
     scroll-behavior: smooth;
