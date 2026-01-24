@@ -765,3 +765,59 @@ select {
         font-size: 12px;
     }
 }
+
+/* ===== 헤더 질병별 케어 버튼 ===== */
+.header-care-entry {
+    margin-top: 14px;
+    margin-bottom: 14px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.care-entry-btn {
+    padding: 14px 18px;
+    border-radius: 14px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    background: #ffffff;
+    color: #111;
+    box-shadow: 0 6px 14px rgba(0,0,0,.12);
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.care-entry-btn.dementia {
+    border-color: #3b82f6;
+}
+
+.care-entry-btn.parkinson {
+    border-color: #14b8a6;
+}
+
+.care-entry-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.15);
+}
+
+.care-entry-btn.dementia:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.care-entry-btn.parkinson:hover {
+    background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+}
+
+.care-entry-btn:active {
+    transform: scale(0.97);
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+    .care-entry-btn {
+        padding: 12px 16px;
+        font-size: 15px;
+    }
+}
