@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- BUILD: 2026-01-24-04:45:00 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="cache-control" content="no-cache">
-    <meta name="last-modified" content="2026-01-24T04:10:00Z">
+    <meta name="last-modified" content="2026-01-24T04:45:00Z">
     <title data-i18n="site.title">뇌질환케어 - Brain Disease Care</title>
     <meta name="description" data-i18n="site.description" content="뇌출혈·뇌경색 환자와 가족을 위한 종합 커뮤니티 플랫폼">
     
@@ -45,6 +46,26 @@
                     }
                 }
             }
+        }
+    </script>
+    
+    <!-- Service Worker Cleanup -->
+    <script>
+        // Service Worker 강제 제거 (캐시 문제 해결)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        // Cache Storage 강제 삭제
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    caches.delete(name);
+                }
+            });
         }
     </script>
     
