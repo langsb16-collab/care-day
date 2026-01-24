@@ -1,0 +1,266 @@
+/* Care Pages Styles - JS 없는 순수 CSS */
+
+body {
+    margin: 0;
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #fff;
+    color: #111;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* 다크 모드 자동 (기기 설정 연동) */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #0f172a;
+        color: #e5e7eb;
+    }
+    
+    .care-header {
+        background: #1e293b;
+    }
+    
+    .card, .share-box {
+        background: #1e293b;
+        color: #e5e7eb;
+        border-color: #334155;
+    }
+    
+    .link-btn {
+        background: #1e40af;
+        color: #fff;
+    }
+    
+    .url-box {
+        background: #0f172a;
+        border-color: #334155;
+    }
+}
+
+/* 수동 다크 모드 토글 */
+.dark-toggle {
+    display: inline-block;
+    margin: 12px;
+    padding: 10px 14px;
+    background: #eee;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+#darkToggle:checked ~ .page {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+#darkToggle:checked ~ .page .care-header {
+    background: #1e293b;
+}
+
+#darkToggle:checked ~ .page .card,
+#darkToggle:checked ~ .page .share-box {
+    background: #1e293b;
+    color: #e5e7eb;
+}
+
+#darkToggle:checked ~ .page .link-btn {
+    background: #1e40af;
+}
+
+/* 헤더 */
+.care-header {
+    padding: 20px;
+    background: #f1f4f8;
+    text-align: center;
+}
+
+.care-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+}
+
+.care-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* 섹션 */
+.care-section {
+    padding: 20px;
+}
+
+/* 카드 */
+.card {
+    background: #f9fafc;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card:active {
+    transform: scale(0.98);
+}
+
+.card h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.card p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* 리스트 */
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.list li {
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+/* 링크 버튼 */
+.link-btn {
+    display: block;
+    margin-top: 12px;
+    padding: 14px;
+    text-align: center;
+    background: #2563eb;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.15s, background 0.15s;
+}
+
+.link-btn:active {
+    transform: scale(0.97);
+    background: #1d4ed8;
+}
+
+.link-btn.kakao {
+    background: #fee500;
+    color: #000;
+}
+
+.link-btn.call {
+    background: #10b981;
+}
+
+.link-btn.policy {
+    background: #7c3aed;
+}
+
+.link-btn.caregiver {
+    background: #f59e0b;
+}
+
+/* 공유 박스 */
+.share-box {
+    background: #f9fafc;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+.url-box {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    word-break: break-all;
+    border: 1px solid #ddd;
+    margin: 8px 0;
+    font-family: monospace;
+}
+
+.hint {
+    color: #666;
+    font-size: 13px;
+    margin: 4px 0 0 0;
+}
+
+/* 보호자 전용 초간단 UI */
+.guardian-ui {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.big-btn {
+    display: block;
+    padding: 22px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 16px;
+    background: #f3f6fb;
+    text-decoration: none;
+    color: #111;
+    box-shadow: 0 6px 12px rgba(0,0,0,.08);
+    transition: transform 0.15s;
+}
+
+.big-btn:active {
+    transform: scale(0.97);
+}
+
+.big-btn.emergency {
+    background: #2563eb;
+    color: #fff;
+}
+
+/* 모바일 케어 버튼 */
+.care-mobile-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px;
+}
+
+.care-btn {
+    display: block;
+    padding: 20px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: #111;
+    background: #f4f6f9;
+    box-shadow: 0 6px 14px rgba(0,0,0,.08);
+    transition: transform 0.15s;
+}
+
+.care-btn:active {
+    transform: scale(0.97);
+}
+
+.care-btn h3 {
+    font-size: 20px;
+    margin: 0 0 6px 0;
+}
+
+.care-btn p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+}
+
+/* 체크박스 */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+label input[type="checkbox"] {
+    margin-right: 8px;
+}

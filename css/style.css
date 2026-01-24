@@ -676,3 +676,92 @@ select {
     width: 100%;
     height: 100%;
 }
+
+/* ===== 질환별 빠른 가이드 버튼 ===== */
+.disease-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid transparent;
+}
+
+.disease-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.disease-card.dementia {
+    border-color: #3b82f6;
+}
+
+.disease-card.dementia:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.disease-card.parkinson {
+    border-color: #14b8a6;
+}
+
+.disease-card.parkinson:hover {
+    background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%);
+}
+
+.disease-card .icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.disease-card .content {
+    flex: 1;
+}
+
+.disease-card .content h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #1f2937;
+}
+
+.disease-card .content p {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.disease-card .arrow {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3b82f6;
+    flex-shrink: 0;
+}
+
+.disease-card.parkinson .arrow {
+    color: #14b8a6;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+    .disease-card {
+        padding: 14px;
+        gap: 10px;
+    }
+    
+    .disease-card .icon {
+        font-size: 28px;
+    }
+    
+    .disease-card .content h4 {
+        font-size: 15px;
+    }
+    
+    .disease-card .content p {
+        font-size: 12px;
+    }
+}
