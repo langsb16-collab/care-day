@@ -26,8 +26,22 @@ const translations = {
             notice: '공지'
         },
         hero: {
-            title: '뇌출혈·뇌경색, 치매, 파킨슨병까지 막막한 재활의 길, 전문 가이드',
-            subtitle: '병원 찾기부터 재활, 간병, 보험, 지원정책까지 모든 정보를 한 곳에서'
+            title: '뇌출혈·뇌경색, 치매, 파킨슨병까지',
+            subtitle: '막막한 재활의 길, 전문 가이드',
+            description: '병원 찾기부터 재활, 간병, 보험, 지원정책까지 모든 정보를 한 곳에서'
+        },
+        diseaseGuide: {
+            sectionTitle: '🧠 질환별 빠른 가이드',
+            dementia: {
+                button: '🧠 치매 케어',
+                title: '치매 관리 가이드',
+                desc: '단계별 특징·가족 가이드·병원 찾기'
+            },
+            parkinson: {
+                button: '🦵 파킨슨병 케어',
+                title: '파킨슨병 관리 가이드',
+                desc: '증상·운동법·복약 관리'
+            }
         },
         search: {
             placeholder: '병원명, 지역, 질환명 검색...',
@@ -556,8 +570,22 @@ const translations = {
             notice: 'Notices'
         },
         hero: {
-            title: 'Stroke, Dementia, Parkinson\'s Disease - Professional Guide for Difficult Rehabilitation',
-            subtitle: 'From hospital search to rehabilitation, caregiving, insurance, and support policies - All information in one place'
+            title: 'From brain hemorrhage and stroke to dementia and Parkinson\'s disease',
+            subtitle: 'the overwhelming journey of rehabilitation — with professional guidance',
+            description: 'From finding hospitals to rehabilitation, caregiving, insurance, and support policies — all information in one place'
+        },
+        diseaseGuide: {
+            sectionTitle: '🧠 Quick Guides by Condition',
+            dementia: {
+                button: '🧠 Dementia Care',
+                title: 'Dementia Management Guide',
+                desc: 'Stage-by-stage characteristics · Family guide · Find hospitals'
+            },
+            parkinson: {
+                button: '🦵 Parkinson\'s Care',
+                title: 'Parkinson\'s Disease Management Guide',
+                desc: 'Symptoms · Exercise methods · Medication management'
+            }
         },
         search: {
             placeholder: 'Search hospital, region, disease...',
@@ -1086,8 +1114,22 @@ const translations = {
             notice: '公告列表'
         },
         hero: {
-            title: '从脑出血·脑梗塞到痴呆和帕金森病 - 茫茫康复之路，专业指南',
-            subtitle: '从医院搜索到康复、护理、保险、支持政策 - 所有信息一站式服务'
+            title: '从脑出血、脑梗塞到痴呆症和帕金森病',
+            subtitle: '艰难的康复之路，提供专业指导',
+            description: '从医院查询到康复、护理、保险及政策支持 —— 所有信息一站式获取'
+        },
+        diseaseGuide: {
+            sectionTitle: '🧠 按疾病分类的快速指南',
+            dementia: {
+                button: '🧠 痴呆护理',
+                title: '痴呆管理指南',
+                desc: '分阶段特征 · 家属指导 · 医院查询'
+            },
+            parkinson: {
+                button: '🦵 帕金森护理',
+                title: '帕金森病管理指南',
+                desc: '症状 · 运动方法 · 用药管理'
+            }
         },
         search: {
             placeholder: '搜索医院名称、地区、疾病名称...',
@@ -1616,8 +1658,22 @@ const translations = {
             notice: 'お知らせ一覧'
         },
         hero: {
-            title: '脳出血・脳梗塞、認知症、パーキンソン病まで - 困難なリハビリの道、専門ガイド',
-            subtitle: '病院検索からリハビリ、介護、保険、支援政策まで - すべての情報を一か所で'
+            title: '脳出血・脳梗塞から認知症やパーキンソン病まで',
+            subtitle: '不安の多いリハビリの道のりを専門ガイドでサポート',
+            description: '病院検索からリハビリ、介護、保険、支援制度まで —— すべての情報を一か所で'
+        },
+        diseaseGuide: {
+            sectionTitle: '🧠 疾患別クイックガイド',
+            dementia: {
+                button: '🧠 認知症ケア',
+                title: '認知症管理ガイド',
+                desc: '段階別の特徴・家族向けガイド・病院検索'
+            },
+            parkinson: {
+                button: '🦵 パーキンソン病ケア',
+                title: 'パーキンソン病管理ガイド',
+                desc: '症状・運動方法・服薬管理'
+            }
         },
         search: {
             placeholder: '病院名、地域、疾患名を検索...',
